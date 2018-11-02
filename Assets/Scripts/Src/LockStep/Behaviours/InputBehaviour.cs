@@ -49,19 +49,19 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                         {
                             dir.x = -1;
                         }
-                        if (InputManager.Instance.IsKeyCodeActive(KeyCode.S))
+                        else if (InputManager.Instance.IsKeyCodeActive(KeyCode.S))
                         {
                             dir.y = -1;
                         }
-                        if (InputManager.Instance.IsKeyCodeActive(KeyCode.W))
+                        else if (InputManager.Instance.IsKeyCodeActive(KeyCode.W))
                         {
                             dir.y = 1;
                         }
-                        if (InputManager.Instance.IsKeyCodeActive(KeyCode.D))
+                        else if (InputManager.Instance.IsKeyCodeActive(KeyCode.D))
                         {
                             dir.x = 1;
                         }
-                        if (!InputManager.Instance.IsAnyKeyCodeActive())
+                        else if (!InputManager.Instance.IsAnyKeyCodeActive())
                         {
                             dir.x = 0;
                             dir.y = 0;

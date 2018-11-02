@@ -38,6 +38,5 @@ namespace Components
         {
             return ComponentType.PositionComponent;
         }
-
     }
 }

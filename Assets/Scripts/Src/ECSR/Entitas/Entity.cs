@@ -37,6 +37,7 @@ namespace Entitas
         {
             return World.GetComponentByEntityId(Id, component.GetType()) != null;
         }
+
         public Entity AddComponent(IComponent component)
         {
             if (!ContainComponent(component))

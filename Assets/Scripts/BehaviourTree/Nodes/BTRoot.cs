@@ -5,7 +5,6 @@ using System.IO;
 using System.Net.Mail;
 using System.Xml;
 using UnityEngine;
-using System.Reflection;
 
 namespace BehaviorTree
 {
@@ -28,14 +27,17 @@ namespace BehaviorTree
         /// 更新时间间隔（秒）
         /// </summary>
         public float m_UpdateIntervalSecs = 0.1f;
-
+        public int Id;
         public bool m_BlLoop = true;
         float m_UpdatePassedSecs = 0;
         BTNode m_Root = null;
         List<BTNode> m_ListExecutingNodes = new List<BTNode>();
-        bool m_BlAiActive = false;
-        
+        bool m_BlAiActive = false;        
         public object UserData { get; set; }
+        public BTRoot()
+        {
+
+        }
         public void Init()
         {
             m_Root = BTNodeData.Create(m_TextDataAiTree.bytes, this);
