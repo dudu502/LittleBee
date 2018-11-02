@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace BehaviorTree
 {
-    public class BTRoot:MonoBehaviour
+    public class BTRoot
     {
         /// <summary>
         /// 树导出路径
@@ -23,10 +23,7 @@ namespace BehaviorTree
         /// 树结构数据
         /// </summary>
         public TextAsset m_TextDataAiTree;        
-        /// <summary>
-        /// 自动重新开始时间间隔（秒）
-        /// </summary>
-        public float m_AutoRestartIntervalSecs;
+
         /// <summary>
         /// 更新时间间隔（秒）
         /// </summary>
@@ -37,11 +34,7 @@ namespace BehaviorTree
         BTNode m_Root = null;
         List<BTNode> m_ListExecutingNodes = new List<BTNode>();
         bool m_BlAiActive = false;
-        void Start()
-        {   
-            
-        }
-
+        
         public object UserData { get; set; }
         public void Init()
         {
@@ -53,14 +46,8 @@ namespace BehaviorTree
         {
             m_BlAiActive = false;
             if (!exitAll && m_BlLoop)
-                StartCoroutine(_CoroutineRestart());
-        }
-
-        IEnumerator _CoroutineRestart()
-        {
-            yield return new WaitForSeconds(m_AutoRestartIntervalSecs);
-            StartAi();
-        }
+                StartAi();
+        }    
 
         public void TriggerFunc(string type, object obj)
         {
@@ -94,8 +81,9 @@ namespace BehaviorTree
             m_BlAiActive = true;
         }
 
-        void Update()
+        public void Update(int ms)
         {
+            /*
             m_UpdatePassedSecs += Time.deltaTime;
             if (m_UpdatePassedSecs >= m_UpdateIntervalSecs)
             {
@@ -110,6 +98,16 @@ namespace BehaviorTree
                     }
                 }
                 m_UpdatePassedSecs = 0;
+            }*/
+            if (m_BlAiActive && m_ListExecutingNodes.Count > 0)
+            {
+                for (int i = m_ListExecutingNodes.Count - 1; i > -1; --i)
+                {
+                    if (m_ListExecutingNodes[i] != null)
+                    {
+                        m_ListExecutingNodes[i].Update(ms/1000f);
+                    }
+                }
             }
         }
         public void SetExecutingNode(BTNode node)
@@ -128,12 +126,9 @@ namespace BehaviorTree
             return m_ListExecutingNodes;
         }
 
-        void OnDestroy()
+        public void Destroy()
         {
             m_ListExecutingNodes.Clear();
-        }
-
-
-      
+        }     
     }
 }
