@@ -46,7 +46,7 @@ namespace Components
         }
         public int GetCommand()
         {
-            return FrameCommand.SyncMove;
+            return FrameCommand.SYNC_MOVE;
         }
 
         public void UpdateParams(string[] paramsStrs)

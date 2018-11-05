@@ -68,8 +68,10 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                         }
                         if (dir != comp.GetDir())
                         {
-                            Debug.Log(string.Format("keyframeIdx:{0} roleid:{1}", logic.CurrentFrameIdx, comp.EntityId));                       
-                            SendKeyFrame(new FrameIdxInfo(FrameCommand.SyncMove, comp.EntityId, new string[] { dir.x + "", dir.y + "", "0" }));
+                            Debug.Log(string.Format("keyframeIdx:{0} roleid:{1}", logic.CurrentFrameIdx, comp.EntityId));
+                            //SendKeyFrame(new FrameIdxInfo(FrameCommand.SYNC_MOVE, comp.EntityId, new string[] { dir.x + "", dir.y + "", "0" }));
+
+                            KeyFrameSender.AddFrameCommand(new FrameIdxInfo(logic.CurrentFrameIdx,FrameCommand.SYNC_MOVE,comp.EntityId,new string[] { dir.x + "", dir.y + "", "0" }));
                         }
                     }
                 }

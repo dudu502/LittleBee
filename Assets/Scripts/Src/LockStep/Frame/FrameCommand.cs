@@ -6,7 +6,7 @@
     /// </summary>
     public class FrameCommand
     {
-        public const int SyncMove = 0;
-        public const int SyncPosition = 1;
+        public const int SYNC_MOVE = 0;
+        public const int SYNC_POSITION = 1;
     }
 }

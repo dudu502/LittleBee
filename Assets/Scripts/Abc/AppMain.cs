@@ -169,6 +169,7 @@ public class AppMain : MonoBehaviour
         str += "FrameIdx:" + sim.GetBehaviour<LogicFrameBehaviour>().CurrentFrameIdx;
         
         m_TxtDebug.text = str;
+
     }
 
     private void OnApplicationQuit()

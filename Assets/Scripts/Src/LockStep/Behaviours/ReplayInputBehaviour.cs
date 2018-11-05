@@ -31,7 +31,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
             {               
                 foreach (FrameIdxInfo info in list)
                 {
-                    if (info.Cmd == FrameCommand.SyncMove)
+                    if (info.Cmd == FrameCommand.SYNC_MOVE)
                     {                        
                         Entitas.Entity ent= Sim.GetEntityWorld().GetEntity(info.EntityId);
                         if(ent != null)

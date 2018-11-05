@@ -21,6 +21,13 @@ namespace LogicFrameSync.Src.LockStep.Frame
             EntityId = eId;
             Params = param;
         }
+        public FrameIdxInfo(int idx,int cmd, int eId, string[] param)
+        {
+            Idx = idx;
+            Cmd = cmd;
+            EntityId = eId;
+            Params = param;
+        }
         public FrameIdxInfo(int cmd,int eId)
         {
             Cmd = cmd;

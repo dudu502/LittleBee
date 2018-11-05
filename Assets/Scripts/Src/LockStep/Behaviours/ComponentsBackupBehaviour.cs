@@ -1,4 +1,8 @@
 ﻿
+using LogicFrameSync.Src.LockStep.Frame;
+using LogicFrameSync.Src.LockStep.Net.Pt;
+using NetServiceImpl;
+using NetServiceImpl.Client;
 using System.Collections.Generic;
 namespace LogicFrameSync.Src.LockStep.Behaviours
 {
@@ -35,11 +39,21 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         {
             
         }
-
+        void SendKeyFrame(int idx)
+        {
+            PtKeyFrameCollection collection = KeyFrameSender.GetFrameCommand();
+            if(collection.KeyFrames.Count>0)
+            {
+                Service.Get<LoginService>().RequestSyncClientKeyframes(idx, collection);
+                KeyFrameSender.ClearFrameCommand();
+            }        
+        }
         public void Update()
         {
             var logic = Sim.GetBehaviour<LogicFrameBehaviour>();
             int frameIdx = logic.CurrentFrameIdx;
+
+            SendKeyFrame(frameIdx);
 
             SetEntityWorldFrameByFrameIdx(frameIdx, new EntityWorldFrameData(Sim.GetEntityWorld().FindAllEntitiesIds(),
                                                                              Sim.GetEntityWorld().FindAllCloneComponents()));

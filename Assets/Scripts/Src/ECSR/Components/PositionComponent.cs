@@ -37,7 +37,7 @@ namespace Components
         }
         public int GetCommand()
         {
-            return FrameCommand.SyncPosition;
+            return FrameCommand.SYNC_POSITION;
         }
     }
 }
