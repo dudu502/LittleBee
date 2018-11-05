@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LogicFrameSync.Src.LockStep.Frame;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,9 +35,9 @@ namespace Components
             com.EntityId = EntityId;
             return com;
         }
-        public int GetComponentType()
+        public int GetCommand()
         {
-            return ComponentType.PositionComponent;
+            return FrameCommand.SyncPosition;
         }
     }
 }

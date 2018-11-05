@@ -69,7 +69,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                         if (dir != comp.GetDir())
                         {
                             Debug.Log(string.Format("keyframeIdx:{0} roleid:{1}", logic.CurrentFrameIdx, comp.EntityId));                       
-                            SendKeyFrame(new FrameIdxInfo(ComponentType.MoveComponent, comp.EntityId, new string[] { dir.x + "", dir.y + "", "0" }));
+                            SendKeyFrame(new FrameIdxInfo(FrameCommand.SyncMove, comp.EntityId, new string[] { dir.x + "", dir.y + "", "0" }));
                         }
                     }
                 }

@@ -40,7 +40,7 @@ namespace LogicFrameSync.Src.LockStep.Frame
 
         public bool EqualsInfo(IComponent component)
         {
-            return EntityId == component.EntityId && Cmd == component.GetComponentType();
+            return EntityId == component.EntityId && Cmd == component.GetCommand();
         }
 
         public static byte[] Write(FrameIdxInfo info)

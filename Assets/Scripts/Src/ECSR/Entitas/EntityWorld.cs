@@ -44,19 +44,7 @@ namespace Entitas
             }
             return null;
         }
-        public IComponent GetComponentByEntityId(int entityId, int componentType)
-        {
-            if (m_DictEntityAllComponents.ContainsKey(entityId))
-            {
-                IList<IComponent> components = m_DictEntityAllComponents[entityId];
-                foreach (IComponent comp in components)
-                {
-                    if (componentType == comp.GetComponentType())
-                        return comp;
-                }
-            }
-            return null;
-        }
+
 
         public List<Entity> GetEntities() { return m_Entities; }
         public List<IComponent> GetComponents<T>() where T : IComponent

@@ -8,7 +8,7 @@
         int EntityId { set; get; }
         bool Enable { set; get; }
         IComponent Clone();
-        int GetComponentType();
+        int GetCommand();
     }
 
     /// <summary>

@@ -53,10 +53,7 @@ namespace Entitas
         {
             return (T)World.GetComponentByEntityId(Id, typeof(T));
         }
-        public IComponent GetComponent(int componentType)
-        {
-            return World.GetComponentByEntityId(Id, componentType);
-        }
+
         public void RemoveComponent(IComponent component)
         {
             if (ContainComponent(component))

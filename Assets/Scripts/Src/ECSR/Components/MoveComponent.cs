@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using LogicFrameSync.Src.LockStep.Frame;
+using UnityEngine;
 namespace Components
 {
     public class MoveComponent : IComponent, IParamsUpdatable
@@ -43,9 +44,9 @@ namespace Components
             com.EntityId = EntityId;
             return com;
         }
-        public int GetComponentType()
+        public int GetCommand()
         {
-            return ComponentType.MoveComponent;
+            return FrameCommand.SyncMove;
         }
 
         public void UpdateParams(string[] paramsStrs)
