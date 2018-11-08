@@ -11,7 +11,7 @@ namespace Renderers
     public class ActionRenderer:MonoBehaviour
     {
         protected Entity m_Entity;
-        protected int m_EntityId=0;
+        protected string m_EntityId="";
         private void Awake()
         {
             
@@ -21,7 +21,7 @@ namespace Renderers
         {
             
         }
-        public void SetEntityId(int entityId)
+        public void SetEntityId(string entityId)
         {
             m_EntityId = entityId;
         }
@@ -32,7 +32,7 @@ namespace Renderers
 
         private void Update()
         {
-            if (m_EntityId == 0) return;
+            if (m_EntityId == "") return;
             Simulation sim = GetSimulation("client");
             if (sim == null) return;
             m_Entity = sim.GetEntityWorld().GetEntity(m_EntityId);

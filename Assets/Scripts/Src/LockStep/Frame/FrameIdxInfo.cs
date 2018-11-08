@@ -11,24 +11,30 @@ namespace LogicFrameSync.Src.LockStep.Frame
     {
         public int Idx { set; get; }
         public int Cmd { set; get; }
-        public int EntityId { set; get; }
+        public string EntityId { set; get; }
         public string[] Params { set; get; }
         
 
-        public FrameIdxInfo(int cmd,int eId,string[] param)
+        public FrameIdxInfo(int cmd, string eId,string[] param)
         {
             Cmd = cmd;
             EntityId = eId;
-            Params = param;
+            if (param == null)
+                Params = new string[0];
+            else
+                Params = param;
         }
-        public FrameIdxInfo(int idx,int cmd, int eId, string[] param)
+        public FrameIdxInfo(int idx,int cmd, string eId, string[] param)
         {
             Idx = idx;
             Cmd = cmd;
             EntityId = eId;
-            Params = param;
+            if (param == null)
+                Params = new string[0];
+            else
+                Params = param;
         }
-        public FrameIdxInfo(int cmd,int eId)
+        public FrameIdxInfo(int cmd, string eId)
         {
             Cmd = cmd;
             EntityId = eId;
@@ -55,7 +61,7 @@ namespace LogicFrameSync.Src.LockStep.Frame
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteInt32(info.Idx);
             buffer.WriteInt32(info.Cmd);
-            buffer.WriteInt32(info.EntityId);
+            buffer.WriteString(info.EntityId);
             int size = info.Params.Length;
             buffer.WriteInt32(size);
             for (int i = 0; i < size; ++i)
@@ -69,13 +75,11 @@ namespace LogicFrameSync.Src.LockStep.Frame
             FrameIdxInfo info = new FrameIdxInfo();
             info.Idx = buffer.ReadInt32();
             info.Cmd = buffer.ReadInt32();
-            info.EntityId = buffer.ReadInt32();
+            info.EntityId = buffer.ReadString();
             int size = buffer.ReadInt32();
             info.Params = new string[size];
             for(int i=0;i<size;++i)
-            {
                 info.Params[i] = buffer.ReadString();
-            }
             return info;
         }
     }

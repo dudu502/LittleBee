@@ -28,19 +28,8 @@ namespace Renderers
                 {
                     t.Kill();
                     t = null;
-                }
-
-               
+                }             
                 t = transform.DOLocalMove(Vector2.Lerp(pos1, nextPos, (float)lerp), 1, false);
-
-
-
-                //Vector2 dirr = dir.normalized;
-                //float target = Mathf.Atan2(dirr.y, dirr.x) * Mathf.Rad2Deg;
-                ////transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, target), 2 * Time.deltaTime);
-                //if(dirr!=Vector2.zero)
-                //    transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, target+360), 1);
-                //print(target);
             }
         }
     }

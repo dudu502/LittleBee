@@ -36,7 +36,7 @@ namespace Components
             return false;
         }
         public bool Enable { set; get; }
-        public int EntityId { set; get; }
+        public string EntityId { set; get; }
         public IComponent Clone()
         {
             MoveComponent com = new MoveComponent(Speed, Dir);

@@ -12,13 +12,11 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         public string DebugFrameIdx;
         public RollbackBehaviour() 
         {
-            keyframe = new PtKeyFrameCollection();
-            keyframe.KeyFrames = new List<Frame.FrameIdxInfo>();
-            keyframe.FrameIdx = -1;
+            keyframes = new List<PtKeyFrameCollection>();
         }
         LogicFrameBehaviour logicBehaviour;
         ComponentsBackupBehaviour backupBehaviour;
-        PtKeyFrameCollection keyframe;
+        List<PtKeyFrameCollection> keyframes;
         public override void Update()
         {
             logicBehaviour = Sim.GetBehaviour<LogicFrameBehaviour>();
@@ -40,9 +38,14 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                     break;
                 }
             }
+
+            foreach(var keys in keyframes)
+                RollImpl(keys);
+            keyframes.Clear();
         }
         void Roll(PtKeyFrameCollection collection)
         {
+            /*
             if (keyframe.FrameIdx != collection.FrameIdx)
             {
                 RollImpl(keyframe);    
@@ -52,8 +55,24 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
             else
             {
                 keyframe.MergeKeyFrames(collection);
-            }         
-        }  
+            }    
+            */
+
+            bool hasExist = false;
+            foreach (PtKeyFrameCollection keys in keyframes)
+            {
+                if (keys.FrameIdx == collection.FrameIdx)
+                {
+                    hasExist = true;
+                    keys.MergeKeyFrames(collection);
+                }
+            }
+            if (!hasExist)
+            {
+                keyframes.Add(collection);
+            }
+            keyframes.Sort((a, b) => a.FrameIdx - b.FrameIdx);
+        }
 
         void RollImpl(PtKeyFrameCollection collection)
         {

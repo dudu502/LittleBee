@@ -4,18 +4,27 @@ using LogicFrameSync.Src.LockStep.Frame;
 using LogicFrameSync.Src.LockStep.Net.Pt;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Entitas
 {
     public class EntityWorld
     {
+        public enum NotifierType
+        {
+            CreateEntity,
+            RemoveEntity,
+        }
+
+        Notify.Notifier m_Notifier = null;
         List<Entity> m_Entities;
         Dictionary<Type, List<IComponent>> m_DictAllComponents;
-        Dictionary<int, List<IComponent>> m_DictEntityAllComponents;
+        Dictionary<string, List<IComponent>> m_DictEntityAllComponents;
         private EntityWorld()
         {
+            m_Notifier = new Notify.Notifier(this);
             m_DictAllComponents = new Dictionary<Type, List<IComponent>>();
-            m_DictEntityAllComponents = new Dictionary<int, List<IComponent>>();
+            m_DictEntityAllComponents = new Dictionary<string, List<IComponent>>();
             m_Entities = new List<Entity>();
         }
         public void Reset()
@@ -31,7 +40,7 @@ namespace Entitas
             m_DictEntityAllComponents.Clear();
         }
 
-        public IComponent GetComponentByEntityId(int entityId, Type componentType)
+        public IComponent GetComponentByEntityId(string entityId, Type componentType)
         {
             if (m_DictEntityAllComponents.ContainsKey(entityId))
             {
@@ -87,7 +96,7 @@ namespace Entitas
         }
 
 
-        public bool ContainEntity(int entityId)
+        public bool ContainEntity(string entityId)
         {
             foreach (Entity entity in m_Entities)
             {
@@ -96,7 +105,7 @@ namespace Entitas
             }
             return false;
         }
-        public Entity AddEntity(int entityId)
+        public Entity AddEntity(string entityId)
         {
             if (!ContainEntity(entityId))
             {
@@ -108,7 +117,7 @@ namespace Entitas
             }
             return null;
         }
-        public void RemoveEntity(int entityId)
+        public void RemoveEntity(string entityId)
         {
             Entity entity = GetEntity(entityId);
             if (entity != null)
@@ -120,7 +129,7 @@ namespace Entitas
             }
         }
 
-        private void RemoveEntityComponentAll(int entityId)
+        private void RemoveEntityComponentAll(string entityId)
         {
             if (m_DictEntityAllComponents.ContainsKey(entityId))
             {
@@ -136,16 +145,16 @@ namespace Entitas
                 m_DictEntityAllComponents.Remove(entityId);
             }
         }
-        public Entity GetEntity(int id)
+        public Entity GetEntity(string id)
         {
             foreach (Entity en in m_Entities)
                 if (id == en.Id) return en;
             return null;
         }
 
-        public List<int> FindAllEntitiesIds()
+        public List<string> FindAllEntitiesIds()
         {
-            List<int> ids = new List<int>();
+            List<string> ids = new List<string>();
             foreach (Entity entity in m_Entities)
                 ids.Add(entity.Id);
             return ids;
@@ -165,18 +174,19 @@ namespace Entitas
         public void RollBack(EntityWorldFrameData data, PtKeyFrameCollection collection)
         {
             Reset();
-            foreach (int roleId in data.m_Entities)
+
+            data.m_Entities.ForEach((entityId)=> 
             {
-                Entity entity = AddEntity(roleId);
+                Entity entity = AddEntity(entityId);
                 if (entity != null)
                 {
                     foreach (IComponent com in data.m_Components)
                     {
-                        if (com.EntityId == roleId)
+                        if(com.EntityId == entityId)
                         {
-                            foreach (FrameIdxInfo info in collection.KeyFrames)
+                            foreach(FrameIdxInfo info in collection.KeyFrames)
                             {
-                                if (info.EqualsInfo(com))
+                                if(info.EqualsInfo(com))
                                 {
                                     IParamsUpdatable updatableCom = com as IParamsUpdatable;
                                     if (updatableCom != null)
@@ -187,10 +197,57 @@ namespace Entitas
                                 }
                             }
                             entity.AddComponent(com);
-                        }
+                        }                         
+                    }                    
+                }
+            });
+
+            foreach(FrameIdxInfo info in collection.KeyFrames)
+            {
+                if(!ContainEntity(info.EntityId))
+                {
+                    if(info.Cmd == FrameCommand.SYNC_CREATE_ENTITY)
+                    {
+                        AddEntity(info.EntityId).AddComponent(new MoveComponent(20, Vector2.zero)).AddComponent(new PositionComponent(Vector2.zero));
+                        m_Notifier.Send(NotifierType.CreateEntity, info.EntityId);
+                    }      
+                }
+                else
+                {
+                    if (info.Cmd == FrameCommand.SYNC_REMOVE_ENTITY)
+                    {
+                        RemoveEntity(info.EntityId);
+                        m_Notifier.Send(NotifierType.RemoveEntity, info.EntityId);
                     }
                 }
             }
+
+            //foreach (int roleId in data.m_Entities)
+            //{
+            //    Entity entity = AddEntity(roleId);
+            //    if (entity != null)
+            //    {
+            //        foreach (IComponent com in data.m_Components)
+            //        {
+            //            if (com.EntityId == roleId)
+            //            {
+            //                foreach (FrameIdxInfo info in collection.KeyFrames)
+            //                {
+            //                    if (info.EqualsInfo(com))
+            //                    {
+            //                        IParamsUpdatable updatableCom = com as IParamsUpdatable;
+            //                        if (updatableCom != null)
+            //                            updatableCom.UpdateParams(info.Params);
+            //                        else
+            //                            throw new Exception("Component " + com.ToString() + " must be IParamsUpdatable");
+            //                        break;
+            //                    }
+            //                }
+            //                entity.AddComponent(com);
+            //            }
+            //        }
+            //    }
+            //}
         }
     }
 }

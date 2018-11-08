@@ -4,8 +4,9 @@
     /// 组件数据
     /// </summary>
     public interface IComponent
-    { 
-        int EntityId { set; get; }
+    {
+        string EntityId { set; get; }
+
         bool Enable { set; get; }
         IComponent Clone();
         int GetCommand();

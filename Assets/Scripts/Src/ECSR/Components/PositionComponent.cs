@@ -27,7 +27,7 @@ namespace Components
         public Vector2 GetPosition() { return Pos; }
 
         public bool Enable { set; get; }
-        public int EntityId { set; get; }
+        public string EntityId { set; get; }
         public IComponent Clone()
         {
             PositionComponent com = new PositionComponent(Pos);

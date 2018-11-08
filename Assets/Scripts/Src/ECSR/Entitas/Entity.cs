@@ -18,13 +18,13 @@ namespace Entitas
                                                              (entity) =>
                                                              {
                                                                  Entity e = (Entity)entity;
-                                                                 e.Id = 0;
+                                                                 e.Id = "";
                                                              }
                                                             );
         #endregion
-        public int Id { get; set; }
+        public string Id { get; set; }
         public EntityWorld World { set; get; }
-        public Entity(int id)
+        public Entity(string id)
         {
             Id = id;
         }
@@ -59,7 +59,7 @@ namespace Entitas
             if (ContainComponent(component))
             {
                 World.RemoveComponent(component);
-                component.EntityId = 0;
+                component.EntityId = "";
             }
         }
     }

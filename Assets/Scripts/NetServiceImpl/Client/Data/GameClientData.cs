@@ -1,9 +1,4 @@
 ﻿using NetServiceImpl.Server.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NetServiceImpl.Client.Data
 {
@@ -11,5 +6,7 @@ namespace NetServiceImpl.Client.Data
     {
         public static GamePlayerCvo SelfPlayer = new GamePlayerCvo();
         public static GameRoomSvo GameRoom;
+
+        public static string SelfControlEntityId = "";
     }
 }

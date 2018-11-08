@@ -7,9 +7,9 @@ namespace LogicFrameSync.Src.LockStep
 {
     public class EntityWorldFrameData
     {
-        public List<int> m_Entities;
+        public List<string> m_Entities;
         public List<IComponent> m_Components;
-        public EntityWorldFrameData(List<int> entities, List<IComponent> comps)
+        public EntityWorldFrameData(List<string> entities, List<IComponent> comps)
         {
             m_Entities = entities;
             m_Components = comps;

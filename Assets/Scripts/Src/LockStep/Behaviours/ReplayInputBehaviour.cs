@@ -42,6 +42,15 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                             Debug.Log(string.Format("EntityId: {0} Dir:{1} {2} ",info.EntityId, float.Parse(info.Params[0]), float.Parse(info.Params[1])));
                         }
                     }
+                    else if(info.Cmd == FrameCommand.SYNC_CREATE_ENTITY)
+                    {
+                        Entitas.Entity ent = Sim.GetEntityWorld().AddEntity(info.EntityId);
+                        if (ent != null)
+                        {
+                            ent.AddComponent(new MoveComponent(20, Vector2.zero)).AddComponent(new PositionComponent(Vector2.zero));
+                            Notify.Notifier.Instance.Send(Entitas.EntityWorld.NotifierType.CreateEntity, info.EntityId);
+                        }
+                    }
                 }
             }            
         }
