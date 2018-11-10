@@ -17,13 +17,9 @@ namespace EntitySystems
             {
                 foreach (MoveComponent com in list)
                 {
-                    var entity = World.GetEntity(com.EntityId);
-                    if (entity != null)
-                    {
-                        PositionComponent posc = entity.GetComponent<PositionComponent>();
-                        if (posc != null)
-                            posc.SetPosition(com.GetPathV2());
-                    }
+                    PositionComponent pos = World.GetComponentByEntityId(com.EntityId, typeof(PositionComponent)) as PositionComponent;
+                    if(pos!=null)
+                        pos.SetPosition(com.GetPathV2());
                 }
             }
         }
