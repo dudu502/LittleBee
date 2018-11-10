@@ -45,19 +45,6 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         }
         void Roll(PtKeyFrameCollection collection)
         {
-            /*
-            if (keyframe.FrameIdx != collection.FrameIdx)
-            {
-                RollImpl(keyframe);    
-                keyframe.KeyFrames = collection.KeyFrames;
-                keyframe.FrameIdx = collection.FrameIdx;
-            }
-            else
-            {
-                keyframe.MergeKeyFrames(collection);
-            }    
-            */
-
             bool hasExist = false;
             foreach (PtKeyFrameCollection keys in keyframes)
             {

@@ -170,7 +170,7 @@ namespace Entitas
             }
             return components;
         }
-
+        
         public void RollBack(EntityWorldFrameData data, PtKeyFrameCollection collection)
         {
             Reset();
@@ -208,46 +208,34 @@ namespace Entitas
                 {
                     if(info.Cmd == FrameCommand.SYNC_CREATE_ENTITY)
                     {
-                        AddEntity(info.EntityId).AddComponent(new MoveComponent(20, Vector2.zero)).AddComponent(new PositionComponent(Vector2.zero));
-                        m_Notifier.Send(NotifierType.CreateEntity, info.EntityId);
+                        NotifyCreateEntity(info.EntityId);
                     }      
                 }
                 else
                 {
                     if (info.Cmd == FrameCommand.SYNC_REMOVE_ENTITY)
                     {
-                        RemoveEntity(info.EntityId);
-                        m_Notifier.Send(NotifierType.RemoveEntity, info.EntityId);
+                        NotifyRemoveEntity(info.EntityId);
                     }
                 }
             }
-
-            //foreach (int roleId in data.m_Entities)
-            //{
-            //    Entity entity = AddEntity(roleId);
-            //    if (entity != null)
-            //    {
-            //        foreach (IComponent com in data.m_Components)
-            //        {
-            //            if (com.EntityId == roleId)
-            //            {
-            //                foreach (FrameIdxInfo info in collection.KeyFrames)
-            //                {
-            //                    if (info.EqualsInfo(com))
-            //                    {
-            //                        IParamsUpdatable updatableCom = com as IParamsUpdatable;
-            //                        if (updatableCom != null)
-            //                            updatableCom.UpdateParams(info.Params);
-            //                        else
-            //                            throw new Exception("Component " + com.ToString() + " must be IParamsUpdatable");
-            //                        break;
-            //                    }
-            //                }
-            //                entity.AddComponent(com);
-            //            }
-            //        }
-            //    }
-            //}
         }
+
+        #region Notify Notifications
+        public void NotifyCreateEntity(string entityId)
+        {
+            Entity entity = AddEntity(entityId);
+            if(entity != null)
+            {
+                entity.AddComponent(new MoveComponent(20,Vector2.zero)).AddComponent(new PositionComponent(Vector2.zero));
+                m_Notifier.Send(NotifierType.CreateEntity,entityId);
+            }
+        }
+        public void NotifyRemoveEntity(string entityId)
+        {
+            RemoveEntity(entityId);
+            m_Notifier.Send(NotifierType.RemoveEntity, entityId);
+        }
+        #endregion
     }
 }

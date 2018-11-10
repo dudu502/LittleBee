@@ -40,7 +40,7 @@ public class PanelMainPage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        print(Vector3.Cross( new Vector3(0,0,-1), new Vector3(1, 0, 0)));
     }
 }
 
