@@ -3,6 +3,7 @@ using LogicFrameSync.Src.LockStep;
 using LogicFrameSync.Src.LockStep.Frame;
 using LogicFrameSync.Src.LockStep.Net.Pt;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,32 +11,34 @@ namespace Entitas
 {
     public class EntityWorld
     {
-        public enum NotifierType
+        public enum EntityOperationEvent
         {
-            CreateEntity,
-            RemoveEntity,
+            CreatePlayer,
+            CreateBullet,
+            Remove,
         }
 
         Notify.Notifier m_Notifier = null;
-        List<Entity> m_Entities;
+        Dictionary<string,Entity> m_DictEntities;
         Dictionary<Type, List<IComponent>> m_DictAllComponents;
         Dictionary<string, List<IComponent>> m_DictEntityAllComponents;
         private EntityWorld()
-        {
+        {       
             m_Notifier = new Notify.Notifier(this);
             m_DictAllComponents = new Dictionary<Type, List<IComponent>>();
             m_DictEntityAllComponents = new Dictionary<string, List<IComponent>>();
-            m_Entities = new List<Entity>();
+            m_DictEntities = new Dictionary<string, Entity>();
         }
         public void Reset()
         {
-            while (m_Entities.Count > 0)
+            foreach(string entityId in new List<string>(m_DictEntities.Keys))
             {
-                Entity ent = m_Entities[0];
-                m_Entities.RemoveAt(0);
-                ent.World = null;
-                Entity.ObjectPool.ReturnObjectToPool(ent);
+                Entity entity = m_DictEntities[entityId];
+                m_DictEntities.Remove(entityId);
+                entity.World = null;
+                Entity.ObjectPool.ReturnObjectToPool(entity);
             }
+
             m_DictAllComponents.Clear();
             m_DictEntityAllComponents.Clear();
         }
@@ -55,7 +58,6 @@ namespace Entitas
         }
 
 
-        public List<Entity> GetEntities() { return m_Entities; }
         public List<IComponent> GetComponents<T>() where T : IComponent
         {
             if (m_DictAllComponents.ContainsKey(typeof(T)))
@@ -98,12 +100,7 @@ namespace Entitas
 
         public bool ContainEntity(string entityId)
         {
-            foreach (Entity entity in m_Entities)
-            {
-                if (entity.Id == entityId)
-                    return true;
-            }
-            return false;
+            return m_DictEntities.ContainsKey(entityId);
         }
         public Entity AddEntity(string entityId)
         {
@@ -111,7 +108,7 @@ namespace Entitas
             {
                 Entity entity = Entity.ObjectPool.GetObject() as Entity;
                 entity.Id = entityId;
-                m_Entities.Add(entity);
+                m_DictEntities[entityId] = entity;
                 entity.World = this;
                 return entity;
             }
@@ -122,7 +119,7 @@ namespace Entitas
             Entity entity = GetEntity(entityId);
             if (entity != null)
             {
-                m_Entities.Remove(entity);
+                m_DictEntities.Remove(entityId);
                 entity.World = null;
                 RemoveEntityComponentAll(entityId);
                 Entity.ObjectPool.ReturnObjectToPool(entity);
@@ -147,15 +144,15 @@ namespace Entitas
         }
         public Entity GetEntity(string id)
         {
-            foreach (Entity en in m_Entities)
-                if (id == en.Id) return en;
+            if (ContainEntity(id))
+                return m_DictEntities[id];
             return null;
         }
 
         public List<string> FindAllEntitiesIds()
         {
             List<string> ids = new List<string>();
-            foreach (Entity entity in m_Entities)
+            foreach (Entity entity in m_DictEntities.Values)
                 ids.Add(entity.Id);
             return ids;
         }
@@ -208,7 +205,7 @@ namespace Entitas
                 {
                     if(info.Cmd == FrameCommand.SYNC_CREATE_ENTITY)
                     {
-                        NotifyCreateEntity(info.EntityId);
+                        NotifyCreateEntity(info);
                     }      
                 }
                 else
@@ -222,19 +219,18 @@ namespace Entitas
         }
 
         #region Notify Notifications
-        public void NotifyCreateEntity(string entityId)
+        public void NotifyCreateEntity(FrameIdxInfo info)
         {
-            Entity entity = AddEntity(entityId);
+            Entity entity = AddEntity(info.EntityId);
             if(entity != null)
-            {
-                entity.AddComponent(new MoveComponent(20,Vector2.zero)).AddComponent(new PositionComponent(Vector2.zero));
-                m_Notifier.Send(NotifierType.CreateEntity,entityId);
+            {          
+                m_Notifier.Send((EntityOperationEvent)int.Parse(info.Params[0]), entity);
             }
         }
         public void NotifyRemoveEntity(string entityId)
         {
             RemoveEntity(entityId);
-            m_Notifier.Send(NotifierType.RemoveEntity, entityId);
+            m_Notifier.Send(EntityOperationEvent.Remove, entityId);
         }
         #endregion
     }

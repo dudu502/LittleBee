@@ -8,7 +8,6 @@ namespace Entitas
     public class Entity
     {
         #region Recycle
-        public ObjectPool Pool { set; get; }
         public static ObjectPool ObjectPool = new ObjectPool(
                                                              () => new Entity(),
                                                              (entity) =>

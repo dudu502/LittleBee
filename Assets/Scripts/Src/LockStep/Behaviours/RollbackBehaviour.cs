@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace LogicFrameSync.Src.LockStep.Behaviours
 {
+    /// <summary>
+    /// 回滚关键帧信息
+    /// </summary>
     public class RollbackBehaviour : EntityBehaviour
     {
 

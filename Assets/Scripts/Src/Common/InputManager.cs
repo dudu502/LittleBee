@@ -17,7 +17,7 @@ public class InputManager:MonoBehaviour
         Instance = this;
         Status = new List<InputKeyCodeState>();
 
-        Register(new KeyCode[] { KeyCode.A,KeyCode.S,KeyCode.D,KeyCode.W});
+        Register(new KeyCode[] { KeyCode.A,KeyCode.S,KeyCode.D,KeyCode.W,KeyCode.Space});
     }
     public bool IsKeyCodeActive(KeyCode key)
     {

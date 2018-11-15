@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using UnityEngine;
 
 public class ObjectPool
 {
@@ -12,6 +8,7 @@ public class ObjectPool
     Action<object> m_Init;
     Action<object> m_Reset;
     ConcurrentQueue<object> m_Queue;
+    
     public ObjectPool(Func<object> constructor,Action<object> init,Action<object> reset)
     {
         if (constructor == null) throw new ArgumentNullException();
@@ -21,19 +18,14 @@ public class ObjectPool
         m_Init = init;
         m_Reset = reset;
         m_Queue = new ConcurrentQueue<object>();
+        
     }
-
-    public int GetPoolSize() { return m_Queue.Count; }
-    object CreateObject()
-    {
-        object result = m_Constructor();
-        return result;
-    }
+    
     public object GetObject()
     {
         object result;
         if(!m_Queue.TryDequeue(out result))
-            result = CreateObject();
+            result = m_Constructor();
         m_Init(result);
         return result;
     }
@@ -42,5 +34,26 @@ public class ObjectPool
         m_Reset(obj);
         m_Queue.Enqueue(obj);
     }    
+
+    public GameObject GetGameObject()
+    {
+        object result;
+        if (!m_Queue.TryDequeue(out result))
+            result = m_Constructor();
+        m_Init(result);
+        GameObject obj = result as GameObject;
+        obj.transform.SetParent(null);
+        obj.transform.localScale = Vector3.one;
+        obj.transform.localPosition = Vector3.one;
+        obj.transform.localRotation = Quaternion.identity;
+        return obj;
+    }
+
+    public void ReturnGameObjectToPool(GameObject obj)
+    {
+        m_Reset(obj);
+        m_Queue.Enqueue(obj);
+        obj.transform.SetParent(ObjectPoolContainer.Instance.m_TransGo);
+    }
 }
 

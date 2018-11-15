@@ -6,7 +6,9 @@ using NetServiceImpl.Client;
 using System.Collections.Generic;
 namespace LogicFrameSync.Src.LockStep.Behaviours
 {
-    
+    /// <summary>
+    /// 组件内容备份
+    /// </summary>
     public class ComponentsBackupBehaviour : ISimulativeBehaviour
     {
         public Simulation Sim

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace LogicFrameSync.Src.LockStep.Behaviours
 {
+    /// <summary>
+    /// 实体行为系统控制
+    /// </summary>
     public class EntityBehaviour : ISimulativeBehaviour
     {
         public Simulation Sim
@@ -29,13 +32,14 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
             }
             return false;
         }
-        public void AddSystem(IEntitySystem sys)
+        public EntityBehaviour AddSystem(IEntitySystem sys)
         {
             if (!ContainSystem(sys))
             {
                 Systems.Add(sys);
                 sys.World = Sim.GetEntityWorld();
-            }               
+            }
+            return this;
         }
         public virtual void Start()
         {
