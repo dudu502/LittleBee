@@ -9,41 +9,32 @@ using UnityEngine;
 
 namespace Components
 {
-    public class PositionComponent:IComponent
+    public class TransformComponent:IComponent
     {
-        Vector2 Pos;
-        public PositionComponent(Vector2 v3)
+        float2 LocalPosition;   
+        float3x3 float3x3_translation = new float3x3();
+        float3x3 float3x3_rotation = new float3x3();
+        quaternion Quaternion;
+
+        public TransformComponent(float2 pos)
         {
-            Pos = v3;
+            LocalPosition = pos;
         }
         public override string ToString()
         {
-            return string.Format("[PositionComponent Id:{0} Pos:{1},{2}]",EntityId, Pos.x, Pos.y);
-        }
-        public bool SetPosition(Vector2 pos)
-        {
-            Pos += pos;
-            return true;
+            return string.Format("[TransformComponent Id:{0} Pos:{1},{2}]", EntityId, LocalPosition.x, LocalPosition.y);
         }
 
+        public Vector2 GetPositionVector2() { return new Vector2(LocalPosition.x, LocalPosition.y); }
 
-
-        public Vector2 GetPosition() { return Pos; }
-
-
-
-        float3x3 float3x3_translation = new float3x3();
-        float3x3 float3x3_rotation = new float3x3();
-        public float3 LocalPosition { set; get; }
-
-        quaternion Quaternion;
 
         public void Translate(float2 value)
         {
             float3x3_translation.c0 = new float3(1, 0, value.x);
             float3x3_translation.c1 = new float3(0, 1, value.y);
             float3x3_translation.c2 = new float3(0, 0, 1);
-            LocalPosition = math.mul(LocalPosition, float3x3_translation);
+            float3 localpos = new float3(LocalPosition,1);
+            LocalPosition = math.mul(localpos, float3x3_translation).xy;
         }
         public void Rotate(float degree)
         {
@@ -52,7 +43,8 @@ namespace Components
             float3x3_rotation.c1 = new float3(-math.sin(radians), math.cos(radians), 0);
             float3x3_rotation.c2 = new float3(0, 0, 1);
             Quaternion = new quaternion(float3x3_rotation);
-            LocalPosition = math.mul(LocalPosition, float3x3_rotation);
+            float3 localpos = new float3(LocalPosition, 1);
+            LocalPosition = math.mul(localpos, float3x3_rotation).xy;
         }
 
 
@@ -60,14 +52,15 @@ namespace Components
         public string EntityId { set; get; }
         public IComponent Clone()
         {
-            PositionComponent com = new PositionComponent(Pos);
+            TransformComponent com = new TransformComponent(LocalPosition);
             com.Enable = Enable;
             com.EntityId = EntityId;
+            com.Quaternion = Quaternion;
             return com;
         }
         public int GetCommand()
         {
-            return FrameCommand.SYNC_POSITION;
+            return FrameCommand.SYNC_TRANSFORM;
         }
     }
 }

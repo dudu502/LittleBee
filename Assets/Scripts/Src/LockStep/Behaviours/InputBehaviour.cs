@@ -32,7 +32,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                 MoveComponent comp = entity.GetComponent<MoveComponent>();
                 if (comp != null)
                 {
-                    Vector2 dir = comp.GetDir();
+                    Vector2 dir = comp.GetDirVector2();
                     if (InputManager.Instance.IsKeyCodeActive(KeyCode.A))
                     {
                         dir.x = -1;
@@ -54,7 +54,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                         dir.x = 0;
                         dir.y = 0;
                     }
-                    if (dir != comp.GetDir())
+                    if (dir != comp.GetDirVector2())
                     {
                         Debug.Log(string.Format("keyframeIdx:{0} roleid:{1}", logic.CurrentFrameIdx, comp.EntityId));
 

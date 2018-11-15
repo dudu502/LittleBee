@@ -1,19 +1,21 @@
 ﻿using LogicFrameSync.Src.LockStep.Frame;
+using Unity.Mathematics;
 using UnityEngine;
 namespace Components
 {
     public class MoveComponent : IComponent, IParamsUpdatable
     {
         float Speed = 1;
-        Vector2 Dir = Vector2.zero;
-        public MoveComponent(float speed, Vector2 dir)
+        float2 Dir = float2.zero;
+        public MoveComponent(float speed, float2 dir)
         {
             Dir = dir;
             Speed = speed;
         }
         public float GetSpeed() { return Speed; }
-        public Vector2 GetDir() { return Dir; }
-        public Vector2 GetPathV2()
+        public Vector2 GetDirVector2() { return new Vector2(Dir.x, Dir.y); }
+
+        public float2 GetPathV2()
         {
             return Dir * Speed;
         }
@@ -26,14 +28,9 @@ namespace Components
             }
             return false;
         }
-        public bool SetDir(Vector2 vec)
+        public void SetDir(float2 vec)
         {
-            if (Dir != vec)
-            {
-                Dir = vec;
-                return true;
-            }
-            return false;
+            Dir = vec;
         }
         public bool Enable { set; get; }
         public string EntityId { set; get; }
@@ -51,7 +48,7 @@ namespace Components
 
         public void UpdateParams(string[] paramsStrs)
         {
-            SetDir(new Vector2(float.Parse(paramsStrs[0]), float.Parse(paramsStrs[1])));
+            SetDir(new float2(float.Parse(paramsStrs[0]), float.Parse(paramsStrs[1])));
         }
 
         public override string ToString()

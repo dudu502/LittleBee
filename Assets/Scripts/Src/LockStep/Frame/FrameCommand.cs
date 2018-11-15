@@ -22,8 +22,8 @@
         public const int SYNC_MOVE = 20001;
 
         /// <summary>
-        /// 同步位置
+        /// 同步Transform
         /// </summary>
-        public const int SYNC_POSITION = 1;
+        public const int SYNC_TRANSFORM = 1;
     }
 }

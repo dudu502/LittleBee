@@ -16,12 +16,12 @@ namespace Renderers
         {
             base.OnRender();
             var sim = GetSimulation("client");
-            PositionComponent com_Pos = m_Entity.GetComponent<PositionComponent>();
+            TransformComponent com_Pos = m_Entity.GetComponent<TransformComponent>();
             if (com_Pos != null)
             {
                 double lerp = sim.GetFrameLerp() * sim.GetFrameMsLength() / 1000 / Time.deltaTime;
-                var pos1 = com_Pos.GetPosition();// new Vector2(pos.Pos.x,pos.Pos.y);
-                var dir = m_Entity.GetComponent<MoveComponent>().GetDir();// new Vector2(Ent.GetComponent<MoveComponent>().Dir.x, Ent.GetComponent<MoveComponent>().Dir.y);
+                var pos1 = com_Pos.GetPositionVector2();
+                var dir = m_Entity.GetComponent<MoveComponent>().GetDirVector2();
                 var nextPos = pos1 + dir * (m_Entity.GetComponent<MoveComponent>().GetSpeed() * (float)(Time.deltaTime / sim.GetFrameMsLength() / 1000));
 
                 if (t != null)

@@ -37,10 +37,7 @@ public class AllUI : MonoBehaviour
         float3x3_translation.c1 = new float3(0, 1, -5);
         float3x3_translation.c2 = new float3(0, 0, 1);
 
-        var i = new float3x3(
-            new float3(1,0,0.5f),
-            new float3(0,1,3.5f),
-            new float3(0,0,1));
+        var i = new float3(100, 100, 1);
 
         var sult = math.mul(i, float3x3_translation);
 

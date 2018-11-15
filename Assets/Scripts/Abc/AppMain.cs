@@ -100,14 +100,14 @@ public class AppMain : MonoBehaviour
     void OnCreateEntityFromThread(Notify.Notification note)
     {
         Entity entity = note.Params[0] as Entity;
-        entity.AddComponent(new MoveComponent(20, Vector2.zero)).AddComponent(new PositionComponent(Vector2.zero));
+        entity.AddComponent(new MoveComponent(20, float2.zero)).AddComponent(new TransformComponent(float2.zero));
         queueCreateEntity.Enqueue(entity.Id);        
     }
     [Notify.Subscribe(Entitas.EntityWorld.EntityOperationEvent.CreateBullet)]
     void OnCreateBulletEntityFromThread(Notify.Notification note)
     {
         Entity entity = note.Params[0] as Entity;
-        entity.AddComponent(new MoveComponent(10, Vector2.zero)).AddComponent(new PositionComponent(Vector2.zero)).AddComponent(new AutoRemovingEntityComponent(80));
+        entity.AddComponent(new MoveComponent(10, float2.zero)).AddComponent(new TransformComponent(float2.zero)).AddComponent(new AutoRemovingEntityComponent(80));
         queueBulletEntity.Enqueue(entity.Id);
     }
 

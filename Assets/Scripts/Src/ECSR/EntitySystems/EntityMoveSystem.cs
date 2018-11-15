@@ -17,9 +17,11 @@ namespace EntitySystems
             {
                 foreach (MoveComponent com in list)
                 {
-                    PositionComponent pos = World.GetComponentByEntityId(com.EntityId, typeof(PositionComponent)) as PositionComponent;
+                    TransformComponent pos = World.GetComponentByEntityId(com.EntityId, typeof(TransformComponent)) as TransformComponent;
                     if(pos!=null)
-                        pos.SetPosition(com.GetPathV2());
+                    {
+                        pos.Translate(com.GetPathV2());
+                    }
                 }
             }
         }
