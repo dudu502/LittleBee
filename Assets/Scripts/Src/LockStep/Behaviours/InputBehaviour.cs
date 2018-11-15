@@ -22,17 +22,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         {
 
         }
-
-        void SendKeyFrame(Frame.FrameIdxInfo info)
-        {
-            int frameIdx = Sim.GetBehaviour<LogicFrameBehaviour>().CurrentFrameIdx;
-            info.Idx = frameIdx;
-            Net.Pt.PtKeyFrameCollection collection = new Net.Pt.PtKeyFrameCollection();
-            collection.FrameIdx = frameIdx;
-            collection.KeyFrames = new List<Frame.FrameIdxInfo>();
-            collection.KeyFrames.Add(info);
-            Service.Get<LoginService>().RequestSyncClientKeyframes(frameIdx, collection);
-        }
+    
         public void Update()
         {
             LogicFrameBehaviour logic = Sim.GetBehaviour<LogicFrameBehaviour>();

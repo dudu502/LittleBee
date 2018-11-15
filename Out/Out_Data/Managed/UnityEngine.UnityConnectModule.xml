@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<doc>
+  <members>
+    <assembly>
+      <name>UnityEngine.UnityConnectModule</name>
+    </assembly>
+    <member name="T:UnityEngine.Analytics.AnalyticsSessionInfo">
+      <summary>
+        <para>Accesses for Analytics session information (common for all game instances).</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.Analytics.AnalyticsSessionInfo.sessionElapsedTime">
+      <summary>
+        <para>Session time since the begining of player game session.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.Analytics.AnalyticsSessionInfo.sessionId">
+      <summary>
+        <para>Session id is used for tracking player game session.</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.Analytics.AnalyticsSessionInfo.sessionState">
+      <summary>
+        <para>Session state.</para>
+      </summary>
+    </member>
+    <member name="?:UnityEngine.Analytics.AnalyticsSessionInfo.sessionStateChanged(UnityEngine.Analytics.AnalyticsSessionInfo/SessionStateChanged)">
+      <summary>
+        <para>This event occurs when a Analytics session state changes.</para>
+      </summary>
+      <param name="value"></param>
+    </member>
+    <member name="P:UnityEngine.Analytics.AnalyticsSessionInfo.userId">
+      <summary>
+        <para>UserId is random GUID to track a player and is persisted across game session.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.Analytics.AnalyticsSessionInfo.SessionStateChanged">
+      <summary>
+        <para>This event occurs when a Analytics session state changes.</para>
+      </summary>
+      <param name="sessionState">Current session state.</param>
+      <param name="sessionId">Current session id.</param>
+      <param name="sessionElapsedTime">Game player current session time.</param>
+      <param name="sessionChanged">Set to true when sessionId has changed.</param>
+    </member>
+    <member name="T:UnityEngine.Analytics.AnalyticsSessionState">
+      <summary>
+        <para>Session tracking states.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.Analytics.AnalyticsSessionState.kSessionPaused">
+      <summary>
+        <para>Session tracking has paused.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.Analytics.AnalyticsSessionState.kSessionResumed">
+      <summary>
+        <para>Session tracking has resumed.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.Analytics.AnalyticsSessionState.kSessionStarted">
+      <summary>
+        <para>Session tracking has started.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.Analytics.AnalyticsSessionState.kSessionStopped">
+      <summary>
+        <para>Session tracking has stopped.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.RemoteSettings">
+      <summary>
+        <para>Provides access to your remote settings.</para>
+      </summary>
+    </member>
+    <member name="?:UnityEngine.RemoteSettings.BeforeFetchFromServer(System.Action)">
+      <summary>
+        <para>Dispatched before the RemoteSettings object makes the network request for the latest settings.</para>
+      </summary>
+      <param name="value"></param>
+    </member>
+    <member name="?:UnityEngine.RemoteSettings.Completed(System.Action`3&lt;System.Boolean,System.Boolean,System.Int32&gt;)">
+      <summary>
+        <para>Dispatched when the network request made by the RemoteSettings object to fetch the remote configuration file is complete.</para>
+      </summary>
+      <param name="value"></param>
+    </member>
+    <member name="M:UnityEngine.RemoteSettings.ForceUpdate">
+      <summary>
+        <para>Forces the game to download the newest settings from the server and update its values.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.RemoteSettings.GetBool(System.String)">
+      <summary>
+        <para>Gets the value corresponding to remote setting identified by key, if it exists.</para>
+      </summary>
+      <param name="key">The key identifying the setting.</param>
+      <param name="defaultValue">The default value to use if the setting identified by the key parameter cannot be found or is unavailable.</param>
+      <returns>
+        <para>The current value of the setting identified by key, or the default value.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEngine.RemoteSettings.GetBool(System.String,System.Boolean)">
+      <summary>
+        <para>Gets the value corresponding to remote setting identified by key, if it exists.</para>
+      </summary>
+      <param name="key">The key identifying the setting.</param>
+      <param name="defaultValue">The default value to use if the setting identified by the key parameter cannot be found or is unavailable.</param>
+      <returns>
+        <para>The current value of the setting identified by key, or the default value.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEngine.RemoteSettings.GetCount">
+      <summary>
+        <para>Gets the number of keys in the remote settings configuration.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.RemoteSettings.GetFloat(System.String)">
+      <summary>
+        <para>Gets the value corresponding to remote setting identified by key, if it exists.</para>
+      </summary>
+      <param name="key">The key identifying the setting.</param>
+      <param name="defaultValue">The default value to use if the setting identified by the key parameter cannot be found or is unavailable.</param>
+      <returns>
+        <para>The current value of the setting identified by key, or the default value.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEngine.RemoteSettings.GetFloat(System.String,System.Single)">
+      <summary>
+        <para>Gets the value corresponding to remote setting identified by key, if it exists.</para>
+      </summary>
+      <param name="key">The key identifying the setting.</param>
+      <param name="defaultValue">The default value to use if the setting identified by the key parameter cannot be found or is unavailable.</param>
+      <returns>
+        <para>The current value of the setting identified by key, or the default value.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEngine.RemoteSettings.GetInt(System.String)">
+      <summary>
+        <para>Gets the value corresponding to remote setting identified by key, if it exists.</para>
+      </summary>
+      <param name="key">The key identifying the setting.</param>
+      <param name="defaultValue">The default value to use if the setting identified by the key parameter cannot be found or is unavailable.</param>
+      <returns>
+        <para>The current value of the setting identified by key, or the default value.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEngine.RemoteSettings.GetInt(System.String,System.Int32)">
+      <summary>
+        <para>Gets the value corresponding to remote setting identified by key, if it exists.</para>
+      </summary>
+      <param name="key">The key identifying the setting.</param>
+      <param name="defaultValue">The default value to use if the setting identified by the key parameter cannot be found or is unavailable.</param>
+      <returns>
+        <para>The current value of the setting identified by key, or the default value.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEngine.RemoteSettings.GetKeys">
+      <summary>
+        <para>Gets an array containing all the keys in the remote settings configuration.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.RemoteSettings.GetLong(System.String,System.Int64)">
+      <summary>
+        <para>Gets the value corresponding to remote setting identified by key, if it exists.</para>
+      </summary>
+      <param name="key">The key identifying the setting.</param>
+      <param name="defaultValue">The default value to use if the setting identified by the key parameter cannot be found or is unavailable.</param>
+      <returns>
+        <para>The current value of the setting identified by key, or the default value.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEngine.RemoteSettings.GetString(System.String)">
+      <summary>
+        <para>Gets the value corresponding to remote setting identified by key, if it exists.</para>
+      </summary>
+      <param name="key">The key identifying the setting.</param>
+      <param name="defaultValue">The default value to use if the setting identified by the key parameter cannot be found or is unavailable.</param>
+      <returns>
+        <para>The current value of the setting identified by key, or the default value.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEngine.RemoteSettings.GetString(System.String,System.String)">
+      <summary>
+        <para>Gets the value corresponding to remote setting identified by key, if it exists.</para>
+      </summary>
+      <param name="key">The key identifying the setting.</param>
+      <param name="defaultValue">The default value to use if the setting identified by the key parameter cannot be found or is unavailable.</param>
+      <returns>
+        <para>The current value of the setting identified by key, or the default value.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEngine.RemoteSettings.HasKey(System.String)">
+      <summary>
+        <para>Reports whether the specified key exists in the remote settings configuration.</para>
+      </summary>
+      <param name="key">The key identifying the setting.</param>
+      <returns>
+        <para>True, if the key exists.</para>
+      </returns>
+    </member>
+    <member name="?:UnityEngine.RemoteSettings.Updated(UnityEngine.RemoteSettings/UpdatedEventHandler)">
+      <summary>
+        <para>Dispatched when a remote settings configuration is fetched and successfully parsed from the server or from local cache.</para>
+      </summary>
+      <param name="value"></param>
+    </member>
+    <member name="T:UnityEngine.RemoteSettings.UpdatedEventHandler">
+      <summary>
+        <para>Defines the delegate signature for handling RemoteSettings.Updated events.</para>
+      </summary>
+    </member>
+    <member name="M:UnityEngine.RemoteSettings.WasLastUpdatedFromServer">
+      <summary>
+        <para>Reports whether or not the settings available from the RemoteSettings object were received from the Analytics Service during the current session.</para>
+      </summary>
+      <returns>
+        <para>True, if the remote settings file was received from the Analytics Service in the current session. False, if the remote settings file was received during an earlier session and cached.</para>
+      </returns>
+    </member>
+  </members>
+</doc>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<doc>
+  <members>
+    <assembly>
+      <name>UnityEngine.WebModule</name>
+    </assembly>
+    <member name="A:UnityEngine.WebModule">
+      <summary>
+        <para>The Web module is used internally by some of Unity's online services.</para>
+      </summary>
+    </member>
+  </members>
+</doc>
