@@ -100,14 +100,14 @@ public class AppMain : MonoBehaviour
     void OnCreateEntityFromThread(Notify.Notification note)
     {
         Entity entity = note.Params[0] as Entity;
-        entity.AddComponent(new MoveComponent(20, float2.zero)).AddComponent(new TransformComponent(float2.zero));
+        entity.AddComponent(new MoveComponent(5, float2.zero)).AddComponent(new TransformComponent(float2.zero));
         queueCreateEntity.Enqueue(entity.Id);        
     }
     [Notify.Subscribe(Entitas.EntityWorld.EntityOperationEvent.CreateBullet)]
     void OnCreateBulletEntityFromThread(Notify.Notification note)
     {
         Entity entity = note.Params[0] as Entity;
-        entity.AddComponent(new MoveComponent(10, float2.zero)).AddComponent(new TransformComponent(float2.zero)).AddComponent(new AutoRemovingEntityComponent(80));
+        entity.AddComponent(new MoveComponent(5, float2.zero)).AddComponent(new TransformComponent(float2.zero)).AddComponent(new AutoRemovingEntityComponent(80));
         queueBulletEntity.Enqueue(entity.Id);
     }
 
@@ -178,7 +178,8 @@ public class AppMain : MonoBehaviour
         sim.AddBehaviour(new LogicFrameBehaviour());
         sim.AddBehaviour(new RollbackBehaviour());                
         sim.AddBehaviour(new EntityBehaviour());
-        sim.AddBehaviour(new InputBehaviour());
+        //sim.AddBehaviour(new InputBehaviour());
+        sim.AddBehaviour(new TestRandomInputBehaviour());
         sim.AddBehaviour(new ComponentsBackupBehaviour());
         sim.GetBehaviour<EntityBehaviour>().AddSystem(new EntityMoveSystem()).AddSystem(new AutoRemovingEntitySystem());
         sim.GetBehaviour<RollbackBehaviour>().AddSystem(new EntityMoveSystem()).AddSystem(new AutoRemovingEntitySystem());
