@@ -131,11 +131,13 @@ public class AppMain : MonoBehaviour
             AddComponent(new MoveComponent(10, Vector2.zero)).
             AddComponent(new PositionComponent(Vector2.zero));
         */
+        
+        
     }
     void OnClickPlayReplay()
     {        
         Simulation sim = new Simulation("client");
-        var bytes = File.ReadAllBytes(Application.dataPath + "/replay_client_-112807168.rep");
+        var bytes = File.ReadAllBytes(Application.dataPath + "/replay_client_-801440256.rep");
         var info = ReplayInfo.Read(bytes);//Simulation.ReadReplay(ByteBuffer.Decompress(bytes));
         sim.AddBehaviour(new ReplayLogicFrameBehaviour());
         sim.AddBehaviour(new EntityBehaviour());
@@ -164,8 +166,6 @@ public class AppMain : MonoBehaviour
 
 
         Debug.Log("create replay "+path);
-
-
 
         SimulationManager.Instance.RemoveSimulation(sim);
     }

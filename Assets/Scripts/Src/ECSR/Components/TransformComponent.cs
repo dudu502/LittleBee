@@ -1,19 +1,29 @@
 ﻿using LogicFrameSync.Src.LockStep.Frame;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unity.Mathematics;
 using UnityEngine;
 
 namespace Components
 {
+    /// <summary>
+    /// transform组件
+    /// 包含位置信息，旋转
+    /// </summary>
     public class TransformComponent:IComponent
     {
-        float2 LocalPosition;   
+        public float2 LocalPosition { private set; get; }
+
+        /// <summary>
+        /// 位移矩阵
+        /// 齐次坐标下
+        /// </summary>
         float3x3 float3x3_translation = new float3x3();
+
+        /// <summary>
+        /// 旋转矩阵
+        /// 齐次坐标下
+        /// </summary>
         float3x3 float3x3_rotation = new float3x3();
+
         quaternion Quaternion;
 
         public TransformComponent(float2 pos)
@@ -22,12 +32,15 @@ namespace Components
         }
         public override string ToString()
         {
-            return string.Format("[TransformComponent Id:{0} Pos:{1},{2}]", EntityId, LocalPosition.x, LocalPosition.y);
+            return string.Format("[TransformComponent Id:{0} Pos:{1}]", EntityId, LocalPosition);
         }
 
         public Vector2 GetPositionVector2() { return new Vector2(LocalPosition.x, LocalPosition.y); }
 
-
+        /// <summary>
+        /// 位移
+        /// </summary>
+        /// <param name="value"></param>
         public void Translate(float2 value)
         {
             float3x3_translation.c0 = new float3(1, 0, value.x);
@@ -36,6 +49,11 @@ namespace Components
             float3 localpos = new float3(LocalPosition,1);
             LocalPosition = math.mul(localpos, float3x3_translation).xy;
         }
+
+        /// <summary>
+        /// 旋转角度
+        /// </summary>
+        /// <param name="degree"></param>
         public void Rotate(float degree)
         {
             float radians = math.radians(degree);

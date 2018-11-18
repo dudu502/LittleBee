@@ -1,4 +1,5 @@
-﻿using LogicFrameSync.Src.LockStep.Net.Pt;
+﻿using LogicFrameSync.Src.LockStep.Frame;
+using LogicFrameSync.Src.LockStep.Net.Pt;
 using NetServiceImpl;
 using NetServiceImpl.Client;
 using System.Collections.Concurrent;
@@ -63,11 +64,12 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
             }
             keyframes.Sort((a, b) => a.FrameIdx - b.FrameIdx);
         }
-
+       
         void RollImpl(PtKeyFrameCollection collection)
         {
             if (collection.FrameIdx == -1) return;
             int frameIdx = collection.FrameIdx;
+            collection.KeyFrames.Sort((a,b)=>new System.Guid(a.EntityId).CompareTo(new System.Guid(b.EntityId)));
             EntityWorldFrameData frameData = backupBehaviour.GetEntityWorldFrameByFrameIdx(frameIdx);
             if (frameData != null)
             {

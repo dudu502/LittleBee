@@ -29,15 +29,6 @@ namespace Net
             buffer.WriteBytes(bytes);
 
             stream.BeginWrite(buffer.Getbuffer(), 0, buffer.Getbuffer().Length, AsyncWriteCallback, state);
-            
-            //if (state.eventDone.WaitOne(stream.WriteTimeout, false))
-            //{
-            //    if (state.exception != null) throw state.exception;
-            //}
-            //else
-            //{
-            //    throw new TimeoutException();
-            //}
         }
         public static void AsyncWriteCallback(IAsyncResult iar)
         {

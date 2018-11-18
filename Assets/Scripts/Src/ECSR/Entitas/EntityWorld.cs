@@ -154,6 +154,7 @@ namespace Entitas
             List<string> ids = new List<string>();
             foreach (Entity entity in m_DictEntities.Values)
                 ids.Add(entity.Id);
+            ids.Sort((a, b) => new Guid(a).CompareTo(new Guid(b)));
             return ids;
         }
 
@@ -165,6 +166,7 @@ namespace Entitas
                 foreach (IComponent comp in list)
                     components.Add(comp.Clone());
             }
+            components.Sort((a,b)=>new Guid(a.EntityId).CompareTo(new Guid(b.EntityId)));
             return components;
         }
         

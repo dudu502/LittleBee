@@ -30,7 +30,10 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         {
             m_DictEntityWorldFrameData[frameIdx]= data; 
         }
-        public Dictionary<int, EntityWorldFrameData> GetEntityWorldFrameData() { return m_DictEntityWorldFrameData; }
+        public Dictionary<int, EntityWorldFrameData> GetEntityWorldFrameData()
+        {
+            return m_DictEntityWorldFrameData;
+        }
 
         public void Quit()
         {
