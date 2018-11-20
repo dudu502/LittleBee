@@ -11,11 +11,10 @@ namespace Renderers
 {
     public class MoveActionRenderer:ActionRenderer
     {
-        Tweener t = null;
         protected override void OnRender()
         {
             base.OnRender();
-            var sim = GetSimulation("client");
+            var sim = GetSimulation(Const.CLIENT_SIMULATION_ID);
             TransformComponent com_Pos = m_Entity.GetComponent<TransformComponent>();
             MoveComponent com_Move = m_Entity.GetComponent<MoveComponent>();
             if (com_Pos != null)
@@ -25,12 +24,7 @@ namespace Renderers
                 var dir = com_Move.GetDirVector2();
                 var nextPos = pos1 + dir * (com_Move.GetSpeed() * (float)(Time.deltaTime / sim.GetFrameMsLength() / 1000));
 
-                if (t != null)
-                {
-                    t.Kill();
-                    t = null;
-                }             
-                t = transform.DOLocalMove(Vector2.Lerp(pos1, nextPos, (float)lerp), 1, false);
+                transform.DOLocalMove(Vector2.Lerp(pos1, nextPos, (float)lerp), 1, false);
             }
         }
     }

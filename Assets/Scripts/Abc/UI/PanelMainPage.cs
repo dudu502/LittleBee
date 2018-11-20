@@ -32,7 +32,7 @@ public class PanelMainPage : MonoBehaviour
 
     private void AddServerSim()
     {
-        Simulation sim = new Simulation("server");
+        Simulation sim = new Simulation(Const.SERVER_SIMULATION_ID);
         sim.AddBehaviour(new ServerLogicFrameBehaviour());
         SimulationManager.Instance.AddSimulation(sim);
     }

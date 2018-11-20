@@ -1,5 +1,4 @@
-﻿
-using EntitySystems;
+﻿using EntitySystems;
 using System.Collections.Generic;
 
 namespace LogicFrameSync.Src.LockStep.Behaviours

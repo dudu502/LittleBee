@@ -25,15 +25,15 @@ namespace Renderers
         {
             m_EntityId = entityId;
         }
-        protected Simulation GetSimulation(string name)
+        protected Simulation GetSimulation(byte id)
         {
-            return SimulationManager.Instance.GetSimulation(name);
+            return SimulationManager.Instance.GetSimulation(id);
         }
 
         private void Update()
         {
-            if (m_EntityId == "") return;
-            Simulation sim = GetSimulation("client");
+            if (string.IsNullOrEmpty(m_EntityId)) return;
+            Simulation sim = GetSimulation(Const.CLIENT_SIMULATION_ID);
             if (sim == null) return;
             if (!sim.GetEntityWorld().IsActive) return;
             m_Entity = sim.GetEntityWorld().GetEntity(m_EntityId);

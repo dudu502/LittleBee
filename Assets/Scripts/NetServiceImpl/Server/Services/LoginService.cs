@@ -65,7 +65,7 @@ namespace NetServiceImpl.Server
         [Subscribe(C2SMessageId.RequestSyncClientKeyframes)]
         void OnRequestSyncClientKeyframes(Notification note)
         {  
-            int serverFrameIdx = SimulationManager.Instance.GetSimulation("server").GetBehaviour<ServerLogicFrameBehaviour>().CurrentFrameIdx;
+            int serverFrameIdx = SimulationManager.Instance.GetSimulation(Const.SERVER_SIMULATION_ID).GetBehaviour<ServerLogicFrameBehaviour>().CurrentFrameIdx;
             Debug.Log("Server Receive ClientKeyFrameData At" + serverFrameIdx);
             Message msg = note.GetMessage();
             ByteBuffer buffer = new ByteBuffer(note.GetBytes());

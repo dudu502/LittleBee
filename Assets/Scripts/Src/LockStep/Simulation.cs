@@ -17,11 +17,11 @@ namespace LogicFrameSync.Src.LockStep
         double m_Accumulator = 0;
         bool m_Running = false;
         double m_FrameMsLength = 100;
-        string m_SimulationName;
+        byte m_SimulationId;
         double m_FrameLerp = 0;
-        public Simulation(string name)
+        public Simulation(byte id)
         {
-            m_SimulationName = name;
+            m_SimulationId = id;
             m_StopWatch = new Stopwatch();
             m_Behaviours = new List<ISimulativeBehaviour>();
             m_EntityWorld = EntityWorld.Create();
@@ -29,7 +29,7 @@ namespace LogicFrameSync.Src.LockStep
         public double GetFrameMsLength() { return m_FrameMsLength; }
         public double GetFrameLerp() { return m_FrameLerp; }
         public EntityWorld GetEntityWorld() { return m_EntityWorld; }
-        public string GetSimulationName() { return m_SimulationName; }
+        public byte GetSimulationId() { return m_SimulationId; }
         public void Start()
         {
             m_Running = true;

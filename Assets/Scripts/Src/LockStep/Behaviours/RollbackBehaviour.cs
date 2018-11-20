@@ -35,16 +35,11 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                     if (Service.Get<LoginService>().QueueKeyFrameCollection.TryDequeue(out keyframeCollection))
                         RollImpl(keyframeCollection);
                     else
-                    {
-                        Debug.Log("QUEUE queue try dequeue" + Service.Get<LoginService>().QueueKeyFrameCollection.Count);
                         break;
-                    }
-
                     DebugFrameIdx = string.Format("{0} CollectionFrameIdx:{1}", logicBehaviour.CurrentFrameIdx, keyframeCollection.FrameIdx);
                 }
                 else
                 {
-                    Debug.Log("QUEUE frame idx overstack");
                     break;                   
                 }
             }
@@ -71,7 +66,6 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                     backupBehaviour.SetEntityWorldFrameByFrameIdx(frameIdx, new EntityWorldFrameData(Sim.GetEntityWorld().FindAllEntitiesIds(), Sim.GetEntityWorld().FindAllCloneComponents()));
                     ++frameIdx;
                 }
-
             }
         }
     }

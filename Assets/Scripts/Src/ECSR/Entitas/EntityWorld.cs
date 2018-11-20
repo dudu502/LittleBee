@@ -227,7 +227,7 @@ namespace Entitas
             Entity entity = AddEntity(info.EntityId);
             if(entity != null)
             {          
-                m_Notifier.Send((EntityOperationEvent)int.Parse(info.Params[0]), entity);
+                m_Notifier.Send((EntityOperationEvent)int.Parse(info.Params[0]), entity,info);
             }
         }
         public void NotifyRemoveEntity(string entityId)

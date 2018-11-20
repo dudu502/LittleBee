@@ -32,7 +32,7 @@ namespace Components
         }
         public override string ToString()
         {
-            return string.Format("[TransformComponent Id:{0} Pos:{1}]", EntityId, LocalPosition);
+            return string.Format("[TransformComponent Id:{0} Pos:{1} Qua:{2}]", EntityId, LocalPosition, Quaternion);
         }
 
         public Vector2 GetPositionVector2() { return new Vector2(LocalPosition.x, LocalPosition.y); }

@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 using LogicFrameSync.Src.LockStep;
-using System;
 
 using LogicFrameSync.Src.LockStep.Behaviours;
 
@@ -38,6 +36,8 @@ public class AppMain : MonoBehaviour
 
     public Text m_TxtDebug;
     public Transform m_Content;
+
+    bool IsReplayMode = false;
     // Use this for initialization
     void Start()
     {
@@ -100,14 +100,14 @@ public class AppMain : MonoBehaviour
     void OnCreateEntityFromThread(Notify.Notification note)
     {
         Entity entity = note.Params[0] as Entity;
-        entity.AddComponent(new MoveComponent(5, float2.zero)).AddComponent(new TransformComponent(float2.zero));
+        entity.AddComponent(new MoveComponent(15, float2.zero)).AddComponent(new TransformComponent(float2.zero));
         queueCreateEntity.Enqueue(entity.Id);        
     }
     [Notify.Subscribe(Entitas.EntityWorld.EntityOperationEvent.CreateBullet)]
     void OnCreateBulletEntityFromThread(Notify.Notification note)
     {
         Entity entity = note.Params[0] as Entity;
-        entity.AddComponent(new MoveComponent(5, float2.zero)).AddComponent(new TransformComponent(float2.zero)).AddComponent(new AutoRemovingEntityComponent(80));
+        entity.AddComponent(new MoveComponent(5, new float2(0,1))).AddComponent(new TransformComponent(float2.zero)).AddComponent(new AutoRemovingEntityComponent(80));
         queueBulletEntity.Enqueue(entity.Id);
     }
 
@@ -136,8 +136,8 @@ public class AppMain : MonoBehaviour
     }
     void OnClickPlayReplay()
     {        
-        Simulation sim = new Simulation("client");
-        var bytes = File.ReadAllBytes(Application.dataPath + "/replay_client_-801440256.rep");
+        Simulation sim = new Simulation(Const.CLIENT_SIMULATION_ID);
+        var bytes = File.ReadAllBytes(Application.dataPath + "/replay_client_-1821673472.rep");
         var info = ReplayInfo.Read(bytes);//Simulation.ReadReplay(ByteBuffer.Decompress(bytes));
         sim.AddBehaviour(new ReplayLogicFrameBehaviour());
         sim.AddBehaviour(new EntityBehaviour());
@@ -147,11 +147,12 @@ public class AppMain : MonoBehaviour
          
         SimulationManager.Instance.AddSimulation(sim);
         SimulationManager.Instance.Start();
+        IsReplayMode = true;
     }
     void OnClickStopSim()
     {
         SimulationManager.Instance.Stop();
-        var sim = SimulationManager.Instance.GetSimulation("client");
+        var sim = SimulationManager.Instance.GetSimulation(Const.CLIENT_SIMULATION_ID);
         ReplayInfo replayInfo = new ReplayInfo();
         replayInfo.OwnerId = GameClientData.SelfPlayer.Id;
         string path = Application.dataPath + "/" + string.Format("replay_client_{0}.rep", GameClientData.SelfPlayer.Id);
@@ -174,12 +175,12 @@ public class AppMain : MonoBehaviour
     void OnClickAddClient()
     {
         //add a client simulation 
-        Simulation sim = new Simulation("client");
+        Simulation sim = new Simulation(Const.CLIENT_SIMULATION_ID);
         sim.AddBehaviour(new LogicFrameBehaviour());
         sim.AddBehaviour(new RollbackBehaviour());                
         sim.AddBehaviour(new EntityBehaviour());
-        //sim.AddBehaviour(new InputBehaviour());
-        sim.AddBehaviour(new TestRandomInputBehaviour());
+        sim.AddBehaviour(new InputBehaviour());
+        //sim.AddBehaviour(new TestRandomInputBehaviour());
         sim.AddBehaviour(new ComponentsBackupBehaviour());
         EntityMoveSystem moveSystem = new EntityMoveSystem();
         AutoRemovingEntitySystem autoRemoveSystem = new AutoRemovingEntitySystem();
@@ -191,29 +192,29 @@ public class AppMain : MonoBehaviour
    
     void Update()
     {
-        
-
-        Simulation sim = SimulationManager.Instance.GetSimulation("client");
-        if (sim == null) return;
-        var world = sim.GetEntityWorld();
-        if (world == null) return;
-        if (!world.IsActive) return;
-        string str = "";
-        var entities = world.GetEntities();
-        for (int i = 0; i < entities.Count; ++i)
+        if (!IsReplayMode)
         {
-            var e = entities[i];
-            if (!e.IsActive) continue;
-            TransformComponent posComp = e.GetComponent<TransformComponent>();
-            if (posComp != null)
-                str += string.Format("EntityId {0} Position:{1}", e.Id, posComp.ToString()) + "\n";
+            Simulation sim = SimulationManager.Instance.GetSimulation(Const.CLIENT_SIMULATION_ID);
+            if (sim == null) return;
+            var world = sim.GetEntityWorld();
+            if (world == null) return;
+            if (!world.IsActive) return;
+            string str = "";
+            var entities = world.GetEntities();
+            for (int i = 0; i < entities.Count; ++i)
+            {
+                var e = entities[i];
+                if (!e.IsActive) continue;
+                TransformComponent posComp = e.GetComponent<TransformComponent>();
+                if (posComp != null)
+                    str += string.Format("EntityId {0} Position:{1}", e.Id, posComp.ToString()) + "\n";
+            }
+            str += "Message count:" + Service.Get<LoginService>().KeyframesCount + "\n";
+            str += "Keyframe count:" + Service.Get<LoginService>().AllFramesCount + "\n";
+            str += "DebugRoll KeyframeIdx :" + sim.GetBehaviour<RollbackBehaviour>().DebugFrameIdx + "\n";
+            str += "FrameIdx:" + sim.GetBehaviour<LogicFrameBehaviour>().CurrentFrameIdx;
+            m_TxtDebug.text = str;
         }
-        str += "Message count:" + Service.Get<LoginService>().KeyframesCount + "\n";
-        str += "Keyframe count:" + Service.Get<LoginService>().AllFramesCount + "\n";
-        str += "DebugRoll KeyframeIdx :" + sim.GetBehaviour<RollbackBehaviour>().DebugFrameIdx + "\n";
-        str += "FrameIdx:" + sim.GetBehaviour<LogicFrameBehaviour>().CurrentFrameIdx;
-        m_TxtDebug.text = str;
-
         if (queueCreateEntity.Count > 0)
         {
             string id = "";

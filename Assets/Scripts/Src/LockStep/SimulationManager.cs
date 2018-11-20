@@ -69,9 +69,9 @@ namespace LogicFrameSync.Src.LockStep
             if (ContainSimulation(sim))
                 m_Sims.Remove(sim);
         }
-        public void RemoveSimulation(string simulationName)
+        public void RemoveSimulation(byte id)
         {
-            Simulation sim = GetSimulation(simulationName);
+            Simulation sim = GetSimulation(id);
             if(sim!=null)
                 RemoveSimulation(sim);
         }
@@ -79,10 +79,10 @@ namespace LogicFrameSync.Src.LockStep
         {
             return m_Sims.Contains(sim);
         }
-        public Simulation GetSimulation(string simulationName)
+        public Simulation GetSimulation(byte id)
         {
             foreach (Simulation sim in m_Sims)
-                if (sim.GetSimulationName() == simulationName) return sim;
+                if (sim.GetSimulationId() == id) return sim;
             return null;
         }
     }

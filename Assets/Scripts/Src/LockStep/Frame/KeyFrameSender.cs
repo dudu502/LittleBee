@@ -20,7 +20,7 @@ namespace LogicFrameSync.Src.LockStep.Frame
         }
         public static void AddCurrentFrameCommand(int cmd,string entityId,string[] paramsString)
         {
-            Simulation sim = SimulationManager.Instance.GetSimulation("client");
+            Simulation sim = SimulationManager.Instance.GetSimulation(Const.CLIENT_SIMULATION_ID);
             if (sim != null)
             {
                 var logic = sim.GetBehaviour<LogicFrameSync.Src.LockStep.Behaviours.LogicFrameBehaviour>();
