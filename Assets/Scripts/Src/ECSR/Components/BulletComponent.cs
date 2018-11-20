@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Components
 {
+    /// <summary>
+    /// 子弹组件
+    /// </summary>
     public class BulletComponent : IComponent
     {
         public string EntityId
@@ -13,7 +16,11 @@ namespace Components
             set;get;
         }
 
+        /// <summary>
+        /// 目标者EntityId
+        /// </summary>
         public string TargetEntityId { private set; get; }
+
         public BulletComponent(string targetEntityId)
         {
             TargetEntityId = targetEntityId;

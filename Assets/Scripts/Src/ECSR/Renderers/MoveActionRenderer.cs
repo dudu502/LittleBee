@@ -9,6 +9,10 @@ using UnityEngine;
 
 namespace Renderers
 {
+    /// <summary>
+    /// 移动行为
+    /// 视图显示器
+    /// </summary>
     public class MoveActionRenderer:ActionRenderer
     {
         protected override void OnRender()
