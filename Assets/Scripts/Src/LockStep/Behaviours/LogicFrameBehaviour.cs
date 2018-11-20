@@ -24,15 +24,9 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         {
             
         }
-
         public void Start()
         {
             CurrentFrameIdx = -1;           
-        }
-        public void AddKeyFrameIdxInfoAtCurrentFrame(FrameIdxInfo info)
-        {
-            info.Idx = CurrentFrameIdx;
-            m_FrameIdxInfos[CurrentFrameIdx].Add(info);
         }
         public void UpdateKeyFrameIdxInfoAtFrameIdx(int frameIdx,FrameIdxInfo info)
         {

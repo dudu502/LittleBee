@@ -4,6 +4,7 @@ using NetServiceImpl;
 using NetServiceImpl.Client;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace LogicFrameSync.Src.LockStep.Behaviours
 {
@@ -16,11 +17,11 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         public string DebugFrameIdx;
         public RollbackBehaviour() 
         {
-            keyframes = new List<PtKeyFrameCollection>();
+           
         }
         LogicFrameBehaviour logicBehaviour;
         ComponentsBackupBehaviour backupBehaviour;
-        List<PtKeyFrameCollection> keyframes;
+        
         public override void Update()
         {
             logicBehaviour = Sim.GetBehaviour<LogicFrameBehaviour>();
@@ -32,58 +33,45 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                 {
                     PtKeyFrameCollection keyframeCollection = null;
                     if (Service.Get<LoginService>().QueueKeyFrameCollection.TryDequeue(out keyframeCollection))
-                        Roll(keyframeCollection);
+                        RollImpl(keyframeCollection);
                     else
+                    {
+                        Debug.Log("QUEUE queue try dequeue" + Service.Get<LoginService>().QueueKeyFrameCollection.Count);
                         break;
+                    }
+
                     DebugFrameIdx = string.Format("{0} CollectionFrameIdx:{1}", logicBehaviour.CurrentFrameIdx, keyframeCollection.FrameIdx);
                 }
                 else
                 {
-                    break;
+                    Debug.Log("QUEUE frame idx overstack");
+                    break;                   
                 }
             }
+        }       
 
-            foreach(var keys in keyframes)
-                RollImpl(keys);
-            keyframes.Clear();
-        }
-        void Roll(PtKeyFrameCollection collection)
-        {
-            bool hasExist = false;
-            foreach (PtKeyFrameCollection keys in keyframes)
-            {
-                if (keys.FrameIdx == collection.FrameIdx)
-                {
-                    hasExist = true;
-                    keys.MergeKeyFrames(collection);
-                }
-            }
-            if (!hasExist)
-            {
-                keyframes.Add(collection);
-            }
-            keyframes.Sort((a, b) => a.FrameIdx - b.FrameIdx);
-        }
-       
         void RollImpl(PtKeyFrameCollection collection)
         {
-            if (collection.FrameIdx == -1) return;
             int frameIdx = collection.FrameIdx;
-            collection.KeyFrames.Sort((a,b)=>new System.Guid(a.EntityId).CompareTo(new System.Guid(b.EntityId)));
+            collection.KeyFrames.Sort((a, b) => new System.Guid(a.EntityId).CompareTo(new System.Guid(b.EntityId)));
             EntityWorldFrameData frameData = backupBehaviour.GetEntityWorldFrameByFrameIdx(frameIdx);
             if (frameData != null)
             {
+                //replay frameidx cmd;
                 foreach (var frame in collection.KeyFrames)
-                    logicBehaviour.UpdateKeyFrameIdxInfoAtFrameIdx(frameIdx, frame);
+                    logicBehaviour.UpdateKeyFrameIdxInfoAtFrameIdx(collection.FrameIdx, frame);
+
+                //roll back entityworld
                 Sim.GetEntityWorld().RollBack(frameData, collection);
 
+                //simulation entitybehaviours in entitysystem
                 while (frameIdx < logicBehaviour.CurrentFrameIdx)
-                {                  
+                {
                     base.Update();
-                    backupBehaviour.SetEntityWorldFrameByFrameIdx(frameIdx, new EntityWorldFrameData(
-                       Sim.GetEntityWorld().FindAllEntitiesIds(), Sim.GetEntityWorld().FindAllCloneComponents()));
+                    backupBehaviour.SetEntityWorldFrameByFrameIdx(frameIdx, new EntityWorldFrameData(Sim.GetEntityWorld().FindAllEntitiesIds(), Sim.GetEntityWorld().FindAllCloneComponents()));
                     ++frameIdx;
                 }
+
             }
         }
     }

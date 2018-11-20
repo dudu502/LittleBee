@@ -98,11 +98,11 @@ namespace LogicFrameSync.Src.LockStep
         
         private void Update()
         {
+            m_EntityWorld.IsActive = false;
             foreach (ISimulativeBehaviour beh in m_Behaviours)
                 beh.Update();
-        }
-
- 
+            m_EntityWorld.IsActive = true;
+        } 
     }
 }
 

@@ -58,10 +58,9 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
             var logic = Sim.GetBehaviour<LogicFrameBehaviour>();
             int frameIdx = logic.CurrentFrameIdx;
 
-            SendKeyFrame(frameIdx);
-
             SetEntityWorldFrameByFrameIdx(frameIdx, new EntityWorldFrameData(Sim.GetEntityWorld().FindAllEntitiesIds(),
                                                                              Sim.GetEntityWorld().FindAllCloneComponents()));
+            SendKeyFrame(frameIdx);
         }
     }
 }

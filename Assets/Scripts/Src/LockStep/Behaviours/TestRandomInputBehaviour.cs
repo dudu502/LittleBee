@@ -30,9 +30,9 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         public void Update()
         {
             LogicFrameBehaviour logic = Sim.GetBehaviour<LogicFrameBehaviour>();            
-            if(logic.CurrentFrameIdx% randomStepFrame == 0)
+            if(logic.CurrentFrameIdx % randomStepFrame == 0)
             {
-                randomStepFrame = new System.Random().Next(10, 30);
+                //randomStepFrame = new System.Random().Next(10, 30);
                 Entitas.Entity entity = Sim.GetEntityWorld().GetEntity(GameClientData.SelfControlEntityId);
                 if (entity != null)
                 {

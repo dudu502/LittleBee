@@ -35,9 +35,10 @@ namespace Renderers
             if (m_EntityId == "") return;
             Simulation sim = GetSimulation("client");
             if (sim == null) return;
+            if (!sim.GetEntityWorld().IsActive) return;
             m_Entity = sim.GetEntityWorld().GetEntity(m_EntityId);
             if (m_Entity == null) return;
-
+            if (!m_Entity.IsActive) return;
             OnRender();
         }
 

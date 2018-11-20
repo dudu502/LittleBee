@@ -32,8 +32,6 @@ namespace LogicFrameSync.Src.LockStep
             m_Thread.Priority = ThreadPriority.Highest;
             m_Thread.IsBackground = true;
             m_Thread.Start();
-
-            //ThreadPool.QueueUserWorkItem(ThreadPoolRunner);
         }
         public void Stop()
         {
@@ -58,9 +56,8 @@ namespace LogicFrameSync.Src.LockStep
                 {
                     sim.Run();
                 }
-                Thread.Sleep(25);
-            }
-            
+                Thread.Sleep(1);
+            }           
         }
         public void AddSimulation(Simulation sim)
         {

@@ -17,7 +17,7 @@ namespace Entitas
             CreateBullet,
             Remove,
         }
-
+        public bool IsActive = true;
         Notify.Notifier m_Notifier = null;
         Dictionary<string,Entity> m_DictEntities;
         Dictionary<Type, List<IComponent>> m_DictAllComponents;
@@ -42,6 +42,7 @@ namespace Entitas
             m_DictAllComponents.Clear();
             m_DictEntityAllComponents.Clear();
         }
+        public List<Entity> GetEntities() { return new List<Entity>(m_DictEntities.Values); }
 
         public IComponent GetComponentByEntityId(string entityId, Type componentType)
         {

@@ -13,14 +13,17 @@ namespace Entitas
                                                              (entity) =>
                                                              {
                                                                  Entity e = (Entity)entity;
+                                                                 e.IsActive = true;
                                                              },
                                                              (entity) =>
                                                              {
                                                                  Entity e = (Entity)entity;
                                                                  e.Id = "";
+                                                                 e.IsActive = false;
                                                              }
                                                             );
         #endregion
+        public bool IsActive = true;
         public string Id { get; set; }
         public EntityWorld World { set; get; }
         public Entity(string id)
@@ -34,6 +37,7 @@ namespace Entitas
 
         public bool ContainComponent(IComponent component)
         {
+            if (!IsActive) return false;
             return World.GetComponentByEntityId(Id, component.GetType()) != null;
         }
 
@@ -50,6 +54,7 @@ namespace Entitas
 
         public T GetComponent<T>() where T : IComponent
         {
+            if (!IsActive) return default(T);
             return (T)World.GetComponentByEntityId(Id, typeof(T));
         }
 
