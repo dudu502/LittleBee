@@ -23,7 +23,6 @@ public class AppMain : MonoBehaviour
 {
     public enum Notifications
     {
-        InitPlayer,
         ReadyPlayerAndAdd,
     }
     public static AppMain INS;
@@ -35,7 +34,7 @@ public class AppMain : MonoBehaviour
     public Button m_BtnPlayReplay;
 
     public Text m_TxtDebug;
-    public Transform m_Content;
+
 
     bool IsReplayMode = false;
     // Use this for initialization
@@ -50,26 +49,8 @@ public class AppMain : MonoBehaviour
         m_BtnPlayReplay.onClick.AddListener(OnClickPlayReplay);           
     }
 
-    void CreateNewEntityGO(string id)
-    {
-        GameObject obj = GameObject.Instantiate(Resources.Load("EntityObj") as GameObject);
-        MoveActionRenderer renderers = obj.AddComponent<MoveActionRenderer>();
-        renderers.SetEntityId(id);
-        obj.transform.SetParent(m_Content);
-        obj.transform.localPosition = new Vector3(0, 0, 0);
-        obj.transform.localScale = new Vector3(1, 1, 1);
-    }
-
-    Dictionary<string, GameObject> dictBullet = new Dictionary<string, GameObject>();
-    void CreateBulletEntityGo(string id)
-    {
-        MoveActionRenderer renders =  Bullet.ObjectPool.GetGameObject().GetComponent<MoveActionRenderer>();
-        renders.SetEntityId(id);
-        renders.transform.SetParent(m_Content);
-        renders.transform.localPosition = Vector3.zero;
-        renders.transform.localScale = Vector3.one;
-        dictBullet[id] = renders.gameObject;
-    }
+   
+ 
     void OnClickReady()
     {
         Service.Get<LoginService>().RequestPlayerReady();
@@ -83,57 +64,10 @@ public class AppMain : MonoBehaviour
     [Notify.Subscribe(Notifications.ReadyPlayerAndAdd)]
     void OnReadyPlayerAndAdd(Notify.Notification note)
     {
-        /*
-        long id = (long)note.Params[0];  
-        Simulation sim = SimulationManager.Instance.GetSimulation("client");
-        sim.GetEntityWorld().AddEntity((int)id);
-        sim.GetEntityWorld().GetEntity((int)id).
-            AddComponent(new MoveComponent(20, Vector2.zero)).
-            AddComponent(new PositionComponent(Vector2.zero));
-        CreateNewEntityGO((int)id);
-        */
+        print("Ready RoleId "+note.Params[0]);
     }
-
-    ConcurrentQueue<string> queueCreateEntity = new ConcurrentQueue<string>();
-    ConcurrentQueue<string> queueBulletEntity = new ConcurrentQueue<string>();
-    [Notify.Subscribe(Entitas.EntityWorld.EntityOperationEvent.CreatePlayer)]
-    void OnCreateEntityFromThread(Notify.Notification note)
-    {
-        Entity entity = note.Params[0] as Entity;
-        entity.AddComponent(new MoveComponent(15, float2.zero)).AddComponent(new TransformComponent(float2.zero));
-        queueCreateEntity.Enqueue(entity.Id);        
-    }
-    [Notify.Subscribe(Entitas.EntityWorld.EntityOperationEvent.CreateBullet)]
-    void OnCreateBulletEntityFromThread(Notify.Notification note)
-    {
-        Entity entity = note.Params[0] as Entity;
-        entity.AddComponent(new MoveComponent(5, new float2(0,1))).AddComponent(new TransformComponent(float2.zero)).AddComponent(new AutoRemovingEntityComponent(80));
-        queueBulletEntity.Enqueue(entity.Id);
-    }
-
-    ConcurrentQueue<string> queueRemoveBulletEntity = new ConcurrentQueue<string>();
-    [Notify.Subscribe(Entitas.EntityWorld. EntityOperationEvent.Remove)]
-    void OnRemoveEntityFromThread(Notify.Notification note)
-    {
-        print("OnRemoveEntityFromThread");
-        string id = note.Params[0] as string;
-        queueRemoveBulletEntity.Enqueue(id);
-    }
-    [Notify.Subscribe(Notifications.InitPlayer)]
-    void OnInitPlayerHandler(Notify.Notification note)
-    {
-        /*
-        long id = (long)note.Params[0];
-        Simulation sim = SimulationManager.Instance.GetSimulation("client");
-        sim.GetBehaviour<EntityBehaviour>().AddSystem(new EntityMoveSystem());
-        sim.GetEntityWorld().AddEntity((int)id);
-        sim.GetEntityWorld().GetEntity((int)id).
-            AddComponent(new MoveComponent(10, Vector2.zero)).
-            AddComponent(new PositionComponent(Vector2.zero));
-        */
-        
-        
-    }
+   
+  
     void OnClickPlayReplay()
     {        
         Simulation sim = new Simulation(Const.CLIENT_SIMULATION_ID);
@@ -214,35 +148,7 @@ public class AppMain : MonoBehaviour
             str += "DebugRoll KeyframeIdx :" + sim.GetBehaviour<RollbackBehaviour>().DebugFrameIdx + "\n";
             str += "FrameIdx:" + sim.GetBehaviour<LogicFrameBehaviour>().CurrentFrameIdx;
             m_TxtDebug.text = str;
-        }
-        if (queueCreateEntity.Count > 0)
-        {
-            string id = "";
-            if (queueCreateEntity.TryDequeue(out id))
-            {
-                CreateNewEntityGO(id);
-            }
-        }
-        if(queueBulletEntity.Count>0)
-        {
-            string id = "";
-            if(queueBulletEntity.TryDequeue(out id))
-            {
-                CreateBulletEntityGo(id);
-            }
-        }
-        if(queueRemoveBulletEntity.Count>0)
-        {
-            string id = "";
-            if (queueRemoveBulletEntity.TryDequeue(out id))
-            {
-                if(dictBullet.ContainsKey(id))
-                {
-                    Bullet.ObjectPool.ReturnGameObjectToPool(dictBullet[id]);
-                    dictBullet.Remove(id);
-                }
-            }
-        }
+        }        
     }
 
     private void OnApplicationQuit()

@@ -54,18 +54,7 @@ namespace Net
         {          
             foreach (var client in _listeners.SelectMany(x => x.ConnectedClients))
             {
-                //client.GetStream().Write(data, 0, data.Length);
-
-                NetworkStreamUtil.Write(client.GetStream(), data);
-                  
-                //client.GetStream().BeginWrite(data, 0, data.Length, (state) =>
-                //{
-                //    client.GetStream().EndWrite(state);
-                //}, null);
-
-                //IAsyncResult iar = client.GetStream().BeginWrite(data, 0, data.Length, null, null);
-                //iar.AsyncWaitHandle.WaitOne();
-                //client.GetStream().EndWrite(iar);            
+                NetworkStreamUtil.Write(client.GetStream(), data);                          
             }
         }
         public void Broadcast(PtMessagePackage package)

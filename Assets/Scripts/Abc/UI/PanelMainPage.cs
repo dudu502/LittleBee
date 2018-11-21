@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+
 using UnityEngine.UI;
 using NetServiceImpl.Server.Data;
 using Net;
@@ -7,12 +8,13 @@ using System;
 using LogicFrameSync.Src.LockStep;
 using LogicFrameSync.Src.LockStep.Behaviours;
 using Unity.Mathematics;
+using System.Collections.Generic;
+using Components;
 
 public class PanelMainPage : MonoBehaviour
 {
     public Button m_BtnLan;
     public Button m_BtnServer;
-
 
 
     // Use this for initialization
@@ -40,7 +42,7 @@ public class PanelMainPage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(Vector3.Cross( new Vector3(0,0,-1), new Vector3(1, 0, 0)));
+
     }
 }
 
