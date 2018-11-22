@@ -39,10 +39,39 @@ public class PanelMainPage : MonoBehaviour
         SimulationManager.Instance.AddSimulation(sim);
     }
 
+    TransformComponent child = new TransformComponent(new float2(1,1));
+    TransformComponent parent = new TransformComponent(new float2(3, 3));
+    TransformComponent pp = new TransformComponent(new float2(2,2));
+    [ContextMenu("testlocal2world")]
+    void testlocal2world()
+    {
+        parent.RotateDegreeZ = 45;
+        child.Parent = parent;
+        parent.Parent = pp;
+        //print(child.ToString());
+        //child.RotateDeltaDegree(-parent.RotateDegreeZ);
+        //print(child.ToString());
+        //child.Translate(parent.LocalPosition);
+        //print(child.ToString());
+        print(TransformComponent.LocalPosition2WorldPosition(child));
+    }
+
+    TransformComponent transcomp1 = new TransformComponent(new float2(3, 3+math.sqrt(2)));
+    [ContextMenu("testworld2local")]
+    void testworld2local()
+    {
+        transcomp1.Translate(new float2(-3, -3));
+        transcomp1.RotateDeltaDegree(45);
+
+        print(transcomp1.ToString());
+    }
+
+    
+
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 }
 

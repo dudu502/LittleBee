@@ -6,7 +6,10 @@ using Unity.Mathematics;
 using System.Collections.Concurrent;
 using Renderers;
 
-public class EntityCreator : MonoBehaviour
+/// <summary>
+/// 生成Entity
+/// </summary>
+public class EntitySpawn : MonoBehaviour
 {
     Notify.Notifier Notifier;
     ConcurrentQueue<string> QueueCreateEntity = new ConcurrentQueue<string>();

@@ -68,13 +68,13 @@ namespace Notify
             {
                 MethodInfo m = methods[i];
                 //.net 2.0
-                Subscribe[] subs = (Subscribe[])m.GetCustomAttributes(typeof(Subscribe), true);
-                if (subs != null && subs.Length > 0)
-                    Add(subs[0].GetSubscription(), Delegate.CreateDelegate(typeof(Action<Notification>), m_Target, m.Name) as Action<Notification>);
-                
-                //Subscribe sub = m.GetCustomAttribute<Subscribe>();
-                //if (sub != null)
-                //    Add(sub.GetSubscription(), m.CreateDelegate(typeof(Action<Notification>), m_Target) as Action<Notification>);  
+                //Subscribe[] subs = (Subscribe[])m.GetCustomAttributes(typeof(Subscribe), true);
+                //if (subs != null && subs.Length > 0)
+                //    Add(subs[0].GetSubscription(), Delegate.CreateDelegate(typeof(Action<Notification>), m_Target, m.Name) as Action<Notification>);
+
+                Subscribe sub = m.GetCustomAttribute<Subscribe>();
+                if (sub != null)
+                    Add(sub.GetSubscription(), m.CreateDelegate(typeof(Action<Notification>), m_Target) as Action<Notification>);
             }
         }
 
