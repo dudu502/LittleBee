@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     public static ObjectPool ObjectPool = new ObjectPool(
         () => 
         {
-            GameObject obj = GameObject.Instantiate<GameObject>(Resources.Load("bullet") as GameObject);
+            GameObject obj = GameObject.Instantiate<GameObject>(Resources.Load("Bullet") as GameObject);
             return obj;
         },
         (bullet) => {

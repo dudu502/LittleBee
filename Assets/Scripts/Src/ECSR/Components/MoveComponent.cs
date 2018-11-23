@@ -3,7 +3,7 @@ using Unity.Mathematics;
 using UnityEngine;
 namespace Components
 {
-    public class MoveComponent : IComponent, IParamsUpdatable
+    public class MoveComponent : AbstractComponent, IParamsUpdatable
     {
         float Speed = 1;
         float2 Dir = float2.zero;
@@ -32,16 +32,15 @@ namespace Components
         {
             Dir = vec;
         }
-        public bool Enable { set; get; }
-        public string EntityId { set; get; }
-        public IComponent Clone()
+
+        override public IComponent Clone()
         {
             MoveComponent com = new MoveComponent(Speed, Dir);
             com.Enable = Enable;
             com.EntityId = EntityId;
             return com;
         }
-        public int GetCommand()
+        override public int GetCommand()
         {
             return FrameCommand.SYNC_MOVE;
         }

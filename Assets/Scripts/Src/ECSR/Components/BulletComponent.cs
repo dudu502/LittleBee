@@ -9,12 +9,9 @@ namespace Components
     /// <summary>
     /// 子弹组件
     /// </summary>
-    public class BulletComponent : IComponent
+    public class BulletComponent : AbstractComponent
     {
-        public string EntityId
-        {
-            set;get;
-        }
+
 
         /// <summary>
         /// 目标者EntityId
@@ -25,9 +22,9 @@ namespace Components
         {
             TargetEntityId = targetEntityId;
         }
-        public bool Enable { set; get; }
 
-        public IComponent Clone()
+
+        override public IComponent Clone()
         {
             BulletComponent comp = new BulletComponent(TargetEntityId);
             comp.Enable = Enable;
@@ -35,7 +32,7 @@ namespace Components
             return comp;
         }
 
-        public int GetCommand()
+        override public int GetCommand()
         {
             throw new NotImplementedException();
         }

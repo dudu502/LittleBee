@@ -35,10 +35,37 @@ namespace EntitySystems
                 foreach (ICollisionUpdatable com1 in colliders)
                 {
                     if (com == com1) continue;
-                    Debug.Log(com.Collider.Intersects(com1.Collider));
+                    if (com.Collider.Intersects(com1.Collider))
+                    {
+                        DoingInersectsImpl(World.GetEntity(((AbstractComponent)com).EntityId),
+                            World.GetEntity(((AbstractComponent)com1).EntityId));
+                        break;
+                    }
                 }
             }
 
+            while(list.Count>0)
+            {
+                string id = list[0];
+                World.NotifyRemoveEntity(id);
+                list.RemoveAt(0);
+            }
+        }
+
+        List<string> list = new List<string>();
+        void DoingInersectsImpl(Entity e1,Entity e2)
+        {
+            if (e1 == null || e2 == null) return;
+            PlayerInfoComponent playerInfo = e1.GetComponent<PlayerInfoComponent>();
+            if (playerInfo != null)
+            {
+                IntValueComponent intvalue = e2.GetComponent<IntValueComponent>();
+                if (intvalue != null)
+                {
+                    playerInfo.Value += intvalue.Value;
+                    list.Add(e2.Id);
+                }                                
+            }
         }
     }
 }

@@ -30,6 +30,7 @@ public class AppMain : MonoBehaviour
     public Button m_BtnAddClickSim;
     public Button m_BtnReady;
     public Button m_BtnAddEntity;
+    public Button m_BtnAddBoxEntity;
     public Button m_BtnStopSimulation;  
     public Button m_BtnPlayReplay;
 
@@ -44,6 +45,7 @@ public class AppMain : MonoBehaviour
         INS = this;
         m_BtnAddClickSim.onClick.AddListener(OnClickAddClient);
         m_BtnAddEntity.onClick.AddListener(OnClickAddEntity);
+        m_BtnAddBoxEntity.onClick.AddListener(OnClickBoxEntity);
         m_BtnReady.onClick.AddListener(OnClickReady);
         m_BtnStopSimulation.onClick.AddListener(OnClickStopSim);
         m_BtnPlayReplay.onClick.AddListener(OnClickPlayReplay);           
@@ -60,6 +62,10 @@ public class AppMain : MonoBehaviour
         GameClientData.SelfControlEntityId = Common.Utils.GuidToString();
         KeyFrameSender.AddCurrentFrameCommand(FrameCommand.SYNC_CREATE_ENTITY, GameClientData.SelfControlEntityId, new string[] { ((int)EntityWorld.EntityOperationEvent.CreatePlayer)+"" });
     }
+    void OnClickBoxEntity()
+    {
+        KeyFrameSender.AddCurrentFrameCommand(FrameCommand.SYNC_CREATE_ENTITY,Common.Utils.GuidToString(),new string[] { (int)EntityWorld.EntityOperationEvent.CreateBox +"" ,new System.Random().Next(3,15).ToString(), new System.Random().Next(-1, 2).ToString() , new System.Random().Next(-1, 2).ToString() });
+    }
 
     [Notify.Subscribe(Notifications.ReadyPlayerAndAdd)]
     void OnReadyPlayerAndAdd(Notify.Notification note)
@@ -71,12 +77,22 @@ public class AppMain : MonoBehaviour
     void OnClickPlayReplay()
     {        
         Simulation sim = new Simulation(Const.CLIENT_SIMULATION_ID);
-        var bytes = File.ReadAllBytes(Application.dataPath + "/replay_client_-1821673472.rep");
+        var bytes = File.ReadAllBytes(Application.dataPath + "/replay_client_584876544.rep");
         var info = ReplayInfo.Read(bytes);//Simulation.ReadReplay(ByteBuffer.Decompress(bytes));
         sim.AddBehaviour(new ReplayLogicFrameBehaviour());
         sim.AddBehaviour(new EntityBehaviour());
         sim.AddBehaviour(new ReplayInputBehaviour());
-        sim.GetBehaviour<EntityBehaviour>().AddSystem(new EntityMoveSystem()).AddSystem(new AutoRemovingEntitySystem());
+        EntityMoveSystem moveSystem = new EntityMoveSystem();
+        FrameClockSystem frameClock = new FrameClockSystem();
+        EntityCollisionSystem colliderSystem = new EntityCollisionSystem();
+        AutoRemovingEntitySystem autoRemoveSystem = new AutoRemovingEntitySystem();
+        RemoveEntitySystem removeSystem = new RemoveEntitySystem();
+        sim.GetBehaviour<EntityBehaviour>().
+            AddSystem(moveSystem).
+            AddSystem(frameClock).
+            AddSystem(colliderSystem).
+            AddSystem(autoRemoveSystem).
+            AddSystem(removeSystem);
         sim.GetBehaviour<ReplayLogicFrameBehaviour>().SetFrameIdxInfos(info.Frames);     
          
         SimulationManager.Instance.AddSimulation(sim);
@@ -117,10 +133,22 @@ public class AppMain : MonoBehaviour
         //sim.AddBehaviour(new TestRandomInputBehaviour());
         sim.AddBehaviour(new ComponentsBackupBehaviour());
         EntityMoveSystem moveSystem = new EntityMoveSystem();
+        FrameClockSystem frameClock = new FrameClockSystem();
         EntityCollisionSystem colliderSystem = new EntityCollisionSystem();
         AutoRemovingEntitySystem autoRemoveSystem = new AutoRemovingEntitySystem();
-        sim.GetBehaviour<EntityBehaviour>().AddSystem(moveSystem).AddSystem(colliderSystem).AddSystem(autoRemoveSystem);
-        sim.GetBehaviour<RollbackBehaviour>().AddSystem(moveSystem).AddSystem(colliderSystem).AddSystem(autoRemoveSystem);
+        RemoveEntitySystem removeSystem = new RemoveEntitySystem();
+        sim.GetBehaviour<EntityBehaviour>().
+            AddSystem(moveSystem).
+            AddSystem(frameClock).
+            AddSystem(colliderSystem).
+            AddSystem(autoRemoveSystem).
+            AddSystem(removeSystem);
+        sim.GetBehaviour<RollbackBehaviour>().
+            AddSystem(moveSystem).
+            AddSystem(frameClock).
+            AddSystem(colliderSystem).
+            AddSystem(autoRemoveSystem).
+            AddSystem(removeSystem);
         SimulationManager.Instance.AddSimulation(sim);
     }
 

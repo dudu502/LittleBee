@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Components
 {
-    public class BoxColliderComponent : IComponent,ICollisionUpdatable
+    public class BoxColliderComponent : AbstractComponent, ICollisionUpdatable
     {
-        public string EntityId { set; get; }
-
-        public bool Enable { set; get; }
-
         public VInt3 Center;
 
         public VInt3 Size;
@@ -23,7 +19,7 @@ namespace Components
             Collider = VCollisionShape.CreateBoxColliderShape(center, size);
         }
 
-        public IComponent Clone()
+        override public IComponent Clone()
         {
             BoxColliderComponent comp = new BoxColliderComponent(Center, Size);
             comp.Enable = Enable;
@@ -31,7 +27,7 @@ namespace Components
             return comp;
         }
 
-        public int GetCommand()
+        override public int GetCommand()
         {
             return 0;
         }
@@ -39,6 +35,11 @@ namespace Components
         public void UpdateCollision(VInt3 location)
         {
             Collider.UpdateShape(location, new VInt3(0, 0, 1));
+        }
+
+        public override string ToString()
+        {
+            return string.Format("[BoxColliderComponent Id:{0} Center:{1} Size:{2}]",EntityId,Center.ToString(),Size.ToString());
         }
     }
 }

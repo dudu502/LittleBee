@@ -29,7 +29,6 @@ namespace EntitySystems
                     AutoRemovingEntityComponent comp = list[i] as AutoRemovingEntityComponent;
                     if (comp != null && comp.OverMaxCount())
                     {
-                        World.RemoveEntity(comp.EntityId);
                         World.NotifyRemoveEntity(comp.EntityId);
                     }
                 }

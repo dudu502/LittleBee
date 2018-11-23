@@ -75,8 +75,6 @@ namespace NetServiceImpl.Server
                 item.Idx = serverFrameIdx;
             collection.FrameIdx = serverFrameIdx;
 
-            //QueueMsg.Enqueue(collection);
-
             GameServerNetwork.Instance.Broadcast(PtMessagePackage.Build((int)S2CMessageId.ResponseSyncKeyframes,
                new ByteBuffer().WriteBytes(PtKeyFrameCollection.Write(collection)).Getbuffer(),false));
         }

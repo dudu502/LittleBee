@@ -44,8 +44,9 @@ public class ObjectPool
         GameObject obj = result as GameObject;
         obj.transform.SetParent(null);
         obj.transform.localScale = Vector3.one;
-        obj.transform.localPosition = Vector3.one;
+        obj.transform.localPosition = Vector3.zero;
         obj.transform.localRotation = Quaternion.identity;
+        obj.SetActive(true);
         return obj;
     }
 
@@ -54,6 +55,10 @@ public class ObjectPool
         m_Reset(obj);
         m_Queue.Enqueue(obj);
         obj.transform.SetParent(ObjectPoolContainer.Instance.m_TransGo);
+        obj.transform.localScale = Vector3.one;
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localRotation = Quaternion.identity;
+        obj.SetActive(false);
     }
 }
 

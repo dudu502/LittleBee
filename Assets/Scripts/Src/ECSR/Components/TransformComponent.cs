@@ -9,7 +9,7 @@ namespace Components
     /// transform组件
     /// 包含位置信息，旋转
     /// </summary>
-    public class TransformComponent:IComponent
+    public class TransformComponent:AbstractComponent
     {
         public float2 LocalPosition {  set; get; }
         
@@ -70,9 +70,8 @@ namespace Components
         }
 
 
-        public bool Enable { set; get; }
-        public string EntityId { set; get; }
-        public IComponent Clone()
+
+        override public IComponent Clone()
         {
             TransformComponent com = new TransformComponent(LocalPosition);
             com.Enable = Enable;
@@ -81,7 +80,7 @@ namespace Components
             com.ParentEntityId = ParentEntityId;
             return com;
         }
-        public int GetCommand()
+        override public int GetCommand()
         {
             return FrameCommand.SYNC_TRANSFORM;
         }

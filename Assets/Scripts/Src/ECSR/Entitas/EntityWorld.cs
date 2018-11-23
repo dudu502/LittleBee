@@ -15,7 +15,8 @@ namespace Entitas
         {
             CreatePlayer,
             CreateBullet,
-            Remove,
+            CreateBox,
+            RemoveBox,
         }
         public bool IsActive = true;
         Notify.Notifier m_Notifier = null;
@@ -233,7 +234,7 @@ namespace Entitas
         public void NotifyRemoveEntity(string entityId)
         {
             RemoveEntity(entityId);
-            m_Notifier.Send(EntityOperationEvent.Remove, entityId);
+            m_Notifier.Send(EntityOperationEvent.RemoveBox, entityId);
         }
         #endregion
     }

@@ -14,15 +14,18 @@ namespace Entitas
                                                              {
                                                                  Entity e = (Entity)entity;
                                                                  e.IsActive = true;
+                                                                 e.LifeState = 1;
                                                              },
                                                              (entity) =>
                                                              {
                                                                  Entity e = (Entity)entity;
                                                                  e.Id = "";
                                                                  e.IsActive = false;
+                                                                 e.LifeState = 0;
                                                              }
                                                             );
         #endregion
+        public byte LifeState = 1;
         public bool IsActive = true;
         public string Id { get; set; }
         public EntityWorld World { set; get; }
@@ -46,7 +49,6 @@ namespace Entitas
             if (!ContainComponent(component))
             {
                 component.EntityId = Id;
-                component.Enable = true;
                 World.AddComponent(component);
             }
             return this;

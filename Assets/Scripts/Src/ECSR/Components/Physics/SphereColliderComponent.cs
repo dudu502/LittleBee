@@ -6,14 +6,8 @@ using System.Threading.Tasks;
 
 namespace Components
 {
-    public class SphereColliderComponent : IComponent,ICollisionUpdatable
+    public class SphereColliderComponent : AbstractComponent, ICollisionUpdatable
     {
-        public string EntityId { set; get; }
-
-        public bool Enable { set; get; }
-
-       
-        
 
         public VInt3 Center;
         public float Radius;
@@ -26,7 +20,7 @@ namespace Components
             Collider = VCollisionShape.CreateSphereColliderShape(center, radius);
         }
 
-        public IComponent Clone()
+        override public IComponent Clone()
         {
             SphereColliderComponent comp = new SphereColliderComponent(Center, Radius);
             comp.Enable = Enable;
@@ -34,11 +28,14 @@ namespace Components
             return comp;
         }
 
-        public int GetCommand()
+        override public int GetCommand()
         {
             return 0;
         }
-
+        public override string ToString()
+        {
+            return string.Format("[SphereColliderComponent Id:{0} Center:{1} Rad:{2}]",EntityId,Center.ToString(),Radius);
+        }
         public void UpdateCollision(VInt3 location)
         {
             Collider.UpdateShape(location, new VInt3(0,0,1));

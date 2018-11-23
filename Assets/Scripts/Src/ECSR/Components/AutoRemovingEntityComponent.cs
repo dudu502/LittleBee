@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Components
 {
-    public class AutoRemovingEntityComponent : IComponent
+    public class AutoRemovingEntityComponent : AbstractComponent
     {
-        public string EntityId { set; get; }
-
-        public bool Enable { set; get; }
-
         public int Count = 0;
 
         public int Max = 0;
@@ -19,7 +15,7 @@ namespace Components
         {
             Max = maxCount;
         }
-        public IComponent Clone()
+        override public IComponent Clone()
         {
             AutoRemovingEntityComponent comp = new AutoRemovingEntityComponent(Max);
             comp.Enable = Enable;
@@ -37,7 +33,7 @@ namespace Components
         }
         public bool OverMaxCount() { return Count >= Max; }
 
-        public int GetCommand()
+        override public int GetCommand()
         {
             return 0;
         }

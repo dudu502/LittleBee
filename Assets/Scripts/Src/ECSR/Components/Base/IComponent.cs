@@ -6,8 +6,6 @@
     public interface IComponent
     {
         string EntityId { set; get; }
-
-        bool Enable { set; get; }
         IComponent Clone();
         int GetCommand();
     }
@@ -20,6 +18,9 @@
         void UpdateParams(string[] paramsStrs);
     }
 
+    /// <summary>
+    /// 碰撞数据更新
+    /// </summary>
     public interface ICollisionUpdatable
     {
         VCollisionShape Collider { set; get; }

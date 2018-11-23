@@ -49,7 +49,7 @@ public abstract class VCollisionShape
 // 				}
 // 			}
 // 			else
- 			{
+ 			if(handle!=null){
 				this.UpdateShape(handle.location, handle.forward);
 			}
 		}
