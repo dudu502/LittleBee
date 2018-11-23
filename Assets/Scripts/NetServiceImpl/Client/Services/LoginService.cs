@@ -78,7 +78,7 @@ namespace NetServiceImpl.Client
             QueueKeyFrameCollection.Enqueue(collection);
             KeyframesCount++;
             AllFramesCount += collection.KeyFrames.Count;
-            //Debug.Log(string.Format("[client receive]  frameIdx:{0}",  collection.FrameIdx));                     
+            Debug.Log(string.Format("[client receive]  frameIdx:{0}",  collection.FrameIdx));                     
         }
         #endregion
         #region 发送玩家准备

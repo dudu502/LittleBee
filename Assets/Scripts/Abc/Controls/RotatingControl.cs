@@ -21,13 +21,9 @@ public class RotatingControl : EventTrigger
         int state = 0;
         float dotResult = Vector2.Dot((newAngleV - m_RotateDragOffset), GetCrossVector2());
         if (dotResult > 0)
-        {
             state = 1;
-        }
-        else
-        {
+        else if(dotResult<0)
             state = -1;
-        }
 
         print("OnDrag " + state * Vector2.Angle(m_RotateDragOffset, newAngleV));
         transform.RotateAround(transform.position, new Vector3(0, 0, 1), state * Vector2.Angle(m_RotateDragOffset, newAngleV));

@@ -19,4 +19,10 @@
     {
         void UpdateParams(string[] paramsStrs);
     }
+
+    public interface ICollisionUpdatable
+    {
+        VCollisionShape Collider { set; get; }
+        void UpdateCollision(VInt3 location);
+    }
 }

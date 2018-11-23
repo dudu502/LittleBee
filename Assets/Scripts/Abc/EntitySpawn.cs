@@ -24,7 +24,8 @@ public class EntitySpawn : MonoBehaviour
     void OnCreateEntityFromThread(Notify.Notification note)
     {
         Entity entity = note.Params[0] as Entity;
-        entity.AddComponent(new MoveComponent(15, float2.zero)).AddComponent(new TransformComponent(float2.zero));
+        entity.AddComponent(new MoveComponent(15, float2.zero)).AddComponent(new TransformComponent(float2.zero)).
+            AddComponent(new SphereColliderComponent(VInt3.zero,5));
         QueueCreateEntity.Enqueue(entity.Id);
     }
     [Notify.Subscribe(Entitas.EntityWorld.EntityOperationEvent.CreateBullet)]

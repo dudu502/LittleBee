@@ -21,6 +21,18 @@ namespace EntitySystems
                     if(pos!=null)
                     {
                         pos.Translate(com.GetPathV2());
+
+                        BoxColliderComponent box = World.GetComponentByEntityId(com.EntityId, typeof(BoxColliderComponent)) as BoxColliderComponent;
+                        if(box!=null)
+                        {
+                            box.UpdateCollision(new VInt3((int)pos.LocalPosition.x,(int)pos.LocalPosition.y,0));
+                        }
+
+                        SphereColliderComponent sphere = World.GetComponentByEntityId(com.EntityId, typeof(SphereColliderComponent)) as SphereColliderComponent;
+                        if(sphere!=null)
+                        {
+                            sphere.UpdateCollision(new VInt3((int)pos.LocalPosition.x, (int)pos.LocalPosition.y, 0));
+                        }
                     }
                 }
             }

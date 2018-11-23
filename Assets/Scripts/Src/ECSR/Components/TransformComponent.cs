@@ -1,4 +1,5 @@
 ﻿using LogicFrameSync.Src.LockStep.Frame;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -11,8 +12,7 @@ namespace Components
     public class TransformComponent:IComponent
     {
         public float2 LocalPosition {  set; get; }
-        public TransformComponent Parent = null;
-
+        
         /// <summary>
         /// 位移矩阵
         /// 齐次坐标下
@@ -78,7 +78,7 @@ namespace Components
             com.Enable = Enable;
             com.EntityId = EntityId;
             com.RotateDegreeZ = RotateDegreeZ;
-            com.Parent = Parent;
+            com.ParentEntityId = ParentEntityId;
             return com;
         }
         public int GetCommand()
@@ -86,22 +86,25 @@ namespace Components
             return FrameCommand.SYNC_TRANSFORM;
         }
 
-      
-
-
-        public static float2 LocalPosition2WorldPosition(TransformComponent transformComponent)
+        public static void LocalPosition2Global(TransformComponent transformComponent,Entitas.EntityWorld world, out float2 Pos, out float rotateDegreeZ)
         {
-            if (transformComponent.Parent != null)
+            rotateDegreeZ = transformComponent.RotateDegreeZ;
+            Pos = transformComponent.LocalPosition;
+            TransformComponent Parent = world.GetComponentByEntityId(transformComponent.ParentEntityId, typeof(TransformComponent)) as TransformComponent;
+            TransformComponent Current = transformComponent;
+            while (Parent != null)
             {
-                TransformComponent parent = transformComponent.Parent.Clone() as TransformComponent;
-                TransformComponent clone = transformComponent.Clone() as TransformComponent;
-                clone.RotateDeltaDegree(-parent.RotateDegreeZ);
-                clone.Translate(parent.LocalPosition);
-                parent.LocalPosition = clone.LocalPosition;
-                return LocalPosition2WorldPosition(parent);
+                Parent = Parent.Clone() as TransformComponent;
+                Current = Current.Clone() as TransformComponent;
+                Current.RotateDeltaDegree(-Parent.RotateDegreeZ);
+                Current.Translate(Parent.LocalPosition);
+                Parent.LocalPosition = Current.LocalPosition;
+                Pos = Parent.LocalPosition;
+                rotateDegreeZ += Parent.RotateDegreeZ;
+                Current = Parent;
+                
+                Parent = world.GetComponentByEntityId(Parent.ParentEntityId, typeof(TransformComponent)) as TransformComponent;
             }
-            return transformComponent.LocalPosition;
         }
-
     }
 }

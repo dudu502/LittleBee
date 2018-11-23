@@ -117,9 +117,10 @@ public class AppMain : MonoBehaviour
         //sim.AddBehaviour(new TestRandomInputBehaviour());
         sim.AddBehaviour(new ComponentsBackupBehaviour());
         EntityMoveSystem moveSystem = new EntityMoveSystem();
+        EntityCollisionSystem colliderSystem = new EntityCollisionSystem();
         AutoRemovingEntitySystem autoRemoveSystem = new AutoRemovingEntitySystem();
-        sim.GetBehaviour<EntityBehaviour>().AddSystem(moveSystem).AddSystem(autoRemoveSystem);
-        sim.GetBehaviour<RollbackBehaviour>().AddSystem(moveSystem).AddSystem(autoRemoveSystem);
+        sim.GetBehaviour<EntityBehaviour>().AddSystem(moveSystem).AddSystem(colliderSystem).AddSystem(autoRemoveSystem);
+        sim.GetBehaviour<RollbackBehaviour>().AddSystem(moveSystem).AddSystem(colliderSystem).AddSystem(autoRemoveSystem);
         SimulationManager.Instance.AddSimulation(sim);
     }
 
