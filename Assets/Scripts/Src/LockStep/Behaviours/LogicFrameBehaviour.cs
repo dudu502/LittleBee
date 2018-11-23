@@ -45,17 +45,13 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
             if (!updateState)
                 frames.Add(info);
         }
-        public List<FrameIdxInfo> GetCurrentFrameIdxInfos()
-        {
-            return m_FrameIdxInfos[CurrentFrameIdx];
-        }
         public void Update() 
         {
             ++CurrentFrameIdx;
-            if (m_FrameIdxInfos.Count > CurrentFrameIdx)
-                m_FrameIdxInfos[CurrentFrameIdx].Clear();
-            else
-                m_FrameIdxInfos.Add(new List<FrameIdxInfo>());
+            //if (m_FrameIdxInfos.Count > CurrentFrameIdx)
+            //    m_FrameIdxInfos[CurrentFrameIdx].Clear();
+            //else
+            m_FrameIdxInfos.Add(new List<FrameIdxInfo>());
         }
     }
 }
