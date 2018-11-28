@@ -5,31 +5,45 @@ using System.Collections.Generic;
 
 namespace LogicFrameSync.Src.LockStep
 {
+    /// <summary>
+    /// 帧数据快照
+    /// </summary>
     public class EntityWorldFrameData
     {
-        public List<string> m_Entities;
-        public List<IComponent> m_Components;
+        /// <summary>
+        /// 当前所有的EntityIds快照信息
+        /// </summary>
+        public List<string> EntityIds { private set; get; }
+        /// <summary>
+        /// 当前所有的Components快照信息
+        /// </summary>
+        public List<IComponent> Components { private set; get; }
         public EntityWorldFrameData(List<string> entities, List<IComponent> comps)
         {
-            m_Entities = entities;
-            m_Components = comps;
+            EntityIds = entities;
+            Components = comps;
         }
 
+
+        /// <summary>
+        /// 获得一个深度拷贝
+        /// </summary>
+        /// <returns></returns>
         public EntityWorldFrameData Clone()
         {
             List<string> cloneEntities = new List<string>();
-            m_Entities.ForEach((a)=>cloneEntities.Add(a));
+            EntityIds.ForEach((a)=>cloneEntities.Add(a));
 
             List<IComponent> cloneComps = new List<IComponent>();
-            m_Components.ForEach((a)=>cloneComps.Add(a.Clone()));
+            Components.ForEach((a)=>cloneComps.Add(a.Clone()));
             EntityWorldFrameData data = new EntityWorldFrameData(cloneEntities,cloneComps);
             return data;
         }
         public override string ToString()
         {
-            string entitystring = string.Join(",", m_Entities);
+            string entitystring = string.Join(",", EntityIds);
             string componentstring = "";
-            foreach(var icom in m_Components)
+            foreach(var icom in Components)
             {
                 componentstring += icom.ToString()+"    ";
             }

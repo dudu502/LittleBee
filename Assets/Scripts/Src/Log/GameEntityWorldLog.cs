@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Src.Log
 {
+    /// <summary>
+    /// Logger
+    /// </summary>
     public class GameEntityWorldLog
     {   
         public static string Write(Dictionary<int,EntityWorldFrameData> dict,long roleId)

@@ -4,13 +4,7 @@ using LogicFrameSync.Src.LockStep.Net.Pt;
 using Net;
 using NetServiceImpl.Server.Data;
 using Notify;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace NetServiceImpl.Server
@@ -42,23 +36,6 @@ namespace NetServiceImpl.Server
             }
         }
 
-        public void ResponseSyncClientKeyFrames(int frameIdx)
-        {
-            Dictionary<int, PtKeyFrameCollection> dict = new Dictionary<int, PtKeyFrameCollection>();
-            while (QueueMsg.Count > 0)
-            {
-                PtKeyFrameCollection collection = QueueMsg.Dequeue() as PtKeyFrameCollection;
-                if (!dict.ContainsKey(collection.FrameIdx))
-                    dict[collection.FrameIdx] = new PtKeyFrameCollection() { FrameIdx = collection.FrameIdx,KeyFrames=new List<LogicFrameSync.Src.LockStep.Frame.FrameIdxInfo>()};
-
-                dict[collection.FrameIdx].KeyFrames.AddRange(collection.KeyFrames);              
-            }
-            foreach(PtKeyFrameCollection pt in dict.Values)
-            {
-                GameServerNetwork.Instance.Broadcast(PtMessagePackage.Build((int)S2CMessageId.ResponseSyncKeyframes,
-                    new ByteBuffer().WriteBytes(PtKeyFrameCollection.Write(pt)).Getbuffer(), false));
-            }
-        }
 
         Queue QueueMsg = Queue.Synchronized(new Queue());
 

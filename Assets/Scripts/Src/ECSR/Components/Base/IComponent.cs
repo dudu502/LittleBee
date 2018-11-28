@@ -16,8 +16,6 @@
     public interface IParamsUpdatable
     {
         void UpdateParams(string[] paramsStrs);
-
-        //void ShrinkInteractiveComponent();
     }
 
     /// <summary>

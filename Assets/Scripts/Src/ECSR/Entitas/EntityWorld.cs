@@ -176,12 +176,12 @@ namespace Entitas
         {
             Reset();
 
-            data.m_Entities.ForEach((entityId)=> 
+            data.EntityIds.ForEach((entityId)=> 
             {
                 Entity entity = AddEntity(entityId);
                 if (entity != null)
                 {
-                    foreach (IComponent com in data.m_Components)
+                    foreach (IComponent com in data.Components)
                     {
                         if(com.EntityId == entityId)
                         {

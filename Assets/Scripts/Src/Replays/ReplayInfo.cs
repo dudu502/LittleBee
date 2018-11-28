@@ -9,6 +9,7 @@ namespace Src.Replays
 {
     /// <summary>
     /// 战报信息
+    /// 存储所有的关键帧
     /// </summary>
     public class ReplayInfo
     {

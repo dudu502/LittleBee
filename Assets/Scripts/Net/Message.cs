@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using System.Net.Sockets;
 
 namespace Net
 {
@@ -20,10 +14,13 @@ namespace Net
 
         public void Reply(byte[] data)
         {
-            //TcpClient.GetStream().Write(data, 0, data.Length);
             NetworkStreamUtil.Write(TcpClient.GetStream(), data);
-            Debug.Log("reply size:"+data.Length);
         }
+
+        /// <summary>
+        /// Server 端快速回复
+        /// </summary>
+        /// <param name="package"></param>
         public void Reply(PtMessagePackage package)
         {
             Reply(PtMessagePackage.Write(package));
