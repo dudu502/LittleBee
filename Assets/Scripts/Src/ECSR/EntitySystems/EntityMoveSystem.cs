@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Components;
 using Entitas;
+using Unity.Mathematics;
 
 namespace EntitySystems
 {
@@ -20,19 +21,19 @@ namespace EntitySystems
                     TransformComponent pos = World.GetComponentByEntityId(com.EntityId, typeof(TransformComponent)) as TransformComponent;
                     if(pos!=null)
                     {
-                        pos.Translate(com.GetPathV2());
+                        pos.Translate(com.GetPathV2());                        
+                    }
 
-                        BoxColliderComponent box = World.GetComponentByEntityId(com.EntityId, typeof(BoxColliderComponent)) as BoxColliderComponent;
-                        if(box!=null)
-                        {
-                            box.UpdateCollision(new VInt3((int)pos.LocalPosition.x,(int)pos.LocalPosition.y,0));
-                        }
+                    BoxColliderComponent box = World.GetComponentByEntityId(com.EntityId, typeof(BoxColliderComponent)) as BoxColliderComponent;
+                    if (box != null)
+                    {
+                        box.UpdateCollision(new VInt3((int)pos.LocalPosition.x, (int)pos.LocalPosition.y, 0));
+                    }
 
-                        SphereColliderComponent sphere = World.GetComponentByEntityId(com.EntityId, typeof(SphereColliderComponent)) as SphereColliderComponent;
-                        if(sphere!=null)
-                        {
-                            sphere.UpdateCollision(new VInt3((int)pos.LocalPosition.x, (int)pos.LocalPosition.y, 0));
-                        }
+                    SphereColliderComponent sphere = World.GetComponentByEntityId(com.EntityId, typeof(SphereColliderComponent)) as SphereColliderComponent;
+                    if (sphere != null)
+                    {
+                        sphere.UpdateCollision(new VInt3((int)pos.LocalPosition.x, (int)pos.LocalPosition.y, 0));
                     }
                 }
             }

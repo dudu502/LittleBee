@@ -26,11 +26,13 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         }
         public void Start()
         {
-            CurrentFrameIdx = -1;           
+            CurrentFrameIdx = -1;
         }
         public void UpdateKeyFrameIdxInfoAtFrameIdx(int frameIdx,FrameIdxInfo info)
         {
             info.Idx = frameIdx;
+            if (frameIdx >= m_FrameIdxInfos.Count)
+                throw new Exception("Error "+frameIdx);
             List<FrameIdxInfo> frames = m_FrameIdxInfos[frameIdx];
             bool updateState = false;
             foreach (FrameIdxInfo keyframe in frames)
@@ -40,10 +42,11 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                     updateState = true;
                     keyframe.Params = info.Params;
                     break;
-                }                    
+                }  
             }
             if (!updateState)
                 frames.Add(info);
+            frames.Sort((a, b) => new System.Guid(a.EntityId).CompareTo(new System.Guid(b.EntityId)));
         }
         public void Update() 
         {

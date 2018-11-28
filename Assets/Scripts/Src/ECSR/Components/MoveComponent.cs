@@ -19,15 +19,7 @@ namespace Components
         {
             return Dir * Speed;
         }
-        public bool SetSpeed(float speed_)
-        {
-            if (Speed != speed_)
-            {
-                Speed = speed_;
-                return true;
-            }
-            return false;
-        }
+
         public void SetDir(float2 vec)
         {
             Dir = vec;

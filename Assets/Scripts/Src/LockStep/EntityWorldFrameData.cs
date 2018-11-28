@@ -15,7 +15,16 @@ namespace LogicFrameSync.Src.LockStep
             m_Components = comps;
         }
 
+        public EntityWorldFrameData Clone()
+        {
+            List<string> cloneEntities = new List<string>();
+            m_Entities.ForEach((a)=>cloneEntities.Add(a));
 
+            List<IComponent> cloneComps = new List<IComponent>();
+            m_Components.ForEach((a)=>cloneComps.Add(a.Clone()));
+            EntityWorldFrameData data = new EntityWorldFrameData(cloneEntities,cloneComps);
+            return data;
+        }
         public override string ToString()
         {
             string entitystring = string.Join(",", m_Entities);
