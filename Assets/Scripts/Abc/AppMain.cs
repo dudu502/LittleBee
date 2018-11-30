@@ -77,7 +77,7 @@ public class AppMain : MonoBehaviour
     void OnClickPlayReplay()
     {        
         Simulation sim = new Simulation(Const.CLIENT_SIMULATION_ID);
-        var bytes = File.ReadAllBytes(Application.dataPath + "/replay_client_-2013886208.rep");
+        var bytes = File.ReadAllBytes(Application.dataPath + "/replay_client_572009728.rep");
         var info = ReplayInfo.Read(bytes);
         sim.AddBehaviour(new ReplayLogicFrameBehaviour());
         sim.AddBehaviour(new EntityBehaviour());

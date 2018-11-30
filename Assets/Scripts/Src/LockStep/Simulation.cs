@@ -5,6 +5,10 @@ using System.Diagnostics;
 
 namespace LogicFrameSync.Src.LockStep
 {
+    /// <summary>
+    /// 模拟器
+    /// 可以存在多个Id
+    /// </summary>
     public class Simulation
     {           
         EntityWorld m_EntityWorld;
@@ -12,7 +16,7 @@ namespace LogicFrameSync.Src.LockStep
         List<ISimulativeBehaviour> m_Behaviours;
         double m_Accumulator = 0;
         bool m_Running = false;
-        double m_FrameMsLength = 100;
+        double m_FrameMsLength = 40;
         byte m_SimulationId;
         double m_FrameLerp = 0;
         public Simulation(byte id)
@@ -66,6 +70,11 @@ namespace LogicFrameSync.Src.LockStep
                 beh.Sim = null;
             }              
         }
+
+        /// <summary>
+        /// 得到流逝的毫秒
+        /// </summary>
+        /// <returns></returns>
         public double GetElapsedTime()
         {
             double time = m_StopWatch.Elapsed.TotalMilliseconds;

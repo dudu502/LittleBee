@@ -116,7 +116,7 @@ namespace Entitas
             }
             return null;
         }
-        public void RemoveEntity(string entityId)
+        public bool RemoveEntity(string entityId)
         {
             Entity entity = GetEntity(entityId);
             if (entity != null)
@@ -125,7 +125,9 @@ namespace Entitas
                 entity.World = null;
                 RemoveEntityComponentAll(entityId);
                 Entity.ObjectPool.ReturnObjectToPool(entity);
+                return true;
             }
+            return false;
         }
 
         private void RemoveEntityComponentAll(string entityId)

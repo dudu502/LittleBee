@@ -6,6 +6,10 @@
     public interface IComponent
     {
         string EntityId { set; get; }
+        /// <summary>
+        /// 深度拷贝
+        /// </summary>
+        /// <returns></returns>
         IComponent Clone();
         int GetCommand();
     }
