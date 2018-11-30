@@ -52,7 +52,7 @@ public class EntitySpawn : MonoBehaviour
     void OnCreateBulletEntityFromThread(Notify.Notification note)
     {
         Entity entity = note.Params[0] as Entity;
-        entity.AddComponent(new MoveComponent(5, new float2(0, 1))).AddComponent(new TransformComponent(float2.zero)).AddComponent(new AutoRemovingEntityComponent(80));
+        entity.AddComponent(new MoveComponent(5, new float2(0, 1))).AddComponent(new TransformComponent(float2.zero));
         QueueBulletEntity.Enqueue(entity.Id);
     }
 

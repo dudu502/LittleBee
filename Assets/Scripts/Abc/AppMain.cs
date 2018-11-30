@@ -77,7 +77,7 @@ public class AppMain : MonoBehaviour
     void OnClickPlayReplay()
     {        
         Simulation sim = new Simulation(Const.CLIENT_SIMULATION_ID);
-        var bytes = File.ReadAllBytes(Application.dataPath + "/replay_client_572009728.rep");
+        var bytes = File.ReadAllBytes(Application.dataPath + "/replay_client_-403695872.rep");
         var info = ReplayInfo.Read(bytes);
         sim.AddBehaviour(new ReplayLogicFrameBehaviour());
         sim.AddBehaviour(new EntityBehaviour());
@@ -85,13 +85,11 @@ public class AppMain : MonoBehaviour
         EntityMoveSystem moveSystem = new EntityMoveSystem();
         FrameClockSystem frameClock = new FrameClockSystem();
         EntityCollisionSystem colliderSystem = new EntityCollisionSystem();
-        AutoRemovingEntitySystem autoRemoveSystem = new AutoRemovingEntitySystem();
         RemoveEntitySystem removeSystem = new RemoveEntitySystem();
         sim.GetBehaviour<EntityBehaviour>().
             AddSystem(moveSystem).
             AddSystem(frameClock).
             AddSystem(colliderSystem).
-            AddSystem(autoRemoveSystem).
             AddSystem(removeSystem);
         sim.GetBehaviour<ReplayLogicFrameBehaviour>().SetFrameIdxInfos(info.Frames);     
          
@@ -135,19 +133,16 @@ public class AppMain : MonoBehaviour
         EntityMoveSystem moveSystem = new EntityMoveSystem();
         FrameClockSystem frameClock = new FrameClockSystem();
         EntityCollisionSystem colliderSystem = new EntityCollisionSystem();
-        AutoRemovingEntitySystem autoRemoveSystem = new AutoRemovingEntitySystem();
         RemoveEntitySystem removeSystem = new RemoveEntitySystem();
         sim.GetBehaviour<EntityBehaviour>().
             AddSystem(moveSystem).
             AddSystem(frameClock).
             AddSystem(colliderSystem).
-            AddSystem(autoRemoveSystem).
             AddSystem(removeSystem);
         sim.GetBehaviour<RollbackBehaviour>().
             AddSystem(moveSystem).
             AddSystem(frameClock).
             AddSystem(colliderSystem).
-            AddSystem(autoRemoveSystem).
             AddSystem(removeSystem);
         SimulationManager.Instance.AddSimulation(sim);
     }
