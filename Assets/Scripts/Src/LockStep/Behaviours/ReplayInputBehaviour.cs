@@ -41,7 +41,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                             if (ent != null)
                             {
                                 ent.GetComponent<MoveComponent>().UpdateParams(info.Params);
-                                Debug.Log(string.Format("EntityId: {0} Dir:{1} {2} ", info.EntityId, float.Parse(info.Params[0]), float.Parse(info.Params[1])));
+                                //Debug.Log(string.Format("EntityId: {0} Dir:{1} {2} ", info.EntityId, float.Parse(info.Params[0]), float.Parse(info.Params[1])));
                             }
                             break;
                         case FrameCommand.SYNC_CREATE_ENTITY:

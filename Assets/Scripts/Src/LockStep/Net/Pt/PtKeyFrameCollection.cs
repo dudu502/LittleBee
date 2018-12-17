@@ -39,10 +39,9 @@ namespace LogicFrameSync.Src.LockStep.Net.Pt
             return buffer.Getbuffer();
         }
 
-        public void MergeKeyFrames(PtKeyFrameCollection targetCollection)
+        public void AddKeyFramesRange(PtKeyFrameCollection targetCollection)
         {
-            KeyFrames.AddRange(targetCollection.KeyFrames);            
+            KeyFrames.AddRange(targetCollection.KeyFrames);
         }
-
     }
 }

@@ -67,7 +67,7 @@ public class EntitySpawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.frameCount % 10 != 0) return;
+        //if (Time.frameCount % 10 != 0) return;
         if (QueueCreateEntity.Count > 0)
         {
             string id = "";

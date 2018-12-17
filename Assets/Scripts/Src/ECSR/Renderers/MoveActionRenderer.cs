@@ -1,5 +1,6 @@
 ﻿using Components;
 using DG.Tweening;
+using Entitas;
 using UnityEngine;
 
 namespace Renderers
@@ -10,21 +11,28 @@ namespace Renderers
     /// </summary>
     public class MoveActionRenderer:ActionRenderer
     {
-        protected override void OnRender()
+        Tweener tweener;
+        protected override void OnRender(Entitas.Entity entity)
         {
-            base.OnRender();
-            var sim = GetSimulation(Const.CLIENT_SIMULATION_ID);
-            TransformComponent com_Pos = m_Entity.GetComponent<TransformComponent>();
-            MoveComponent com_Move = m_Entity.GetComponent<MoveComponent>();
+            base.OnRender(entity);
+
+            TransformComponent com_Pos = entity.GetComponent<TransformComponent>();
+            MoveComponent com_Move = entity.GetComponent<MoveComponent>();
             if (com_Pos != null)
             {
-                double lerp = sim.GetFrameLerp() * sim.GetFrameMsLength() / 1000 / Time.deltaTime;
+                double lerp = m_Simulation.GetFrameLerp() * m_Simulation.GetFrameMsLength() / 1000 / Time.deltaTime;
                 var pos1 = com_Pos.GetPositionVector2();
-                var dir = com_Move.GetDirVector2();
-                var nextPos = pos1 + dir * (com_Move.GetSpeed() * (float)(Time.deltaTime / sim.GetFrameMsLength() / 1000));
+                var nextPos = pos1 + com_Move.GetDirVector2() * (com_Move.GetSpeed() * (float)(Time.deltaTime / m_Simulation.GetFrameMsLength() / 1000));
 
-                transform.DOLocalMove(Vector2.Lerp(pos1, nextPos, (float)lerp), 1, false);
+                if (tweener != null)
+                    tweener.Kill();
+                tweener = null;
+                tweener = transform.DOLocalMove(Vector2.Lerp(pos1, nextPos, (float)lerp), .5f, true);
+
+                //transform.localPosition = Vector2.Lerp(pos1, nextPos, (float)lerp);
             }
         }
+
+        
     }
 }

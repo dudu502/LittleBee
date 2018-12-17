@@ -21,15 +21,13 @@ namespace LogicFrameSync.Src.LockStep
 
         private SimulationManager()
         {
-            m_Sims = new List<Simulation>();
-            
+            m_Sims = new List<Simulation>();           
         }
         public void Start()
         {
             foreach (Simulation sim in m_Sims)
                 sim.Start();
             m_Thread = new Thread(Run);
-            m_Thread.Priority = ThreadPriority.Highest;
             m_Thread.IsBackground = true;
             m_Thread.Start();
         }
@@ -52,11 +50,11 @@ namespace LogicFrameSync.Src.LockStep
         {
             while(!m_StopState)
             {
-                foreach (Simulation sim in m_Sims)
+                for (int i = 0; i < m_Sims.Count; ++i)
                 {
-                    sim.Run();
+                    m_Sims[i].Run();
                 }
-                Thread.Sleep(1);
+                Thread.Sleep(10);
             }           
         }
         public void AddSimulation(Simulation sim)
@@ -81,8 +79,10 @@ namespace LogicFrameSync.Src.LockStep
         }
         public Simulation GetSimulation(byte id)
         {
-            foreach (Simulation sim in m_Sims)
-                if (sim.GetSimulationId() == id) return sim;
+            for(int i=0;i<m_Sims.Count;++i)
+            {
+                if (m_Sims[i].GetSimulationId() == id) return m_Sims[i];
+            }
             return null;
         }
     }

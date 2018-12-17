@@ -7,11 +7,11 @@ namespace Renderers
     public class PlayerInfoDisplayActionRenderer : ActionRenderer
     {
         public Text m_Txt;
-        protected override void OnRender()
+        protected override void OnRender(Entitas.Entity entity)
         {
-            base.OnRender();
-            var sim = GetSimulation(Const.CLIENT_SIMULATION_ID);
-            PlayerInfoComponent com = m_Entity.GetComponent<PlayerInfoComponent>();
+            base.OnRender(entity);
+
+            PlayerInfoComponent com = entity.GetComponent<PlayerInfoComponent>();
             if (com != null)
             {
                 m_Txt.text = com.Value.ToString();

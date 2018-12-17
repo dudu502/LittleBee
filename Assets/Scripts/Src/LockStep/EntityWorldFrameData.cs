@@ -24,6 +24,13 @@ namespace LogicFrameSync.Src.LockStep
             Components = comps;
         }
 
+        public void Clear()
+        {
+            EntityIds.Clear();
+            EntityIds = null;
+            Components.Clear();
+            Components = null;
+        }
 
         /// <summary>
         /// 获得一个深度拷贝

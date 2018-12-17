@@ -10,8 +10,8 @@ namespace Renderers
     /// </summary>
     public class ActionRenderer:MonoBehaviour
     {
-        protected Entity m_Entity;
         protected string m_EntityId="";
+        protected Simulation m_Simulation;
         private void Awake()
         {
             
@@ -19,30 +19,23 @@ namespace Renderers
 
         private void Start()
         {
-            
+            m_Simulation = SimulationManager.Instance.GetSimulation(Const.CLIENT_SIMULATION_ID);
         }
         public void SetEntityId(string entityId)
         {
             m_EntityId = entityId;
         }
-        protected Simulation GetSimulation(byte id)
-        {
-            return SimulationManager.Instance.GetSimulation(id);
-        }
-
+        
         private void Update()
         {
             if (string.IsNullOrEmpty(m_EntityId)) return;
-            Simulation sim = GetSimulation(Const.CLIENT_SIMULATION_ID);
-            if (sim == null) return;
-            if (!sim.GetEntityWorld().IsActive) return;
-            m_Entity = sim.GetEntityWorld().GetEntity(m_EntityId);
-            if (m_Entity == null) return;
-            if (!m_Entity.IsActive) return;
-            OnRender();
+            Entity entity = m_Simulation.GetEntityWorld().GetEntity(m_EntityId);
+            if (entity == null) return;
+            if (!entity.IsActive) return;
+            OnRender(entity);
         }
 
-        protected virtual void OnRender()
+        protected virtual void OnRender(Entity entity)
         {
 
         }

@@ -35,13 +35,12 @@ public class GameServerNetwork
     {
         m_Server = new Server();
         m_Server.Start(IPAddress.Parse("192.168.18.56"), 10000);
-       // m_Server.Start(10000);
+
         m_Server.ClientConnected += (send, msg) => 
         {
             var player = GameServerData.AddNewPlayer();
             PtMessagePackage package = PtMessagePackage.Build((int)S2CMessageId.ResponseClientConnected, new ByteBuffer().WriteLong(player.Id).Getbuffer());
             byte[] byts = PtMessagePackage.Write(package);
-            //msg.GetStream().Write(byts, 0, byts.Length);
             NetworkStreamUtil.Write(msg.GetStream(), byts); 
         };
 
@@ -69,7 +68,8 @@ public class GameServerNetwork
             if(m_QueueMsg.TryDequeue(out msg))
             {
                 PtMessagePackage package = PtMessagePackage.Read(msg.Data);
-                notifier.Send((C2SMessageId)package.MessageId, package.Content, msg);
+                //notifier.Send((C2SMessageId)package.MessageId, package.Content, msg);
+                Notify.NotifyMgr.Instance.Send((C2SMessageId)package.MessageId,new Notify.Notification() { Params = new object[] { package.Content,msg} });
             }           
         }
     }

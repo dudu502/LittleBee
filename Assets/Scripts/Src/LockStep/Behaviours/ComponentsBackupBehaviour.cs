@@ -28,6 +28,8 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         }
         public void SetEntityWorldFrameByFrameIdx(int frameIdx, EntityWorldFrameData data)
         {
+            if (m_DictEntityWorldFrameData.ContainsKey(frameIdx))
+                m_DictEntityWorldFrameData[frameIdx].Clear();
             m_DictEntityWorldFrameData[frameIdx]= data; 
         }
         public Dictionary<int, EntityWorldFrameData> GetEntityWorldFrameData()

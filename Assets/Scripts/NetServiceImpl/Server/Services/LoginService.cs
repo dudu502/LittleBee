@@ -14,6 +14,13 @@ namespace NetServiceImpl.Server
         protected override void Init()
         {
             base.Init();
+
+
+            NotifyMgr.Instance.AddListener(C2SMessageId.RequestEnterRoom, OnRequestEnterRoom);
+            NotifyMgr.Instance.AddListener(C2SMessageId.RequestSyncClientKeyframes, OnRequestSyncClientKeyframes);
+            NotifyMgr.Instance.AddListener(C2SMessageId.RequestInitPlayer, OnRequestInitPlayer);
+            NotifyMgr.Instance.AddListener(C2SMessageId.RequestPlayerReady, OnRequestPlayerReady);
+     
         }
 
         public override void Reset()
@@ -32,18 +39,19 @@ namespace NetServiceImpl.Server
                 int state = GameServerData.EnterGameRoom(roleId, name);
                 msg.Reply(PtMessagePackage.Build((int)S2CMessageId.ResponseEnterRoom, 
                     new ByteBuffer().WriteInt32(state).WriteBytes(GameRoomSvo.Write(GameServerData.GameRoom)).Getbuffer()));
-                Debug.Log("[server] OnRequestEnterRoom !" + roleId);
+                //Debug.Log("[server] OnRequestEnterRoom !" + roleId);
             }
         }
 
-
-        Queue QueueMsg = Queue.Synchronized(new Queue());
-
+        /// <summary>
+        /// 客户端请求同步关键帧数据
+        /// </summary>
+        /// <param name="note"></param>
         [Subscribe(C2SMessageId.RequestSyncClientKeyframes)]
         void OnRequestSyncClientKeyframes(Notification note)
         {  
             int serverFrameIdx = SimulationManager.Instance.GetSimulation(Const.SERVER_SIMULATION_ID).GetBehaviour<ServerLogicFrameBehaviour>().CurrentFrameIdx;
-            Debug.Log("Server Receive ClientKeyFrameData At" + serverFrameIdx);
+            //Debug.Log("Server Receive ClientKeyFrameData At" + serverFrameIdx);
             Message msg = note.GetMessage();
             ByteBuffer buffer = new ByteBuffer(note.GetBytes());
 

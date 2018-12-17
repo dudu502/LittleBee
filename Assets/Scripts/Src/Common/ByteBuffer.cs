@@ -66,6 +66,27 @@ public class ByteBuffer : IDisposable
     //{
     //    return Br.ReadInt64();
     //}
+
+    //public ByteBuffer WriteByte(byte value)
+    //{
+    //    Bw.Write(value);
+    //    return this;
+    //}
+    //public byte ReadByte()
+    //{
+    //    return Br.ReadByte();
+    //}
+
+    //public ByteBuffer WriteFloat(float value)
+    //{
+    //    Bw.Write(value);
+    //    return this;
+    //}
+
+    //public float ReadFloat()
+    //{
+    //    return Br.ReadSingle();
+    //}
     //public ByteBuffer()
     //{
     //    Br = new BinaryReader(ms);
@@ -83,7 +104,7 @@ public class ByteBuffer : IDisposable
     //    Bw.Close();
     //    Bw = null;
     //}
-    
+
     private byte[] bytes = new byte[0];
     private int position = 0;
     public ByteBuffer(byte[] value)
@@ -199,10 +220,10 @@ public class ByteBuffer : IDisposable
         Buffer.BlockCopy(bytes, 0, temps, 0, bytes.Length);
         Buffer.BlockCopy(value, 0, temps, position, value.Length);
 
-    
+
         position += value.Length;
         bytes = temps;
-        temps = null; 
+        temps = null;
     }
     private byte[] get(int length)
     {
@@ -216,7 +237,7 @@ public class ByteBuffer : IDisposable
         position = 0;
         bytes = null;
     }
-    
+
     //压缩字节
     //1.创建压缩的数据流 
     //2.设定compressStream为存放被压缩的文件流,并设定为压缩模式

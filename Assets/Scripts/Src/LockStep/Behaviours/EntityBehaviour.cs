@@ -47,8 +47,8 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
 
         public virtual void Update()
         {
-            foreach (IEntitySystem system in Systems)
-                system.Execute();
+            for (int i = 0; i < Systems.Count; ++i)
+                Systems[i].Execute();
         }
     }
 }

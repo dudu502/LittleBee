@@ -50,10 +50,10 @@ namespace Entitas
             if (m_DictEntityAllComponents.ContainsKey(entityId))
             {
                 IList<IComponent> components = m_DictEntityAllComponents[entityId];
-                foreach (IComponent comp in components)
+                for (int i = components.Count - 1; i > -1; --i)
                 {
-                    if (componentType == comp.GetType())
-                        return comp;
+                    if (componentType == components[i].GetType())
+                        return components[i];
                 }
             }
             return null;
@@ -114,7 +114,7 @@ namespace Entitas
                 entity.World = this;
                 return entity;
             }
-            return null;
+            return m_DictEntities[entityId];
         }
         public bool RemoveEntity(string entityId)
         {
@@ -177,33 +177,29 @@ namespace Entitas
         public void RollBack(EntityWorldFrameData data, PtKeyFrameCollection collection)
         {
             Reset();
-
-            data.EntityIds.ForEach((entityId)=> 
+            foreach(string entityId in data.EntityIds)
             {
-                Entity entity = AddEntity(entityId);
-                if (entity != null)
+                Entity entity = AddEntity(entityId);               
+                foreach (IComponent com in data.Components)
                 {
-                    foreach (IComponent com in data.Components)
+                    if(com.EntityId == entityId)
                     {
-                        if(com.EntityId == entityId)
+                        foreach(FrameIdxInfo info in collection.KeyFrames)
                         {
-                            foreach(FrameIdxInfo info in collection.KeyFrames)
+                            if(info.EqualsInfo(com))
                             {
-                                if(info.EqualsInfo(com))
-                                {
-                                    IParamsUpdatable updatableCom = com as IParamsUpdatable;
-                                    if (updatableCom != null)
-                                        updatableCom.UpdateParams(info.Params);
-                                    else
-                                        throw new Exception("Component " + com.ToString() + " must be IParamsUpdatable");
-                                    break;
-                                }
+                                IParamsUpdatable updatableCom = com as IParamsUpdatable;
+                                if (updatableCom != null)
+                                    updatableCom.UpdateParams(info.Params);
+                                else
+                                    throw new Exception("Component " + com.ToString() + " must be IParamsUpdatable");
+                                break;
                             }
-                            entity.AddComponent(com);
-                        }                         
-                    }                    
-                }
-            });
+                        }
+                        entity.AddComponent(com);
+                    }                         
+                }                                    
+            };
 
             foreach(FrameIdxInfo info in collection.KeyFrames)
             {

@@ -31,7 +31,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                         RollImpl(keyframeCollection);
                     else
                         break;
-                    DebugFrameIdx = string.Format("{0} CollectionFrameIdx:{1}", logicBehaviour.CurrentFrameIdx, keyframeCollection.FrameIdx);
+                    //DebugFrameIdx = string.Format("{0} CollectionFrameIdx:{1}", logicBehaviour.CurrentFrameIdx, keyframeCollection.FrameIdx);
                 }
                 else
                 {
@@ -56,12 +56,10 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
 
             //从frameIdx-1数据中深度拷贝一份作为frameIdx的数据
             EntityWorldFrameData framePrevData = backupBehaviour.GetEntityWorldFrameByFrameIdx(frameIdx - 1);
-            EntityWorldFrameData frameData = framePrevData.Clone();
-            if (frameData != null)
+            if(framePrevData!=null)
             {
                 //回滚整个entityworld数据
-                Sim.GetEntityWorld().RollBack(frameData, collection);
-          
+                Sim.GetEntityWorld().RollBack(framePrevData.Clone(), collection);
                 //迅速从frameIdx开始模拟至当前客户端frameIdx
                 while (frameIdx < logicBehaviour.CurrentFrameIdx)
                 {
