@@ -1,6 +1,7 @@
 ﻿using Components;
 using DG.Tweening;
 using Entitas;
+using LogicFrameSync.Src.LockStep;
 using UnityEngine;
 
 namespace Renderers
@@ -20,9 +21,9 @@ namespace Renderers
             MoveComponent com_Move = entity.GetComponent<MoveComponent>();
             if (com_Pos != null)
             {
-                double lerp = m_Simulation.GetFrameLerp() * m_Simulation.GetFrameMsLength() / 1000 / Time.deltaTime;
+                double lerp = SimulationManager.Instance.GetFrameLerp() * SimulationManager.Instance.GetFrameMsLength() / 1000 / Time.deltaTime;
                 var pos1 = com_Pos.GetPositionVector2();
-                var nextPos = pos1 + com_Move.GetDirVector2() * (com_Move.GetSpeed() * (float)(Time.deltaTime / m_Simulation.GetFrameMsLength() / 1000));
+                var nextPos = pos1 + com_Move.GetDirVector2() * (com_Move.GetSpeed() * (float)(Time.deltaTime / SimulationManager.Instance.GetFrameMsLength() / 1000));
 
                 if (tweener != null)
                     tweener.Kill();

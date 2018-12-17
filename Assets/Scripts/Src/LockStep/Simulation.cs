@@ -12,28 +12,19 @@ namespace LogicFrameSync.Src.LockStep
     public class Simulation
     {           
         EntityWorld m_EntityWorld;
-        Stopwatch m_StopWatch;
         List<ISimulativeBehaviour> m_Behaviours;
-        double m_Accumulator = 0;
-        bool m_Running = false;
-        double m_FrameMsLength = 40;
         byte m_SimulationId;
-        double m_FrameLerp = 0;
         public Simulation(byte id)
         {
             m_SimulationId = id;
-            m_StopWatch = new Stopwatch();
             m_Behaviours = new List<ISimulativeBehaviour>();
             m_EntityWorld = EntityWorld.Create();
         }
-        public double GetFrameMsLength() { return m_FrameMsLength; }
-        public double GetFrameLerp() { return m_FrameLerp; }
+        
         public EntityWorld GetEntityWorld() { return m_EntityWorld; }
         public byte GetSimulationId() { return m_SimulationId; }
         public void Start()
         {
-            m_Running = true;
-            m_StopWatch.Restart();
             foreach (ISimulativeBehaviour beh in m_Behaviours)
                 beh.Start();
         }
@@ -71,43 +62,12 @@ namespace LogicFrameSync.Src.LockStep
             }              
         }
 
-        /// <summary>
-        /// 得到流逝的毫秒
-        /// </summary>
-        /// <returns></returns>
-        public double GetElapsedTime()
-        {
-            double time = m_StopWatch.Elapsed.TotalMilliseconds;
-            m_StopWatch.Restart();
-            if (time > m_FrameMsLength)
-                time = m_FrameMsLength;
-            return time;
-        }
-        public void Stop()
-        {
-            m_Running = false;
-        }
-        public void Run()
-        {
-            if (m_Running)
-            {
-                m_Accumulator += GetElapsedTime();
-                while (m_Accumulator >= m_FrameMsLength)
-                {
-                    Update();
-                    m_Accumulator -= m_FrameMsLength;
-                }
-                m_FrameLerp = m_Accumulator / m_FrameMsLength;
-            }
-        }
         
-        private void Update()
+        public void Run()
         {
             m_EntityWorld.IsActive = false;
             for(int i = 0;i<m_Behaviours.Count;++i)
-            {
                 m_Behaviours[i].Update();
-            }
             m_EntityWorld.IsActive = true;
         } 
     }

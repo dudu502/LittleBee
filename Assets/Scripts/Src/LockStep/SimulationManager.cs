@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Diagnostics;
 using System.Threading;
 
 
@@ -9,6 +9,14 @@ namespace LogicFrameSync.Src.LockStep
     public class SimulationManager
     {
         static SimulationManager ins;
+        Stopwatch m_StopWatch;
+        private List<Simulation> m_Sims;
+        double m_Accumulator = 0;
+        double m_FrameMsLength = 40;
+        double m_FrameLerp = 0;
+        public double GetFrameMsLength() { return m_FrameMsLength; }
+        public double GetFrameLerp() { return m_FrameLerp; }
+        bool m_StopState = false;
         public static SimulationManager Instance
         {
             get{
@@ -16,45 +24,57 @@ namespace LogicFrameSync.Src.LockStep
                 return ins;
             }         
         }
-        private Thread m_Thread;
-        private List<Simulation> m_Sims;
+
 
         private SimulationManager()
         {
+            m_StopWatch = new Stopwatch();
             m_Sims = new List<Simulation>();           
+        }
+        /// <summary>
+         /// 得到流逝的毫秒
+         /// </summary>
+         /// <returns></returns>
+        public double GetElapsedTime()
+        {
+            double time = m_StopWatch.Elapsed.TotalMilliseconds;
+            m_StopWatch.Restart();
+            if (time > m_FrameMsLength)
+                time = m_FrameMsLength;
+            return time;
         }
         public void Start()
         {
             foreach (Simulation sim in m_Sims)
                 sim.Start();
-            m_Thread = new Thread(Run);
-            m_Thread.IsBackground = true;
-            m_Thread.Start();
+
+            ThreadPool.QueueUserWorkItem(ThreadPoolRunner);
+            m_StopWatch.Restart();
         }
         public void Stop()
         {
-            if (m_Thread != null)
-            {
-                m_Thread.Abort();
-                m_Thread = null;
-                foreach (Simulation sim in m_Sims)
-                    sim.Stop();
-            }
+            m_StopState = false;
         }
         void ThreadPoolRunner(object state)
         {
             Run();
         }
-        bool m_StopState = false;
+
         void Run()
         {
-            while(!m_StopState)
+            while (!m_StopState)
             {
-                for (int i = 0; i < m_Sims.Count; ++i)
+                m_Accumulator += GetElapsedTime();
+                while (m_Accumulator >= m_FrameMsLength)
                 {
-                    m_Sims[i].Run();
+                    for (int i = 0; i < m_Sims.Count; ++i)
+                    {
+                        m_Sims[i].Run();
+                    }
+                    m_Accumulator -= m_FrameMsLength;
                 }
-                Thread.Sleep(10);
+                m_FrameLerp = m_Accumulator / m_FrameMsLength;
+                Thread.Sleep(20);
             }           
         }
         public void AddSimulation(Simulation sim)

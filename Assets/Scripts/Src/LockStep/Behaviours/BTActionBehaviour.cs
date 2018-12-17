@@ -34,7 +34,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         {
             foreach (BTRoot root in m_BTRoots)
             {
-                root.Update((int)Sim.GetFrameMsLength());
+                root.Update((int)SimulationManager.Instance.GetFrameMsLength());
             }
         }
     }
