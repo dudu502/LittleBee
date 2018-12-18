@@ -55,8 +55,8 @@ public class GameClientNetwork : MonoBehaviour
             PtMessagePackage package = null;
 
             if (m_QueueMsg.TryDequeue(out package))
-                //notifier.Send((S2CMessageId)package.MessageId, package.Content);
-                Notify.NotifyMgr.Instance.Send((S2CMessageId)package.MessageId, new Notify.Notification() { Params = new object[] { package.Content } });
+                notifier.Send((S2CMessageId)package.MessageId, package.Content);
+                //Notify.NotifyMgr.Instance.Send((S2CMessageId)package.MessageId, new Notify.Notification() { Params = new object[] { package.Content } });
         }
     }
 }

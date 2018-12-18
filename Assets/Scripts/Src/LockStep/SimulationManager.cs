@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
-
+using System.Timers;
 
 namespace LogicFrameSync.Src.LockStep
 {
@@ -43,12 +42,20 @@ namespace LogicFrameSync.Src.LockStep
                 time = m_FrameMsLength;
             return time;
         }
+
+        Timer timer;
         public void Start()
         {
             foreach (Simulation sim in m_Sims)
                 sim.Start();
 
-            ThreadPool.QueueUserWorkItem(ThreadPoolRunner);
+
+            timer = new Timer(20);
+            timer.Elapsed += (an,b)=> {
+                Run();
+            };
+            timer.Start();
+            //ThreadPool.QueueUserWorkItem(ThreadPoolRunner);
             m_StopWatch.Restart();
         }
         public void Stop()
@@ -62,7 +69,7 @@ namespace LogicFrameSync.Src.LockStep
 
         void Run()
         {
-            while (!m_StopState)
+            //while (!m_StopState)
             {
                 m_Accumulator += GetElapsedTime();
                 while (m_Accumulator >= m_FrameMsLength)
@@ -74,7 +81,7 @@ namespace LogicFrameSync.Src.LockStep
                     m_Accumulator -= m_FrameMsLength;
                 }
                 m_FrameLerp = m_Accumulator / m_FrameMsLength;
-                Thread.Sleep(20);
+                //Thread.Sleep(20);
             }           
         }
         public void AddSimulation(Simulation sim)

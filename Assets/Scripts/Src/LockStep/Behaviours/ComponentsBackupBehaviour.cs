@@ -18,7 +18,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         Dictionary<int, EntityWorldFrameData> m_DictEntityWorldFrameData;
         public ComponentsBackupBehaviour()
         {
-            m_DictEntityWorldFrameData = new Dictionary<int, EntityWorldFrameData>();
+            m_DictEntityWorldFrameData = new Dictionary<int, EntityWorldFrameData>();      
         }
         public EntityWorldFrameData GetEntityWorldFrameByFrameIdx(int frameIdx)
         {
@@ -27,7 +27,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
             return null;
         }
         public void SetEntityWorldFrameByFrameIdx(int frameIdx, EntityWorldFrameData data)
-        {
+        {           
             if (m_DictEntityWorldFrameData.ContainsKey(frameIdx))
                 m_DictEntityWorldFrameData[frameIdx].Clear();
             m_DictEntityWorldFrameData[frameIdx]= data; 

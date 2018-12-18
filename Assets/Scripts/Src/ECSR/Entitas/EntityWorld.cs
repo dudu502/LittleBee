@@ -38,6 +38,7 @@ namespace Entitas
                 m_DictEntities.Remove(entityId);
                 entity.World = null;
                 Entity.ObjectPool.ReturnObjectToPool(entity);
+                entity = null;
             }
 
             m_DictAllComponents.Clear();
@@ -109,6 +110,7 @@ namespace Entitas
             if (!ContainEntity(entityId))
             {
                 Entity entity = Entity.ObjectPool.GetObject() as Entity;
+                //Entity entity = new Entity();
                 entity.Id = entityId;
                 m_DictEntities[entityId] = entity;
                 entity.World = this;
@@ -125,6 +127,7 @@ namespace Entitas
                 entity.World = null;
                 RemoveEntityComponentAll(entityId);
                 Entity.ObjectPool.ReturnObjectToPool(entity);
+                entity = null;
                 return true;
             }
             return false;
@@ -134,10 +137,10 @@ namespace Entitas
         {
             if (m_DictEntityAllComponents.ContainsKey(entityId))
             {
-                IComponent[] components = m_DictEntityAllComponents[entityId].ToArray();
+                List<IComponent> components = m_DictEntityAllComponents[entityId];
                 if (components != null)
                 {
-                    for (int i = components.Length - 1; i > -1; --i)
+                    for (int i = components.Count - 1; i > -1; --i)
                     {
                         IComponent com = components[i];
                         if (com != null) RemoveComponent(com);

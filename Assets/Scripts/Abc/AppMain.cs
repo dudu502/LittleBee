@@ -129,7 +129,7 @@ public class AppMain : MonoBehaviour
         sim.AddBehaviour(new RollbackBehaviour());                
         sim.AddBehaviour(new EntityBehaviour());
         sim.AddBehaviour(new InputBehaviour());
-        sim.AddBehaviour(new TestRandomInputBehaviour());
+        //sim.AddBehaviour(new TestRandomInputBehaviour());
         sim.AddBehaviour(new ComponentsBackupBehaviour());
         EntityMoveSystem moveSystem = new EntityMoveSystem();
         FrameClockSystem frameClock = new FrameClockSystem();

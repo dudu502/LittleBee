@@ -68,8 +68,8 @@ public class GameServerNetwork
             if(m_QueueMsg.TryDequeue(out msg))
             {
                 PtMessagePackage package = PtMessagePackage.Read(msg.Data);
-                //notifier.Send((C2SMessageId)package.MessageId, package.Content, msg);
-                Notify.NotifyMgr.Instance.Send((C2SMessageId)package.MessageId,new Notify.Notification() { Params = new object[] { package.Content,msg} });
+                notifier.Send((C2SMessageId)package.MessageId, package.Content, msg);
+                //Notify.NotifyMgr.Instance.Send((C2SMessageId)package.MessageId,new Notify.Notification() { Params = new object[] { package.Content,msg} });
             }           
         }
     }
