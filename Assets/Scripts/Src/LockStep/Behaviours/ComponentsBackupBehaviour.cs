@@ -26,11 +26,21 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                 return m_DictEntityWorldFrameData[frameIdx];
             return null;
         }
+
+        Queue<int> QueueFrameCache = new Queue<int>();
         public void SetEntityWorldFrameByFrameIdx(int frameIdx, EntityWorldFrameData data)
-        {           
+        {
+            QueueFrameCache.Enqueue(frameIdx);
             if (m_DictEntityWorldFrameData.ContainsKey(frameIdx))
                 m_DictEntityWorldFrameData[frameIdx].Clear();
             m_DictEntityWorldFrameData[frameIdx]= data; 
+
+            while(QueueFrameCache.Count>100)
+            {
+                int fid = QueueFrameCache.Dequeue();
+                if (m_DictEntityWorldFrameData.ContainsKey(fid))
+                    m_DictEntityWorldFrameData.Remove(fid);
+            }
         }
         public Dictionary<int, EntityWorldFrameData> GetEntityWorldFrameData()
         {

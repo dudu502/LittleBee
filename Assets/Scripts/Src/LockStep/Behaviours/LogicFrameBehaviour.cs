@@ -51,9 +51,6 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         public void Update() 
         {
             ++CurrentFrameIdx;
-            //if (m_FrameIdxInfos.Count > CurrentFrameIdx)
-            //    m_FrameIdxInfos[CurrentFrameIdx].Clear();
-            //else
             m_FrameIdxInfos.Add(new List<FrameIdxInfo>());
         }
     }
