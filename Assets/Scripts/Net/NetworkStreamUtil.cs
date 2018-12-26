@@ -8,15 +8,14 @@ using System.Threading.Tasks;
 
 namespace Net
 {
-    internal class AsyncWriteStateObject
-    {
-        public ManualResetEvent eventDone;
-        public NetworkStream stream;
-        public Exception exception;
-    }
-
     public class NetworkStreamUtil
     {
+        class AsyncWriteStateObject
+        {
+            public ManualResetEvent eventDone;
+            public NetworkStream stream;
+            public Exception exception;
+        }
         public static void Write(NetworkStream stream,byte[] bytes)
         {
             AsyncWriteStateObject state = new AsyncWriteStateObject();

@@ -22,7 +22,7 @@ namespace BehaviorTree
         /// 更新时间间隔（秒）
         /// </summary>
         public float m_UpdateIntervalSecs = 0.1f;
-        public int Id;
+        public string Id;
         public bool m_BlLoop = true;
         float m_UpdatePassedSecs = 0;
         BTNode m_Root = null;

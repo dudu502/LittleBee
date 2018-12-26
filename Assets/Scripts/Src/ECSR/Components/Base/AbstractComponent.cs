@@ -10,7 +10,7 @@ namespace Components
     /// 所有Component的基类
     /// 实现IComponent
     /// </summary>
-    public class AbstractComponent : IComponent
+    public abstract class AbstractComponent : IComponent
     {
         public string EntityId { set; get; }
 

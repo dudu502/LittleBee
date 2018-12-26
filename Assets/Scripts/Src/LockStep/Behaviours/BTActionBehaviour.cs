@@ -14,15 +14,16 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         }
 
         List<BTRoot> m_BTRoots = new List<BTRoot>();
-        public void AddBt(int Id)
+        public void AddBtRoot(string Id)
         {
             BTRoot bt = new BTRoot();
             bt.Id = Id;
+            m_BTRoots.Add(bt);
         }
 
         public void Quit()
         {
-                       
+
         }
 
         public void Start()

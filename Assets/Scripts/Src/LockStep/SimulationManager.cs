@@ -8,8 +8,9 @@ namespace LogicFrameSync.Src.LockStep
     public class SimulationManager
     {
         static SimulationManager ins;
+        Timer m_TickTimer;
         Stopwatch m_StopWatch;
-        private List<Simulation> m_Sims;
+        List<Simulation> m_Sims;
         double m_Accumulator = 0;
         double m_FrameMsLength = 40;
         double m_FrameLerp = 0;
@@ -43,24 +44,23 @@ namespace LogicFrameSync.Src.LockStep
             return time;
         }
 
-        Timer timer;
         public void Start()
         {
             foreach (Simulation sim in m_Sims)
                 sim.Start();
 
 
-            timer = new Timer(20);
-            timer.Elapsed += (an,b)=> {
+            m_TickTimer = new Timer(20);
+            m_TickTimer.Elapsed += (an,b)=> {
                 Run();
             };
-            timer.Start();
-            //ThreadPool.QueueUserWorkItem(ThreadPoolRunner);
+            m_TickTimer.Start();
             m_StopWatch.Restart();
         }
         public void Stop()
         {
-            m_StopState = false;
+            m_StopState = false;     
+            m_TickTimer.Stop();
         }
         void ThreadPoolRunner(object state)
         {
@@ -69,20 +69,16 @@ namespace LogicFrameSync.Src.LockStep
 
         void Run()
         {
-            //while (!m_StopState)
+            m_Accumulator += GetElapsedTime();
+            while (m_Accumulator >= m_FrameMsLength)
             {
-                m_Accumulator += GetElapsedTime();
-                while (m_Accumulator >= m_FrameMsLength)
+                for (int i = 0; i < m_Sims.Count; ++i)
                 {
-                    for (int i = 0; i < m_Sims.Count; ++i)
-                    {
-                        m_Sims[i].Run();
-                    }
-                    m_Accumulator -= m_FrameMsLength;
+                    m_Sims[i].Run();
                 }
-                m_FrameLerp = m_Accumulator / m_FrameMsLength;
-                //Thread.Sleep(20);
-            }           
+                m_Accumulator -= m_FrameMsLength;
+            }
+            m_FrameLerp = m_Accumulator / m_FrameMsLength;
         }
         public void AddSimulation(Simulation sim)
         {

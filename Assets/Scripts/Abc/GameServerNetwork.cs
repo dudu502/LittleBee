@@ -46,7 +46,7 @@ public class GameServerNetwork
 
         m_Server.ClientDisconnected += (send, msg) => 
         {
-
+            UnityEngine.Debug.Log("ClientDisconnected"+msg.ToString());
         };
 
         m_Server.DataReceived += (send, msg) => 
