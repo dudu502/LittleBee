@@ -12,7 +12,7 @@ end
 
 --进入调用
 function enter()
-
+    
 end
 
 --每隔dt秒更新

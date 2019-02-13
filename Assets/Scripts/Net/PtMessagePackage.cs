@@ -88,29 +88,5 @@ namespace Net
             MessageId = 0;
             HasContent = false;
         }
-
-
-
-
-
-        //public static byte[] BuildDataPackage(long sessionId,int cmd,byte[] bytes)
-        //{
-        //    byte[] crccodeBytes = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(65433));
-        //    byte[] sessionBytes = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(sessionId));
-        //    byte[] cmdBytes = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(cmd));
-
-        //    int messagebodyLen = bytes.Length;
-
-        //}
-
-
-
-
-
-
-
-
-
-
     }
 }

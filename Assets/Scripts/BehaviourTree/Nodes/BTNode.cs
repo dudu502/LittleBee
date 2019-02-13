@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using XLua;
 
@@ -7,19 +7,19 @@ namespace BehaviorTree
     public abstract class BTNode
     {
         /// <summary>
-        /// 0 Ö´ĞĞ½Úµã
+        /// 0 æ‰§è¡ŒèŠ‚ç‚¹
         /// </summary>
         public const int NODE_TYPE_ACTION = 0;
         /// <summary>
-        /// 1 Ë³Ğò¿ØÖÆ½Úµã £¨Ë³ĞòÖ´ĞĞ£©
+        /// 1 é¡ºåºæ§åˆ¶èŠ‚ç‚¹ ï¼ˆé¡ºåºæ‰§è¡Œï¼‰
         /// </summary>
         public const int NODE_TYPE_SEQUENCE = 1;
         /// <summary>
-        /// 2 Ëæ»úÑ¡Ôñ¿ØÖÆ½Úµã£¨×Ó½ÚµãµÄweight×Ö¶ÎÀ´¿ØÖÆËæ»ú±ÈÀı Ñ¡ÔñÒ»¸ö½ÚµãÖ´ĞĞÖ®ºó½áÊø£©
+        /// 2 éšæœºé€‰æ‹©æ§åˆ¶èŠ‚ç‚¹ï¼ˆå­èŠ‚ç‚¹çš„weightå­—æ®µæ¥æ§åˆ¶éšæœºæ¯”ä¾‹ é€‰æ‹©ä¸€ä¸ªèŠ‚ç‚¹æ‰§è¡Œä¹‹åç»“æŸï¼‰
         /// </summary>
         public const int NODE_TYPE_RANDOMSELECT = 2;
         /// <summary>
-        /// 3 ²¢·¢½Úµã £¨Í¬Ê±£©
+        /// 3 å¹¶å‘èŠ‚ç‚¹ ï¼ˆåŒæ—¶ï¼‰
         /// </summary>
         public const int NODE_TYPE_PAIALLEL = 3;
 
