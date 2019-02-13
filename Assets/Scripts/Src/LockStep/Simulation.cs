@@ -65,9 +65,9 @@ namespace LogicFrameSync.Src.LockStep
         
         public void Run()
         {
-            m_EntityWorld.IsActive = false;
-            for(int i = 0;i<m_Behaviours.Count;++i)
-                m_Behaviours[i].Update();
+            m_EntityWorld.IsActive = false;           
+            for (int i = 0; i < m_Behaviours.Count; ++i)
+                m_Behaviours[i].Update();          
             m_EntityWorld.IsActive = true;
         } 
     }

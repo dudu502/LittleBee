@@ -11,6 +11,7 @@ namespace Entitas
 {
     public class EntityWorld
     {
+        public static object SyncRoot = new object();
         public enum EntityOperationEvent
         {
             CreatePlayer,

@@ -19,23 +19,26 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         
         public override void Update()
         {
-            logicBehaviour = Sim.GetBehaviour<LogicFrameBehaviour>();
-            backupBehaviour = Sim.GetBehaviour<ComponentsBackupBehaviour>();
-            while (Service.Get<LoginService>().QueueKeyFrameCollection.Count > 0)
+            lock (Entitas.EntityWorld.SyncRoot)
             {
-                PtKeyFrameCollection pt = null;
-                if (Service.Get<LoginService>().QueueKeyFrameCollection.TryPeek(out pt) && pt.FrameIdx < logicBehaviour.CurrentFrameIdx)
+                logicBehaviour = Sim.GetBehaviour<LogicFrameBehaviour>();
+                backupBehaviour = Sim.GetBehaviour<ComponentsBackupBehaviour>();
+                while (Service.Get<LoginService>().QueueKeyFrameCollection.Count > 0)
                 {
-                    PtKeyFrameCollection keyframeCollection = null;
-                    if (Service.Get<LoginService>().QueueKeyFrameCollection.TryDequeue(out keyframeCollection))
-                        RollImpl(keyframeCollection);
+                    PtKeyFrameCollection pt = null;
+                    if (Service.Get<LoginService>().QueueKeyFrameCollection.TryPeek(out pt) && pt.FrameIdx < logicBehaviour.CurrentFrameIdx)
+                    {
+                        PtKeyFrameCollection keyframeCollection = null;
+                        if (Service.Get<LoginService>().QueueKeyFrameCollection.TryDequeue(out keyframeCollection))
+                            RollImpl(keyframeCollection);
+                        else
+                            break;
+                        //DebugFrameIdx = string.Format("{0} CollectionFrameIdx:{1}", logicBehaviour.CurrentFrameIdx, keyframeCollection.FrameIdx);
+                    }
                     else
+                    {
                         break;
-                    //DebugFrameIdx = string.Format("{0} CollectionFrameIdx:{1}", logicBehaviour.CurrentFrameIdx, keyframeCollection.FrameIdx);
-                }
-                else
-                {
-                    break;                   
+                    }
                 }
             }
         }       

@@ -32,7 +32,10 @@ namespace Renderers
             Entity entity = m_Simulation.GetEntityWorld().GetEntity(m_EntityId);
             if (entity == null) return;
             if (!entity.IsActive) return;
-            OnRender(entity);
+            lock (EntityWorld.SyncRoot)
+            {
+                OnRender(entity);
+            }                      
         }
 
         protected virtual void OnRender(Entity entity)
