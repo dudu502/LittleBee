@@ -51,7 +51,8 @@
 				dt = mul(rot,dt);
 				uv = dt+float2(0.5,0.5);
 				float4 color = tex2D(_MainTex,uv);
-				return color;
+				return Luminance(color);//灰度
+				//return color;
 			}
 
 
