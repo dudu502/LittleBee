@@ -1,4 +1,6 @@
 # LittleBee
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
+[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 ## 0x00. 引言
 ECS是Entity-Component-System（实体-组件-系统） 的缩写，是一种非常好用的框架思想，可以提高代码复用率，游戏逻辑开发中使用这种组合优于继承的方式可以很大程度上简化复杂度，而且在性能上也是有很大提升的。Entiy是一个包含唯一ID的容器对象，在Entity内部可以绑定很多Component，每个Component只负责存储数据，正是因为Component的功能单一性，它可以很方便的做数据快照。System内部负责操作Component数据，从而最终作用于Entity。
 
