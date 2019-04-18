@@ -52,7 +52,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
             int frameIdx = collection.FrameIdx;
             if (frameIdx < 1) return;
 
-            collection.KeyFrames.Sort((a, b) => new System.Guid(a.EntityId).CompareTo(new System.Guid(b.EntityId)));
+            collection.KeyFrames.Sort((a, b) => a.EntityId.CompareTo(b.EntityId));
             //回放命令存储;
             foreach (var frame in collection.KeyFrames)
                 logicBehaviour.UpdateKeyFrameIdxInfoAtFrameIdx(collection.FrameIdx, frame);

@@ -12,7 +12,7 @@ namespace Components
     /// </summary>
     public abstract class AbstractComponent : IComponent
     {
-        public string EntityId { set; get; }
+        public Guid EntityId { set; get; }
 
         public bool Enable = true;
 

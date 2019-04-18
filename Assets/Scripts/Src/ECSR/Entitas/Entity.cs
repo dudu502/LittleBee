@@ -19,7 +19,7 @@ namespace Entitas
                                                              (entity) =>
                                                              {
                                                                  Entity e = (Entity)entity;
-                                                                 e.Id = "";
+                                                                 e.Id = new Guid();
                                                                  e.IsActive = false;
                                                                  e.LifeState = 0;
                                                              }
@@ -27,9 +27,9 @@ namespace Entitas
         #endregion
         public byte LifeState = 1;
         public bool IsActive = true;
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public EntityWorld World { set; get; }
-        public Entity(string id)
+        public Entity(Guid id)
         {
             Id = id;
         }
@@ -65,7 +65,7 @@ namespace Entitas
             if (ContainComponent(component))
             {
                 World.RemoveComponent(component);
-                component.EntityId = "";
+                component.EntityId = new Guid();
             }
         }
     }

@@ -61,7 +61,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                         {
                             //Debug.Log(string.Format("keyframeIdx:{0} roleid:{1}", logic.CurrentFrameIdx, comp.EntityId));
 
-                            KeyFrameSender.AddFrameCommand(new FrameIdxInfo(logic.CurrentFrameIdx, FrameCommand.SYNC_MOVE, comp.EntityId, new string[] { dir.x + "", dir.y + "", "0" }));
+                            KeyFrameSender.AddFrameCommand(new FrameIdxInfo(logic.CurrentFrameIdx, FrameCommand.SYNC_MOVE, comp.EntityId.ToString(), new string[] { dir.x + "", dir.y + "", "0" }));
                         }
                     }
                 }

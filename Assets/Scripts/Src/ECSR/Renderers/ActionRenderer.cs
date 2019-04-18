@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Entitas;
 using LogicFrameSync.Src.LockStep;
+using System;
 
 namespace Renderers
 {
@@ -29,7 +30,7 @@ namespace Renderers
         private void Update()
         {
             if (string.IsNullOrEmpty(m_EntityId)) return;
-            Entity entity = m_Simulation.GetEntityWorld().GetEntity(m_EntityId);
+            Entity entity = m_Simulation.GetEntityWorld().GetEntity(new Guid(m_EntityId));
             if (entity == null) return;
             if (!entity.IsActive) return;
             lock (EntityWorld.SyncRoot)

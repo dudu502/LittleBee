@@ -21,19 +21,19 @@ namespace Entitas
         }
         public bool IsActive = true;
         Notify.Notifier m_Notifier = null;
-        Dictionary<string,Entity> m_DictEntities;
+        Dictionary<Guid,Entity> m_DictEntities;
         Dictionary<Type, List<IComponent>> m_DictAllComponents;
-        Dictionary<string, List<IComponent>> m_DictEntityAllComponents;
+        Dictionary<Guid, List<IComponent>> m_DictEntityAllComponents;
         private EntityWorld()
         {       
             m_Notifier = new Notify.Notifier(this);
             m_DictAllComponents = new Dictionary<Type, List<IComponent>>();
-            m_DictEntityAllComponents = new Dictionary<string, List<IComponent>>();
-            m_DictEntities = new Dictionary<string, Entity>();
+            m_DictEntityAllComponents = new Dictionary<Guid, List<IComponent>>();
+            m_DictEntities = new Dictionary<Guid, Entity>();
         }
         public void Reset()
         {
-            foreach(string entityId in new List<string>(m_DictEntities.Keys))
+            foreach(Guid entityId in new List<Guid>(m_DictEntities.Keys))
             {
                 Entity entity = m_DictEntities[entityId];
                 m_DictEntities.Remove(entityId);
@@ -47,7 +47,7 @@ namespace Entitas
         }
         public List<Entity> GetEntities() { return new List<Entity>(m_DictEntities.Values); }
 
-        public IComponent GetComponentByEntityId(string entityId, Type componentType)
+        public IComponent GetComponentByEntityId(Guid entityId, Type componentType)
         {
             if (m_DictEntityAllComponents.ContainsKey(entityId))
             {
@@ -102,11 +102,11 @@ namespace Entitas
         }
 
 
-        public bool ContainEntity(string entityId)
+        public bool ContainEntity(Guid entityId)
         {
             return m_DictEntities.ContainsKey(entityId);
         }
-        public Entity AddEntity(string entityId)
+        public Entity AddEntity(Guid entityId)
         {
             if (!ContainEntity(entityId))
             {
@@ -119,7 +119,7 @@ namespace Entitas
             }
             return m_DictEntities[entityId];
         }
-        public bool RemoveEntity(string entityId)
+        public bool RemoveEntity(Guid entityId)
         {
             Entity entity = GetEntity(entityId);
             if (entity != null)
@@ -134,7 +134,7 @@ namespace Entitas
             return false;
         }
 
-        private void RemoveEntityComponentAll(string entityId)
+        private void RemoveEntityComponentAll(Guid entityId)
         {
             if (m_DictEntityAllComponents.ContainsKey(entityId))
             {
@@ -150,19 +150,19 @@ namespace Entitas
                 m_DictEntityAllComponents.Remove(entityId);
             }
         }
-        public Entity GetEntity(string id)
+        public Entity GetEntity(Guid id)
         {
             if (ContainEntity(id))
                 return m_DictEntities[id];
             return null;
         }
 
-        public List<string> FindAllEntitiesIds()
+        public List<Guid> FindAllEntitiesIds()
         {
-            List<string> ids = new List<string>();
+            List<Guid> ids = new List<Guid>();
             foreach (Entity entity in m_DictEntities.Values)
                 ids.Add(entity.Id);
-            ids.Sort((a, b) => new Guid(a).CompareTo(new Guid(b)));
+            ids.Sort((a, b) => a.CompareTo(b));
             return ids;
         }
 
@@ -174,14 +174,14 @@ namespace Entitas
                 foreach (IComponent comp in list)
                     components.Add(comp.Clone());
             }
-            components.Sort((a,b)=>new Guid(a.EntityId).CompareTo(new Guid(b.EntityId)));
+            components.Sort((a,b)=>a.EntityId.CompareTo(b.EntityId));
             return components;
         }
         
         public void RollBack(EntityWorldFrameData data, PtKeyFrameCollection collection)
         {
             Reset();
-            foreach(string entityId in data.EntityIds)
+            foreach(Guid entityId in data.EntityIds)
             {
                 Entity entity = AddEntity(entityId);               
                 foreach (IComponent com in data.Components)
@@ -233,7 +233,7 @@ namespace Entitas
                 m_Notifier.Send((EntityOperationEvent)int.Parse(info.Params[0]), entity,info);
             }
         }
-        public void NotifyRemoveEntity(string entityId)
+        public void NotifyRemoveEntity(Guid entityId)
         {
             RemoveEntity(entityId);
             m_Notifier.Send(EntityOperationEvent.RemoveBox, entityId);

@@ -36,7 +36,7 @@ public class GameClientNetwork : MonoBehaviour
     }
     public void Connect()
     {
-        m_Client.Connect("192.168.18.56", 10000);
+        m_Client.Connect("192.168.1.90", 10000);
     }
     public void SendRequest(PtMessagePackage package)
     {

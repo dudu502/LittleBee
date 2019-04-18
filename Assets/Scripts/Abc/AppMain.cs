@@ -18,6 +18,7 @@ using System.Collections.Concurrent;
 using Entitas;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using System;
 
 public class AppMain : MonoBehaviour
 {
@@ -59,8 +60,8 @@ public class AppMain : MonoBehaviour
     }
     void OnClickAddEntity()
     {
-        GameClientData.SelfControlEntityId = Common.Utils.GuidToString();
-        KeyFrameSender.AddCurrentFrameCommand(FrameCommand.SYNC_CREATE_ENTITY, GameClientData.SelfControlEntityId, new string[] { ((int)EntityWorld.EntityOperationEvent.CreatePlayer)+"" });
+        GameClientData.SelfControlEntityId = Guid.NewGuid();
+        KeyFrameSender.AddCurrentFrameCommand(FrameCommand.SYNC_CREATE_ENTITY, GameClientData.SelfControlEntityId.ToString(), new string[] { ((int)EntityWorld.EntityOperationEvent.CreatePlayer)+"" });
     }
     void OnClickBoxEntity()
     {

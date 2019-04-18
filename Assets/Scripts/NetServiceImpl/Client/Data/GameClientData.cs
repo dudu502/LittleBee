@@ -1,4 +1,5 @@
 ﻿using NetServiceImpl.Server.Data;
+using System;
 
 namespace NetServiceImpl.Client.Data
 {
@@ -7,6 +8,6 @@ namespace NetServiceImpl.Client.Data
         public static GamePlayerCvo SelfPlayer = new GamePlayerCvo();
         public static GameRoomSvo GameRoom;
 
-        public static string SelfControlEntityId = "";
+        public static Guid SelfControlEntityId;
     }
 }

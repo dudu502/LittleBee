@@ -46,7 +46,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
             }
             if (!updateState)
                 frames.Add(info);
-            frames.Sort((a, b) => new System.Guid(a.EntityId).CompareTo(new System.Guid(b.EntityId)));
+            frames.Sort((a, b) => a.EntityId.CompareTo(b.EntityId));
         }
         public void Update() 
         {

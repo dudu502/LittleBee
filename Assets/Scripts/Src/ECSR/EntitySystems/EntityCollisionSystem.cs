@@ -46,13 +46,13 @@ namespace EntitySystems
 
             while(list.Count>0)
             {
-                string id = list[0];
+                var id = list[0];
                 World.NotifyRemoveEntity(id);
                 list.RemoveAt(0);
             }
         }
 
-        List<string> list = new List<string>();
+        List<Guid> list = new List<Guid>();
         void DoingInersectsImpl(Entity e1,Entity e2)
         {
             if (e1 == null || e2 == null) return;

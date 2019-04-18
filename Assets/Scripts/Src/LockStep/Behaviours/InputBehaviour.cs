@@ -56,13 +56,13 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
 
                         //KeyFrameSender.AddFrameCommand(new FrameIdxInfo(logic.CurrentFrameIdx,FrameCommand.SYNC_MOVE,comp.EntityId,new string[] { dir.x + "", dir.y + "", "0" }));
 
-                        KeyFrameSender.AddCurrentFrameCommand(FrameCommand.SYNC_MOVE, comp.EntityId, new string[] { dir.x + "", dir.y + "", "0" });
+                        KeyFrameSender.AddCurrentFrameCommand(FrameCommand.SYNC_MOVE, comp.EntityId.ToString(), new string[] { dir.x + "", dir.y + "", "0" });
                     }   
                     
                     //bullet
                     if(InputManager.Instance.IsKeyCodeActive(KeyCode.Space))
                     {
-                        KeyFrameSender.AddCurrentFrameCommand(FrameCommand.SYNC_CREATE_ENTITY, Common.Utils.GuidToString(), new string[] { ((int)EntityWorld.EntityOperationEvent.CreateBullet) + "" ,comp.EntityId});
+                        KeyFrameSender.AddCurrentFrameCommand(FrameCommand.SYNC_CREATE_ENTITY, Common.Utils.GuidToString(), new string[] { ((int)EntityWorld.EntityOperationEvent.CreateBullet) + "" ,comp.EntityId.ToString()});
                     }
                 }
             }

@@ -13,12 +13,12 @@ namespace LogicFrameSync.Src.LockStep
         /// <summary>
         /// 当前所有的EntityIds快照信息
         /// </summary>
-        public List<string> EntityIds { private set; get; }
+        public List<Guid> EntityIds { private set; get; }
         /// <summary>
         /// 当前所有的Components快照信息
         /// </summary>
         public List<IComponent> Components { private set; get; }
-        public EntityWorldFrameData(List<string> entities, List<IComponent> comps)
+        public EntityWorldFrameData(List<Guid> entities, List<IComponent> comps)
         {
             EntityIds = entities;
             Components = comps;
@@ -38,7 +38,7 @@ namespace LogicFrameSync.Src.LockStep
         /// <returns></returns>
         public EntityWorldFrameData Clone()
         {
-            List<string> cloneEntities = new List<string>();
+            List<Guid> cloneEntities = new List<Guid>();
             EntityIds.ForEach((a)=>cloneEntities.Add(a));
 
             List<IComponent> cloneComps = new List<IComponent>();

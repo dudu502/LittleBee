@@ -85,25 +85,25 @@ namespace Components
             return FrameCommand.SYNC_TRANSFORM;
         }
 
-        public static void LocalPosition2Global(TransformComponent transformComponent,Entitas.EntityWorld world, out float2 Pos, out float rotateDegreeZ)
-        {
-            rotateDegreeZ = transformComponent.RotateDegreeZ;
-            Pos = transformComponent.LocalPosition;
-            TransformComponent Parent = world.GetComponentByEntityId(transformComponent.ParentEntityId, typeof(TransformComponent)) as TransformComponent;
-            TransformComponent Current = transformComponent;
-            while (Parent != null)
-            {
-                Parent = Parent.Clone() as TransformComponent;
-                Current = Current.Clone() as TransformComponent;
-                Current.RotateDeltaDegree(-Parent.RotateDegreeZ);
-                Current.Translate(Parent.LocalPosition);
-                Parent.LocalPosition = Current.LocalPosition;
-                Pos = Parent.LocalPosition;
-                rotateDegreeZ += Parent.RotateDegreeZ;
-                Current = Parent;
+        //public static void LocalPosition2Global(TransformComponent transformComponent,Entitas.EntityWorld world, out float2 Pos, out float rotateDegreeZ)
+        //{
+        //    rotateDegreeZ = transformComponent.RotateDegreeZ;
+        //    Pos = transformComponent.LocalPosition;
+        //    TransformComponent Parent = world.GetComponentByEntityId(transformComponent.ParentEntityId, typeof(TransformComponent)) as TransformComponent;
+        //    TransformComponent Current = transformComponent;
+        //    while (Parent != null)
+        //    {
+        //        Parent = Parent.Clone() as TransformComponent;
+        //        Current = Current.Clone() as TransformComponent;
+        //        Current.RotateDeltaDegree(-Parent.RotateDegreeZ);
+        //        Current.Translate(Parent.LocalPosition);
+        //        Parent.LocalPosition = Current.LocalPosition;
+        //        Pos = Parent.LocalPosition;
+        //        rotateDegreeZ += Parent.RotateDegreeZ;
+        //        Current = Parent;
                 
-                Parent = world.GetComponentByEntityId(Parent.ParentEntityId, typeof(TransformComponent)) as TransformComponent;
-            }
-        }
+        //        Parent = world.GetComponentByEntityId(Parent.ParentEntityId, typeof(TransformComponent)) as TransformComponent;
+        //    }
+        //}
     }
 }

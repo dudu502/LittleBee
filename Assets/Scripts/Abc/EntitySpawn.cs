@@ -32,7 +32,7 @@ public class EntitySpawn : MonoBehaviour
             AddComponent(new TransformComponent(float2.zero)).
             AddComponent(new PlayerInfoComponent()).
             AddComponent(new SphereColliderComponent(VInt3.zero,20));
-        QueueCreateEntity.Enqueue(entity.Id);
+        QueueCreateEntity.Enqueue(entity.Id.ToString());
     }
 
     [Notify.Subscribe(Entitas.EntityWorld.EntityOperationEvent.CreateBox)]
@@ -45,7 +45,7 @@ public class EntitySpawn : MonoBehaviour
             AddComponent(new BoxColliderComponent(VInt3.zero, new VInt3(50, 50, 0))).
             AddComponent(new IntValueComponent(1)).
             AddComponent(new FrameClockComponent(100,1));
-        QueueCreateBoxEntity.Enqueue(entity.Id);
+        QueueCreateBoxEntity.Enqueue(entity.Id.ToString());
     }
 
     [Notify.Subscribe(Entitas.EntityWorld.EntityOperationEvent.CreateBullet)]
@@ -53,7 +53,7 @@ public class EntitySpawn : MonoBehaviour
     {
         Entity entity = note.Params[0] as Entity;
         entity.AddComponent(new MoveComponent(5, new float2(0, 1))).AddComponent(new TransformComponent(float2.zero));
-        QueueBulletEntity.Enqueue(entity.Id);
+        QueueBulletEntity.Enqueue(entity.Id.ToString());
     }
 
 

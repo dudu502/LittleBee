@@ -5,7 +5,7 @@
     /// </summary>
     public interface IComponent
     {
-        string EntityId { set; get; }
+        System.Guid EntityId { set; get; }
         /// <summary>
         /// 深度拷贝
         /// </summary>
