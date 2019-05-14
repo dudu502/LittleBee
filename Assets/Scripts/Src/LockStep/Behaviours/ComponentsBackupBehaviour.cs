@@ -35,12 +35,12 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                 m_DictEntityWorldFrameData[frameIdx].Clear();
             m_DictEntityWorldFrameData[frameIdx]= data; 
 
-            while(QueueFrameCache.Count>100)
-            {
-                int fid = QueueFrameCache.Dequeue();
-                if (m_DictEntityWorldFrameData.ContainsKey(fid))
-                    m_DictEntityWorldFrameData.Remove(fid);
-            }
+            //while(QueueFrameCache.Count>100)
+            //{
+            //    int fid = QueueFrameCache.Dequeue();
+            //    if (m_DictEntityWorldFrameData.ContainsKey(fid))
+            //        m_DictEntityWorldFrameData.Remove(fid);
+            //}
         }
         public Dictionary<int, EntityWorldFrameData> GetEntityWorldFrameData()
         {

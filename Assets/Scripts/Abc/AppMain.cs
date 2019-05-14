@@ -152,29 +152,33 @@ public class AppMain : MonoBehaviour
    
     void Update()
     {
-        //if (!IsReplayMode)
-        //{
-        //    Simulation sim = SimulationManager.Instance.GetSimulation(Const.CLIENT_SIMULATION_ID);
-        //    if (sim == null) return;
-        //    var world = sim.GetEntityWorld();
-        //    if (world == null) return;
-        //    if (!world.IsActive) return;
-        //    string str = "";
-        //    var entities = world.GetEntities();
-        //    for (int i = 0; i < entities.Count; ++i)
-        //    {
-        //        var e = entities[i];
-        //        if (!e.IsActive) continue;
-        //        TransformComponent posComp = e.GetComponent<TransformComponent>();
-        //        if (posComp != null)
-        //            str += string.Format("EntityId {0} Position:{1}", e.Id, posComp.ToString()) + "\n";
-        //    }
-        //    str += "Message count:" + Service.Get<LoginService>().KeyframesCount + "\n";
-        //    str += "Keyframe count:" + Service.Get<LoginService>().AllFramesCount + "\n";
-        //    str += "DebugRoll KeyframeIdx :" + sim.GetBehaviour<RollbackBehaviour>().DebugFrameIdx + "\n";
-        //    str += "FrameIdx:" + sim.GetBehaviour<LogicFrameBehaviour>().CurrentFrameIdx;
-        //    m_TxtDebug.text = str;
-        //}        
+        if (!IsReplayMode)
+        {
+            lock(EntityWorld.SyncRoot)
+            {
+                Simulation sim = SimulationManager.Instance.GetSimulation(Const.CLIENT_SIMULATION_ID);
+                if (sim == null) return;
+                var world = sim.GetEntityWorld();
+                if (world == null) return;
+                if (!world.IsActive) return;
+                string str = "";
+                var entities = world.GetEntities();
+                for (int i = 0; i < entities.Count; ++i)
+                {
+                    var e = entities[i];
+                    if (!e.IsActive) continue;
+                    TransformComponent posComp = e.GetComponent<TransformComponent>();
+                    if (posComp != null)
+                        str += string.Format("EntityId {0} Position:{1}", e.Id, posComp.ToString()) + "\n";
+                }
+                str += "Message count:" + Service.Get<LoginService>().KeyframesCount + "\n";
+                str += "Keyframe count:" + Service.Get<LoginService>().AllFramesCount + "\n";
+                str += "DebugRoll KeyframeIdx :" + sim.GetBehaviour<RollbackBehaviour>().DebugFrameIdx + "\n";
+                str += "FrameIdx:" + sim.GetBehaviour<LogicFrameBehaviour>().CurrentFrameIdx;
+                m_TxtDebug.text = str;
+            }
+      
+        }
     }
 
     private void OnApplicationQuit()

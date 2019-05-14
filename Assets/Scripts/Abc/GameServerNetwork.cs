@@ -34,7 +34,7 @@ public class GameServerNetwork
     public void Start()
     {
         m_Server = new Server();
-        m_Server.Start(IPAddress.Parse("192.168.1.90"), 10000);
+        m_Server.Start(IPAddress.Parse("127.0.0.1"), 10000);
 
         m_Server.ClientConnected += (send, msg) => 
         {
