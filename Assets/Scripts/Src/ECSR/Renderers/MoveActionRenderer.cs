@@ -12,7 +12,7 @@ namespace Renderers
     /// </summary>
     public class MoveActionRenderer:ActionRenderer
     {
-        Tweener tweener;
+        //Tweener tweener;
         protected override void OnRender(Entitas.Entity entity)
         {           
             base.OnRender(entity);
@@ -21,16 +21,17 @@ namespace Renderers
             MoveComponent com_Move = entity.GetComponent<MoveComponent>();
             if (com_Pos != null)
             {
-                double lerp = SimulationManager.Instance.GetFrameLerp() * SimulationManager.Instance.GetFrameMsLength() / 1000;/// Time.deltaTime;
+                //double lerp = SimulationManager.Instance.GetFrameLerp() * SimulationManager.Instance.GetFrameMsLength() / 1000;/// Time.deltaTime;
                 var pos1 = com_Pos.GetPositionVector2();
                 var nextPos = pos1 + com_Move.GetDirVector2() * (com_Move.GetSpeed() * (float)(Time.deltaTime / SimulationManager.Instance.GetFrameMsLength() / 1000));
 
-                if (tweener != null)
-                    tweener.Kill();
-                tweener = null;
+                //if (tweener != null)
+                //    tweener.Kill();
+                //tweener = null;
 
-                transform.DOLocalMove(Vector2.Lerp(pos1, nextPos, (float)lerp),0.5f, true);
-
+                //transform.DOLocalMove(Vector2.Lerp(pos1, nextPos, (float)lerp), 0.8f, true);
+                transform.localPosition = Vector2.Lerp(transform.localPosition, nextPos, (float)SimulationManager.Instance.GetFrameMsLength()/1000);
+                
                 //transform.localPosition = Vector2.Lerp(transform.position, nextPos, (float)lerp);
             }
         }
