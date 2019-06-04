@@ -38,8 +38,8 @@ namespace LogicFrameSync.Src.LockStep
         {
             double time = m_StopWatch.Elapsed.TotalMilliseconds;
             m_StopWatch.Restart();
-            if (time > m_FrameMsLength)
-                time = m_FrameMsLength;
+            //if (time > m_FrameMsLength)
+            //    time = m_FrameMsLength;
             return time;
         }
 
