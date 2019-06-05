@@ -18,25 +18,29 @@ namespace LogicFrameSync.Src.LockStep.Net.Pt
         {
             PtKeyFrameCollection info = new PtKeyFrameCollection();         
             info.KeyFrames = new List<FrameIdxInfo>();
-            ByteBuffer buffer = new ByteBuffer(bytes);
-            info.FrameIdx = buffer.ReadInt32();
-            int size = buffer.ReadInt32();
-            for(int i = 0; i < size; ++i)
+            using (ByteBuffer buffer = new ByteBuffer(bytes))
             {
-                info.KeyFrames.Add(FrameIdxInfo.Read(buffer.ReadBytes()));
-            }
-            return info;
+                info.FrameIdx = buffer.ReadInt32();
+                int size = buffer.ReadInt32();
+                for (int i = 0; i < size; ++i)
+                {
+                    info.KeyFrames.Add(FrameIdxInfo.Read(buffer.ReadBytes()));
+                }
+                return info;
+            }               
         }
         public static byte[] Write(PtKeyFrameCollection info)
         {
-            ByteBuffer buffer = new ByteBuffer();
-            buffer.WriteInt32(info.FrameIdx);
-            buffer.WriteInt32(info.KeyFrames.Count);
-            for(int i = 0; i < info.KeyFrames.Count; ++i)
+            using (ByteBuffer buffer = new ByteBuffer())
             {
-                buffer.WriteBytes(FrameIdxInfo.Write(info.KeyFrames[i]));
-            }
-            return buffer.Getbuffer();
+                buffer.WriteInt32(info.FrameIdx);
+                buffer.WriteInt32(info.KeyFrames.Count);
+                for (int i = 0; i < info.KeyFrames.Count; ++i)
+                {
+                    buffer.WriteBytes(FrameIdxInfo.Write(info.KeyFrames[i]));
+                }
+                return buffer.Getbuffer();
+            }              
         }
 
         public void AddKeyFramesRange(PtKeyFrameCollection targetCollection)

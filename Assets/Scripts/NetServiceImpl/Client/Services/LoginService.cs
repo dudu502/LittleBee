@@ -32,10 +32,14 @@ namespace NetServiceImpl.Client
         [Subscribe(S2CMessageId.ResponseClientConnected)]
         void OnResponseClientConnected(Notification note)
         {
-            long id = new ByteBuffer(note.GetBytes()).ReadLong();
-            GameClientData.SelfPlayer.Id = id;
-            Debug.Log("OnResponseClientConnected "+id);
-            AllUI.Instance.Show("PanelLan");
+            using(ByteBuffer buffer = new ByteBuffer(note.GetBytes()))
+            {
+                long id = buffer.ReadLong();
+                GameClientData.SelfPlayer.Id = id;
+                Debug.Log("OnResponseClientConnected " + id);
+                AllUI.Instance.Show("PanelLan");
+            }
+            
         }
         #endregion
         #region 进入房间
@@ -47,20 +51,20 @@ namespace NetServiceImpl.Client
         [Subscribe(S2CMessageId.ResponseEnterRoom)]
         void OnResponseEnterRoom(Notification note)
         {
-            ByteBuffer buff = new ByteBuffer(note.GetBytes());
-            
-            int state = buff.ReadInt32();
-            if (state == -1)
+            using (ByteBuffer buff = new ByteBuffer(note.GetBytes()))
             {
-                Debug.Log("has same roleid in room");
-            }
-            else
-            {
-                GameClientData.GameRoom = GameRoomSvo.Read(buff.ReadBytes());
-                Debug.Log(1);
-            }
-            Debug.Log("[client] OnResponseEnterRoom " );
-                                       
+                int state = buff.ReadInt32();
+                if (state == -1)
+                {
+                    Debug.Log("has same roleid in room");
+                }
+                else
+                {
+                    GameClientData.GameRoom = GameRoomSvo.Read(buff.ReadBytes());
+                    Debug.Log(1);
+                }
+                Debug.Log("[client] OnResponseEnterRoom ");
+            }                                                    
         }
         #endregion
 
@@ -77,15 +81,18 @@ namespace NetServiceImpl.Client
         [Subscribe(S2CMessageId.ResponseSyncKeyframes)]
         void OnResponseSyncKeyframes(Notification note)
         {
-            ByteBuffer buff = new ByteBuffer(note.GetBytes());
+            using (ByteBuffer buff = new ByteBuffer(note.GetBytes()))
+            {
+                PtKeyFrameCollection collection = PtKeyFrameCollection.Read(buff.ReadBytes());
 
-            PtKeyFrameCollection collection = PtKeyFrameCollection.Read(buff.ReadBytes());
-            
 
-            QueueKeyFrameCollection.Enqueue(collection);
-            KeyframesCount++;
-            AllFramesCount += collection.KeyFrames.Count;
-            //Debug.Log(string.Format("[client receive]  frameIdx:{0}",  collection.FrameIdx));                     
+                QueueKeyFrameCollection.Enqueue(collection);
+                KeyframesCount++;
+                AllFramesCount += collection.KeyFrames.Count;
+                //Debug.Log(string.Format("[client receive]  frameIdx:{0}",  collection.FrameIdx));       
+            }
+
+
         }
         #endregion
         #region 发送玩家准备
@@ -104,13 +111,17 @@ namespace NetServiceImpl.Client
         void OnResponseInitPlayer(Notification note)
         {
             Debug.Log("------------OnResponseInitPlayer---------");
-            ByteBuffer buff = new ByteBuffer(note.GetBytes());
-            
-            long roleId = buff.ReadLong();
+
+            using (ByteBuffer buff = new ByteBuffer(note.GetBytes()))
+            {
+                long roleId = buff.ReadLong();
 
                 //Send(AppMain.Notifications.InitPlayer, roleId);
-            
-        
+            }
+
+
+
+
         }
         [Subscribe(S2CMessageId.ResponsePlayerReady)]
         void OnResponsePlayerReady(Notification note)
@@ -122,13 +133,16 @@ namespace NetServiceImpl.Client
         void OnResponseAllPlayerReady(Notification note)
         {
             Debug.Log("------------OnResponseAllPlayerReady---------");
-            ByteBuffer buff = new ByteBuffer(note.GetBytes());
-            
-            int memberSize = buff.ReadInt32();
-            for (int i = 0; i < memberSize; ++i)
+            using (ByteBuffer buff = new ByteBuffer(note.GetBytes()))
             {
-                Send(AppMain.Notifications.ReadyPlayerAndAdd, buff.ReadLong());
-            }                
+                int memberSize = buff.ReadInt32();
+                for (int i = 0; i < memberSize; ++i)
+                {
+                    Send(AppMain.Notifications.ReadyPlayerAndAdd, buff.ReadLong());
+                }
+            }
+
+                  
             
             SimulationManager.Instance.Start();
         }

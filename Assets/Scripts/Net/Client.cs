@@ -81,7 +81,7 @@ namespace Net
                     Message msg = new Message(buffer.ReadBytes(), m_TcpClient);
                     DataReceived(this, msg);
                 }
-                   
+                buffer.Dispose();  
             }           
         }
         public void Write(PtMessagePackage package)

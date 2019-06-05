@@ -21,13 +21,15 @@ namespace NetServiceImpl.Server.Data
         public static GameRoomSvo Read(byte[] bytes)
         {
             GameRoomSvo svo = new GameRoomSvo();
-            ByteBuffer buffer = new ByteBuffer(bytes);
-            svo.RoomId = buffer.ReadInt32();
-            svo.Members = new List<GameRoomMemberSvo>();
-            int size = buffer.ReadInt32();
-            for(int i=0;i<size;++i)
-                svo.Members.Add(GameRoomMemberSvo.Read(buffer.ReadBytes()));
-            return svo;
+            using (ByteBuffer buffer = new ByteBuffer(bytes))
+            {
+                svo.RoomId = buffer.ReadInt32();
+                svo.Members = new List<GameRoomMemberSvo>();
+                int size = buffer.ReadInt32();
+                for (int i = 0; i < size; ++i)
+                    svo.Members.Add(GameRoomMemberSvo.Read(buffer.ReadBytes()));
+                return svo;
+            }                
         }
         public static byte[] Write(GameRoomSvo value)
         {
@@ -52,20 +54,25 @@ namespace NetServiceImpl.Server.Data
         public static GameRoomMemberSvo Read(byte[] bytes)
         {
             GameRoomMemberSvo svo = new GameRoomMemberSvo();
-            ByteBuffer buffer = new ByteBuffer(bytes);
-            svo.Id = buffer.ReadLong();
-            svo.Name = buffer.ReadString();
-            svo.Type = buffer.ReadInt32();
+            using(ByteBuffer buffer = new ByteBuffer(bytes))
+            {
+                svo.Id = buffer.ReadLong();
+                svo.Name = buffer.ReadString();
+                svo.Type = buffer.ReadInt32();
 
-            return svo;
+                return svo;
+            }
+           
         }
         public static byte[] Write(GameRoomMemberSvo svo)
         {
-            ByteBuffer buffer = new ByteBuffer();
-            buffer.WriteLong(svo.Id)
-                .WriteString(svo.Name)
-                .WriteInt32(svo.Type);
-            return buffer.Getbuffer();
+            using (ByteBuffer buffer = new ByteBuffer())
+            {
+                buffer.WriteLong(svo.Id)
+                    .WriteString(svo.Name)
+                    .WriteInt32(svo.Type);
+                return buffer.Getbuffer();
+            }                
         }
     }
 }

@@ -42,7 +42,52 @@ namespace Net
             PtMessagePackage package = Build(messageId);
             package.IsCompress = compress;
             package.Content = content;
-            return package;            
+            return package;
+        }
+        public static PtMessagePackage Build(int messageId,bool compress, params object[] pars)
+        {
+            using(ByteBuffer buffer = new ByteBuffer())
+            {
+                foreach (object i in pars)
+                {
+                    Type iType = i.GetType();
+                    if (iType == typeof(int))
+                    {
+                        buffer.WriteInt32((int)i);
+                    }
+                    else if (iType == typeof(float))
+                    {
+                        buffer.WriteFloat((float)i);
+                    }
+                    else if (iType == typeof(bool))
+                    {
+                        buffer.WriteBool((bool)i);
+                    }
+                    else if (iType == typeof(long))
+                    {
+                        buffer.WriteLong((long)i);
+                    }
+                    else if (iType == typeof(short))
+                    {
+                        buffer.WriteShort((short)i);
+                    }
+                    else if (iType == typeof(byte))
+                    {
+                        buffer.WriteByte((byte)i);
+                    }
+                    else if(iType == typeof(string))
+                    {
+                        buffer.WriteString((string)i);
+                    }
+                    else if(iType == typeof(byte[]))
+                    {
+                        buffer.WriteBytes((byte[])i);
+                    }
+                    //todo
+                }
+                return Build(messageId,buffer.Getbuffer(), compress);
+            }
+      
         }
         public static PtMessagePackage Read(byte[] bytes)
         {

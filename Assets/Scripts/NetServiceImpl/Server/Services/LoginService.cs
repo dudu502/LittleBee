@@ -44,8 +44,8 @@ namespace NetServiceImpl.Server
                             DictKeyFrames[collection.FrameIdx].AddKeyFramesRange(collection);
                     }
                     foreach(var value in DictKeyFrames.Values)
-                        GameServerNetwork.Instance.Broadcast(PtMessagePackage.Build((int)S2CMessageId.ResponseSyncKeyframes, new ByteBuffer().WriteBytes(PtKeyFrameCollection.Write(value)).Getbuffer(), false));
-                    Thread.Sleep(20);
+                        GameServerNetwork.Instance.Broadcast(PtMessagePackage.Build((int)S2CMessageId.ResponseSyncKeyframes, false, PtKeyFrameCollection.Write(value)));
+                    Thread.Sleep(40);
                 }            
             });
         }
@@ -78,13 +78,16 @@ namespace NetServiceImpl.Server
         {  
             int serverFrameIdx = SimulationManager.Instance.GetSimulation(Const.SERVER_SIMULATION_ID).GetBehaviour<ServerLogicFrameBehaviour>().CurrentFrameIdx;
             Message msg = note.GetMessage();
-            ByteBuffer buffer = new ByteBuffer(note.GetBytes());
+            using (ByteBuffer buffer = new ByteBuffer(note.GetBytes()))
+            {
+                PtKeyFrameCollection collection = PtKeyFrameCollection.Read(buffer.ReadBytes());
+                foreach (var item in collection.KeyFrames)
+                    item.Idx = serverFrameIdx;
+                collection.FrameIdx = serverFrameIdx;
+                QueueKeyFrameCollection.Enqueue(collection);
+            }
 
-            PtKeyFrameCollection collection = PtKeyFrameCollection.Read(buffer.ReadBytes());
-            foreach (var item in collection.KeyFrames)
-                item.Idx = serverFrameIdx;
-            collection.FrameIdx = serverFrameIdx;
-            QueueKeyFrameCollection.Enqueue(collection);
+              
             //GameServerNetwork.Instance.Broadcast(PtMessagePackage.Build((int)S2CMessageId.ResponseSyncKeyframes,
             //   new ByteBuffer().WriteBytes(PtKeyFrameCollection.Write(collection)).Getbuffer(),false));
         }
@@ -105,11 +108,14 @@ namespace NetServiceImpl.Server
 
                 if(GameServerData.IsAllReadyInGameRoom())
                 {
-                    ByteBuffer buffer = new ByteBuffer();
-                    buffer.WriteInt32(GameServerData.GameRoom.Members.Count);
-                    foreach (var mem in GameServerData.GameRoom.Members)
-                        buffer.WriteLong(mem.Id);
-                    GameServerNetwork.Instance.Broadcast(PtMessagePackage.Build((int)S2CMessageId.ResponseAllPlayerReady, buffer.Getbuffer()));
+                    using (ByteBuffer buffer = new ByteBuffer())
+                    {
+                        buffer.WriteInt32(GameServerData.GameRoom.Members.Count);
+                        foreach (var mem in GameServerData.GameRoom.Members)
+                            buffer.WriteLong(mem.Id);
+                        GameServerNetwork.Instance.Broadcast(PtMessagePackage.Build((int)S2CMessageId.ResponseAllPlayerReady, buffer.Getbuffer()));
+                    }
+                   
                 }
             } 
         }

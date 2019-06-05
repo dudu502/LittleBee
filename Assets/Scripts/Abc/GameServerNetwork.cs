@@ -39,7 +39,7 @@ public class GameServerNetwork
         m_Server.ClientConnected += (send, msg) => 
         {
             var player = GameServerData.AddNewPlayer();
-            PtMessagePackage package = PtMessagePackage.Build((int)S2CMessageId.ResponseClientConnected, new ByteBuffer().WriteLong(player.Id).Getbuffer());
+            PtMessagePackage package = PtMessagePackage.Build((int)S2CMessageId.ResponseClientConnected, false, player.Id);
             byte[] byts = PtMessagePackage.Write(package);
             NetworkStreamUtil.Write(msg.GetStream(), byts); 
         };

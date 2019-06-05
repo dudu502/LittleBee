@@ -58,29 +58,36 @@ namespace LogicFrameSync.Src.LockStep.Frame
 
         public static byte[] Write(FrameIdxInfo info)
         {
-            ByteBuffer buffer = new ByteBuffer();
-            buffer.WriteInt32(info.Idx);
-            buffer.WriteInt32(info.Cmd);
-            buffer.WriteString(info.EntityId.ToString());
-            int size = info.Params.Length;
-            buffer.WriteInt32(size);
-            for (int i = 0; i < size; ++i)
-                buffer.WriteString(info.Params[i]);
-            return buffer.Getbuffer();
+            using (ByteBuffer buffer = new ByteBuffer())
+            {
+                buffer.WriteInt32(info.Idx);
+                buffer.WriteInt32(info.Cmd);
+                buffer.WriteString(info.EntityId.ToString());
+                int size = info.Params.Length;
+                buffer.WriteInt32(size);
+                for (int i = 0; i < size; ++i)
+                    buffer.WriteString(info.Params[i]);
+                return buffer.Getbuffer();
+            }
+             
         }
 
         public static FrameIdxInfo Read(byte[] bytes)
         {
-            ByteBuffer buffer = new ByteBuffer(bytes);
-            FrameIdxInfo info = new FrameIdxInfo();
-            info.Idx = buffer.ReadInt32();
-            info.Cmd = buffer.ReadInt32();
-            info.EntityId = new System.Guid(buffer.ReadString());
-            int size = buffer.ReadInt32();
-            info.Params = new string[size];
-            for(int i=0;i<size;++i)
-                info.Params[i] = buffer.ReadString();
-            return info;
+            using (ByteBuffer buffer = new ByteBuffer(bytes))
+            {
+                FrameIdxInfo info = new FrameIdxInfo();
+                info.Idx = buffer.ReadInt32();
+                info.Cmd = buffer.ReadInt32();
+                info.EntityId = new System.Guid(buffer.ReadString());
+                int size = buffer.ReadInt32();
+                info.Params = new string[size];
+                for (int i = 0; i < size; ++i)
+                    info.Params[i] = buffer.ReadString();
+                return info;
+
+            }
+                
         }
     }
 }

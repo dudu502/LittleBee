@@ -91,6 +91,7 @@ namespace Net
                 ByteBuffer buffer = new ByteBuffer(bytesReceived);
                 while(buffer.GetPosition()<buffer.Getbuffer().Length&&buffer.ReadInt32()==int.MaxValue)
                     _parent.NotifyEndTransmissionRx(this, c, buffer.ReadBytes());
+                buffer.Dispose();
             }
         }
 

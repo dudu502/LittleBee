@@ -23,11 +23,12 @@ namespace Net
             state.stream = stream;
             state.exception = null;
 
-            ByteBuffer buffer = new ByteBuffer();
-            buffer.WriteInt32(int.MaxValue);
-            buffer.WriteBytes(bytes);
-
-            stream.BeginWrite(buffer.Getbuffer(), 0, buffer.Getbuffer().Length, AsyncWriteCallback, state);
+            using (ByteBuffer buffer = new ByteBuffer())
+            {
+                buffer.WriteInt32(int.MaxValue);
+                buffer.WriteBytes(bytes);
+                stream.BeginWrite(buffer.Getbuffer(), 0, buffer.Getbuffer().Length, AsyncWriteCallback, state);
+            }               
         }
         public static void AsyncWriteCallback(IAsyncResult iar)
         {
