@@ -37,7 +37,7 @@ namespace Net
             package.MessageId = messageId;
             return package;
         }
-        public static PtMessagePackage Build(int messageId,byte[] content, bool compress = false)
+        public static PtMessagePackage Build(int messageId,byte[] content, bool compress = true)
         {
             PtMessagePackage package = Build(messageId);
             package.IsCompress = compress;

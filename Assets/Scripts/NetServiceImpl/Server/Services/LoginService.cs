@@ -4,6 +4,7 @@ using LogicFrameSync.Src.LockStep.Net.Pt;
 using Net;
 using NetServiceImpl.Server.Data;
 using Notify;
+using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace NetServiceImpl.Server
 {
     public class LoginService:Service
     {
-        ConcurrentQueue<PtKeyFrameCollection> QueueKeyFrameCollection;
+        ConcurrentQueue<PtKeyFrameCollection> QueueKeyFrameCollection =new ConcurrentQueue<PtKeyFrameCollection>();
         Dictionary<int, PtKeyFrameCollection> DictKeyFrames = new Dictionary<int, PtKeyFrameCollection>();
         protected override void Init()
         {
@@ -25,8 +26,26 @@ namespace NetServiceImpl.Server
             //NotifyMgr.Instance.AddListener(C2SMessageId.RequestSyncClientKeyframes, OnRequestSyncClientKeyframes);
             //NotifyMgr.Instance.AddListener(C2SMessageId.RequestInitPlayer, OnRequestInitPlayer);
             //NotifyMgr.Instance.AddListener(C2SMessageId.RequestPlayerReady, OnRequestPlayerReady);
-            StartRollingSyncMsgThread();
+            //StartRollingSyncMsgThread();
         }
+
+        internal void FlushKeyFrame(int currentFrameIdx)
+        {
+            //StartRollingSyncMsgThread();
+
+            PtKeyFrameCollection collection = null;
+            while(QueueKeyFrameCollection.TryDequeue(out collection))
+            {
+                collection.FrameIdx = currentFrameIdx;
+                collection.KeyFrames.ForEach((e) => 
+                {
+                    e.Idx = currentFrameIdx;
+                });
+                GameServerNetwork.Instance.Broadcast(PtMessagePackage.Build((int)S2CMessageId.ResponseSyncKeyframes, true, PtKeyFrameCollection.Write(collection)));
+            }
+            
+        }
+
         void StartRollingSyncMsgThread()
         {
             QueueKeyFrameCollection = new ConcurrentQueue<PtKeyFrameCollection>();
@@ -81,9 +100,9 @@ namespace NetServiceImpl.Server
             using (ByteBuffer buffer = new ByteBuffer(note.GetBytes()))
             {
                 PtKeyFrameCollection collection = PtKeyFrameCollection.Read(buffer.ReadBytes());
-                foreach (var item in collection.KeyFrames)
-                    item.Idx = serverFrameIdx;
-                collection.FrameIdx = serverFrameIdx;
+                //foreach (var item in collection.KeyFrames)
+                //    item.Idx = serverFrameIdx;
+                //collection.FrameIdx = serverFrameIdx;
                 QueueKeyFrameCollection.Enqueue(collection);
             }
 

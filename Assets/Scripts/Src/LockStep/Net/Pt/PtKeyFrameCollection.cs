@@ -40,7 +40,8 @@ namespace LogicFrameSync.Src.LockStep.Net.Pt
                     buffer.WriteBytes(FrameIdxInfo.Write(info.KeyFrames[i]));
                 }
                 return buffer.Getbuffer();
-            }              
+            }
+
         }
 
         public void AddKeyFramesRange(PtKeyFrameCollection targetCollection)

@@ -29,6 +29,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         public void Update()
         {
             ++CurrentFrameIdx;
+            Service.Get<LoginService>().FlushKeyFrame(CurrentFrameIdx);
         }
     }
 }
