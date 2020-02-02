@@ -21,7 +21,7 @@ namespace Src.Replays
         {
             using (ByteBuffer buffer = new ByteBuffer())
             {
-                buffer.WriteLong(info.OwnerId);
+                buffer.WriteInt64(info.OwnerId);
                 buffer.WriteString(info.Version);
 
                 int size = info.Frames.Count;
@@ -45,7 +45,7 @@ namespace Src.Replays
             using (ByteBuffer buffer = new ByteBuffer(ByteBuffer.Decompress(bytes)))
             {
                 ReplayInfo info = new ReplayInfo();
-                info.OwnerId = buffer.ReadLong();
+                info.OwnerId = buffer.ReadInt64();
                 info.Version = buffer.ReadString();
                 info.Frames = new List<List<FrameIdxInfo>>();
 

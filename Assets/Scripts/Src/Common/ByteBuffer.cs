@@ -32,6 +32,16 @@ public class ByteBuffer : IDisposable
             ResetPosition();
         }
     }
+
+    public ByteBuffer WriteInt16(short value)
+    {
+        copy(BitConverter.GetBytes(value));
+        return this;
+    }
+    public short ReadInt16()
+    {
+        return BitConverter.ToInt16(get(2), 0);
+    }
     public ByteBuffer WriteInt32(int value)
     {
         copy(BitConverter.GetBytes(value));
@@ -42,17 +52,67 @@ public class ByteBuffer : IDisposable
     {
         return BitConverter.ToInt32(get(4), 0);
     }
-
-    public ByteBuffer WriteShort(short value)
+    public ByteBuffer WriteUInt32(uint value)
     {
         copy(BitConverter.GetBytes(value));
         return this;
     }
-    public short ReadShort()
+    public uint ReadUInt32()
     {
-        return BitConverter.ToInt16(get(2), 0);
+        return BitConverter.ToUInt32(get(4), 0);
     }
 
+    public ByteBuffer WriteUInt16(ushort value)
+    {
+        copy(BitConverter.GetBytes(value));
+        return this;
+    }
+    public ushort ReadUInt16()
+    {
+        return BitConverter.ToUInt16(get(2), 0);
+    }
+
+    public ByteBuffer WriteComplexCollection<T>(System.Collections.Generic.List<T> collection, Func<T, byte[]> forEach)
+    {
+        int count = collection.Count;
+        WriteInt32(count);
+        for (int i = 0; i < count; ++i)
+        {
+            WriteBytes(forEach(collection[i]));
+        }
+        return this;
+    }
+    public ByteBuffer WriteSimpleCollection<T>(System.Collections.Generic.List<T> collection, Action<T> forEach)
+    {
+        int count = collection.Count;
+        WriteInt32(count);
+        for (int i = 0; i < count; ++i)
+        {
+            forEach(collection[i]);
+        }
+        return this;
+    }
+    public System.Collections.Generic.List<T> ReadSimpleCollection<T>(Func<T> forEach)
+    {
+        System.Collections.Generic.List<T> collection = new System.Collections.Generic.List<T>();
+        int count = ReadInt32();
+        for (int i = 0; i < count; ++i)
+        {
+            collection.Add(forEach());
+        }
+        return collection;
+    }
+    public System.Collections.Generic.List<T> ReadComplexCollection<T>(Func<byte[], T> forEach)
+    {
+        System.Collections.Generic.List<T> collection = new System.Collections.Generic.List<T>();
+        int count = ReadInt32();
+        for (int i = 0; i < count; ++i)
+        {
+            collection.Add(forEach(ReadBytes()));
+        }
+
+        return collection;
+    }
     public ByteBuffer WriteString(string value)
     {
         byte[] data = Encoding.UTF8.GetBytes(value);
@@ -95,16 +155,24 @@ public class ByteBuffer : IDisposable
     {
         return Convert.ToBoolean(ReadByte());
     }
-    public ByteBuffer WriteLong(long value)
+    public ByteBuffer WriteInt64(long value)
     {
         copy(BitConverter.GetBytes(value));
         return this;
     }
-    public long ReadLong()
+    public long ReadInt64()
     {
         return BitConverter.ToInt32(get(8), 0);
     }
-
+    public ByteBuffer WriteUInt64(ulong value)
+    {
+        copy(BitConverter.GetBytes(value));
+        return this;
+    }
+    public ulong ReadUInt64()
+    {
+        return BitConverter.ToUInt64(get(8), 0);
+    }
     public ByteBuffer WriteFloat(float value)
     {
         copy(BitConverter.GetBytes(value));
@@ -175,6 +243,6 @@ public class ByteBuffer : IDisposable
         }
     }
 
-   
+
 }
 

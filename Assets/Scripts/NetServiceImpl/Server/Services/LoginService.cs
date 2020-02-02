@@ -79,7 +79,7 @@ namespace NetServiceImpl.Server
             Message msg = note.GetMessage();
             using (ByteBuffer buff = new ByteBuffer(note.GetBytes()))
             {
-                long roleId = buff.ReadLong();
+                long roleId = buff.ReadInt64();
                 string name = buff.ReadString();
                 int state = GameServerData.EnterGameRoom(roleId, name);
                 msg.Reply(PtMessagePackage.Build((int)S2CMessageId.ResponseEnterRoom, 
@@ -121,7 +121,7 @@ namespace NetServiceImpl.Server
             Message msg = note.GetMessage();
             using (ByteBuffer buff = new ByteBuffer(note.GetBytes()))
             {
-                long roleId = buff.ReadLong();
+                long roleId = buff.ReadInt64();
                 GameServerData.SetGameMemeberReady(roleId);
                 GameServerNetwork.Instance.Broadcast(PtMessagePackage.Build((int)S2CMessageId.ResponsePlayerReady,buff.Getbuffer()));
 
@@ -131,7 +131,7 @@ namespace NetServiceImpl.Server
                     {
                         buffer.WriteInt32(GameServerData.GameRoom.Members.Count);
                         foreach (var mem in GameServerData.GameRoom.Members)
-                            buffer.WriteLong(mem.Id);
+                            buffer.WriteInt64(mem.Id);
                         GameServerNetwork.Instance.Broadcast(PtMessagePackage.Build((int)S2CMessageId.ResponseAllPlayerReady, buffer.Getbuffer()));
                     }
                    

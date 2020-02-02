@@ -56,7 +56,7 @@ namespace NetServiceImpl.Server.Data
             GameRoomMemberSvo svo = new GameRoomMemberSvo();
             using(ByteBuffer buffer = new ByteBuffer(bytes))
             {
-                svo.Id = buffer.ReadLong();
+                svo.Id = buffer.ReadInt64();
                 svo.Name = buffer.ReadString();
                 svo.Type = buffer.ReadInt32();
 
@@ -68,7 +68,7 @@ namespace NetServiceImpl.Server.Data
         {
             using (ByteBuffer buffer = new ByteBuffer())
             {
-                buffer.WriteLong(svo.Id)
+                buffer.WriteInt64(svo.Id)
                     .WriteString(svo.Name)
                     .WriteInt32(svo.Type);
                 return buffer.Getbuffer();

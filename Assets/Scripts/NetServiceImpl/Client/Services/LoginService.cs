@@ -34,7 +34,7 @@ namespace NetServiceImpl.Client
         {
             using(ByteBuffer buffer = new ByteBuffer(note.GetBytes()))
             {
-                long id = buffer.ReadLong();
+                long id = buffer.ReadInt64();
                 GameClientData.SelfPlayer.Id = id;
                 Debug.Log("OnResponseClientConnected " + id);
                 AllUI.Instance.Show("PanelLan");
@@ -46,7 +46,7 @@ namespace NetServiceImpl.Client
         public void RequestEnterRoom(string name)
         {
             GameClientNetwork.Instance.SendRequest(PtMessagePackage.Build((int)C2SMessageId.RequestEnterRoom,
-                new ByteBuffer().WriteLong(GameClientData.SelfPlayer.Id).WriteString(name).Getbuffer()));
+                new ByteBuffer().WriteInt64(GameClientData.SelfPlayer.Id).WriteString(name).Getbuffer()));
         }
         [Subscribe(S2CMessageId.ResponseEnterRoom)]
         void OnResponseEnterRoom(Notification note)
@@ -99,12 +99,12 @@ namespace NetServiceImpl.Client
         public void RequestInitPlayer()
         {
             GameClientNetwork.Instance.SendRequest(PtMessagePackage.Build((int)C2SMessageId.RequestInitPlayer,
-                new ByteBuffer().WriteLong(GameClientData.SelfPlayer.Id).Getbuffer()));
+                new ByteBuffer().WriteInt64(GameClientData.SelfPlayer.Id).Getbuffer()));
         }
         public void RequestPlayerReady()
         {
             GameClientNetwork.Instance.SendRequest(PtMessagePackage.Build((int)C2SMessageId.RequestPlayerReady,
-                new ByteBuffer().WriteLong(GameClientData.SelfPlayer.Id).Getbuffer()));
+                new ByteBuffer().WriteInt64(GameClientData.SelfPlayer.Id).Getbuffer()));
         }
 
         [Subscribe(S2CMessageId.ResponseInitPlayer)]
@@ -114,7 +114,7 @@ namespace NetServiceImpl.Client
 
             using (ByteBuffer buff = new ByteBuffer(note.GetBytes()))
             {
-                long roleId = buff.ReadLong();
+                long roleId = buff.ReadInt64();
 
                 //Send(AppMain.Notifications.InitPlayer, roleId);
             }
@@ -138,7 +138,7 @@ namespace NetServiceImpl.Client
                 int memberSize = buff.ReadInt32();
                 for (int i = 0; i < memberSize; ++i)
                 {
-                    Send(AppMain.Notifications.ReadyPlayerAndAdd, buff.ReadLong());
+                    Send(AppMain.Notifications.ReadyPlayerAndAdd, buff.ReadInt64());
                 }
             }
 

@@ -46,7 +46,7 @@ namespace Net
         }
         public static PtMessagePackage Build(int messageId,bool compress, params object[] pars)
         {
-            using(ByteBuffer buffer = new ByteBuffer())
+            using (ByteBuffer buffer = new ByteBuffer())
             {
                 foreach (object i in pars)
                 {
@@ -54,6 +54,10 @@ namespace Net
                     if (iType == typeof(int))
                     {
                         buffer.WriteInt32((int)i);
+                    }
+                    else if (iType == typeof(uint))
+                    {
+                        buffer.WriteUInt32((uint)i);
                     }
                     else if (iType == typeof(float))
                     {
@@ -65,29 +69,37 @@ namespace Net
                     }
                     else if (iType == typeof(long))
                     {
-                        buffer.WriteLong((long)i);
+                        buffer.WriteInt64((long)i);
+                    }
+                    else if (iType == typeof(ulong))
+                    {
+                        buffer.WriteUInt64((ulong)i);
                     }
                     else if (iType == typeof(short))
                     {
-                        buffer.WriteShort((short)i);
+                        buffer.WriteInt16((short)i);
+                    }
+                    else if (iType == typeof(ushort))
+                    {
+                        buffer.WriteUInt16((ushort)i);
                     }
                     else if (iType == typeof(byte))
                     {
                         buffer.WriteByte((byte)i);
                     }
-                    else if(iType == typeof(string))
+                    else if (iType == typeof(string))
                     {
                         buffer.WriteString((string)i);
                     }
-                    else if(iType == typeof(byte[]))
+                    else if (iType == typeof(byte[]))
                     {
                         buffer.WriteBytes((byte[])i);
                     }
                     //todo
                 }
-                return Build(messageId,buffer.Getbuffer(), compress);
+                return Build(messageId, buffer.Getbuffer(), compress);
             }
-      
+
         }
         public static PtMessagePackage Read(byte[] bytes)
         {
