@@ -1,3 +1,4 @@
+
 # GalaxyAlliance
 A little bee Advanced Version
 
@@ -133,3 +134,4 @@ public class PtRoom
 设计文档：大纲设计文档，原型设计文档，配置表
 ## Server
 这是一个服务集合项目，包括WebServer，GateServer，RoomServer等
+
