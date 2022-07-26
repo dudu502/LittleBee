@@ -8,6 +8,7 @@ A little bee Advanced Version
 
 ### 优缺点
 * 以下列举的优缺点只是一般情况下：
+
 |    		| 帧同步  | 状态同步  |
 |  ----  | ----  |----  |
 | 一致性  | <font color=#219167>设计层面决定了必然一致</font>|<font color=#219167>可以保证一致性</font> |
