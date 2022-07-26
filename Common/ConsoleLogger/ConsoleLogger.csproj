@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="General">
+      <HintPath>..\General\General\bin\Release\netstandard2.0\General.dll</HintPath>
+    </Reference>
+    <Reference Include="ServerDll">
+      <HintPath>..\ServerDll\bin\Release\netstandard2.0\ServerDll.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

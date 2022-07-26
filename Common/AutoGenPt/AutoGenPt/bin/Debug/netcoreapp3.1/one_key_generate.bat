@@ -1,0 +1,1 @@
+AutoGenPt.exe -s PtCfg.json -o generate_codes

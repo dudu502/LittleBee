@@ -1,0 +1,4 @@
+In the Combat folder you will find effects that:
+
+- are used for guns, magic, melee and sword combat
+- are indications of injuring or killing enemies
