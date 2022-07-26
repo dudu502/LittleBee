@@ -1,6 +1,7 @@
 # GalaxyAlliance
 A little bee Advanced Version
-[![Playing]](https://www.youtube.com/watch?v=pD_egZciNhY)
+
+[![Watch the video](https://img.youtube.com/vi/T-D1KVIuvjA/maxresdefault.jpg)](https://www.youtube.com/watch?v=pD_egZciNhY)
 ## 帧同步与状态同步
 * 帧同步和状态同步都是一种能让多个客户端在相对同一时刻表现一致的方法，当然只有外观表现一致还远远不够，或者说还不够精确，这时候还需要在数据层面也要保持一致，用数据的变化来驱动外在表现的变化。这点不管是帧同步或状态同步都是一样的。
 * 关于数据驱动显示的话题，这里有一个反面事例，我想起了在若干年以前我曾经听一个同事说他一个俄罗斯方块游戏的开发经历，他分享了在开发过程中就方块与方块间图像碰撞检测的心得，并以此彰显开发在这个游戏的不易，以及自己的小聪明。
