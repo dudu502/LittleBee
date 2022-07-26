@@ -1,0 +1,158 @@
+fileFormatVersion: 2
+guid: 528b6a3776a25f1449d9e1c7c94aa4df
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: SM_Bld_Hanger_Door_01
+    100004: SM_Bld_Hanger_Door_02
+    100006: SM_Bld_Hanger_Door_03
+    100008: SM_Bld_HangerCeiling_01
+    100010: SM_Bld_HangerDoor_01
+    100012: SM_Bld_HangerDoor_02
+    100014: SM_Bld_HangerFloor_01
+    100016: SM_Bld_HangerGlass_03
+    100018: SM_Bld_HangerPlatform_01
+    100020: SM_Bld_Door_01
+    100022: SM_Bld_Door_02
+    100024: SM_Bld_Door_03
+    400000: //RootNode
+    400002: SM_Bld_Hanger_Door_01
+    400004: SM_Bld_Hanger_Door_02
+    400006: SM_Bld_Hanger_Door_03
+    400008: SM_Bld_HangerCeiling_01
+    400010: SM_Bld_HangerDoor_01
+    400012: SM_Bld_HangerDoor_02
+    400014: SM_Bld_HangerFloor_01
+    400016: SM_Bld_HangerGlass_03
+    400018: SM_Bld_HangerPlatform_01
+    400020: SM_Bld_Door_01
+    400022: SM_Bld_Door_02
+    400024: SM_Bld_Door_03
+    2300000: //RootNode
+    2300002: SM_Bld_Hanger_Door_01
+    2300004: SM_Bld_Hanger_Door_02
+    2300006: SM_Bld_Hanger_Door_03
+    2300008: SM_Bld_HangerCeiling_01
+    2300010: SM_Bld_HangerDoor_01
+    2300012: SM_Bld_HangerDoor_02
+    2300014: SM_Bld_HangerFloor_01
+    2300016: SM_Bld_HangerGlass_03
+    2300018: SM_Bld_HangerPlatform_01
+    2300020: SM_Bld_Door_01
+    2300022: SM_Bld_Door_02
+    2300024: SM_Bld_Door_03
+    3300000: //RootNode
+    3300002: SM_Bld_Hanger_Door_01
+    3300004: SM_Bld_Hanger_Door_02
+    3300006: SM_Bld_Hanger_Door_03
+    3300008: SM_Bld_HangerCeiling_01
+    3300010: SM_Bld_HangerDoor_01
+    3300012: SM_Bld_HangerDoor_02
+    3300014: SM_Bld_HangerFloor_01
+    3300016: SM_Bld_HangerGlass_03
+    3300018: SM_Bld_HangerPlatform_01
+    3300020: SM_Bld_Door_01
+    3300022: SM_Bld_Door_02
+    3300024: SM_Bld_Door_03
+    4300000: SM_Bld_Hanger_01
+    4300002: SM_Bld_HangerDoor_01
+    4300004: SM_Bld_HangerDoor_02
+    4300006: SM_Bld_Hanger_Door_01
+    4300008: SM_Bld_Hanger_Door_02
+    4300010: SM_Bld_Hanger_Door_03
+    4300012: SM_Bld_HangerCeiling_01
+    4300014: SM_Bld_HangerGlass_03
+    4300016: SM_Bld_HangerPlatform_01
+    4300018: SM_Bld_HangerFloor_01
+    4300020: SM_Bld_Door_01
+    4300022: SM_Bld_Door_02
+    4300024: SM_Bld_Door_03
+    9500000: //RootNode
+    2186277476908879412: ImportLogs
+  externalObjects: {}
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 0
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 0
+    keepQuads: 0
+    weldVertices: 0
+    preserveHierarchy: 0
+    indexFormat: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 0
+    normalImportMode: 1
+    tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

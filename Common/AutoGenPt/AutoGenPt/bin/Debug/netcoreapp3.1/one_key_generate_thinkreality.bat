@@ -1,0 +1,1 @@
+AutoGenPt.exe -s PtCfg_thinkreality.json -o generate_thinkreality_codes

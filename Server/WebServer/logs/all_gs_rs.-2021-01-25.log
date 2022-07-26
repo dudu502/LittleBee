@@ -1,0 +1,52 @@
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:44:53.385]I[GATESERVER:9030]	LogServer Address: http://localhost:8001/log?content=
+[2021/01/25 13:44:53.396]I[GATESERVER:9030]	Application [GateServer.Services.GateApplication] Initialize ApplicationKey:Nuclear.
+[2021/01/25 13:44:53.439]I[GATESERVER:9030]	AddModule [GateServer.Modules.UserModule] Success.
+[2021/01/25 13:44:53.440]I[GATESERVER:9030]	AddModule [GateServer.Modules.RoomModule] Success.
+[2021/01/25 13:44:53.447]I[GATESERVER:9030]	AddModule [ServerDll.Service.Modules.HeartbeatModule] Success.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:44:53.481]I[GATESERVER:9030]	Application has Setup.
+[2021/01/25 13:44:53.516]I[GATESERVER:9030]	Server [GateServer.Services.GateApplication] has launched at port:9030 Success.
+[2021/01/25 13:44:53.516]I[GATESERVER:9030]	Start poll at ThreadId:6.
+[2021/01/25 13:46:18.818]I[GATESERVER:9030]	OnEnterGate UserId:5ecb245f4e070c13096eedb3
+[2021/01/25 13:46:25.517]I[GATESERVER:9030]	OnEnterGate UserId:5ef6e3a0cab276561ef8560d'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.007]I[ROOMSERVER:60000][n:3]	Simulation has been Created.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.046]I[ROOMSERVER:60000][n:8]	Server [RoomServer.Services.RoomApplication] has launched at port:60000 Success.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.011]I[ROOMSERVER:60000][n:4]	AddModule [RoomServer.Modules.RoomDebugModule] Success.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.019]I[ROOMSERVER:60000][n:7]	Application has Setup.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.016]I[ROOMSERVER:60000][n:5]	AddModule [RoomServer.Modules.BattleModule] Success.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.006]I[ROOMSERVER:60000][n:2]	Application [RoomServer.Services.RoomApplication] Initialize ApplicationKey:RoomBattle.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:30.977]I[ROOMSERVER:60000][n:1]	LogServer Address: http://localhost:8001/log?content='
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.019]I[ROOMSERVER:60000][n:6]	AddModule [ServerDll.Service.Modules.HeartbeatModule] Success.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.046]I[ROOMSERVER:60000][n:10]	Start poll at ThreadId:8.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.046]I[ROOMSERVER:60000][n:9]	InitStartup MapId:1 PlayerNumber:2 Port:9030 Hash:17653682_637471791909187380'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.057]I[ROOMSERVER:60000][n:11]	BasePriority13 PriorityClass:High'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.553]I[ROOMSERVER:60000][n:12]	OnConnection...MAX_CONNECT_COUNT=128'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.561]I[ROOMSERVER:60000][n:15]	PeerId:1 AcceptConnectRequest.[2/128]'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.561]I[ROOMSERVER:60000][n:14]	OnConnection...MAX_CONNECT_COUNT=128'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.560]I[ROOMSERVER:60000][n:13]	PeerId:0 AcceptConnectRequest.[1/128]'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.577]I[ROOMSERVER:60000][n:16]	PeerId:0 Connected.[2/128]'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.577]I[ROOMSERVER:60000][n:17]	PeerId:1 Connected.[2/128]'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.626]I[ROOMSERVER:60000][n:18]	OnEnterRoom PlayerNumberNow:1 PlayerNumberCFG:2 isFull:False InitEntityId:1'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.626]I[ROOMSERVER:60000][n:19]	OnEnterRoom PlayerNumberNow:2 PlayerNumberCFG:2 isFull:True InitEntityId:2'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/25 13:46:31.889]I[ROOMSERVER:60000][n:23]	OnPlayerReady allReady :False PlayerNumber:2'

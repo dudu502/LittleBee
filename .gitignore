@@ -1,0 +1,11 @@
+**/.vs/
+**/obj/
+**/Properties/
+
+Server/WebServer/node_modules
+Client/littleBee/Library
+Client/littleBee/Release
+Client/littleBee/Temp
+Client/littleBee/Assembly-CSharp-Editor.csproj
+Client/littleBee/Assembly-CSharp.csproj
+Client/littleBee/packages/manifest.json

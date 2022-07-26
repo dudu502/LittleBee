@@ -1,0 +1,252 @@
+[
+  {
+    "ConfigId": 1,
+    "Chinese": "线上",
+    "English": "Online"
+  },
+  {
+    "ConfigId": 2,
+    "Chinese": "局域网[LAN]",
+    "English": "Local Area Network[LAN]"
+  },
+  {
+    "ConfigId": 3,
+    "Chinese": "商城",
+    "English": "Shop"
+  },
+  {
+    "ConfigId": 4,
+    "Chinese": "设置",
+    "English": "Setting"
+  },
+  {
+    "ConfigId": 5,
+    "Chinese": "返回",
+    "English": "Back"
+  },
+  {
+    "ConfigId": 6,
+    "Chinese": "刷新",
+    "English": "Refresh"
+  },
+  {
+    "ConfigId": 7,
+    "Chinese": "对局",
+    "English": "Room"
+  },
+  {
+    "ConfigId": 8,
+    "Chinese": "创建房间",
+    "English": "Create Room"
+  },
+  {
+    "ConfigId": 9,
+    "Chinese": "开始",
+    "English": "Start"
+  },
+  {
+    "ConfigId": 10,
+    "Chinese": "加入",
+    "English": "Join"
+  },
+  {
+    "ConfigId": 11,
+    "Chinese": "离开",
+    "English": "Leave"
+  },
+  {
+    "ConfigId": 12,
+    "Chinese": "队伍",
+    "English": "Team"
+  },
+  {
+    "ConfigId": 13,
+    "Chinese": "登入",
+    "English": "Login"
+  },
+  {
+    "ConfigId": 14,
+    "Chinese": "确定",
+    "English": "Confirm"
+  },
+  {
+    "ConfigId": 15,
+    "Chinese": "关闭",
+    "English": "Close"
+  },
+  {
+    "ConfigId": 16,
+    "Chinese": "取消",
+    "English": "Cancel"
+  },
+  {
+    "ConfigId": 17,
+    "Chinese": "用户名",
+    "English": "Name"
+  },
+  {
+    "ConfigId": 18,
+    "Chinese": "口令",
+    "English": "Password"
+  },
+  {
+    "ConfigId": 19,
+    "Chinese": "大厅",
+    "English": "Hall"
+  },
+  {
+    "ConfigId": 20,
+    "Chinese": "开始游戏",
+    "English": "Start Game"
+  },
+  {
+    "ConfigId": 21,
+    "Chinese": "准备就绪",
+    "English": "Ready"
+  },
+  {
+    "ConfigId": 22,
+    "Chinese": "提示",
+    "English": "Tips"
+  },
+  {
+    "ConfigId": 23,
+    "Chinese": "警告",
+    "English": "Warning"
+  },
+  {
+    "ConfigId": 24,
+    "Chinese": "播放",
+    "English": "Play"
+  },
+  {
+    "ConfigId": 25,
+    "Chinese": "回放",
+    "English": "Replays"
+  },
+  {
+    "ConfigId": 26,
+    "Chinese": "即将退出回放",
+    "English": "Quit now"
+  },
+  {
+    "ConfigId": 27,
+    "Chinese": "正在加载",
+    "English": "Loading"
+  },
+  {
+    "ConfigId": 28,
+    "Chinese": "加载完成",
+    "English": "Load complete"
+  },
+  {
+    "ConfigId": 29,
+    "Chinese": "连接房间服务器",
+    "English": "Connecting to Room Server"
+  },
+  {
+    "ConfigId": 30,
+    "Chinese": "初始化",
+    "English": "Initializing"
+  },
+  {
+    "ConfigId": 31,
+    "Chinese": "创建房间服务完成",
+    "English": "Create room service complete"
+  },
+  {
+    "ConfigId": 32,
+    "Chinese": "同步关键帧",
+    "English": "Synchronizing key frames"
+  },
+  {
+    "ConfigId": 33,
+    "Chinese": "名称：",
+    "English": "Name:"
+  },
+  {
+    "ConfigId": 34,
+    "Chinese": "大小：",
+    "English": "Size:"
+  },
+  {
+    "ConfigId": 35,
+    "Chinese": "时长：",
+    "English": "Duration:"
+  },
+  {
+    "ConfigId": 36,
+    "Chinese": "房间",
+    "English": "Room"
+  },
+  {
+    "ConfigId": 37,
+    "Chinese": "保存",
+    "English": "Save"
+  },
+  {
+    "ConfigId": 38,
+    "Chinese": "你真的要退出吗？",
+    "English": "Do you really want to quit?"
+  },
+  {
+    "ConfigId": 39,
+    "Chinese": "你想一键注册并登录吗？",
+    "English": "Do you want to register and sign?"
+  },
+  {
+    "ConfigId": 40,
+    "Chinese": "是否需要进行同步？",
+    "English": "Do you need to synchronize?"
+  },
+  {
+    "ConfigId": 41,
+    "Chinese": "保存成功",
+    "English": "Saved successfully"
+  },
+  {
+    "ConfigId": 42,
+    "Chinese": "请重试",
+    "English": "Please try again"
+  },
+  {
+    "ConfigId": 43,
+    "Chinese": "重命名成功",
+    "English": "Rename succeeded"
+  },
+  {
+    "ConfigId": 44,
+    "Chinese": "请输入用户名",
+    "English": "Enter the user name"
+  },
+  {
+    "ConfigId": 45,
+    "Chinese": "没有回放文件",
+    "English": "No Replays"
+  },
+  {
+    "ConfigId": 46,
+    "Chinese": "名称不能为空",
+    "English": "Name cannot be empty"
+  },
+  {
+    "ConfigId": 47,
+    "Chinese": "数据格式有误",
+    "English": "Incorrect data format"
+  },
+  {
+    "ConfigId": 48,
+    "Chinese": "连接失败",
+    "English": "Connection failed"
+  },
+  {
+    "ConfigId": 100000,
+    "Chinese": "正忙",
+    "English": "Waiting"
+  },
+  {
+    "ConfigId": 200000,
+    "Chinese": "错误",
+    "English": "Error"
+  }
+]

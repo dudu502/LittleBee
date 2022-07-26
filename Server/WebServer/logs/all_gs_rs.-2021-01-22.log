@@ -1,0 +1,42 @@
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/22 17:22:31.313]I[GATESERVER:9030]	LogServer Address: http://localhost:8001/log?content=
+[2021/01/22 17:22:31.316]I[GATESERVER:9030]	Application [GateServer.Services.GateApplication] Initialize ApplicationKey:Nuclear.
+[2021/01/22 17:22:31.344]I[GATESERVER:9030]	AddModule [GateServer.Modules.UserModule] Success.
+[2021/01/22 17:22:31.345]I[GATESERVER:9030]	AddModule [GateServer.Modules.RoomModule] Success.
+[2021/01/22 17:22:31.349]I[GATESERVER:9030]	AddModule [ServerDll.Service.Modules.HeartbeatModule] Success.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/22 17:22:31.368]I[GATESERVER:9030]	Application has Setup.
+[2021/01/22 17:22:31.394]I[GATESERVER:9030]	Server [GateServer.Services.GateApplication] has launched at port:9030 Success.
+[2021/01/22 17:22:31.394]I[GATESERVER:9030]	Start poll at ThreadId:6.
+[2021/01/22 17:22:35.576]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:35.756]E[GATESERVER:9030]	Command Undefined.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/22 17:22:36.105]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:36.608]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:36.639]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:36.672]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:36.706]E[GATESERVER:9030]	Command Undefined.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/22 17:22:36.769]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:36.808]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:36.836]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:36.875]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:36.902]E[GATESERVER:9030]	Command Undefined.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/22 17:22:36.974]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:37.000]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:37.035]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:37.069]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:37.101]E[GATESERVER:9030]	Command Undefined.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/22 17:22:37.170]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:37.198]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:37.232]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:37.266]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:37.297]E[GATESERVER:9030]	Command Undefined.'
+"host":"PANHJ2-PF21T69M","content":
+'[2021/01/22 17:22:37.364]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:37.398]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:37.429]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:37.463]E[GATESERVER:9030]	Command Undefined.
+[2021/01/22 17:22:37.495]E[GATESERVER:9030]	Command Undefined.'

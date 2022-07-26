@@ -1,0 +1,92 @@
+[
+  {
+    "ConfigId": 1,
+    "Path": "Prefabs/Stars/URPMode/Sun",
+    "Rtype": 1,
+    "ModelScaleRate": 2
+  },
+  {
+    "ConfigId": 2,
+    "Path": "Prefabs/Stars/URPMode/Barren/Barren_1",
+    "Rtype": 1,
+    "ModelScaleRate": 2
+  },
+  {
+    "ConfigId": 3,
+    "Path": "Prefabs/Stars/URPMode/Crystal_Planets/Crystal_planet_9",
+    "Rtype": 1,
+    "ModelScaleRate": 2
+  },
+  {
+    "ConfigId": 4,
+    "Path": "Prefabs/Stars/URPMode/Crystal_Planets/Crystal_planet_10",
+    "Rtype": 1,
+    "ModelScaleRate": 2
+  },
+  {
+    "ConfigId": 5,
+    "Path": "Prefabs/Stars/URPMode/Moons/moon1",
+    "Rtype": 1,
+    "ModelScaleRate": 1
+  },
+  {
+    "ConfigId": 6,
+    "Path": "Prefabs/Stars/URPMode/Moons/moon2",
+    "Rtype": 1,
+    "ModelScaleRate": 1
+  },
+  {
+    "ConfigId": 7,
+    "Path": "Prefabs/Stars/URPMode/Stones/Stone001",
+    "Rtype": 1,
+    "ModelScaleRate": 1
+  },
+  {
+    "ConfigId": 8,
+    "Path": "Prefabs/Stars/URPMode/Moons/moon4",
+    "Rtype": 1,
+    "ModelScaleRate": 1
+  },
+  {
+    "ConfigId": 9,
+    "Path": "Prefabs/Stars/URPMode/Volcanic/volcanic_planet_18",
+    "Rtype": 1,
+    "ModelScaleRate": 2
+  },
+  {
+    "ConfigId": 10,
+    "Path": "Bullet/BulletSmallGreen",
+    "Rtype": 1,
+    "ModelScaleRate": 1
+  },
+  {
+    "ConfigId": 11,
+    "Path": "Bullet/BulletSmallFire",
+    "Rtype": 1,
+    "ModelScaleRate": 1
+  },
+  {
+    "ConfigId": 12,
+    "Path": "Rocket/RocketBlue",
+    "Rtype": 1,
+    "ModelScaleRate": 1
+  },
+  {
+    "ConfigId": 13,
+    "Path": "Bullet/MysticGreen",
+    "Rtype": 1,
+    "ModelScaleRate": 1
+  },
+  {
+    "ConfigId": 999,
+    "Path": "Prefabs/Ships/SM_Ship_Fighter_Heavy_04",
+    "Rtype": 1,
+    "ModelScaleRate": 1
+  },
+  {
+    "ConfigId": 100000,
+    "Path": "Prefabs/Stars/URPMode/Broken/Prefabs/BrokenPlanet",
+    "Rtype": 1,
+    "ModelScaleRate": 1
+  }
+]

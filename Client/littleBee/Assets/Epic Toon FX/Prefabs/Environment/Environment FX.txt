@@ -1,0 +1,5 @@
+In the Environment folder you will find effects that:
+
+- are parts of environments
+- are typically non-interactable
+- are specific to certain environments

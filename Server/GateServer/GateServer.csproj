@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;WAN_MODE;LAN_MODE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="ConsoleLogger">
+      <HintPath>..\..\Common\ConsoleLogger\bin\Release\netstandard2.0\ConsoleLogger.dll</HintPath>
+    </Reference>
+    <Reference Include="General">
+      <HintPath>..\..\Common\General\General\bin\Release\netstandard2.0\General.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJson">
+      <HintPath>..\..\Common\3rd\libs\LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="ServerDll">
+      <HintPath>..\..\Common\ServerDll\bin\Release\netstandard2.0\ServerDll.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

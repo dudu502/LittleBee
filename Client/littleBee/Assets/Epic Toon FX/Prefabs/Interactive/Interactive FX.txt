@@ -1,0 +1,4 @@
+In the Interactive folder you will find effects that:
+
+- are intended to be directly interacted with
+- spawn after certain events or interactions

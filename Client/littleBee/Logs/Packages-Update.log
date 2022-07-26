@@ -1,0 +1,16 @@
+
+=== Tue Jul 26 10:07:52 2022
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.ide.rider from version 2.0.7 to 3.0.14
+  com.unity.ide.visualstudio from version 2.0.12 to 2.0.15
+  com.unity.ide.vscode from version 1.2.4 to 1.2.5
+  com.unity.polybrush from version 1.0.2 to 1.1.2
+  com.unity.render-pipelines.universal from version 10.7.0 to 12.1.7
+  com.unity.shadergraph from version 10.7.0 to 12.1.7
+  com.unity.test-framework from version 1.1.29 to 1.1.31
+  com.unity.timeline from version 1.4.8 to 1.6.4
+  com.unity.visualeffectgraph from version 10.7.0 to 12.1.7

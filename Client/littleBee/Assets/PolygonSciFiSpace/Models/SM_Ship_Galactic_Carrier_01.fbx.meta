@@ -1,0 +1,183 @@
+fileFormatVersion: 2
+guid: f55e6d99649ccff4383a155253a9a573
+timeCreated: 1544585114
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: SM_Ship_Galactic_Carrier_Fin_L_01
+    100004: SM_Ship_Galactic_Carrier_Fin_L_02
+    100006: SM_Ship_Galactic_Carrier_Fin_R_01
+    100008: SM_Ship_Galactic_Carrier_Fin_R_02
+    100010: SM_Ship_Galactic_Carrier_Gun_01
+    100012: SM_Ship_Galactic_Carrier_Gun_02
+    100014: SM_Ship_Galactic_Carrier_Gun_03
+    100016: SM_Ship_Galactic_Carrier_Gun_04
+    100018: SM_Ship_Galactic_Carrier_Gun_05
+    100020: SM_Ship_Galactic_Carrier_Gun_06
+    100022: SM_Ship_Galactic_Carrier_Gun_07
+    100024: SM_Ship_Galactic_Carrier_Gun_08
+    100026: SM_Ship_Galactic_Carrier_Gun_09
+    100028: SM_Ship_Galactic_Carrier_Gun_10
+    100030: SM_Ship_Galactic_Carrier_Gun_11
+    100032: SM_Ship_Galactic_Carrier_Gun_12
+    100034: SM_Ship_Galactic_Carrier_Gun_13
+    100036: SM_Ship_Galactic_Carrier_Gun_14
+    100038: SM_Ship_Galactic_Carrier_Gun_15
+    100040: SM_Ship_Galactic_Carrier_Gun_16
+    400000: //RootNode
+    400002: SM_Ship_Galactic_Carrier_Fin_L_01
+    400004: SM_Ship_Galactic_Carrier_Fin_L_02
+    400006: SM_Ship_Galactic_Carrier_Fin_R_01
+    400008: SM_Ship_Galactic_Carrier_Fin_R_02
+    400010: SM_Ship_Galactic_Carrier_Gun_01
+    400012: SM_Ship_Galactic_Carrier_Gun_02
+    400014: SM_Ship_Galactic_Carrier_Gun_03
+    400016: SM_Ship_Galactic_Carrier_Gun_04
+    400018: SM_Ship_Galactic_Carrier_Gun_05
+    400020: SM_Ship_Galactic_Carrier_Gun_06
+    400022: SM_Ship_Galactic_Carrier_Gun_07
+    400024: SM_Ship_Galactic_Carrier_Gun_08
+    400026: SM_Ship_Galactic_Carrier_Gun_09
+    400028: SM_Ship_Galactic_Carrier_Gun_10
+    400030: SM_Ship_Galactic_Carrier_Gun_11
+    400032: SM_Ship_Galactic_Carrier_Gun_12
+    400034: SM_Ship_Galactic_Carrier_Gun_13
+    400036: SM_Ship_Galactic_Carrier_Gun_14
+    400038: SM_Ship_Galactic_Carrier_Gun_15
+    400040: SM_Ship_Galactic_Carrier_Gun_16
+    2300000: //RootNode
+    2300002: SM_Ship_Galactic_Carrier_Fin_L_01
+    2300004: SM_Ship_Galactic_Carrier_Fin_L_02
+    2300006: SM_Ship_Galactic_Carrier_Fin_R_01
+    2300008: SM_Ship_Galactic_Carrier_Fin_R_02
+    2300010: SM_Ship_Galactic_Carrier_Gun_01
+    2300012: SM_Ship_Galactic_Carrier_Gun_02
+    2300014: SM_Ship_Galactic_Carrier_Gun_03
+    2300016: SM_Ship_Galactic_Carrier_Gun_04
+    2300018: SM_Ship_Galactic_Carrier_Gun_05
+    2300020: SM_Ship_Galactic_Carrier_Gun_06
+    2300022: SM_Ship_Galactic_Carrier_Gun_07
+    2300024: SM_Ship_Galactic_Carrier_Gun_08
+    2300026: SM_Ship_Galactic_Carrier_Gun_09
+    2300028: SM_Ship_Galactic_Carrier_Gun_10
+    2300030: SM_Ship_Galactic_Carrier_Gun_11
+    2300032: SM_Ship_Galactic_Carrier_Gun_12
+    2300034: SM_Ship_Galactic_Carrier_Gun_13
+    2300036: SM_Ship_Galactic_Carrier_Gun_14
+    2300038: SM_Ship_Galactic_Carrier_Gun_15
+    2300040: SM_Ship_Galactic_Carrier_Gun_16
+    3300000: //RootNode
+    3300002: SM_Ship_Galactic_Carrier_Fin_L_01
+    3300004: SM_Ship_Galactic_Carrier_Fin_L_02
+    3300006: SM_Ship_Galactic_Carrier_Fin_R_01
+    3300008: SM_Ship_Galactic_Carrier_Fin_R_02
+    3300010: SM_Ship_Galactic_Carrier_Gun_01
+    3300012: SM_Ship_Galactic_Carrier_Gun_02
+    3300014: SM_Ship_Galactic_Carrier_Gun_03
+    3300016: SM_Ship_Galactic_Carrier_Gun_04
+    3300018: SM_Ship_Galactic_Carrier_Gun_05
+    3300020: SM_Ship_Galactic_Carrier_Gun_06
+    3300022: SM_Ship_Galactic_Carrier_Gun_07
+    3300024: SM_Ship_Galactic_Carrier_Gun_08
+    3300026: SM_Ship_Galactic_Carrier_Gun_09
+    3300028: SM_Ship_Galactic_Carrier_Gun_10
+    3300030: SM_Ship_Galactic_Carrier_Gun_11
+    3300032: SM_Ship_Galactic_Carrier_Gun_12
+    3300034: SM_Ship_Galactic_Carrier_Gun_13
+    3300036: SM_Ship_Galactic_Carrier_Gun_14
+    3300038: SM_Ship_Galactic_Carrier_Gun_15
+    3300040: SM_Ship_Galactic_Carrier_Gun_16
+    4300000: SM_Ship_Galactic_Carrier_01
+    4300002: SM_Ship_Galactic_Carrier_Fin_R_01
+    4300004: SM_Ship_Galactic_Carrier_Fin_R_02
+    4300006: SM_Ship_Galactic_Carrier_Fin_L_01
+    4300008: SM_Ship_Galactic_Carrier_Fin_L_02
+    4300010: SM_Ship_Galactic_Carrier_Gun_07
+    4300012: SM_Ship_Galactic_Carrier_Gun_05
+    4300014: SM_Ship_Galactic_Carrier_Gun_02
+    4300016: SM_Ship_Galactic_Carrier_Gun_08
+    4300018: SM_Ship_Galactic_Carrier_Gun_06
+    4300020: SM_Ship_Galactic_Carrier_Gun_03
+    4300022: SM_Ship_Galactic_Carrier_Gun_09
+    4300024: SM_Ship_Galactic_Carrier_Gun_12
+    4300026: SM_Ship_Galactic_Carrier_Gun_11
+    4300028: SM_Ship_Galactic_Carrier_Gun_10
+    4300030: SM_Ship_Galactic_Carrier_Gun_13
+    4300032: SM_Ship_Galactic_Carrier_Gun_14
+    4300034: SM_Ship_Galactic_Carrier_Gun_16
+    4300036: SM_Ship_Galactic_Carrier_Gun_15
+    4300038: SM_Ship_Galactic_Carrier_Gun_04
+    4300040: SM_Ship_Galactic_Carrier_Gun_01
+    9500000: //RootNode
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 0
+    keepQuads: 0
+    weldVertices: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 0
+    normalImportMode: 1
+    tangentImportMode: 3
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

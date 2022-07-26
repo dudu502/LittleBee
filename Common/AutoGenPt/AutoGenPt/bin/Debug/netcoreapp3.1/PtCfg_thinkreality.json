@@ -1,0 +1,325 @@
+{
+    "ns":"Lenovo.XR.Development.Net.Pt",
+    "pts": [
+        {
+            "className": "PtKeyFrameCommand",
+            "fields": [
+                {
+                    "type": "int32",
+                    "name": "FrameIndex"
+                },
+                {
+                    "type": "uint32",
+                    "name": "Command"
+                },
+                {
+                    "type": "uint32",
+                    "name": "EntityId"
+                },
+                {
+                    "type": "string",
+                    "name": "ParamDatas",
+                    "isArray": 1
+                }
+            ]
+        },
+        {
+            "className": "PtKeyFrameCollectionList",
+            "fields": [
+                {
+                    "type": "int32",
+                    "name": "CurrentFrameIndex"
+                },
+                {
+                    "type": "PtKeyFrameCollection",
+                    "name": "Elements",
+                    "isArray": 1
+                }
+            ]
+        },
+        {
+            "className": "PtKeyFrameCommandList",
+            "fields": [
+                {
+                    "type": "int32",
+                    "name": "FrameIndex"
+                },
+                {
+                    "type": "PtKeyFrameCommand",
+                    "name": "Commands",
+                    "isArray": 1
+                }
+            ]
+        },
+        {
+            "className": "PtInt32List",
+            "fields": [
+                {
+                    "type": "int32",
+                    "name": "Elements",
+                    "isArray": 1
+                }
+            ]
+        },
+        {
+            "className": "PtUInt32List",
+            "fields": [
+                {
+                    "type": "uint32",
+                    "name": "Elements",
+                    "isArray": 1
+                }
+            ]
+        },
+        {
+            "className": "PtUInt16List",
+            "fields": [
+                {
+                    "type": "uint16",
+                    "name": "Elements",
+                    "isArray": 1
+                }
+            ]
+        },
+        {
+            "className": "PtStringList",
+            "fields": [
+                {
+                    "type": "string",
+                    "name": "Elements",
+                    "isArray": 1
+                }
+            ]
+        },
+        {
+            "className": "PtInt16List",
+            "fields": [
+                {
+                    "type": "int16",
+                    "name": "Elements",
+                    "isArray": 1
+                }
+            ]
+        },
+        {
+            "className": "PtFloatList",
+            "fields": [
+                {
+                    "type": "float",
+                    "name": "Elements",
+                    "isArray": 1
+                }
+            ]
+        },
+        {
+            "className": "PtGameInfo",
+            "fields": [
+                {
+                    "type": "uint32",
+                    "name": "MapId"
+                },
+                {
+                    "type": "uint32",
+                    "name": "RoomId"
+                },
+                {
+                    "type": "PtEntity",
+                    "name": "EntityList",
+                    "isArray": 1
+                }
+            ]
+        },
+        {
+            "className": "PtEntity",
+            "fields": [
+                {
+                    "type": "uint32",
+                    "name": "EntityId"
+                },
+                {
+                    "type": "uint32",
+                    "name": "UserId"
+                },
+                {
+                    "type": "byte",
+                    "name": "TeamId"
+                }
+            ]
+        },
+        {
+            "className": "PtSearchHostResult",
+            "fields": [
+                {
+                    "type": "string",
+                    "name": "connectKey"
+                },
+                {
+                    "type": "int32",
+                    "name": "hashCode"
+                }
+            ]
+        },
+        {
+            "className": "PtErrorCode",
+            "fields": [
+                {
+                    "type": "int32",
+                    "name": "Id",
+                    "isArray": 0
+                }
+            ]
+        },
+        {
+            "className": "PtHeartBeat",
+            "fields": [
+                {
+                    "type": "int64",
+                    "name": "Ts",
+                    "isArray": 0
+                }
+            ]
+        },
+        {
+            "className": "PtLaunchGameData",
+            "fields": [
+                {
+                    "type": "string",
+                    "name": "RSAddress"
+                },
+                {
+                    "type": "uint16",
+                    "name": "RSPort"
+                },
+                {
+                    "type": "uint32",
+                    "name": "MapId"
+                },
+                {
+                    "type": "string",
+                    "name": "ConnectionKey"
+                },
+                {
+                    "type": "bool",
+                    "name": "IsStandaloneMode"
+                },
+                {
+                    "type": "byte",
+                    "name": "PlayerNumber"
+                }
+            ]
+        },
+        {
+            "className": "PtRoomList",
+            "fields": [
+                {
+                    "type": "PtRoom",
+                    "name": "Rooms",
+                    "isArray": 1
+                }
+            ]
+        },
+        {
+            "className": "PtRoom",
+            "fields": [
+                {
+                    "type": "uint32",
+                    "name": "RoomId"
+                },
+                {
+                    "type": "byte",
+                    "name": "Status"
+                },
+                {
+                    "type": "uint32",
+                    "name": "MapId"
+                },
+                {
+                    "type": "string",
+                    "name": "RoomOwnerUserId"
+                },
+                {
+                    "type": "byte",
+                    "name": "MaxPlayerCount"
+                },
+                {
+                    "type": "PtRoomPlayer",
+                    "name": "Players",
+                    "isArray": 1
+                }
+            ]
+        },
+        {
+            "className": "PtRoomPlayer",
+            "fields": [
+                {
+                    "type": "uint32",
+                    "name": "EntityId"
+                },
+                {
+                    "type": "byte",
+                    "name": "TeamId"
+                },
+                {
+                    "type": "string",
+                    "name": "NickName"
+                },
+                {
+                    "type": "string",
+                    "name": "UserId"
+                },
+                {
+                    "type": "string",
+                    "name": "Password"
+                },
+                {
+                    "type": "byte",
+                    "name": "Status"
+                },
+                {
+                    "type": "byte",
+                    "name": "Type"
+                },
+                {
+                    "type": "byte",
+                    "name": "Color"
+                }
+            ]
+        },
+        
+        {
+            "className": "ClassA",
+            "fields": [
+                {
+                    "type": "uint32",
+                    "name": "EntityId"
+                }
+            ]
+        },
+        {
+            "className": "PtTest",
+            "fields": [
+                {
+                    "type": "uint32",
+                    "name": "EntityId"
+                },
+                {
+                    "type": "byte",
+                    "name": "TeamId"
+                },
+                {
+                    "type": "string",
+                    "name": "NickName"
+                },
+                {
+                    "type": "ClassA",
+                    "name": "CA"
+                },
+                {
+                    "type": "PtTest",
+                    "name":"lists",
+                    "isArray": 1
+                }
+            ]
+        }
+    ]
+}

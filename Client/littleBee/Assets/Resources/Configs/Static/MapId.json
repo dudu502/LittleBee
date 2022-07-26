@@ -1,0 +1,72 @@
+[
+  {
+    "ConfigId": 1,
+    "Name": "SuperSolarSystem",
+    "Desc": "SuperSolarSystem",
+    "ResKey": "SuperSolarSystem",
+    "PlayerCount": 4
+  },
+  {
+    "ConfigId": 2,
+    "Name": "ThreeBodySystem",
+    "Desc": "ThreeBodySystem",
+    "ResKey": "ThreeBodySystem",
+    "PlayerCount": 4
+  },
+  {
+    "ConfigId": 3,
+    "Name": "SolarSystem",
+    "Desc": "SolarSystem",
+    "ResKey": "SolarSystem",
+    "PlayerCount": 4
+  },
+  {
+    "ConfigId": 4,
+    "Name": "BigSuperSolarSystem",
+    "Desc": "BigSuperSolarSystem",
+    "ResKey": "BigSuperSolarSystem",
+    "PlayerCount": 4
+  },
+  {
+    "ConfigId": 5,
+    "Name": "SolarSystem",
+    "Desc": "SolarSystem",
+    "ResKey": "SolarSystem",
+    "PlayerCount": 4
+  },
+  {
+    "ConfigId": 6,
+    "Name": "SolarSystem",
+    "Desc": "SolarSystem",
+    "ResKey": "SolarSystem",
+    "PlayerCount": 4
+  },
+  {
+    "ConfigId": 7,
+    "Name": "SolarSystem",
+    "Desc": "SolarSystem",
+    "ResKey": "SolarSystem",
+    "PlayerCount": 4
+  },
+  {
+    "ConfigId": 8,
+    "Name": "SolarSystem",
+    "Desc": "SolarSystem",
+    "ResKey": "SolarSystem",
+    "PlayerCount": 4
+  },
+  {
+    "ConfigId": 9,
+    "Name": "SolarSystem",
+    "Desc": "SolarSystem",
+    "ResKey": "SolarSystem",
+    "PlayerCount": 4
+  },
+  {
+    "ConfigId": 10,
+    "Name": "SolarSystem",
+    "Desc": "SolarSystem",
+    "ResKey": "SolarSystem",
+    "PlayerCount": 4
+  }
+]

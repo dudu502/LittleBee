@@ -1,0 +1,170 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: PolygonSpace_Planet_03_A
+  m_Shader: {fileID: 4800000, guid: eaaf78c712eddcb47a6a599d04aea29b, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 1
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BotTexture0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Clouds:
+        m_Texture: {fileID: 2800000, guid: cd460ee4ac5c1e746b7a734cc7cc64dd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normals:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Overlay:
+        m_Texture: {fileID: 2800000, guid: cd460ee4ac5c1e746b7a734cc7cc64dd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PlanetOverlayMiddle:
+        m_Texture: {fileID: 2800000, guid: fd15a6fab7475954594f39602e5711e5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PlanetOverlayTop:
+        m_Texture: {fileID: 2800000, guid: fd15a6fab7475954594f39602e5711e5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PlanetSurfaceColor:
+        m_Texture: {fileID: 2800000, guid: 67c01b19dd0b2354f932b32748d8491d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture:
+        m_Texture: {fileID: 2800000, guid: 615d853995cf2344d8641fd19cb09b5d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture0:
+        m_Texture: {fileID: 2800000, guid: 2147928718db1274fb5e6d3d2f995917, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 67c01b19dd0b2354f932b32748d8491d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopTexture0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _ASEOutlineWidth: 0.01
+    - _BumpScale: 1
+    - _CloudCoverage: 0
+    - _CloudPower: 1
+    - _CloudSpeed: 0.1
+    - _CloudTileX: -0.25
+    - _CloudTileY: 0.17
+    - _Cloud_Contrast: 1.2
+    - _Cloud_Falloff: 10
+    - _Cloud_Tiling: -0.51
+    - _Contrast: -8.14
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _Falloff: 1.97
+    - _Float0: 2.6
+    - _Float1: -0.26
+    - _Float2: 0.54
+    - _Fresnel: 8.35
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _NormalFalloff: 0
+    - _Normal_Tiling: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _PlanetDetail: 0.13
+    - _PlanetRimPower: 0.92
+    - _PlanetSmallDetail: -8.76
+    - _PlanetSurfaceContrast: -3.6
+    - _PlanetSurfaceFloat: 2
+    - _PlanetSurfaceTiling: 1
+    - _Planet_Falloff: -1.16
+    - _Planet_Tiling: 18.2
+    - _RimPower: 3.73
+    - _Scale: -0
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Strength: 2.72
+    - _Tiling: 0.97
+    - _UVSec: 0
+    - _ZWrite: 1
+    - __dirty: 0
+    - _frez: 16.33
+    m_Colors:
+    - _ASEOutlineColor: {r: 0.5181034, g: 0.4426903, b: 0.6764706, a: 0}
+    - _BaseColor: {r: 0.36862746, g: 0.7960785, b: 0.7411765, a: 0}
+    - _CloudColor: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color0: {r: 0.30882353, g: 0.3005548, b: 0.25432524, a: 0}
+    - _Color1: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _PlanetBaseColor: {r: 0.9558824, g: 0, b: 0, a: 0}
+    - _PlanetRimColor: {r: 0, g: 0, b: 0, a: 0}
+    - _PlanetSecondColor: {r: 0.50735295, g: 0.10818557, b: 0.10818557, a: 0}
+    - _RimColor: {r: 0.5176471, g: 0.4431373, b: 0.6784314, a: 0}
+    - _SecondColor: {r: 0.39511245, g: 0.85294116, b: 0.8163149, a: 0}
+    - _Second_Color: {r: 0.31617647, g: 0.25890556, b: 0.22783305, a: 0}
+    - _Size: {r: 0, g: 0, b: 0, a: 0}
