@@ -5,7 +5,7 @@ A little bee Advanced Version
 
 [![Watch replaying the video]](https://youtu.be/jZ31cVKSKfo)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/jZ31cVKSKfo?start=89" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 
 ## 帧同步与状态同步
 * 帧同步和状态同步都是一种能让多个客户端在相对同一时刻表现一致的方法，当然只有外观表现一致还远远不够，或者说还不够精确，这时候还需要在数据层面也要保持一致，用数据的变化来驱动外在表现的变化。这点不管是帧同步或状态同步都是一样的。
