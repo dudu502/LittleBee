@@ -2,9 +2,11 @@
 # GalaxyAlliance
 A little bee Advanced Version
 
-[![Watch playing the video]](https://youtu.be/pD_egZciNhY)
+[![Watch playing the video（Youtube）]](https://youtu.be/pD_egZciNhY)
 
-[![Watch replaying the video]](https://youtu.be/jZ31cVKSKfo)
+[![Watch replaying the video （Youtube）]](https://youtu.be/jZ31cVKSKfo)
+
+[![Watch playing the video（bilibili）]](https://www.bilibili.com/video/BV1tW4y127j9/?vd_source=3a6e61a8026ee10f9fd0a18f24c332ca)
 
 
 
