@@ -1,6 +1,7 @@
 
-# GalaxyAlliance
+# LittleBee
 A little bee Advanced Version
+![preview](./social-preview.jpg)
 
 [[Watch playing the video（Youtube）]](https://youtu.be/pD_egZciNhY)
 
