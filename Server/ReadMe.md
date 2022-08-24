@@ -70,3 +70,7 @@ mysql> create table user_tbl(
     
     -> )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
+
+#### Flow
+1.Start web server
+2.Start Gate server(config start.json under this project to link the Room server)
