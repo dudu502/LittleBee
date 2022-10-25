@@ -1,13 +1,5 @@
-﻿using GateServer.Modules;
-using Service.Core;
-using Service.HttpMisc;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Service.Core;
+
 
 namespace GateServer
 {
@@ -22,28 +14,28 @@ namespace GateServer
             string logServerHost = "localhost:8001";
             string logUrl = $"http://{logServerHost}/log?content=";
           
-            string key = "Nuclear";//set in webserver.
-            int port = 9030;//set in webserver.
-
-            var logger = new ConsoleLogger.LoggerImpl.Logger("GATESERVER:"+port, logUrl);
-            logger.EnableConsoleOutput = false;
+            //string key = "Nuclear";//set in webserver.
+            //int port = 9030;//set in webserver.
+            int wsPort = 9000;
+            var logger = new ConsoleLogger.LoggerImpl.Logger("GATESERVER:"+ wsPort, logUrl);
+            logger.EnableConsoleOutput = true;
             logger.Log("LogServer Address: "+ logUrl);
             BaseApplication.Logger = logger;
-            Services.GateApplication gate = new Services.GateApplication(key);
+            Services.GateApplication gate = new Services.GateApplication(wsPort);
             gate.AddConfigElement("log_server_address", logUrl);
-            gate.StartServer(port);
+            gate.StartServer();
 
 
-            //ConsoleLogger.CommandParser commandParser = new ConsoleLogger.CommandParser(logger);
-            //commandParser.AddCommand(new ConsoleLogger.CommandAction("-exit", (cmdParams) =>
-            //{
-            //    AppQuit();
-            //    return ConsoleLogger.CommandExecuteRet.Break;
-            //}, "Exit app."));
-            //commandParser.ReadCommandLine();
+            ConsoleLogger.CommandParser commandParser = new ConsoleLogger.CommandParser(logger);
+            commandParser.AddCommand(new ConsoleLogger.CommandAction("-exit", (cmdParams) =>
+            {
+                AppQuit();
+                return ConsoleLogger.CommandExecuteRet.Break;
+            }, "Exit app."));
+            commandParser.ReadCommandLine();
 
-            while (true)
-                System.Threading.Thread.Sleep(1000);
+            //while (true)
+            //    System.Threading.Thread.Sleep(1000);
         }
 
 

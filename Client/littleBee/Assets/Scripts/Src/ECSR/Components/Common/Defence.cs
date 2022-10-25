@@ -44,7 +44,7 @@ namespace  Components.Common
                 return buffer.WriteUInt32(EntityId)
                     .WriteBool(Enable)
                     .WriteInt64(BaseValue._serializedValue)
-                    .WriteByte((byte)DefenceType).Getbuffer();
+                    .WriteByte((byte)DefenceType).GetRawBytes();
             }
         }
 

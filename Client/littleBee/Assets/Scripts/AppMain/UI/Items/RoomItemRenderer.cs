@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine.UI;
 using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Gate;
 using Proxy;
 using Localization;
 using Misc;

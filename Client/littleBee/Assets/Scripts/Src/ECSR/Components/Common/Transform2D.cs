@@ -88,7 +88,7 @@ namespace Components.Common
                     .WriteInt64(Toward.y._serializedValue);
                 if (ActiveDetection)
                     buffer.WriteUInt32(CollisionEntityId);
-                return buffer.Getbuffer();
+                return buffer.GetRawBytes();
             }
         }
 

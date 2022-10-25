@@ -22,7 +22,7 @@ public class PtInt32List
             buffer.WriteByte(data.__tag__);
 			if(data.HasElements())buffer.WriteCollection(data.Elements,(element)=>buffer.WriteInt32(element));
 			
-            return buffer.Getbuffer();
+            return buffer.GetRawBytes();
         }
     }
 

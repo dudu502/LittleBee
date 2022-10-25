@@ -8,8 +8,6 @@ using Managers;
 using Misc;
 using Net.Pt;
 using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Gate;
-using NetServiceImpl.OnlineMode.Room;
 using Proxy;
 using Src.Log;
 using Src.Replays;
@@ -94,10 +92,10 @@ namespace LogicFrameSync.Src.LockStep
             }
             return null;
         }
-        public static void Start(PtLaunchGameData ptLaunchGameData,string ip)
+        public static void Start(PtLaunchGameData ptLaunchGameData)
         {
             GameEnvironment.Instance.SetState(GameEnvironment.State.InBattle);
-            ConnectRoom(ip, ptLaunchGameData);
+            ConnectRoom(ptLaunchGameData);
             EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(29), 0.75f));          
             EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(30), 0.9f));
         }
@@ -111,7 +109,7 @@ namespace LogicFrameSync.Src.LockStep
                 await System.Threading.Tasks.Task.Yield();
             var sim = SimulationManager.Instance.GetSimulation();            
             ReplayInfo replayInfo = new ReplayInfo();
-            string name = ClientService.Get<RoomServices>().Session.Name;
+            string name = ModuleManager.GetModule<NetworkRoomModule>().Session.Name;
             string path = PersistentDataPath + Const.LAST_REPLAY_FILENAME;
 
             replayInfo.MapId = uint.Parse(sim.GetEntityWorld().GetMeta (Meta.META_KEY_MAPID).ToString());
@@ -134,9 +132,10 @@ namespace LogicFrameSync.Src.LockStep
             NetServiceImpl.Server.StandaloneLocalServer.Stop();
             GameClientNetwork.Instance.CloseClient();
             await System.Threading.Tasks.Task.Delay(50);
-            ClientService.Get<GateService>().Connect2GateServer();
+            //ClientService.Get<GateService>().Connect2GateServer();
+            //ModuleManager.GetModule<NetworkGateModule>().ConnectToGateServer();
         }
-        static async void ConnectRoom(string address, PtLaunchGameData ptLaunchGameData)
+        static async void ConnectRoom( PtLaunchGameData ptLaunchGameData)
         {
             int standaloneModePort = 0;
             if (ptLaunchGameData.IsStandaloneMode)
@@ -148,18 +147,18 @@ namespace LogicFrameSync.Src.LockStep
                         return;
                     }
                     NetServiceImpl.Server.StandaloneLocalServer.Start("Standalone", standaloneModePort, ptLaunchGameData.MapId, ptLaunchGameData.PlayerNumber);//fortest
-                    ClientService.Get<NetServiceImpl.OnlineMode.Gate.GateService>().RequestLeaveRoom();
+                    ModuleManager.GetModule<NetworkGateModule>().RequestLeaveRoom();
                     await System.Threading.Tasks.Task.Delay(50);
                 }    
             }
 
             GameClientNetwork.Instance.CloseClient();
             await System.Threading.Tasks.Task.Delay(50);
-            GameClientNetwork.Instance.Launch();
+            
             if(!ptLaunchGameData.IsStandaloneMode)
-                GameClientNetwork.Instance.Start(address, ptLaunchGameData.RSPort, ptLaunchGameData.ConnectionKey);
+                GameClientNetwork.Instance.Start($"ws://{ptLaunchGameData.RSAddress}:{ptLaunchGameData.RSPort}/{ptLaunchGameData.ConnectionKey}",GameClientNetwork.State.Battle);
             else           
-                GameClientNetwork.Instance.Start("127.0.0.1", standaloneModePort, "Standalone");              
+                GameClientNetwork.Instance.Start($"ws://127.0.0.1:{standaloneModePort}/{ptLaunchGameData.ConnectionKey}", GameClientNetwork.State.Battle);              
         }
         #endregion
 
@@ -205,7 +204,7 @@ namespace LogicFrameSync.Src.LockStep
         public async static void StartReplay(Simulation replaySim, ReplayInfo replayInfo)
         {
             GameEnvironment.Instance.SetState(GameEnvironment.State.InBattle);
-            ModuleManager.GetModule<UIModule>().Push(Managers.UI.UITypes.LoadingPanel, Layer.Top, new LoadingPanel.LoadingInfo(Language.GetText(27), 0));
+            ModuleManager.GetModule<UIModule>().Push(Managers.UI.UITypes.LoadingPanel, Layer.Bottom, new LoadingPanel.LoadingInfo(Language.GetText(27), 0));
                                  
             replaySim.GetBehaviour<ReplayLogicFrameBehaviour>().SetFrameIdxInfos(replayInfo.Frames);
             MapIdCFG mapCfg = ModuleManager.GetModule<Managers.Config.ConfigModule>()

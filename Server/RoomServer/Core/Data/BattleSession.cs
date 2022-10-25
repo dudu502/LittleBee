@@ -1,4 +1,4 @@
-﻿using LiteNetLib;
+﻿
 using Net.Pt;
 using System;
 using System.Collections.Concurrent;
@@ -13,7 +13,7 @@ namespace RoomServer.Core.Data
         public readonly StartupConfig StartupCFG = new StartupConfig();
         public readonly Dictionary<Misc.EntityType, uint> EntityTypeUids = new Dictionary<Misc.EntityType, uint>();
         public readonly ConcurrentQueue<PtKeyFrameCollection> QueueKeyFrameCollection = new ConcurrentQueue<PtKeyFrameCollection>();
-        public readonly Dictionary<uint, UserState> DictUsers = new Dictionary<uint, UserState>();
+        public readonly Dictionary<uint, UserData> DictUsers = new Dictionary<uint, UserData>();
         public uint InitEntityId = 0;
         public BattleSession()
         {
@@ -23,28 +23,27 @@ namespace RoomServer.Core.Data
 
         public bool HasOnlinePlayer()
         {
-            foreach (UserState userState in DictUsers.Values)
+            foreach (UserData userState in DictUsers.Values)
             {
                 if (userState.IsOnline) return true;
             }
             return false;
         }
 
-        public UserState FindUserStateByUserName(string userName)
+        public UserData FindUserStateByUserName(string userName)
         {
-            foreach (UserState userState in DictUsers.Values)
+            foreach (UserData userState in DictUsers.Values)
             {
                 if (userState.UserName == userName)
                     return userState;
             }
             return null;
         }
-        public UserState FindUserStateByNetPeer(NetPeer netPeer)
+        public UserData FindUserStateBySessionId(string sessionId)
         {
-            foreach (UserState userState in DictUsers.Values)
+            foreach (UserData userState in DictUsers.Values)
             {
-                if (userState.NetPeer == netPeer)
-                    return userState;
+                if (userState.SessionId == sessionId) return userState;
             }
             return null;
         }

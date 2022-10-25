@@ -22,7 +22,7 @@ public class PtFloatList
             buffer.WriteByte(data.__tag__);
 			if(data.HasElements())buffer.WriteCollection(data.Elements,(element)=>buffer.WriteFloat(element));
 			
-            return buffer.Getbuffer();
+            return buffer.GetRawBytes();
         }
     }
 

@@ -70,7 +70,7 @@ namespace Src.Replays
                             frameBuffer.WriteBytes(FrameIdxInfo.Write(frameInfo));
                         }
                     }
-                    byte[] frameRawBuffer = frameBuffer.Getbuffer();
+                    byte[] frameRawBuffer = frameBuffer.GetRawBytes();
                     byte[] frameVerificationCodes = _MD5Inst.ComputeHash(frameRawBuffer);
 
                     buffer.WriteBytes(frameVerificationCodes);
@@ -78,7 +78,7 @@ namespace Src.Replays
                 }
 
 
-                return buffer.Getbuffer();
+                return buffer.GetRawBytes();
             }
         }
         public static async Task<ReplayInfo> Read(byte[] bytes)

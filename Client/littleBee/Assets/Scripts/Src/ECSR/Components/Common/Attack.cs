@@ -58,7 +58,7 @@ namespace Components.Common
                     .WriteBool(Enable)
                     .WriteByte((byte)AttackType)
                     .WriteInt64(BaseValue._serializedValue)
-                    .WriteByte(AttackSpeed).Getbuffer();
+                    .WriteByte(AttackSpeed).GetRawBytes();
             }
         }
     }

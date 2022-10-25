@@ -1,5 +1,6 @@
 ﻿using Entitas;
 using LogicFrameSync.Src.LockStep.Behaviours;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -36,7 +37,9 @@ namespace LogicFrameSync.Src.LockStep
         public void Start()
         {
             foreach (ISimulativeBehaviour beh in m_Behaviours)
+            {
                 beh.Start();
+            }
         }
         public T GetBehaviour<T>()where T:ISimulativeBehaviour
         {

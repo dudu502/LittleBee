@@ -34,7 +34,7 @@ namespace Components.Common
         {
             using(ByteBuffer buffer = new ByteBuffer())
             {
-                return buffer.WriteUInt32(EntityId).WriteBool(Enable).WriteUInt16((ushort)InfoType).Getbuffer();
+                return buffer.WriteUInt32(EntityId).WriteBool(Enable).WriteUInt16((ushort)InfoType).GetRawBytes();
             }
         }
 

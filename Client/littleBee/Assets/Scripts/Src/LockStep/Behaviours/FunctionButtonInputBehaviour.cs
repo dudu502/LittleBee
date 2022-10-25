@@ -1,8 +1,8 @@
 ﻿using Frame;
 using LogicFrameSync.Src.LockStep.Behaviours.Data;
 using LogicFrameSync.Src.LockStep.Frame;
-using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Room;
+using Managers;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +18,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         LogicFrameBehaviour logic;
         FunctionButtonInputRecord currentRecord;
         FunctionButtonInputRecord record;
+        NetworkRoomModule networkRoomModule;
         public void Quit()
         {
             
@@ -25,7 +26,8 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
 
         public void Start()
         {
-            Id = ClientService.Get<RoomServices>().Session.Id;
+            networkRoomModule = ModuleManager.GetModule<NetworkRoomModule>();
+            Id = networkRoomModule.Session.Id;
             logic = Sim.GetBehaviour<LogicFrameBehaviour>();
             currentRecord = new FunctionButtonInputRecord();
             currentRecord.EntityId = Id;
@@ -41,7 +43,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                 if (func == FunctionButtonInputManager.Function.FIRE)
                 {
                     FunctionButtonInputManager.Instance.Reset();
-                    KeyFrameSender.AddCurrentFrameCommand(logic.CurrentFrameIdx, FrameCommand.SYNC_CREATE_ENTITY, Id, new ByteBuffer().WriteByte((byte)Misc.EntityType.Bullet).Getbuffer());
+                    KeyFrameSender.AddCurrentFrameCommand(logic.CurrentFrameIdx, FrameCommand.SYNC_CREATE_ENTITY, Id, new ByteBuffer().WriteByte((byte)Misc.EntityType.Bullet).GetRawBytes());
                 }
             }
         }

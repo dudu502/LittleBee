@@ -50,7 +50,7 @@ public class PtRoomPlayer
 			if(data.HasType())buffer.WriteByte(data.Type);
 			if(data.HasColor())buffer.WriteByte(data.Color);
 			
-            return buffer.Getbuffer();
+            return buffer.GetRawBytes();
         }
     }
 

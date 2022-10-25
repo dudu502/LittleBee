@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="websocketsharp.core" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="General">
       <HintPath>..\General\General\bin\Release\netstandard2.0\General.dll</HintPath>
     </Reference>

@@ -10,6 +10,7 @@
       "ServerDll/1.0.0": {
         "dependencies": {
           "NETStandard.Library": "2.0.3",
+          "websocketsharp.core": "1.0.0",
           "General": "1.0.0.0",
           "LitJson": "0.7.0.0"
         },
@@ -21,6 +22,14 @@
       "NETStandard.Library/2.0.3": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
+      "websocketsharp.core/1.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/websocket-sharp-core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "General/1.0.0.0": {
@@ -60,6 +69,13 @@
       "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
+    },
+    "websocketsharp.core/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Pdr9TtOtlaxKI6XtuHdRBrxFsBPCpqxNerAFbpdb2K7foBMYJmUOV+wqhklZilphtFjxT5zN1X6X3iyG/OovAQ==",
+      "path": "websocketsharp.core/1.0.0",
+      "hashPath": "websocketsharp.core.1.0.0.nupkg.sha512"
     },
     "General/1.0.0.0": {
       "type": "reference",

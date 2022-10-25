@@ -48,7 +48,7 @@ namespace Net.Pt
                 buffer.WriteUInt16(info.Cmd);
                 buffer.WriteUInt32(info.EntityId);
                 buffer.WriteBytes(info.ParamsContent);
-                return buffer.Getbuffer();
+                return buffer.GetRawBytes();
             }
              
         }

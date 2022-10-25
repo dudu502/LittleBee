@@ -22,7 +22,7 @@ public class PtStringList
             buffer.WriteByte(data.__tag__);
 			if(data.HasElements())buffer.WriteCollection(data.Elements,(element)=>buffer.WriteString(element));
 			
-            return buffer.Getbuffer();
+            return buffer.GetRawBytes();
         }
     }
 

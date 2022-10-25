@@ -1,6 +1,7 @@
-﻿using Net.Pt;
-using RoomServer.Modules;
-
+﻿using Net;
+using Net.Pt;
+using Net.ServiceImpl;
+using RoomServer.Core.Data;
 using System.Collections.Generic;
 
 namespace RoomServer.Services.Sim
@@ -13,21 +14,40 @@ namespace RoomServer.Services.Sim
         }
         
         private int m_CurrentFrameIdx;
-        private BattleModule battleModule = null;
+
+        private WebSocketSharp.Server.WebSocketServer _webSocketServer;
+        public ServerLogicFrameBehaviour(WebSocketSharp.Server.WebSocketServer server)
+        {
+            _webSocketServer = server;
+        }
         public void Quit()
         {
 
         }
         public void Start()
         {
-            battleModule = ServerDll.Service.Modules.Service.GetModule<BattleModule>();
             m_CurrentFrameIdx = -1;
         }
 
         public void Update()
         {
-            // flush the syncframe_data to all clients at same frame.
-            battleModule.FlushKeyFrame(++m_CurrentFrameIdx);
+            FlushKeyFrame(++m_CurrentFrameIdx);
+        }
+
+        void FlushKeyFrame(int currentFrameIdx)
+        {
+            DataMgr.Instance.BattleSession.KeyFrameList.SetCurrentFrameIndex(currentFrameIdx);
+            if (DataMgr.Instance.BattleSession.QueueKeyFrameCollection.Count == 0) return;
+            PtKeyFrameCollection flushCollection = new PtKeyFrameCollection() { FrameIdx = currentFrameIdx, KeyFrames = new List<FrameIdxInfo>() };
+            while (DataMgr.Instance.BattleSession.QueueKeyFrameCollection.TryDequeue(out PtKeyFrameCollection collection))
+            {
+                collection.FrameIdx = currentFrameIdx;
+                flushCollection.AddKeyFramesRange(collection);
+            }
+            flushCollection.KeyFrames.Sort();
+            DataMgr.Instance.BattleSession.KeyFrameList.Elements.Add(flushCollection);
+            if (flushCollection.KeyFrames.Count > 0)
+                _webSocketServer.WebSocketServices.Broadcast(PtMessagePackage.Write( PtMessagePackage.Build((ushort)ResponseMessageId.RS_SyncKeyframes,PtKeyFrameCollection.Write(flushCollection))));
         }
     }
 }

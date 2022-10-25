@@ -1,2 +1,2 @@
-copy D:\Dudu502\galaxy_alliance\Common\General\General\bin\Release\netstandard2.0\General.dll D:\Dudu502\galaxy_alliance\Client\littleBee\Assets\Plugins\General.dll
-copy D:\Dudu502\galaxy_alliance\Common\ServerDll\bin\Release\netstandard2.0\ServerDll.dll D:\Dudu502\galaxy_alliance\Client\littleBee\Assets\Plugins\ServerDll.dll
+copy D:\Dudu502\LittleBee\Common\General\General\bin\Release\netstandard2.0\General.dll D:\Dudu502\LittleBee\Client\littleBee\Assets\Plugins\General.dll
+copy D:\Dudu502\LittleBee\Common\ServerDll\bin\Release\netstandard2.0\ServerDll.dll D:\Dudu502\LittleBee\Client\littleBee\Assets\Plugins\ServerDll.dll

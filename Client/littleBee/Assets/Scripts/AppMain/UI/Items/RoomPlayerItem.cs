@@ -2,9 +2,10 @@
 using UnityEngine.UI;
 using System.Collections;
 using Localization;
-using NetServiceImpl.OnlineMode.Gate;
 using NetServiceImpl;
 using Misc;
+using Managers;
+
 public class RoomPlayerItem : DynamicInfinityItem, ILanguageApplicable
 {
     static Color[] Colors = new Color[] {
@@ -16,7 +17,7 @@ public class RoomPlayerItem : DynamicInfinityItem, ILanguageApplicable
         Color.Lerp(Color.blue,Color.green,0.4f),
         Color.Lerp(Color.yellow,Color.blue,0.4f),
         Color.Lerp(Color.blue,Color.yellow,0.4f),
-         Color.Lerp(Color.red,Color.green,0.7f),
+        Color.Lerp(Color.red,Color.green,0.7f),
         Color.Lerp(Color.red,Color.blue,0.7f),
         Color.Lerp(Color.red,Color.yellow,0.7f),
         Color.Lerp(Color.red,Color.grey,0.7f),
@@ -38,17 +39,15 @@ public class RoomPlayerItem : DynamicInfinityItem, ILanguageApplicable
     }
     void OnChangeColor()
     {
-        print("change color"); 
         var player = GetData<Net.Pt.PtRoomPlayer>();
         
-        ClientService.Get<GateService>().RequestUpdatePlayerColor(ClientService.Get<GateService>().SelfRoom.RoomId, player.UserId);
+        ModuleManager.GetModule<NetworkGateModule>().RequestUpdatePlayerColor(ModuleManager.GetModule<NetworkGateModule>().SelfRoom.RoomId, player.UserId);
     }
 
     void OnChangeTeam()
     {
-        print("change team");
         var player = GetData<Net.Pt.PtRoomPlayer>();
-        ClientService.Get<GateService>().RequestUpdatePlayerTeam(ClientService.Get<GateService>().SelfRoom.RoomId, player.UserId,(byte)++teamId);
+        ModuleManager.GetModule<NetworkGateModule>().RequestUpdatePlayerTeam(ModuleManager.GetModule<NetworkGateModule>().SelfRoom.RoomId, player.UserId,(byte)++teamId);
     }
 
     protected override void OnRenderer()

@@ -76,7 +76,7 @@ namespace Components.Common
                     .WriteBool(Enable)
                     .WriteInt64(Speed._serializedValue)
                     .WriteInt64(Dir.x._serializedValue)
-                    .WriteInt64(Dir.y._serializedValue).Getbuffer();
+                    .WriteInt64(Dir.y._serializedValue).GetRawBytes();
             }
         }
 

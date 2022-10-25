@@ -26,7 +26,7 @@ public class PtKeyFrameCollectionList
 			if(data.HasCurrentFrameIndex())buffer.WriteInt32(data.CurrentFrameIndex);
 			if(data.HasElements())buffer.WriteCollection(data.Elements,(element)=>PtKeyFrameCollection.Write(element));
 			
-            return buffer.Getbuffer();
+            return buffer.GetRawBytes();
         }
     }
 

@@ -1,6 +1,6 @@
 ﻿using EntitySystems;
+using Managers;
 using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Room;
 using System.Collections.Generic;
 
 namespace LogicFrameSync.Src.LockStep.Behaviours
@@ -15,7 +15,8 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
             set;get;
         }
         public List<IEntitySystem> Systems = new List<IEntitySystem>();
-        protected RoomServices roomServices;
+        //protected RoomServices roomServices;
+        protected NetworkRoomModule networkRoomModule;
         protected LogicFrameBehaviour logicBehaviour;
 
         public EntityBehaviour()
@@ -47,8 +48,9 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         }
         public virtual void Start()
         {
-            roomServices = ClientService.Get<RoomServices>();
-            if (roomServices == null) throw new System.NullReferenceException();
+            //roomServices = ClientService.Get<RoomServices>();
+            networkRoomModule = ModuleManager.GetModule<NetworkRoomModule>();
+            if (networkRoomModule == null) throw new System.NullReferenceException();
             logicBehaviour = Sim.GetBehaviour<LogicFrameBehaviour>();
         }
 

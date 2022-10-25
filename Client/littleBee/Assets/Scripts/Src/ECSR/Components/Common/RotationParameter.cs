@@ -62,7 +62,7 @@ namespace Components.Common
                     .WriteInt64(Axis.x._serializedValue)
                     .WriteInt64(Axis.y._serializedValue)
                     .WriteInt64(Axis.z._serializedValue)
-                    .WriteInt64(Speed._serializedValue).Getbuffer();
+                    .WriteInt64(Speed._serializedValue).GetRawBytes();
             }
         }
     }
@@ -119,7 +119,7 @@ namespace Components.Common
                     .WriteInt64(Rotation.x._serializedValue)
                     .WriteInt64(Rotation.y._serializedValue)
                     .WriteInt64(Rotation.z._serializedValue)
-                    .WriteInt64(Rotation.w._serializedValue).Getbuffer();
+                    .WriteInt64(Rotation.w._serializedValue).GetRawBytes();
             }
         }
     }

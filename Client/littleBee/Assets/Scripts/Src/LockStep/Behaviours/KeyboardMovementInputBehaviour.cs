@@ -3,8 +3,8 @@ using Components.Common;
 using Frame;
 using LogicFrameSync.Src.LockStep.Behaviours.Data;
 using LogicFrameSync.Src.LockStep.Frame;
+using Managers;
 using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Room;
 using TrueSync;
 using UnityEngine;
 
@@ -12,6 +12,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
 {
     public class KeyboardMovementInputBehaviour : ISimulativeBehaviour
     {
+        NetworkRoomModule networkRoomModule;
         KeyboardMovementInputRecord currentRecord;
         KeyboardMovementInputRecord record;
         uint Id;
@@ -23,7 +24,8 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         LogicFrameBehaviour logic;
         public void Start()
         {
-            Id = ClientService.Get<RoomServices>().Session.Id;
+            networkRoomModule = ModuleManager.GetModule<NetworkRoomModule>();
+            Id = networkRoomModule.Session.Id;
             logic = Sim.GetBehaviour<LogicFrameBehaviour>();
             currentRecord = new KeyboardMovementInputRecord();
             record = new KeyboardMovementInputRecord();
@@ -67,7 +69,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                     {
                         record.CopyFrom(currentRecord);
                         KeyFrameSender.AddCurrentFrameCommand(logic.CurrentFrameIdx,FrameCommand.SYNC_MOVE, Id, 
-                            new ByteBuffer().WriteByte(Const.INPUT_TYPE_KEYBOARD).WriteInt16((short)currentRecord.x).WriteInt16((short)currentRecord.y).Getbuffer());
+                            new ByteBuffer().WriteByte(Const.INPUT_TYPE_KEYBOARD).WriteInt16((short)currentRecord.x).WriteInt16((short)currentRecord.y).GetRawBytes());
                     }
                 }
             }

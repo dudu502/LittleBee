@@ -45,7 +45,7 @@ namespace Components.Common
             {
                 return buffer.WriteUInt32(EntityId)
                     .WriteBool(Enable)
-                    .WriteInt32(Value).Getbuffer();
+                    .WriteInt32(Value).GetRawBytes();
             }
         }
 

@@ -93,7 +93,7 @@ namespace Net
                         throw new Exception("BuildParams Type is not supported. "+iType.ToString());
                     }
                 }
-                return Build(messageId, buffer.Getbuffer());
+                return Build(messageId, buffer.GetRawBytes());
             }
 
         }
@@ -121,7 +121,7 @@ namespace Net
                 {
                     buffer.WriteBytes(info.Content);
                 }
-                return buffer.Getbuffer();
+                return buffer.GetRawBytes();
             }         
         }
 

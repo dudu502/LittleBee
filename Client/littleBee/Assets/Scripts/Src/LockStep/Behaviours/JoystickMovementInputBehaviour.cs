@@ -2,8 +2,8 @@
 using Frame;
 using LogicFrameSync.Src.LockStep.Behaviours.Data;
 using LogicFrameSync.Src.LockStep.Frame;
+using Managers;
 using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Room;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +21,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         JoystickMovementInputRecord record;
         public Simulation Sim { set; get; }
         LogicFrameBehaviour logic;
+        NetworkRoomModule networkRoomModule;
         public void Quit()
         {
             
@@ -28,7 +29,8 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
 
         public void Start()
         {
-            Id = ClientService.Get<RoomServices>().Session.Id;
+            networkRoomModule = ModuleManager.GetModule<NetworkRoomModule>();
+            Id = networkRoomModule.Session.Id;
             logic = Sim.GetBehaviour<LogicFrameBehaviour>();
             currentRecord = new JoystickMovementInputRecord();
             currentRecord.EntityId = Id;
@@ -50,7 +52,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                     {
                         record.CopyFrom(currentRecord);
                         KeyFrameSender.AddCurrentFrameCommand(logic.CurrentFrameIdx, FrameCommand.SYNC_MOVE, Id, 
-                            new ByteBuffer().WriteByte(Const.INPUT_TYPE_JOYSTICK).WriteInt64(currentRecord.x._serializedValue).WriteInt64(currentRecord.y._serializedValue).Getbuffer());
+                            new ByteBuffer().WriteByte(Const.INPUT_TYPE_JOYSTICK).WriteInt64(currentRecord.x._serializedValue).WriteInt64(currentRecord.y._serializedValue).GetRawBytes());
                     }
                 }
             }

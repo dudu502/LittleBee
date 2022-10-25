@@ -22,7 +22,7 @@ public class PtErrorCode
             buffer.WriteByte(data.__tag__);
 			if(data.HasId())buffer.WriteInt32(data.Id);
 			
-            return buffer.Getbuffer();
+            return buffer.GetRawBytes();
         }
     }
 

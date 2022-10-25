@@ -42,7 +42,7 @@ public class PtLaunchGameData
 			if(data.HasIsStandaloneMode())buffer.WriteBool(data.IsStandaloneMode);
 			if(data.HasPlayerNumber())buffer.WriteByte(data.PlayerNumber);
 			
-            return buffer.Getbuffer();
+            return buffer.GetRawBytes();
         }
     }
 

@@ -60,7 +60,7 @@ namespace Components.Common
                 return buffer.WriteUInt32(EntityId)
                     .WriteBool(Enable)
                     .WriteByte(Mass)
-                    .WriteByte(EffectRadius).Getbuffer();
+                    .WriteByte(EffectRadius).GetRawBytes();
             }
         }
     }

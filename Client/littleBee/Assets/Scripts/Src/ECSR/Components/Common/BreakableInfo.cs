@@ -53,7 +53,7 @@ namespace Components.Common
                 return buffer.WriteUInt32(EntityId)
                     .WriteBool(Enable)
                     .WriteByte(PieceCount)
-                    .WriteUInt32(PieceStartEntityId).Getbuffer();
+                    .WriteUInt32(PieceStartEntityId).GetRawBytes();
             }
         }
     }

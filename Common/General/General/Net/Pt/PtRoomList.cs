@@ -22,7 +22,7 @@ public class PtRoomList
             buffer.WriteByte(data.__tag__);
 			if(data.HasRooms())buffer.WriteCollection(data.Rooms,element=>PtRoom.Write(element));
 			
-            return buffer.Getbuffer();
+            return buffer.GetRawBytes();
         }
     }
 

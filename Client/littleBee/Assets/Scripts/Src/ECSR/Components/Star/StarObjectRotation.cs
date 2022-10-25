@@ -69,7 +69,7 @@ namespace Components.Star
                     .WriteInt64(Rotation.x._serializedValue)
                     .WriteInt64(Rotation.y._serializedValue)
                     .WriteInt64(Rotation.z._serializedValue)
-                    .WriteInt64(Rotation.w._serializedValue).Getbuffer();
+                    .WriteInt64(Rotation.w._serializedValue).GetRawBytes();
             }
         }
     }

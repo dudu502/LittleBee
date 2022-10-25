@@ -1,8 +1,8 @@
 ﻿
 using LogicFrameSync.Src.LockStep.Frame;
+using Managers;
 using Net.Pt;
 using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Room;
 using Src.Replays;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         const int BackUpEntityWorldFrameLength = 128;
         const int SaveEntityWorldSnapshotFrameLength = BackUpEntityWorldFrameLength * 2;
         LogicFrameBehaviour logic;
-        RoomServices roomServices;
+        NetworkRoomModule networkRoomModule;
         Dictionary<int, EntityWorldFrameData> m_DictEntityWorldFrameData;
         string _snapshotFolderPath = string.Empty;
         public Simulation Sim { set; get; }
@@ -64,7 +64,8 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
 
         public void Start()
         {
-            roomServices = ClientService.Get<RoomServices>();
+            //roomServices = ClientService.Get<RoomServices>();
+            networkRoomModule = ModuleManager.GetModule<NetworkRoomModule>();
             logic = Sim.GetBehaviour<LogicFrameBehaviour>();
         }
 
@@ -73,7 +74,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
             PtKeyFrameCollection collection = KeyFrameSender.GetFrameCommand();
             if (collection.KeyFrames.Count > 0)
             {
-                roomServices.RequestSyncClientKeyframes(idx, collection);
+                networkRoomModule.RequestSyncClientKeyframes(idx, collection);
                 KeyFrameSender.ClearFrameCommand();
             }
         }
@@ -113,13 +114,13 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
 
         private async void SaveLogsToFile(int frameIdx, EntityWorldFrameData entityWorldFrameData)
         {
-            string logFolderPath = BattleEntryPoint.PersistentDataPath + "/WorldLogs/" + roomServices.Session.RoomHash;
+            string logFolderPath = BattleEntryPoint.PersistentDataPath + "/WorldLogs/" + networkRoomModule.Session.RoomHash;
             if (!Directory.Exists(logFolderPath))
             {
                 Directory.CreateDirectory(logFolderPath);
             }
             string entityWorldFrameDataStr = entityWorldFrameData.ToString();
-            string sessionName = roomServices.Session.Name;
+            string sessionName = networkRoomModule.Session.Name;
             await System.Threading.Tasks.Task.Run(() =>
             {
                 bool skip = false;
@@ -147,7 +148,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         private string GetSnapshotFolderPath()
         {
             if(string.IsNullOrEmpty(_snapshotFolderPath))
-                _snapshotFolderPath = BattleEntryPoint.PersistentDataPath + "/WorldSnapshots/" + roomServices.Session.RoomHash + "/" + roomServices.Session.Name;
+                _snapshotFolderPath = BattleEntryPoint.PersistentDataPath + "/WorldSnapshots/" + networkRoomModule.Session.RoomHash + "/" + networkRoomModule.Session.Name;
             return _snapshotFolderPath;
         }
         private async void SaveEntityWorldSnapshotToFile(int frameIdx, EntityWorldFrameData entityWorldFrameData)

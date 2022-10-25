@@ -4,7 +4,6 @@ using Managers.UI;
 using Localization;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using NetServiceImpl.OnlineMode.Gate;
 using Misc;
 using Net.Pt;
 using NetServiceImpl;
@@ -13,29 +12,19 @@ using Managers;
 
 public class GatePanel : UIView, ILanguageApplicable
 {
-    private List<GateAddressVO> m_Hosts;
+
     public Button m_BtnBack;
     public Text m_TxtTitle;
-    public ToggleGroup m_ToggleGroup;
-    public List<Toggle> m_Toggles;
+    public Text m_TxtServer;
     public DynamicInfinityListRenderer m_DynRoomList;
-    public Button m_BtnRefreshGate;
     public Button m_BtnRefreshRoom;
-    public Button m_BtnJoin;
     public Button m_BtnCreate;
-    private Toggle currentSelectedToggle;
+
     public override void OnInit()
     {
         base.OnInit();
 
-        foreach (Toggle toggle in m_Toggles)
-        {
-            toggle.isOn = false;
-            toggle.onValueChanged.AddListener((select) => OnToggleSelect(toggle, select));
-            toggle.gameObject.SetActive(false);
-        }
-        Evt.EventMgr<EvtGate, List<GateAddressVO>>.AddListener(EvtGate.UpdateWANGateServerList, OnWANGateServerList);
-        Evt.EventMgr<EvtGate, List<GateAddressVO>>.AddListener(EvtGate.UpdateLANGateServerList, OnLANGateServerList);
+
         Evt.EventMgr<EvtGate, object>.AddListener(EvtGate.GateServerConnected, OnGateServerConnected);
         Evt.EventMgr<EvtGate, PtRoomList>.AddListener(EvtGate.UpdateRoomList, OnUpdateRoomList);
 
@@ -43,26 +32,21 @@ public class GatePanel : UIView, ILanguageApplicable
         m_BtnBack.onClick.AddListener(() =>
         {
             ModuleManager.GetModule<UIModule>().Pop(Layer.Bottom);
-            foreach (Toggle toggle in m_Toggles)
-            {
-                toggle.isOn = false;
-                toggle.gameObject.SetActive(false);
-            }
-            currentSelectedToggle = null;
             GameClientNetwork.Instance.CloseClient();
         });
 
-        m_BtnRefreshGate.onClick.AddListener(OnClickRefreshGate);
+
         m_BtnRefreshRoom.onClick.AddListener(OnClickRefreshRoom);
         m_BtnCreate.onClick.AddListener(OnClickCreate);
         m_DynRoomList.InitRendererList(OnSelectDynRoomListItem, null);
     }
+    
     IEnumerator _RefreshGateInfo()
     {
         while (true)
         {
-            OnClickRefreshRoom();
             yield return new WaitForSeconds(1);
+            OnClickRefreshRoom();
         }
     }
     void OnEnable()
@@ -80,16 +64,11 @@ public class GatePanel : UIView, ILanguageApplicable
     public override void OnClose()
     {
         base.OnClose();
-        m_BtnRefreshGate.onClick.RemoveAllListeners();
         m_BtnRefreshRoom.onClick.RemoveAllListeners();
         m_BtnBack.onClick.RemoveAllListeners();
         m_BtnCreate.onClick.RemoveAllListeners();
-        foreach (Toggle toggle in m_Toggles)
-        {
-            toggle.onValueChanged.RemoveAllListeners();// ((select) => OnToggleSelect(toggle, select));            
-        }
-        Evt.EventMgr<EvtGate, List<GateAddressVO>>.RemoveListener(EvtGate.UpdateWANGateServerList, OnWANGateServerList);
-        Evt.EventMgr<EvtGate, List<GateAddressVO>>.RemoveListener(EvtGate.UpdateLANGateServerList, OnLANGateServerList);
+      
+
         Evt.EventMgr<EvtGate, object>.RemoveListener(EvtGate.GateServerConnected, OnGateServerConnected);
         Evt.EventMgr<EvtGate, PtRoomList>.RemoveListener(EvtGate.UpdateRoomList, OnUpdateRoomList);
 
@@ -97,9 +76,8 @@ public class GatePanel : UIView, ILanguageApplicable
     }
     void OnClickCreate()
     {
-        //AllUI.Instance.Show("PanelRoomPage", new RoomPageVO(pageVO.PageType));
         ModuleManager.GetModule<UIModule>().Push(UITypes.RoomPanel, Layer.Bottom, null);
-        ClientService.Get<GateService>().RequestCreateRoom(1);
+        ModuleManager.GetModule<NetworkGateModule>().RequestCreateRoom(1);
     }
     void OnOpenRoomPanel(object obj)
     {
@@ -121,119 +99,56 @@ public class GatePanel : UIView, ILanguageApplicable
             {
                 if (selection == DialogBox.SelectType.Confirm)
                 {
-                    ClientService.Get<GateService>().RequestJoinRoom(ptRoom);
+                    ModuleManager.GetModule<NetworkGateModule>().RequestJoinRoom(ptRoom);
                 }
             });
         }
         else
         {
             //在组队时刻加入房间
-            ClientService.Get<GateService>().RequestJoinRoom(ptRoom);
+            ModuleManager.GetModule<NetworkGateModule>().RequestJoinRoom(ptRoom);
         }
 
     }
     #region NetMessageHandler
     void OnGateServerConnected(object obj)
     {
-        print("connected gate");
+        ToastRoot.Instance.ShowToast("Connect Server Success!");
     }
     void OnUpdateRoomList(PtRoomList roomList)
     {
         m_DynRoomList.SetDataProvider(roomList.Rooms);
     }
-    void OnWANGateServerList(List<GateAddressVO> hosts)
-    {
-        UpdateServerList(hosts);
-    }
-    void OnLANGateServerList(List<GateAddressVO> hosts)
-    {
-        UpdateServerList(hosts);
-    }
+   
     #endregion
-    void UpdateServerList(List<GateAddressVO> hosts)
-    {
-        m_Hosts = hosts;
-        for (int i = 0; i < m_Toggles.Count; ++i)
-        {
-            if (i < m_Hosts.Count)
-            {
-                m_Toggles[i].gameObject.SetActive(true);
-                m_Toggles[i].SetToggleText(m_Hosts[i].ConnectKey);
-            }
-            else
-            {
-                m_Toggles[i].gameObject.SetActive(false);
-            }
-        }
-        if (m_Hosts.Count > 0)
-        {
-            m_Toggles[0].isOn = false;
-            m_Toggles[0].isOn = true;
-            //OnClickRefreshGate();
-        }
 
-    }
 
     void ConnectToGateServer()
     {
-        Debug.LogWarning("ConnectTo GateServer");
-        ClientService.Get<GateService>().Connect2GateServer( );
+        //Debug.LogWarning("ConnectTo GateServer");
+        //ClientService.Get<GateService>().Connect2GateServer( );
     }
-    void OnClickRefreshGate()
-    {
-        ClientService.Get<GateService>().RefreshLanGates(9030);
-    }
+  
     void OnClickRefreshRoom()
     {
-        ClientService.Get<GateService>().RequestRoomList();
+        //ClientService.Get<GateService>().RequestRoomList();
+        ModuleManager.GetModule<NetworkGateModule>().RequestRoomList();
     }
-    void OnToggleSelect(Toggle toggle, bool select)
-    {
-        Debug.LogWarning("OnToggleSelect "+select);
-        if (select && currentSelectedToggle != toggle)
-        {
-            currentSelectedToggle = toggle;
-            toggle.SetToggleTextColor(Color.black);
-            foreach (var t in m_Toggles)
-            {
-                if (t != toggle)
-                {
-                    t.SetToggleTextColor(Color.white);
-                }
-            }
-            int selectIndex = m_Toggles.IndexOf(toggle);
-            ClientService.Get<GateService>().UpdateCurrentGateAddress( m_Hosts[selectIndex]);
-            ConnectToGateServer();
-        }
-    }
+   
     public override void OnShow(object paramObject)
     {
         base.OnShow(paramObject);
         ApplyLocalizedLanguage();
-            //wan mode
-        GateAddressVO gateAddressVO = DataProxy.Get<UserDataProxy>().GetGateAddressVO();
-        if (gateAddressVO != null)
-        {
-            Evt.EventMgr<EvtGate, List<GateAddressVO>>.TriggerEvent(
-               EvtGate.UpdateWANGateServerList, new List<GateAddressVO>() { gateAddressVO });
-        }
-        
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        ModuleManager.GetModule<NetworkGateModule>().ConnectToGateServer();
     }
 
     public void ApplyLocalizedLanguage()
     {
         m_BtnBack.SetButtonText(Language.GetText(5));
         m_BtnCreate.SetButtonText(Language.GetText(8));
-        m_BtnRefreshGate.SetButtonText(Language.GetText(6));
+        
         m_BtnRefreshRoom.SetButtonText(Language.GetText(6));
-        m_BtnJoin.SetButtonText(Language.GetText(10));
+
         m_TxtTitle.text = Language.GetText(1);
     }
 

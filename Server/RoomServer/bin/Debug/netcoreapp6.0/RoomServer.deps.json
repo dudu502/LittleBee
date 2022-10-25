@@ -10,7 +10,8 @@
         "dependencies": {
           "ConsoleLogger": "1.0.0.0",
           "General": "1.0.0.0",
-          "ServerDll": "1.0.0.0"
+          "ServerDll": "1.0.0.0",
+          "websocket-sharp-core": "1.0.0.0"
         },
         "runtime": {
           "RoomServer.dll": {}
@@ -35,6 +36,14 @@
       "ServerDll/1.0.0.0": {
         "runtime": {
           "ServerDll.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "websocket-sharp-core/1.0.0.0": {
+        "runtime": {
+          "websocket-sharp-core.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -67,6 +76,11 @@
       "sha512": ""
     },
     "ServerDll/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "websocket-sharp-core/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

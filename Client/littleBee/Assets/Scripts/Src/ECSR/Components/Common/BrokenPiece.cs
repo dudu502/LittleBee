@@ -57,7 +57,7 @@ namespace Components.Common
                     .WriteBool(Enable)
                     .WriteUInt32(ParentId)
                     .WriteByte(Index)
-                    .WriteBool(IsMainBody).Getbuffer();
+                    .WriteBool(IsMainBody).GetRawBytes();
             }
         }
     }

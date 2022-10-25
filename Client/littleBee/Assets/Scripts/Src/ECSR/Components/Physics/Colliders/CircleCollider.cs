@@ -59,7 +59,7 @@ namespace Components.Physics.Colliders
                     .WriteInt64(Center.x._serializedValue)
                     .WriteInt64(Center.y._serializedValue)
                     .WriteInt64(Radius._serializedValue)
-                    .Getbuffer();
+                    .GetRawBytes();
             }
         }
     }

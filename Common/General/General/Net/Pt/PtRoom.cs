@@ -42,7 +42,7 @@ public class PtRoom
 			if(data.HasMaxPlayerCount())buffer.WriteByte(data.MaxPlayerCount);
 			if(data.HasPlayers())buffer.WriteCollection(data.Players,element=>PtRoomPlayer.Write(element));
 			
-            return buffer.Getbuffer();
+            return buffer.GetRawBytes();
         }
     }
 

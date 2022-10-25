@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Gate;
-using NetServiceImpl.OnlineMode.Room;
 using UI.Data;
 using Managers;
 using Managers.UI;
@@ -39,8 +37,8 @@ public class App : MonoBehaviour
     }
     void InitServiceSettings()
     {
-        ClientService.Init(new GateService());
-        ClientService.Init(new RoomServices());
+        ModuleManager.Add(new NetworkGateModule());
+        ModuleManager.Add(new NetworkRoomModule());
     }
     void InitManagerSettings()
     {

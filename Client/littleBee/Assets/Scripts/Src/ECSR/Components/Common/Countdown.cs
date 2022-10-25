@@ -42,7 +42,7 @@ namespace Components.Common
         {
             using(ByteBuffer buffer= new ByteBuffer())
             {
-                return buffer.WriteUInt32(EntityId).WriteBool(Enable).WriteInt32(Count).Getbuffer();
+                return buffer.WriteUInt32(EntityId).WriteBool(Enable).WriteInt32(Count).GetRawBytes();
             }
         }
 

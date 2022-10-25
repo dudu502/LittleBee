@@ -22,7 +22,7 @@ public class ByteBuffer : IDisposable
         ms = new MemoryStream(bytes);
         br = new BinaryReader(ms);
     }
-    public byte[] Getbuffer()
+    public byte[] GetRawBytes()
     {
         byte[] result = new byte[ms.Length];
         //Buffer.BlockCopy(ms.GetBuffer(), 0, result, 0, result.Length);

@@ -68,7 +68,7 @@ namespace Components.Star
                     .WriteInt32(Radius)
                     .WriteInt64(Speed._serializedValue)
                     .WriteInt64(Degree._serializedValue)
-                    .WriteUInt32(ParentEntityId).Getbuffer();
+                    .WriteUInt32(ParentEntityId).GetRawBytes();
                
             }
         }

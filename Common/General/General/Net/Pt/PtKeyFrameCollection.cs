@@ -43,7 +43,7 @@ namespace Net.Pt
                 {
                     buffer.WriteBytes(FrameIdxInfo.Write(info.KeyFrames[i]));
                 }
-                return buffer.Getbuffer();
+                return buffer.GetRawBytes();
             }
 
         }

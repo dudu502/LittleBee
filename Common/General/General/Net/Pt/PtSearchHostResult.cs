@@ -16,7 +16,7 @@ public class PtSearchHostResult
             buffer.WriteString(data.connectKey);
 			buffer.WriteInt32(data.hashCode);
 			
-            return buffer.Getbuffer();
+            return buffer.GetRawBytes();
         }
     }
     public static PtSearchHostResult Read(byte[] bytes)

@@ -39,7 +39,7 @@ namespace Components.Common
         {
             using(ByteBuffer buffer = new ByteBuffer())
             {
-                return buffer.WriteUInt32(EntityId).WriteBool(Enable).Getbuffer();
+                return buffer.WriteUInt32(EntityId).WriteBool(Enable).GetRawBytes();
             }
         }
     }

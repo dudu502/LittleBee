@@ -1,6 +1,5 @@
 ﻿using Net.Pt;
-using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Room;
+
 
 namespace LogicFrameSync.Src.LockStep.Behaviours
 {
@@ -21,13 +20,13 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         }
         public override void Update()
         {
-            if (roomServices.Session.DictKeyframeCollection != null) return;
-            while (roomServices.Session.QueueKeyFrameCollection.Count > 0)
+            if (networkRoomModule.Session.DictKeyframeCollection != null) return;
+            while (networkRoomModule.Session.QueueKeyFrameCollection.Count > 0)
             {
                 bool rollState = false;
-                if (roomServices.Session.QueueKeyFrameCollection.TryPeek(out PtKeyFrameCollection pt) && pt.FrameIdx < logicBehaviour.CurrentFrameIdx)
+                if (networkRoomModule.Session.QueueKeyFrameCollection.TryPeek(out PtKeyFrameCollection pt) && pt.FrameIdx < logicBehaviour.CurrentFrameIdx)
                 {
-                    if (roomServices.Session.QueueKeyFrameCollection.TryDequeue(out PtKeyFrameCollection keyframeCollection))
+                    if (networkRoomModule.Session.QueueKeyFrameCollection.TryDequeue(out PtKeyFrameCollection keyframeCollection))
                         rollState = RollImpl(keyframeCollection);
                     else
                         break;

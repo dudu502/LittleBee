@@ -5,8 +5,6 @@ using Localization;
 using Misc;
 using UnityEngine.UI;
 using Proxy;
-using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Gate;
 using Net.Pt;
 using Managers;
 using Managers.Config;
@@ -75,9 +73,9 @@ public class RoomPanel : UIView, ILanguageApplicable
     }
     void RequestUpdateRoomMap()
     {
-        if (ClientService.Get<GateService>().SelfRoom != null)
+        if (ModuleManager.GetModule<NetworkGateModule>().SelfRoom != null)
         {
-            ClientService.Get<GateService>().RequestUpdateMap(ClientService.Get<GateService>().SelfRoom.RoomId, (uint)m_IterMapIds.GetCurrent().ConfigId, m_IterMapIds.GetCurrent().PlayerCount);
+            ModuleManager.GetModule<NetworkGateModule>().RequestUpdateMap(ModuleManager.GetModule<NetworkGateModule>().SelfRoom.RoomId, (uint)m_IterMapIds.GetCurrent().ConfigId, m_IterMapIds.GetCurrent().PlayerCount);
         }
     }
     void OnClickChangeMapPrev()
@@ -110,7 +108,7 @@ public class RoomPanel : UIView, ILanguageApplicable
 
     private void RefreshData()
     {
-        var selfRoom = ClientService.Get<GateService>().SelfRoom;
+        var selfRoom = ModuleManager.GetModule<NetworkGateModule>().SelfRoom;
         if (selfRoom != null)
         {
             var mapCfg = ModuleManager.GetModule<ConfigModule>().GetConfig<Config.Static.MapIdCFG>((int)selfRoom.MapId);
@@ -121,23 +119,20 @@ public class RoomPanel : UIView, ILanguageApplicable
     }
 
     void OnClickBack()
-    {
-        
+    {    
         RequestLeaveRoom();
-        ModuleManager.GetModule<UIModule>().Pop(Layer.Bottom);
-       
+        ModuleManager.GetModule<UIModule>().Pop(Layer.Bottom);    
     }
     void OnClickLaunchGame()
     {
-        if (ClientService.Get<GateService>().SelfRoom != null)
+        if (ModuleManager.GetModule<NetworkGateModule>().SelfRoom != null)
         {
-            //ModuleManager.GetModule<UIModule>().Pop(Layer.Bottom);
-            ClientService.Get<GateService>().RequestLaunchGame();
+            ModuleManager.GetModule<NetworkGateModule>().RequestLaunchGame();
         }
     }
     void OnSelectPlayerItem(DynamicInfinityItem selected)
     {
-        ClientService.Get<GateService>().RequestLaunchGame();
+        ModuleManager.GetModule<NetworkGateModule>().RequestLaunchGame();
     }
     public override void OnShow(object paramObject)
     {
@@ -167,7 +162,7 @@ public class RoomPanel : UIView, ILanguageApplicable
     {
         if (!DataProxy.Get<UserDataProxy>().UserLoginInfo.IsEmpty())
         {
-            ClientService.Get<GateService>().RequestLeaveRoom();
+            ModuleManager.GetModule<NetworkGateModule>().RequestLeaveRoom();
         }
     }
     // Update is called once per frame

@@ -8,7 +8,6 @@ using Misc;
 using UnityEngine.UI;
 using Proxy;
 using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Gate;
 using Net.Pt;
 using Managers;
 using Managers.Config;

@@ -18,7 +18,7 @@ public class LoginAlert : MonoBehaviour, ILanguageApplicable
     public InputField m_InputPwd;
     public Button m_BtnConfirm;
     public Button m_BtnCancel;
-    // Use this for initialization
+
     void Start()
     {
         m_BtnCancel.onClick.AddListener(() => gameObject.SetActive(false));
@@ -48,7 +48,6 @@ public class LoginAlert : MonoBehaviour, ILanguageApplicable
                     }
                 }
             };
-            print(DataProxy.Get<UserDataProxy>().UserLoginInfo.state);
             gameObject.SetActive(false);
 
             ModuleManager.GetModule<UIModule>().Push(UITypes.GatePanel, Layer.Bottom, null);

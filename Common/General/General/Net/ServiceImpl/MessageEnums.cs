@@ -2,6 +2,9 @@
 {
     public enum ResponseMessageId : ushort
     {
+        SOCKET_MSG_ONOPEN,
+        SOCKET_MSG_ONCLOSE,
+        SOCKET_MSG_ONERROR,
         US_DebugQuery,
         UIS_WebMessage,
         UGS_SearchAvailableGate,
@@ -29,6 +32,9 @@
 
     public enum RequestMessageId : ushort
     {
+        SOCKET_MSG_ONOPEN,
+        SOCKET_MSG_ONCLOSE,
+        SOCKET_MSG_ONERROR,
         ULS_LogMessage,
         US_DebugQuery,
         UIS_WebMessage,

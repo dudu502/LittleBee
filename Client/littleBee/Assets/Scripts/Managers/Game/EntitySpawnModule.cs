@@ -12,7 +12,6 @@ using Map;
 using TrueSync;
 using TrueSync.Collision;
 using Evt;
-using NetServiceImpl.OnlineMode.Room;
 using Misc;
 using Config.Static;
 using Map.Ecsr.R;

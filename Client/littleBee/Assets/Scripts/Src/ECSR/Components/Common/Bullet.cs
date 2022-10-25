@@ -36,7 +36,7 @@
                 return buffer.WriteUInt32(EntityId)
                     .WriteBool(Enable)
                     .WriteByte(State)
-                    .WriteUInt32(OwnerEntityId).Getbuffer();
+                    .WriteUInt32(OwnerEntityId).GetRawBytes();
             }
         }
 

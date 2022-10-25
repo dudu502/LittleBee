@@ -1,7 +1,7 @@
 ﻿
+using Managers;
 using Net.Pt;
 using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Room;
 using Src.Replays;
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,9 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
     {
         public Simulation Sim { set; get; }
         public int CurrentFrameIdx { private set; get; }
-
+        NetworkRoomModule networkRoomModule;
         List<List<FrameIdxInfo>> m_FrameIdxInfos;
-        private RoomServices roomServices;
+
         private readonly List<FrameIdxInfo> m_DefaultEmptyFrameIdxInfos = new List<FrameIdxInfo>();
         public LogicFrameBehaviour()
         {
@@ -32,20 +32,21 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
         public void Start()
         {
             m_FrameIdxInfos = new List<List<FrameIdxInfo>>();
-            roomServices = ClientService.Get<RoomServices>();
-            CurrentFrameIdx = roomServices.Session.InitIndex;
+            networkRoomModule = ModuleManager.GetModule<NetworkRoomModule>();
+            CurrentFrameIdx = networkRoomModule.Session.InitIndex;
             Debug.Log("CurrentFrameIndex "+CurrentFrameIdx);
             if(CurrentFrameIdx > -1)
             {
                 for(int i=0;i<=CurrentFrameIdx;++i)
                 {
                     m_FrameIdxInfos.Add(m_DefaultEmptyFrameIdxInfos);
-                    if(roomServices.Session.DictKeyframeCollection!=null && roomServices.Session.DictKeyframeCollection.TryGetValue(i,out PtKeyFrameCollection ptKeyFrameCollection))
+                    if(networkRoomModule.Session.DictKeyframeCollection!=null && networkRoomModule.Session.DictKeyframeCollection.TryGetValue(i,out PtKeyFrameCollection ptKeyFrameCollection))
                     {
                         UpdateKeyFrameIdxInfoCollectionAtFrameIdx(ptKeyFrameCollection);
                     }
                 }
             }
+            Debug.LogWarning(0);
         }
         public void UpdateKeyFrameIdxInfoCollectionAtFrameIdx(PtKeyFrameCollection keyFrameCollection)
         {
@@ -78,9 +79,9 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
             ++CurrentFrameIdx;
             m_FrameIdxInfos.Add(m_DefaultEmptyFrameIdxInfos);
             #region re-join
-            if (roomServices.Session.DictKeyframeCollection != null && roomServices.Session.WriteKeyframeCollectionIndex > CurrentFrameIdx)
+            if (networkRoomModule.Session.DictKeyframeCollection != null && networkRoomModule.Session.WriteKeyframeCollectionIndex > CurrentFrameIdx)
             {
-                if (roomServices.Session.DictKeyframeCollection.TryGetValue(CurrentFrameIdx, out PtKeyFrameCollection keyframeCollection))
+                if (networkRoomModule.Session.DictKeyframeCollection.TryGetValue(CurrentFrameIdx, out PtKeyFrameCollection keyframeCollection))
                 {
                     Sim.GetEntityWorld().RestoreKeyframes(keyframeCollection);
                     UpdateKeyFrameIdxInfoCollectionAtFrameIdx(keyframeCollection);
@@ -88,8 +89,8 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
             }
             else
             {
-                roomServices.Session.WriteKeyframeCollectionIndex = -1;
-                roomServices.Session.DictKeyframeCollection = null;
+                networkRoomModule.Session.WriteKeyframeCollectionIndex = -1;
+                networkRoomModule.Session.DictKeyframeCollection = null;
             }
             #endregion
         }

@@ -107,7 +107,7 @@ namespace LogicFrameSync.Src.LockStep
                     }
                 }
 
-                return buffer.Getbuffer();
+                return buffer.GetRawBytes();
             }
         }
         public static EntityWorldFrameData Read(byte[] bytes)

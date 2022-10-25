@@ -1,4 +1,5 @@
-﻿using LiteNetLib;
+﻿
+using Net.ServiceImpl;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,12 +8,24 @@ namespace Service.Event
 {
     public class NetMessageEvt
     {
-        public NetPeer Peer { private set; get; }
-        public byte[] Content { private set; get; }
-        public NetMessageEvt(NetPeer peer,byte[] content)
+        public enum State:byte
         {
-            Peer = peer;
+            Default,
+            OnOpen,
+            OnMessage,
+            OnError,
+            OnClose,
+        }
+        public RequestMessageId MessageId;
+        public State MessageState = State.Default;
+        public string SessionId { private set; get; }
+        public byte[] Content { private set; get; }
+        public NetMessageEvt(string sessionId,byte[] content,State state , RequestMessageId msgId)
+        {
+            SessionId = sessionId;
             Content = content;
+            MessageState = state;
+            MessageId = msgId;
         }
     }
 }

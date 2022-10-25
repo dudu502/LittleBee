@@ -51,7 +51,7 @@ namespace Components.Star
             {
                 return buffer.WriteUInt32(EntityId)
                     .WriteBool(Enable)
-                    .WriteInt32(ConfigId).Getbuffer();            
+                    .WriteInt32(ConfigId).GetRawBytes();            
             }
         }
     }

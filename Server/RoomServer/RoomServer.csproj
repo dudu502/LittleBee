@@ -12,6 +12,9 @@
     <Reference Include="General">
       <HintPath>..\..\Common\General\General\bin\Release\netstandard2.0\General.dll</HintPath>
     </Reference>
+    <Reference Include="websocket-sharp-core">
+      <HintPath>..\..\Common\3rd\libs\websocket-sharp-core.dll</HintPath>
+    </Reference>
     <Reference Include="ServerDll">
       <HintPath>..\..\Common\ServerDll\bin\Release\netstandard2.0\ServerDll.dll</HintPath>
     </Reference>
