@@ -4,7 +4,10 @@ using RoomServer.Core.Behaviour;
 using RoomServer.Core.Data;
 
 using RoomServer.Services.Sim;
-using ServerDll.Service.Behaviour;
+using ServerDll.Service;
+using ServerDll.Service.Module;
+using ServerDll.Service.Provider;
+using ServerDll.Service.Requester;
 using Service.Core;
 using WebSocketSharp;
 
@@ -17,40 +20,45 @@ namespace RoomServer.Services
     public class RoomApplication:BaseApplication
     {
         public const int MAX_CONNECT_COUNT = 128;
-        private WebSocket m_RoomProcessSocket;
-        public RoomApplication(int port) : base(port)
+        private NetworkRequesterWrap requesterWrap;
+        public RoomApplication(ushort port) : base(port)
         {
+            m_NetworkType = NetworkType.WSS;
             DataMgr.Instance.Init();
             Evt.EventMgr<RoomApplicationEventType, byte[]>.AddListener(RoomApplicationEventType.PlayerDisconnect, OnPlayerDisconnect);
         }
-        async public void InitRoomProcessWs(string gateServerName,int port)
+        public void InitRoomProcessWs(string gateServerName,ushort port)
         {
-            m_RoomProcessSocket = new WebSocket($"ws://127.0.0.1:{port}/{gateServerName}");
-            await System.Threading.Tasks.Task.Run(()=> m_RoomProcessSocket.Connect());
+            //requesterWrap = new NetworkRequesterWrap(m_NetworkType);
+            //ServerDll.Service.Logger.LogInfo("InitRoomProcess "+gateServerName + " Port "+port);
+            //requesterWrap.Connect("127.0.0.1",port,gateServerName);
         }
-        async void OnPlayerDisconnect(byte[] raw)
+        void OnPlayerDisconnect(byte[] raw)
         {
-            if (m_RoomProcessSocket != null)
-            {
-                await System.Threading.Tasks.Task.Run(()=>
-                    m_RoomProcessSocket.Send(PtMessagePackage.Write(PtMessagePackage.Build((ushort)RequestMessageId.UGS_RoomPlayerDisconnect, raw))));              
-            }
+            //if (requesterWrap != null)
+                //requesterWrap.Send(PtMessagePackage.Write(PtMessagePackage.Build((ushort)RequestMessageId.UGS_RoomPlayerDisconnect, raw)));
         }
         protected override void SetUp()
         {
             base.SetUp();
             SetUpSimulation();
-            NetworkModule.AddModule(new BattleNetworkModule(m_WebsocketServer));
-            m_WebsocketServer.AddWebSocketService("/BattleBehaviour", ()=> new BattleBehaviour());
+            NetworkModule.AddModule(new BattleNetworkModule(providerWrap.Provider));
+            if(providerWrap.Type == NetworkType.WSS)
+            {
+                WebsocketProvider websocketProvider = providerWrap.Provider as WebsocketProvider;
+                if(websocketProvider != null)
+                    websocketProvider.GetSocket().AddWebSocketService("/BattleBehaviour", () => new BattleBehaviour(websocketProvider));
+            }
+    
 
         }
         void SetUpSimulation()
         {
             Simulation simulation = new Simulation(1);
             SimulationManager.Instance.SetSimulation(simulation);
-            ServerLogicFrameBehaviour frame = new ServerLogicFrameBehaviour(m_WebsocketServer);
+            ServerLogicFrameBehaviour frame = new ServerLogicFrameBehaviour(providerWrap.Provider);
             simulation.AddBehaviour(frame);
-            Logger.Log("Simulation has been Created.");
+            ServerDll.Service.Logger.LogInfo("Simulation has been Created.");
         }
     }
 }

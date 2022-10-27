@@ -7,15 +7,20 @@ using GateServer.Core.Data;
 using LitJson;
 
 using GateServer.Core.Behaviour;
-using ServerDll.Service.Behaviour;
+
+using ServerDll.Service.Provider;
+using ServerDll.Service;
+using ServerDll.Service.Module;
+using ServerDll.Service.Provider.KCP;
 
 namespace GateServer.Services
 {
     public class GateApplication : BaseApplication
     {
         public Dictionary<string,string> StartupConfigs;
-        public GateApplication(int port) : base(port)
+        public GateApplication(ushort port) : base(port)
         {
+            m_NetworkType = NetworkType.WSS;
             DataMgr.Instance.Init();
             DataMgr.Instance.GateServerWSPort = port;
         }
@@ -34,11 +39,17 @@ namespace GateServer.Services
                     throw new Exception("Startup.json format ERROR! " + Environment.CurrentDirectory);
                 }
             }
-            NetworkModule.AddModule(new RoomProcessNetworkModule(m_WebsocketServer));
-            NetworkModule.AddModule(new RoomNetworkModule(m_WebsocketServer));
-            m_WebsocketServer.AddWebSocketService("/RoomBehaviour", () => new RoomBehaviour());
-            m_WebsocketServer.AddWebSocketService("/RoomProcessBehaviour", () => new RoomProcessBehaviour());
-            
+            NetworkModule.AddModule(new RoomNetworkModule(providerWrap.Provider));
+ 
+            if(providerWrap.Type == NetworkType.WSS)
+            {
+                WebsocketProvider websocketProvider = providerWrap.Provider as WebsocketProvider;
+                if(websocketProvider != null)
+                {
+                    websocketProvider.GetSocket().AddWebSocketService("/RoomBehaviour", () => new RoomBehaviour(websocketProvider));
+                }
+            }
         }
+
     }
 }

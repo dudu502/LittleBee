@@ -40,7 +40,7 @@ public class MainPanel : UIView, ILanguageApplicable
     {
 #if NONE_INDEX_SERVER
         m_LoginAlert.gameObject.SetActive(true);
-        DataProxy.Get<UserDataProxy>().SetWanGateInfo("ws://127.0.0.1:9000/RoomBehaviour","TEST");
+        DataProxy.Get<UserDataProxy>().SetWanGateInfo("127.0.0.1",9000, "RoomBehaviour");
 #else
         AsyncHttpTask.HttpGetRequest(DataProxy.Get<UserDataProxy>().WebServerAddress + "/get_index", (result_json) =>
         {

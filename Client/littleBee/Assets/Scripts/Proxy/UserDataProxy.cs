@@ -7,17 +7,19 @@ namespace Proxy
     {
         public string WebServerAddress { get { return UserSettingMgr.SettingList.Find((s) => s.m_SettingTitle == UserSettingMgr.INDEX_SERVER_ADDRESS).m_SettingValue; } }
         public LoginJsonResult UserLoginInfo;
-        public string GateWS { get; private set; }
-        public string GateName { get; private set; }
+        public string Ip { private set; get; }
+        public ushort Port { private set; get; }
+        public string Param { private set; get; }
         protected override void OnInit()
         {
             base.OnInit();
         }
 
-        public void SetWanGateInfo(string gateWs,string gateName)
+        public void SetWanGateInfo(string ip, ushort port,string gateName)
         {
-            GateWS = gateWs;
-            GateName = gateName;
+            Ip = ip;
+            Port = port;
+            Param = gateName;
         }
         
         public string GetUserName()

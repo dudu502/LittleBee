@@ -137,10 +137,10 @@ namespace LogicFrameSync.Src.LockStep
         }
         static async void ConnectRoom( PtLaunchGameData ptLaunchGameData)
         {
-            int standaloneModePort = 0;
+            ushort standaloneModePort = 0;
             if (ptLaunchGameData.IsStandaloneMode)
             {
-                if(int.TryParse(UserSettingMgr.SettingList.Find(s => s.m_SettingTitle == UserSettingMgr.LAN_SERVER_PORT).m_SettingValue,out standaloneModePort)){
+                if(ushort.TryParse(UserSettingMgr.SettingList.Find(s => s.m_SettingTitle == UserSettingMgr.LAN_SERVER_PORT).m_SettingValue,out standaloneModePort)){
                     if(standaloneModePort == 0)
                     {
                         Debug.LogError("port error");
@@ -154,11 +154,11 @@ namespace LogicFrameSync.Src.LockStep
 
             GameClientNetwork.Instance.CloseClient();
             await System.Threading.Tasks.Task.Delay(50);
-            
-            if(!ptLaunchGameData.IsStandaloneMode)
-                GameClientNetwork.Instance.Start($"ws://{ptLaunchGameData.RSAddress}:{ptLaunchGameData.RSPort}/{ptLaunchGameData.ConnectionKey}",GameClientNetwork.State.Battle);
-            else           
-                GameClientNetwork.Instance.Start($"ws://127.0.0.1:{standaloneModePort}/{ptLaunchGameData.ConnectionKey}", GameClientNetwork.State.Battle);              
+
+            if (!ptLaunchGameData.IsStandaloneMode)
+                GameClientNetwork.Instance.Start(ptLaunchGameData.RSAddress, ptLaunchGameData.RSPort, ptLaunchGameData.ConnectionKey);
+            else            
+                GameClientNetwork.Instance.Start("127.0.0.1",standaloneModePort,ptLaunchGameData.ConnectionKey);
         }
         #endregion
 

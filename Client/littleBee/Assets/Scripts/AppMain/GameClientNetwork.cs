@@ -6,13 +6,11 @@ using Net.ServiceImpl;
 
 using System;
 using WebSocketSharp;
+using ServerDll.Service.Requester;
+using System.Threading;
+
 public class GameClientNetwork
 {
-    public enum State
-    {
-        Gate,
-        Battle,
-    }
     public enum NetworkEvtType
     {
         OnOpen,
@@ -32,37 +30,65 @@ public class GameClientNetwork
     private ConcurrentQueue<PtMessagePackage> _messageQueue = new ConcurrentQueue<PtMessagePackage>();
     private GameClientNetwork()
     {
- 
+        ServerDll.Service.Logger.LogInfoAction = Debug.Log;
+        ServerDll.Service.Logger.LogErrorAction = Debug.LogError;
+        ServerDll.Service.Logger.LogWarningAction = Debug.LogWarning;
+
     }
     #endregion
-    public State GameState = State.Gate;
- 
-    private WebSocket m_websocket;
+
+    private NetworkRequesterWrap requesterWrap;
+   // private WebSocket m_websocket;
     private long m_HeartBeatTicks = 0;
     private DateTime m_HeartBeatDateTime;
 
     public void CloseClient()
     {
-        if(m_websocket!=null)
-        {
-            m_websocket.CloseAsync();
-
-        }
-        m_websocket = null;
+        if (requesterWrap != null)
+            requesterWrap.Disconnect();
+        requesterWrap = null;
     }
 
 
-    public void Start(string ws, State state)
+    public void Start(string ip,ushort port,string param)
     {
-        GameState = state;
-        m_websocket = new WebSocket(ws);
-        m_websocket.OnOpen += OnWebsocketOpen;
-        m_websocket.OnMessage += OnWebsocketMessage;
-        m_websocket.OnClose += OnWebsocketClose;
-        m_websocket.OnError += OnWebsocketError;
-        m_websocket.ConnectAsync();
+        requesterWrap = new NetworkRequesterWrap(ServerDll.Service.NetworkType.WSS);
+        requesterWrap.Requester.OnConnected += OnConnected;
+        requesterWrap.Requester.OnMessage += OnMessage;
+        requesterWrap.Requester.OnDisconnected += OnDisconnected;
+        requesterWrap.Requester.OnError += OnError;
+        requesterWrap.Connect(ip, port, param);
+        ThreadPool.QueueUserWorkItem(PollEvents, null); 
     }
 
+    void PollEvents(object obj)
+    {
+        while (requesterWrap != null)
+        {
+            requesterWrap.Tick();
+            Thread.Sleep(15);
+        }
+    }
+    void OnConnected()
+    {
+
+    }
+    void OnMessage(byte[] raw)
+    {
+        PtMessagePackage package = PtMessagePackage.Read(raw);
+        if (package != null)
+        {
+            Evt.EventMgr<ResponseMessageId, PtMessagePackage>.TriggerEvent((ResponseMessageId)package.MessageId, package);
+        }
+    }
+    void OnDisconnected()
+    {
+        Evt.EventMgr<NetworkEvtType, string>.TriggerEvent(NetworkEvtType.OnClose, "Network disconnected");
+    }
+    void OnError()
+    {
+        Evt.EventMgr<NetworkEvtType, string>.TriggerEvent(NetworkEvtType.OnError, "Network Error");
+    }
     private void OnWebsocketError(object sender, ErrorEventArgs e)
     {
         Debug.LogWarning("OnWebsocketError"+e.Message);
@@ -87,22 +113,22 @@ public class GameClientNetwork
     private void OnWebsocketOpen(object sender, EventArgs e)
     {
         Debug.LogWarning("OnWebsocketOpen" + e.ToString());
-        Evt.EventMgr<NetworkEvtType, State>.TriggerEvent(NetworkEvtType.OnOpen, GameState);
+        
     }
 
     public void Send(PtMessagePackage package)
     {
-        if (m_websocket != null)
+        if (requesterWrap != null)
         {
-            m_websocket.Send(PtMessagePackage.Write(package));
+            requesterWrap.Send(PtMessagePackage.Write(package));
         }
     }
 
     public void SendAsync(PtMessagePackage package, Action<bool> complete = null)
     {
-        if (m_websocket != null)
+        if (requesterWrap != null)
         {
-            m_websocket.SendAsync(PtMessagePackage.Write(package), complete);
+            requesterWrap.Send(PtMessagePackage.Write(package));
         }
     }
     

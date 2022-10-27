@@ -16,11 +16,11 @@ namespace NetServiceImpl.Server
     public class StandaloneLocalServer
     {
         private static RoomApplication roomApplication;
-        public static void Start(string key, int port, uint mapId, ushort playerNumber)
+        public static void Start(string key, ushort port, uint mapId, ushort playerNumber)
         {
             Stop();
             var logger = new UnityEnvLogger(key);
-            RoomApplication.Logger = logger;
+    
             roomApplication = new RoomApplication(port);
             roomApplication.StartServer();
             DataMgr.Instance.BattleSession.StartupCFG.Update(mapId, port, playerNumber, string.Empty, 0, Guid.NewGuid().ToString());
@@ -32,7 +32,7 @@ namespace NetServiceImpl.Server
                roomApplication.ShutDown();
            }
            roomApplication = null;
-           RoomApplication.Logger = null;
+    
         }
     }
 }

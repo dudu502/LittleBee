@@ -2,7 +2,8 @@
 using Net;
 using Net.Pt;
 using Net.ServiceImpl;
-using ServerDll.Service.Behaviour;
+using ServerDll.Service.Module;
+using ServerDll.Service.Provider;
 using Service.Event;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace GateServer.Core.Behaviour
 {
     public class RoomNetworkModule:NetworkModule
     {
-        public RoomNetworkModule(WebSocketServer wss) : base(wss)
+        public RoomNetworkModule(IProvider provider) : base(provider) 
         {
             Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.GS_EnterGate, OnEnterGate);
             Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.GS_RoomList, OnRoomList);
@@ -25,14 +26,74 @@ namespace GateServer.Core.Behaviour
             Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.GS_JoinRoom, OnJoinRoom);
             Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.GS_LeaveRoom, OnLeaveRoom);
             Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.GS_LaunchGame, OnLaunchGame);
-            Evt.EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.SOCKET_MSG_ONOPEN, OnOpen);
+            Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.SOCKET_MSG_ONOPEN, OnOpen);
             Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.SOCKET_MSG_ONCLOSE, OnRoomPlayerDisconnect);
             Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.SOCKET_MSG_ONERROR, OnRoomPlayerDisconnect);
+            Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.UGS_RoomPlayerDisconnect, OnRoomPlayerDisconnectAndKillProcess);
         }
         void OnOpen(NetMessageEvt evt)
         {
-            SendToAsync<RoomBehaviour>(PtMessagePackage.Build((ushort)ResponseMessageId.GS_ClientConnected,null), evt.SessionId);
+            netProvider.SendToAsync(PtMessagePackage.Build((ushort)ResponseMessageId.GS_ClientConnected,null), evt.SessionId);
         }
+        void OnRoomPlayerDisconnect(NetMessageEvt evt)
+        {
+            foreach (var user in DataMgr.Instance.Users)
+            {
+                if (user.SessionId == evt.SessionId)
+                {
+                    for (int i = DataMgr.Instance.RoomList.Rooms.Count - 1; i >= 0; i--)
+                    {
+                        var room = DataMgr.Instance.RoomList.Rooms[i];
+                        bool inRoom = false;
+                        if (room != null && room.Status == 0)
+                        {
+                            for (int j = room.Players.Count - 1; j >= 0; j--)
+                            {
+                                var player = room.Players[j];
+                                if (player != null && player.UserId == user.UserId)
+                                {
+                                    OnLeaveRoomImpl(room.RoomId, user);
+                                    inRoom = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (inRoom)
+                            break;
+                    }
+                    break;
+                }
+            }
+        }
+        void OnRoomPlayerDisconnectAndKillProcess(NetMessageEvt evt)
+        {
+            using (ByteBuffer buffer = new ByteBuffer(evt.Content))
+            {
+                int roomPort = buffer.ReadInt32();
+                string userName = buffer.ReadString();
+                bool hasOnlinePlayer = buffer.ReadBool();
+                if (!hasOnlinePlayer)
+                {
+                    var room = DataMgr.Instance.RoomList.Rooms.Find(r => r.Players.Exists(player => player.NickName == userName));
+                    if (room != null && room.Status == 0)
+                    {
+                        DataMgr.Instance.RoomList.Rooms.Remove(room);
+                        LogInfo($"Remove Room Id:{room.RoomId} by PlayerDisconnect CurrentRoomListCount:{DataMgr.Instance.RoomList.Rooms.Count} ");
+                    }
+                    KillRoomProcessByPort(roomPort);
+                }
+                LogInfo($"OnRoomPlayerDisconnect at room port:{roomPort} userName:{userName} hasOnlinePlayer:{hasOnlinePlayer}");
+            }
+        }
+        public void KillRoomProcessByPort(int port)
+        {
+            if (DataMgr.Instance.ProcessIds.ContainsKey(port))
+            {
+                DataMgr.Instance.ProcessIds[port].Kill();
+                DataMgr.Instance.ProcessIds.Remove(port);
+            }
+        }
+
         void OnEnterGate(NetMessageEvt evt)
         {
             using (ByteBuffer buffer = new ByteBuffer(evt.Content))
@@ -48,11 +109,11 @@ namespace GateServer.Core.Behaviour
 
         void OnRoomList(NetMessageEvt evt)
         {
-            SendToAsync<RoomBehaviour>(PtMessagePackage.Build((ushort)ResponseMessageId.GS_RoomList, PtRoomList.Write(DataMgr.Instance.RoomList)),evt.SessionId);
+            netProvider.SendToAsync(PtMessagePackage.Build((ushort)ResponseMessageId.GS_RoomList, PtRoomList.Write(DataMgr.Instance.RoomList)),evt.SessionId);
         }
         void OnRoomList(string sessionId)
         {
-            SendToAsync<RoomBehaviour>(PtMessagePackage.Build((ushort)ResponseMessageId.GS_RoomList, PtRoomList.Write(DataMgr.Instance.RoomList)), sessionId);
+            netProvider.SendToAsync(PtMessagePackage.Build((ushort)ResponseMessageId.GS_RoomList, PtRoomList.Write(DataMgr.Instance.RoomList)), sessionId);
         }
         uint GetGuidUint()
         {
@@ -86,7 +147,7 @@ namespace GateServer.Core.Behaviour
                 room.Players.Add(player);
                 DataMgr.Instance.RoomList.Rooms.Add(room);
 
-                SendToAsync<RoomBehaviour>((ushort)ResponseMessageId.GS_CreateRoom, PtRoom.Write(room),evt.SessionId);
+                netProvider.SendToAsync(PtMessagePackage.Build((ushort)ResponseMessageId.GS_CreateRoom, PtRoom.Write(room)),evt.SessionId);
 
             }
         }
@@ -156,7 +217,7 @@ namespace GateServer.Core.Behaviour
                         if (e.UserId == player.UserId)
                         {
                             ret = true;
-                            SendToAsync<RoomBehaviour>(messageId, bytes, e.SessionId);
+                            netProvider.SendToAsync(PtMessagePackage.Build( messageId, bytes), e.SessionId);
                         }
                     });
                 });
@@ -181,7 +242,7 @@ namespace GateServer.Core.Behaviour
                             ptRoom.SetRoomOwnerUserId(ptRoom.Players[0].UserId);
                     }
 
-                    SendToAsync<RoomBehaviour>((ushort)ResponseMessageId.GS_LeaveRoom, null,user.SessionId);
+                    netProvider.SendToAsync(PtMessagePackage.Build((ushort)ResponseMessageId.GS_LeaveRoom, null),user.SessionId);
 
                     OnUpdateDataToRoomMember(ptRoom, (ushort)ResponseMessageId.GS_UpdateRoom, PtRoom.Write(ptRoom));
 
@@ -235,8 +296,8 @@ namespace GateServer.Core.Behaviour
                                 .SetColor((byte)ptRoom.Players.Count)
                                 .SetUserId(userId));
                         }
-                       
-                        SendToAsync<RoomBehaviour>((ushort)ResponseMessageId.GS_JoinRoom, new ByteBuffer().WriteByte(0).GetRawBytes(),evt.SessionId);
+
+                        netProvider.SendToAsync(PtMessagePackage.Build((ushort)ResponseMessageId.GS_JoinRoom, new ByteBuffer().WriteByte(0).GetRawBytes()),evt.SessionId);
                         OnUpdateDataToRoomMember(ptRoom, (ushort)ResponseMessageId.GS_UpdateRoom, PtRoom.Write(ptRoom));
                     }
                     else if (ptRoom.Players.Exists(p => p.NickName == userName))
@@ -246,8 +307,8 @@ namespace GateServer.Core.Behaviour
                         RoomProcess roomProcess = GetRoomProcess(ptRoom.RoomId);
                         if (roomProcess != null)
                         {
-                            SendToAsync<RoomBehaviour>((ushort)ResponseMessageId.GS_LaunchGame, null,evt.SessionId);
-                            SendToAsync<RoomBehaviour>((ushort)ResponseMessageId.GS_LaunchRoomInstance, PtLaunchGameData.Write(roomProcess.LaunchGameData),evt.SessionId);
+                            netProvider.SendToAsync(PtMessagePackage.Build((ushort)ResponseMessageId.GS_LaunchGame),evt.SessionId);
+                            netProvider.SendToAsync(PtMessagePackage.Build((ushort)ResponseMessageId.GS_LaunchRoomInstance, PtLaunchGameData.Write(roomProcess.LaunchGameData)),evt.SessionId);
                         }
 
                     }
@@ -325,7 +386,7 @@ namespace GateServer.Core.Behaviour
                 " -port " + launchGameData.RSPort +
                 " -mapId " + ptRoom.MapId +
                 " -playernumber " + launchGameData.PlayerNumber +
-                " -gateWsServerName " + nameof(RoomProcessBehaviour) +
+                " -gateWsServerName " + nameof(RoomBehaviour) +
                 " -gateWsPort " + DataMgr.Instance.GateServerWSPort +
                 " -hash " + ptRoom.RoomId);
             psi.CreateNoWindow = false;
@@ -352,38 +413,9 @@ namespace GateServer.Core.Behaviour
 
         void OnError(string sessionId, int errorId)
         {
-            SendToAsync<RoomBehaviour>(PtMessagePackage.Build((ushort)ResponseMessageId.GS_ErrorCode, PtErrorCode.Write(new PtErrorCode().SetId(errorId))), sessionId);
+            netProvider.SendToAsync(PtMessagePackage.Build((ushort)ResponseMessageId.GS_ErrorCode, PtErrorCode.Write(new PtErrorCode().SetId(errorId))), sessionId);
         }
 
-        void OnRoomPlayerDisconnect(NetMessageEvt evt)
-        {
-            foreach (var user in DataMgr.Instance.Users)
-            {
-                if (user.SessionId == evt.SessionId)
-                {
-                    for (int i = DataMgr.Instance.RoomList.Rooms.Count - 1; i >= 0; i--)
-                    {
-                        var room = DataMgr.Instance.RoomList.Rooms[i];
-                        bool inRoom = false;
-                        if (room != null && room.Status == 0)
-                        {
-                            for (int j = room.Players.Count - 1; j >= 0; j--)
-                            {
-                                var player = room.Players[j];
-                                if (player != null && player.UserId == user.UserId)
-                                {
-                                    OnLeaveRoomImpl(room.RoomId, user);
-                                    inRoom = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (inRoom)
-                            break;
-                    }
-                    break;
-                }
-            }
-        }
+        
     }
 }

@@ -3,7 +3,8 @@ using GateServer.Core.Data;
 using Net;
 using Net.Pt;
 using Net.ServiceImpl;
-using ServerDll.Service.Behaviour;
+using ServerDll.Service.Provider;
+using ServerDll.Service.Provider.Websocket;
 using Service.Core;
 using Service.Event;
 using System;
@@ -16,7 +17,7 @@ namespace GateServer.Core.Behaviour
 {
     public class RoomBehaviour : BaseBehaviour
     {
-        public RoomBehaviour()
+        public RoomBehaviour(IProvider provider) : base(provider)
         {
 
         }
@@ -38,26 +39,7 @@ namespace GateServer.Core.Behaviour
         {
             base.OnClose(e);
         }
-        protected override void OnCloseEventImpl(NetMessageEvt evt)
-        {
-            base.OnCloseEventImpl(evt);
-            NetworkModule.GetModule<RoomNetworkModule>().EnqueueNetworkEvents(evt);
-        }
-        protected override void OnErrorEventImpl(NetMessageEvt evt)
-        {
-            base.OnErrorEventImpl(evt);
-            NetworkModule.GetModule<RoomNetworkModule>().EnqueueNetworkEvents(evt);
-        }
-        protected override void OnMessageEventImpl(NetMessageEvt evt)
-        {
-            base.OnMessageEventImpl(evt);
-            NetworkModule.GetModule<RoomNetworkModule>().EnqueueNetworkEvents(evt);
-        }
-        protected override void OnOpenEventImpl(NetMessageEvt evt)
-        {
-            base.OnOpenEventImpl(evt);
-            NetworkModule.GetModule<RoomNetworkModule>().EnqueueNetworkEvents(evt);
-        }
+       
         #endregion
 
     }

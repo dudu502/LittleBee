@@ -1,7 +1,9 @@
 ﻿using Net;
 using Net.Pt;
 using Net.ServiceImpl;
+using RoomServer.Core.Behaviour;
 using RoomServer.Core.Data;
+using ServerDll.Service.Provider;
 using System.Collections.Generic;
 
 namespace RoomServer.Services.Sim
@@ -15,10 +17,10 @@ namespace RoomServer.Services.Sim
         
         private int m_CurrentFrameIdx;
 
-        private WebSocketSharp.Server.WebSocketServer _webSocketServer;
-        public ServerLogicFrameBehaviour(WebSocketSharp.Server.WebSocketServer server)
+        private IProvider provider;
+        public ServerLogicFrameBehaviour(IProvider providerParam)
         {
-            _webSocketServer = server;
+            provider = providerParam;
         }
         public void Quit()
         {
@@ -47,7 +49,7 @@ namespace RoomServer.Services.Sim
             flushCollection.KeyFrames.Sort();
             DataMgr.Instance.BattleSession.KeyFrameList.Elements.Add(flushCollection);
             if (flushCollection.KeyFrames.Count > 0)
-                _webSocketServer.WebSocketServices.Broadcast(PtMessagePackage.Write( PtMessagePackage.Build((ushort)ResponseMessageId.RS_SyncKeyframes,PtKeyFrameCollection.Write(flushCollection))));
+                provider.BroadcastAsync(PtMessagePackage.Write( PtMessagePackage.Build((ushort)ResponseMessageId.RS_SyncKeyframes,PtKeyFrameCollection.Write(flushCollection))));
         }
     }
 }

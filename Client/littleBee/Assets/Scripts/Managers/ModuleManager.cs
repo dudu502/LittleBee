@@ -11,6 +11,7 @@ namespace Managers
         private static Dictionary<Type,IModule> _Modules = new Dictionary<Type,IModule>();
         public static void Add(IModule module)
         {
+
             if (!_Modules.ContainsValue(module))
             {
                 module.Init();

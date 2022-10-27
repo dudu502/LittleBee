@@ -1,33 +1,29 @@
-﻿using WebSocketSharp;
-
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System;
-using WebSocketSharp.Server;
-using ServerDll.Service.Behaviour;
+using ServerDll.Service;
+using ServerDll.Service.Provider;
 
 namespace Service.Core
 {
     public class BaseApplication
     {
-        protected WebSocketServer m_WebsocketServer;
-        protected int m_WebServerPort;
-        public static ILogger Logger;
+        protected NetworkProviderWrap providerWrap;
+        protected int m_Port;
         private Dictionary<string, object> m_ConfigMaps;
         protected bool isRunning = false;
-        public BaseApplication(int wsPort)
+        protected NetworkType m_NetworkType = NetworkType.WSS;
+        public BaseApplication(ushort port)
         {
             m_ConfigMaps = new Dictionary<string, object>();
-            m_WebServerPort = wsPort;
-            Logger.Log(string.Format("Application [{0}] Initialize ApplicationKey:{1}.", GetType().ToString(), m_WebServerPort));
+            m_Port = port;
+            Logger.LogInfo(string.Format("Application [{0}] Initialize ApplicationKey:{1}.", GetType().ToString(), m_Port));
 
-            Logger.Log("Application has Setup.");
+            Logger.LogInfo("Application has Setup.");
+
+            ServerDll.Service.Logger.LogInfoAction = Console.Write;
         }
 
-        public WebSocketServer GetSocket()
-        {
-            return m_WebsocketServer;
-        }
         public void AddConfigElement(string key,object data)
         {
             m_ConfigMaps[key] = data;
@@ -43,11 +39,10 @@ namespace Service.Core
 
         public virtual void StartServer()
         {
-            m_WebsocketServer = new WebSocketServer(m_WebServerPort);
+            providerWrap = new NetworkProviderWrap(m_NetworkType);
+            providerWrap.Start((ushort)m_Port);
             SetUp();
-
-            m_WebsocketServer.Start();
-            Logger.Log(string.Format("Server [{0}] has launched.", m_WebServerPort));
+            Logger.LogInfo(string.Format("Server [{0}] has launched.", m_Port));
             isRunning = true;
             ThreadPool.QueueUserWorkItem(PollEvents, null);
         }
@@ -56,7 +51,7 @@ namespace Service.Core
         {
             while (isRunning)
             {
-                NetworkModule.Tick();
+                providerWrap.Tick();
                 Thread.Sleep(15);
             }
         }
@@ -65,11 +60,10 @@ namespace Service.Core
         {
             isRunning = false;
 
-            if (m_WebsocketServer!=null)
-                m_WebsocketServer.Stop();
+            if (providerWrap != null)
+                providerWrap.Stop();
 
-            Logger.Log("ShutDown");
-            Logger = null;
+            Logger.LogInfo("ShutDown");
         }
         protected virtual void SetUp()
         {

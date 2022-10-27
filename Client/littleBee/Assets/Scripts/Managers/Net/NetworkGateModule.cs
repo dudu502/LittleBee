@@ -39,10 +39,12 @@ public class NetworkGateModule : IModule
     }
     public void ConnectToGateServer()
     {
-        string gateWs = DataProxy.Get<UserDataProxy>().GateWS;
-        if (!string.IsNullOrEmpty(gateWs))
+        string ip = DataProxy.Get<UserDataProxy>().Ip;
+        ushort port = DataProxy.Get<UserDataProxy>().Port;
+        string param = DataProxy.Get<UserDataProxy>().Param;
+        if (!string.IsNullOrEmpty(ip) && !string.IsNullOrEmpty(param))
         {
-            GameClientNetwork.Instance.Start(gateWs,State.Gate);
+            GameClientNetwork.Instance.Start(ip,port,param);
         }
     }
 

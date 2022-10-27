@@ -5,35 +5,32 @@ using Net.ServiceImpl;
 using RoomServer.Core.Data;
 using RoomServer.Services;
 using RoomServer.Services.Sim;
-using ServerDll.Service.Behaviour;
+using ServerDll.Service.Module;
+using ServerDll.Service.Provider;
 using Service.Event;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebSocketSharp.Server;
 
 namespace RoomServer.Core.Behaviour
 {
     public class BattleNetworkModule : NetworkModule
     {
-        public BattleNetworkModule(WebSocketServer wssParam) : base(wssParam)
+        public BattleNetworkModule(IProvider provider) : base(provider)
         {
-            Evt.EventMgr<RequestMessageId,NetMessageEvt>.AddListener(RequestMessageId.RS_EnterRoom, OnEnterRoom);
-            Evt.EventMgr<RequestMessageId,NetMessageEvt>.AddListener(RequestMessageId.RS_InitPlayer, OnInitPlayer);
-            Evt.EventMgr<RequestMessageId,NetMessageEvt>.AddListener(RequestMessageId.RS_PlayerReady, OnPlayerReady);
-            Evt.EventMgr<RequestMessageId,NetMessageEvt>.AddListener(RequestMessageId.RS_SyncClientKeyframes, OnSyncClientKeyframes);
-            Evt.EventMgr<RequestMessageId,NetMessageEvt>.AddListener(RequestMessageId.RS_HistoryKeyframes, OnHistoryKeyframes);
-            Evt.EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.SOCKET_MSG_ONOPEN, OnOpen);
-            Evt.EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.SOCKET_MSG_ONCLOSE, OnPlayerDisconnect);
-            Evt.EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.SOCKET_MSG_ONERROR, OnPlayerDisconnect);
+            Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.RS_EnterRoom, OnEnterRoom);
+            Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.RS_InitPlayer, OnInitPlayer);
+            Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.RS_PlayerReady, OnPlayerReady);
+            Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.RS_SyncClientKeyframes, OnSyncClientKeyframes);
+            Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.RS_HistoryKeyframes, OnHistoryKeyframes);
+            Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.SOCKET_MSG_ONOPEN, OnOpen);
+            Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.SOCKET_MSG_ONCLOSE, OnPlayerDisconnect);
+            Evt.EventMgr<RequestMessageId,  NetMessageEvt>.AddListener(RequestMessageId.SOCKET_MSG_ONERROR, OnPlayerDisconnect);
 
         }
 
         void OnOpen(NetMessageEvt evt)
         {
-            SendToAsync<BattleBehaviour>((ushort)ResponseMessageId.RS_ClientConnected, null,evt.SessionId);
+            netProvider.SendToAsync(PtMessagePackage.Build((ushort)ResponseMessageId.RS_ClientConnected, null),evt.SessionId);
         }
         /// <summary>
         /// 请求进入房间。
@@ -53,19 +50,19 @@ namespace RoomServer.Core.Behaviour
                     bool isFull = DataMgr.Instance.BattleSession.DictUsers.Count == DataMgr.Instance.BattleSession.StartupCFG.PlayerNumber;
                     LogInfo($"OnEnterRoom PlayerNumberNow:{DataMgr.Instance.BattleSession.DictUsers.Count} PlayerNumberCFG:{DataMgr.Instance.BattleSession.StartupCFG.PlayerNumber} isFull:{isFull} InitEntityId:{DataMgr.Instance.BattleSession.InitEntityId}");
  
-                    SendToAsync<BattleBehaviour>(PtMessagePackage.Build((ushort)ResponseMessageId.RS_EnterRoom, new ByteBuffer().WriteUInt32(DataMgr.Instance.BattleSession.InitEntityId).WriteString(name).WriteString(DataMgr.Instance.BattleSession.StartupCFG.Hash).GetRawBytes()),evt.SessionId);
+                    netProvider.SendToAsync(PtMessagePackage.Build((ushort)ResponseMessageId.RS_EnterRoom, new ByteBuffer().WriteUInt32(DataMgr.Instance.BattleSession.InitEntityId).WriteString(name).WriteString(DataMgr.Instance.BattleSession.StartupCFG.Hash).GetRawBytes()),evt.SessionId);
                     if (isFull)
                     {
-                        BroadcastAsync<BattleBehaviour>(PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState, (byte)UserState.EnteredRoom, DataMgr.Instance.BattleSession.StartupCFG.MapId));
+                        netProvider.BroadcastAsync(PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState, (byte)UserState.EnteredRoom, DataMgr.Instance.BattleSession.StartupCFG.MapId));
                     }
                 }
                 else
                 {
                     userState.Update(evt.SessionId, Misc.UserState.Re_EnteredRoom);
                     userState.IsOnline = true;
-                   
-                    SendToAsync<BattleBehaviour>(PtMessagePackage.Build((ushort)ResponseMessageId.RS_EnterRoom,new ByteBuffer().WriteUInt32(userState.EntityId).WriteString(name).WriteString(DataMgr.Instance.BattleSession.StartupCFG.Hash).GetRawBytes()),evt.SessionId);
-                    BroadcastAsync<BattleBehaviour>(PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState, (byte)UserState.Re_EnteredRoom, DataMgr.Instance.BattleSession.StartupCFG.MapId, name));
+
+                    netProvider.SendToAsync(PtMessagePackage.Build((ushort)ResponseMessageId.RS_EnterRoom,new ByteBuffer().WriteUInt32(userState.EntityId).WriteString(name).WriteString(DataMgr.Instance.BattleSession.StartupCFG.Hash).GetRawBytes()),evt.SessionId);
+                    netProvider.BroadcastAsync(PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState, (byte)UserState.Re_EnteredRoom, DataMgr.Instance.BattleSession.StartupCFG.MapId, name));
                 }
             }
         }
@@ -79,10 +76,10 @@ namespace RoomServer.Core.Behaviour
             using (ByteBuffer buffer = new ByteBuffer(evt.Content))
             {
                 uint id = buffer.ReadUInt32();
-             
-                BroadcastAsync<BattleBehaviour>(PtMessagePackage.Build((ushort)ResponseMessageId.RS_InitPlayer, new ByteBuffer().WriteUInt32(id).GetRawBytes()));
-               
-                SendToAsync<BattleBehaviour>((ushort)ResponseMessageId.RS_InitSelfPlayer, null,evt.SessionId);
+
+                netProvider.BroadcastAsync(PtMessagePackage.Build((ushort)ResponseMessageId.RS_InitPlayer, new ByteBuffer().WriteUInt32(id).GetRawBytes()));
+
+                netProvider.SendToAsync(PtMessagePackage.Build((ushort)ResponseMessageId.RS_InitSelfPlayer, null),evt.SessionId);
             }
         }
         /// <summary>
@@ -111,7 +108,7 @@ namespace RoomServer.Core.Behaviour
                             List<uint> userEntityIds = new List<uint>(DataMgr.Instance.BattleSession.DictUsers.Keys);
                             userEntityIds.Sort((a, b) => a.CompareTo(b));
                         
-                            BroadcastAsync<BattleBehaviour>(PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState, (byte)UserState.BeReadyToEnterScene, PtUInt32List.Write(new PtUInt32List().SetElements(userEntityIds))));
+                            netProvider.BroadcastAsync(PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState, (byte)UserState.BeReadyToEnterScene, PtUInt32List.Write(new PtUInt32List().SetElements(userEntityIds))));
                             SimulationManager.Instance.Start();
                             LogInfo("Start Simulation.");
                         }
@@ -121,7 +118,7 @@ namespace RoomServer.Core.Behaviour
                         List<uint> newuserEntityIds = new List<uint>(DataMgr.Instance.BattleSession.DictUsers.Keys);
                         newuserEntityIds.Sort((a, b) => a.CompareTo(b));
                         
-                        BroadcastAsync<BattleBehaviour>(PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState, (byte)UserState.Re_BeReadyToEnterScene, user.UserName, PtUInt32List.Write(new PtUInt32List().SetElements(newuserEntityIds))));
+                        netProvider.BroadcastAsync(PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState, (byte)UserState.Re_BeReadyToEnterScene, user.UserName, PtUInt32List.Write(new PtUInt32List().SetElements(newuserEntityIds))));
                         break;
                     default:
                         break;
@@ -149,7 +146,7 @@ namespace RoomServer.Core.Behaviour
                 byte[] keyframeBytes = new ByteBuffer().WriteInt32(startIndex).WriteInt64(encodingTicks).WriteBytes(compressedKeyframeSource).GetRawBytes();
                 LogInfo($"Response KeyFrames CompressRate:{1f * compressedKeyframeSource.Length / keyframeRawSource.Length} RawLength:{keyframeRawSource.Length} CompressedLength:{compressedKeyframeSource.Length} msecs:{(DateTime.Now - date).TotalMilliseconds}");
                
-                SendToAsync<BattleBehaviour>(PtMessagePackage.Build((ushort)ResponseMessageId.RS_HistoryKeyframes, keyframeBytes), evt.SessionId);
+                netProvider.SendToAsync(PtMessagePackage.Build((ushort)ResponseMessageId.RS_HistoryKeyframes, keyframeBytes), evt.SessionId);
             }
         }
 
