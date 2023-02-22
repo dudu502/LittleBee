@@ -1,0 +1,5 @@
+{
+    "RoomAddress":"127.0.0.1",
+    "MaxConnectionCount":"32",
+    "RoomModuleFullPath":"D:\\Dudu502\\LittleBee\\Server\\RoomServer\\bin\\Debug\\netcoreapp6.0\\RoomServer.dll"
+}

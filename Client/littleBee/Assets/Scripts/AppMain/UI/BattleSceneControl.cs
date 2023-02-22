@@ -6,6 +6,7 @@ using DG.Tweening;
 
 public class BattleSceneControl : MonoBehaviour
 {
+    private string MouseScrollWheel = "Mouse ScrollWheel";
     Vector2 _screenPosBegin = Vector2.zero;
 #if UNITY_ANDROID
     float _touchScaleValue = 0f;
@@ -61,7 +62,7 @@ public class BattleSceneControl : MonoBehaviour
                 _screenPosBegin = Input.mousePosition;
             }
         }
-        SetGameMainCameraSize(100 * Input.GetAxis("Mouse ScrollWheel") + GetGameMainCameraSize());
+        SetGameMainCameraSize(5 * Input.GetAxis(MouseScrollWheel) + GetGameMainCameraSize());
 #elif UNITY_ANDROID
         //在Android的段运行时使用：
         if (Input.touchCount > 0 && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))//没点到UI
