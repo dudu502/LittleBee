@@ -139,3 +139,7 @@ public class PtRoom
 ## Server
 这是一个服务集合项目，包括WebServer，GateServer，RoomServer等
 
+
+## Star History
+
+![Star History Chart](https://api.star-history.com/svg?repos=dudu502/LittleBee&type=Date)
