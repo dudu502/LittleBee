@@ -142,4 +142,4 @@ public class PtRoom
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=dudu502/LittleBee&type=Timeline)](https://star-history.com/#dudu502/LittleBee&Timeline)
+[![Star History Chart](https://api.star-history.com/svg?repos=dudu502/LittleBee&type=Date)](https://star-history.com/#dudu502/LittleBee&Date)
