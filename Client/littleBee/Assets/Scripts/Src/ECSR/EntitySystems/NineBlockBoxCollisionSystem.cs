@@ -25,7 +25,7 @@ namespace EntitySystems
 
                 World.ForEachComponent<Transform2D>((transform) =>
                 {
-                    if (transform.ActiveDetection)
+                    if (transform.DetectionPriority > 0)
                     {
                         transform.ClearCollisionEntityIds();
                         provider.CollisionDetection(transform.Position, id =>
@@ -33,8 +33,8 @@ namespace EntitySystems
                             if (id != transform.EntityId)
                             {
                                 Transform2D otherTransform = World.GetComponentByEntityId<Transform2D>(id);
-                                if (TSVector2.DistanceSquared(transform.Position, otherTransform.Position) <
-                                    (otherTransform.Radius+ transform.Radius) * (otherTransform.Radius + transform.Radius))
+                                if (transform.DetectionPriority > otherTransform.DetectionPriority && TSVector2.DistanceSquared(transform.Position, otherTransform.Position) <
+                                    (otherTransform.Radius + transform.Radius) * (otherTransform.Radius + transform.Radius))
                                 {
                                     transform.OnCollisionEnter(id);
                                     return true;

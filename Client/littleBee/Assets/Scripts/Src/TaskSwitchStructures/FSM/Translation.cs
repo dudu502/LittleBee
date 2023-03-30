@@ -1,37 +1,44 @@
 ﻿using System;
-
 namespace Task.Switch.Structure.FSM
 {
-    public class Translation<T> where T:Enum
+    public class Translation<TState, TParam> where TState : Enum where TParam : class
     {
-        private readonly Func<uint,bool> m_Valid;
-        private Action m_Transfer;
-        public T ToStateName { private set; get; }
-        private readonly State<T> m_Current;
-        public Translation(State<T> state, Func<uint,bool> valid)
+        private readonly Func<TParam, bool> m_Valid;
+        private Action<TParam> m_Transfer;
+        internal TState ToStateName { private set; get; }
+        private readonly State<TState, TParam> m_Current;
+        public Translation(State<TState, TParam> state, Func<TParam, bool> valid)
         {
             m_Current = state;
             m_Valid = valid;
         }
-        public State<T> To(T stateName)
+        public State<TState, TParam> To(TState stateName)
         {
             ToStateName = stateName;
             return m_Current;
         }
-        public bool OnValid()
+        internal bool OnValid()
         {
+            bool valid = false;
             if (m_Valid != null)
-                return m_Valid(m_Current.GetEntityId());
-            return false;
+                valid = m_Valid(m_Current.GetParameter());
+            if (StateMachine<TState, TParam>.Log != null)
+                StateMachine<TState, TParam>.Log($"State:{m_Current.Name} {nameof(OnValid)}:{valid} ToState:{ToStateName}");
+            return valid;
         }
-        public Translation<T> Transfer(Action transfer)
+        public Translation<TState, TParam> Transfer(Action<TParam> transfer)
         {
             m_Transfer = transfer;
             return this;
         }
-        public void OnTransfer()
+        internal void OnTransfer()
         {
-            m_Transfer?.Invoke();
+            if (m_Transfer != null)
+            {
+                if (StateMachine<TState, TParam>.Log != null)
+                    StateMachine<TState, TParam>.Log($"State:{m_Current.Name} {nameof(OnTransfer)} ToState:{ToStateName}");
+                m_Transfer(m_Current.GetParameter());
+            }
         }
     }
 }

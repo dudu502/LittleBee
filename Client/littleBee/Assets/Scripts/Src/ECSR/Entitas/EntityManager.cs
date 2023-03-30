@@ -24,7 +24,7 @@ namespace  Entitas
         {      
             Components.Common.Movement2D move = new Components.Common.Movement2D(0.6f, TSVector2.zero);
             move.EntityId = entityId;
-            Components.Common.Transform2D trans = new Components.Common.Transform2D(TSVector2.zero, 1, true);
+            Components.Common.Transform2D trans = new Components.Common.Transform2D(TSVector2.zero, 1, 1);
             trans.EntityId = entityId;
 
             Components.Common.HudInfo hudInfo = new HudInfo();
@@ -78,8 +78,7 @@ namespace  Entitas
 
         public static void CreateBrokenPieceEntity(EntityWorld world, uint entityId,byte count,uint startEntityId,TSVector2 position)
         {
-            Random random = new Random((int)entityId);
-
+            TSRandom random = TSRandom.New((int)entityId);
             for (byte i=0;i<count;++i)
             {
                 BrokenPiece brokenPiece = new BrokenPiece(entityId, i, i == 0 ) ;
@@ -88,7 +87,7 @@ namespace  Entitas
                 countdown.EntityId = brokenPiece.EntityId;
                 world.AddComponent(countdown);
 
-                Transform2D transformPiece = new Transform2D(position, 0.5f, true); 
+                Transform2D transformPiece = new Transform2D(position, 0.5f, 2); 
                 transformPiece.EntityId = brokenPiece.EntityId;
                 
                 FP rad = i*((TSMath.Pi * 2) / count);
@@ -133,7 +132,7 @@ namespace  Entitas
             {
                 var starCfg = ModuleManager.GetModule<ConfigModule>().GetConfig<MapElementCFG>(starInfo.m_ConfigId);
                 world.AddComponent(new GravitationalField((byte)starCfg.Mass, (byte)(5 * starCfg.Diameter)) { EntityId=starInfo.m_EntityId});
-                world.AddComponent(new Components.Common.Transform2D(TSVector2.zero, starCfg.Diameter / 2f, false) { EntityId=starInfo.m_EntityId});
+                world.AddComponent(new Components.Common.Transform2D(TSVector2.zero, starCfg.Diameter / 2f) { EntityId=starInfo.m_EntityId});
                 world.AddComponent(new StarObjectRotation() { EntityId=starInfo.m_EntityId,Speed= Convert.ToSingle(starInfo.m_RotationSpeed)});
                 world.AddComponent(new Components.Star.StarObjectInfo() { EntityId = starInfo.m_EntityId,ConfigId = starInfo.m_ConfigId});
           
@@ -159,7 +158,7 @@ namespace  Entitas
                     {
                         uint entityId = (uint)(sIdStep + beltInfo.m_StartEntityId + i);
 
-                        world.AddComponent(new Transform2D(TSVector2.zero, 0.5f, false) { EntityId=entityId});
+                        world.AddComponent(new Transform2D(TSVector2.zero, 0.5f) { EntityId=entityId});
                         world.AddComponent(new StarObjectRotation() { EntityId=entityId,Speed = i%5 });
                         world.AddComponent(new Components.Star.StarObjectInfo() { EntityId=entityId,ConfigId=-1});
                         world.AddComponent(new Hp(600) { EntityId=entityId});
@@ -190,7 +189,7 @@ namespace  Entitas
                     switch(type)
                     {
                         case EntityType.Bullet:
-                            Transform2D newTransform = new Transform2D(senderTransform.Position + senderTransform.Toward * 2f, 1f, true);
+                            Transform2D newTransform = new Transform2D(senderTransform.Position + senderTransform.Toward * 2f, 1f, byte.MaxValue);
                             newTransform.EntityId = newEntityId;
                             world.AddComponent(newTransform);
                             Movement2D newMove = new Movement2D(0.8f, senderTransform.Toward);

@@ -3,63 +3,94 @@ using System.Collections.Generic;
 
 namespace Task.Switch.Structure.FSM
 {
-    public class StateMachine<T> where T : Enum
+    public class StateMachine<TState, TParam> where TState : Enum where TParam : class
     {
-        private readonly List<State<T>> m_States = new List<State<T>>();
-        private State<T> m_CurrentActiveState = null;
+        public static Action<string> Log;
+        private readonly List<State<TState, TParam>> m_States = new List<State<TState, TParam>>();
+        private State<TState, TParam> m_CurrentActiveState = null;
         private bool m_Running = false;
         private bool m_Inited = false;
-        public uint EntityId { private set; get; }
-        public StateMachine(uint enitiyId)
+        private readonly TParam m_Parameter;
+        public StateMachine(TParam param)
         {
-            EntityId = enitiyId; 
+            m_Parameter = param;
         }
-        public void Start(T startStateName)
+
+        internal TParam GetParameter()
         {
-            if(m_Inited)
+            return m_Parameter;
+        }
+
+        public void Start(TState startStateName)
+        {
+            if (m_Inited && !m_Running)
             {
                 m_Running = true;
-                m_CurrentActiveState = Find(startStateName);
+                m_CurrentActiveState = GetState(startStateName);
                 m_CurrentActiveState.OnEnter();
             }
         }
         public void Stop()
         {
-            m_Running=false;
+            m_Running = false;
+            m_Inited = false;
+            Log = null;
+            m_States.Clear();
+            m_CurrentActiveState = null;
         }
-
-        public State<T> NewState(T stateName)
+        public void Pause()
         {
-            State<T> state = new State<T>(stateName, this);
+            m_Running = false;
+        }
+        public void Resume()
+        {
+            m_Running = true;
+        }
+        public State<TState, TParam> NewState(TState stateName)
+        {
+            State<TState, TParam> state = new State<TState, TParam>(stateName, this);
             m_States.Add(state);
             return state;
         }
-        public StateMachine<T> Initialize()
+        public StateMachine<TState, TParam> Any(TState to, Func<TParam, bool> valid, Action<TParam> transfer = null)
         {
-            foreach (State<T> state in m_States)
+            foreach (State<TState, TParam> state in m_States)
+            {
+                if (!Enum.Equals(to, state.Name))
+                {
+                    Translation<TState, TParam> translation = new Translation<TState, TParam>(state, valid).Transfer(transfer);
+                    translation.To(to);
+                    state.Translations.Add(translation);
+                }
+            }
+            return this;
+        }
+        public StateMachine<TState, TParam> Initialize()
+        {
+            foreach (State<TState, TParam> state in m_States)
                 state.OnInitialize();
             m_Inited = true;
             return this;
         }
-        private State<T> Find(T stateName)
+        private State<TState, TParam> GetState(TState stateName)
         {
-            foreach (State<T> state in m_States)
+            foreach (State<TState, TParam> state in m_States)
             {
                 if (Enum.Equals(state.Name, stateName))
                     return state;
             }
-            throw new Exception($"{stateName} is not exist! Please call NewState to create this state");
+            throw new Exception($"{stateName} is not exist! Please call {nameof(NewState)} to create this state");
         }
         public void Update()
         {
             if (m_Running && m_CurrentActiveState != null)
             {
-                foreach (Translation<T> translation in m_CurrentActiveState.Translations)
+                foreach (Translation<TState, TParam> translation in m_CurrentActiveState.Translations)
                 {
                     if (translation.OnValid())
                     {
                         m_CurrentActiveState.OnExit();
-                        m_CurrentActiveState = Find(translation.ToStateName);
+                        m_CurrentActiveState = GetState(translation.ToStateName);
                         translation.OnTransfer();
                         m_CurrentActiveState.OnEnter();
                         return;

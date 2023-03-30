@@ -46,9 +46,6 @@ namespace Renderers
             if (m_GoMuzzleInstance == null)
             {
                 m_GoMuzzleInstance = GameObject.Instantiate(m_GoMuzzle, Vector3.zero, Quaternion.identity, transform) as GameObject;
-                //muzzleObject.transform.SetParent(transform);
-                //muzzleObject.transform.localPosition = Vector3.zero;
-                //muzzleObject.transform.localRotation = Quaternion.identity;
                 m_GoMuzzleInstance.transform.localScale = Vector3.one;
                 Common.Utils.SetChildrenLayer(m_GoMuzzleInstance, gameObject.layer);
             }
@@ -58,7 +55,6 @@ namespace Renderers
             float during = 1;
             if (muzzleParticleSystem != null)
                 during = muzzleParticleSystem.main.duration;
-            //Destroy(m_GoMuzzleInstance, during);
             StartCoroutine(HideObjectDelay(m_GoMuzzleInstance,during));
         }
         IEnumerator HideObjectDelay(GameObject obj, float during)
@@ -79,9 +75,7 @@ namespace Renderers
 
                 StartCoroutine(HideObjectDelay(m_GoExplosionInstance,1));
                 m_LifeStateRender = 2;
-                //Destroy(m_GoBulletInstance);
                 m_GoBulletInstance.SetActive(false);
-                //ModuleManager.GetModule<PoolModule>().Recycle(GetComponent<PoolObject>().GetFullName(), gameObject);
             }           
         }
 
@@ -111,16 +105,9 @@ namespace Renderers
                 {
                     transform.forward = Vector3.Lerp(transform.forward, new Vector3(dir.x.AsFloat(), 0, dir.y.AsFloat()).normalized, 0.25f);
                 }
-
-                //if (com_Bullet != null)
-                //{
-                //    if (com_Bullet.State == 1)
-                //        PlayExplosion(com_Pos,com_Bullet);
-                //}
             }
             else
             {
-                //GameObject.Destroy(gameObject);
                 ModuleManager.GetModule<PoolModule>().Recycle(GetComponent<PoolObject>().GetFullName(), gameObject);
             }
         }

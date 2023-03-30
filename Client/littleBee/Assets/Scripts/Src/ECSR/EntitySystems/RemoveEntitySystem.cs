@@ -13,33 +13,31 @@ namespace EntitySystems
     public class RemoveEntitySystem : IEntitySystem
     {        
         public EntityWorld World { set; get; }
-        List<uint> removingList = new List<uint>();
+        Queue<uint> removeQueues = new Queue<uint>();
         public void Execute()
         {
             try
             {
-                removingList.Clear();
                 World.ForEachComponent<Countdown>((countdown) =>
                 {
                     countdown.CountdownOnce();
                     if (countdown.Count <= 0)
-                        removingList.Add(countdown.EntityId);
+                        removeQueues.Enqueue(countdown.EntityId);
                 });
 
                 World.ForEachComponent<Hp>(hp =>
                 {
                     if (hp.Value <= 0)
-                        removingList.Add(hp.EntityId);
+                        removeQueues.Enqueue(hp.EntityId);
                 });
                 World.ForEachComponent<Bullet>(bullet =>
                 {
                     if (bullet.State == 1)
-                        removingList.Add(bullet.EntityId);
+                        removeQueues.Enqueue(bullet.EntityId);
                 });
-                while (removingList.Count > 0)
+
+                while(removeQueues.TryDequeue(out var entityId))
                 {
-                    uint entityId = removingList[removingList.Count - 1];
-                    removingList.RemoveAt(removingList.Count - 1);
                     World.RemoveEntity(entityId);
                     UnityEngine.Debug.Log($"[RemoveEntitySystem] REMOVE {entityId} {DateTime.Now.ToString()}");
                 }

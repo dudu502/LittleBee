@@ -71,8 +71,8 @@ namespace LogicFrameSync.Src.LockStep
                     .AddSystem(microWarSystem)
                     .AddSystem(strategyWarSystem)
                     .AddSystem(brokenPieceSystem)
-                    .AddSystem(removeSystem)
-                    .AddSystem(rotationSystem);
+                    .AddSystem(rotationSystem)
+                    .AddSystem(removeSystem);
                 sim.GetBehaviour<RollbackBehaviour>()
                     .AddSystem(fsmSystem)
                     .AddSystem(gravitySystem)
@@ -83,8 +83,8 @@ namespace LogicFrameSync.Src.LockStep
                     .AddSystem(microWarSystem)
                     .AddSystem(strategyWarSystem)
                     .AddSystem(brokenPieceSystem)
-                    .AddSystem(removeSystem)
-                    .AddSystem(rotationSystem);
+                    .AddSystem(rotationSystem)
+                    .AddSystem(removeSystem);
                 SimulationManager.Instance.SetSimulation(sim);
                 return sim;
             }
@@ -197,8 +197,8 @@ namespace LogicFrameSync.Src.LockStep
                 .AddSystem(microWarSystem)
                 .AddSystem(strategyWarSystem)
                 .AddSystem(brokenPieceSystem)
-                .AddSystem(removeSystem)
-                .AddSystem(rotationSystem);
+                .AddSystem(rotationSystem)
+                .AddSystem(removeSystem);
             SimulationManager.Instance.SetSimulation(sim);
             return sim;
         }

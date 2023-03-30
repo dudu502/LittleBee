@@ -14,25 +14,23 @@ namespace Components.Common
     {
         public TSVector2 Position;
         public FP Radius;
-        public bool ActiveDetection;
+        //public bool ActiveDetection;
+        public byte DetectionPriority = 0;
         public TSVector2 Toward;
         #region inner
         public uint CollisionEntityId=0;
         #endregion
-        public Transform2D(TSVector2 pos,FP radius,bool active)
+        public Transform2D(TSVector2 pos,FP radius, byte detectionPriority = 0)
         {
             Radius = radius;
-            ActiveDetection = active;
+            DetectionPriority = detectionPriority;
             Position = pos;
 
         }
         public Transform2D() { }
         public void OnCollisionEnter(uint otherEntityId)
         {
-            if (ActiveDetection)
-            {
-                CollisionEntityId = otherEntityId;
-            }
+            CollisionEntityId = otherEntityId;
         }
      
         public void ClearCollisionEntityIds() 
@@ -43,14 +41,11 @@ namespace Components.Common
 
         override public AbstractComponent Clone()
         {
-            Transform2D com = new Transform2D(Position,Radius,ActiveDetection);
+            Transform2D com = new Transform2D(Position,Radius,DetectionPriority);
             com.Enable = Enable;
             com.EntityId = EntityId;
             com.Toward = Toward;
-            if (com.ActiveDetection)
-            {
-                com.CollisionEntityId = CollisionEntityId;
-            }
+            com.CollisionEntityId = CollisionEntityId;
             return com;
         }
         public override void CopyFrom(AbstractComponent component)
@@ -60,16 +55,13 @@ namespace Components.Common
             Enable = target.Enable;
             Position = target.Position;
             Radius = target.Radius;
-            ActiveDetection = target.ActiveDetection;
+            DetectionPriority = target.DetectionPriority;
             Toward = target.Toward;
-            if(ActiveDetection)
-            {
-                CollisionEntityId = target.CollisionEntityId;
-            }
+            CollisionEntityId = target.CollisionEntityId;
         }
         public override string ToString()
         {            
-            if(ActiveDetection)
+            if(DetectionPriority > 0)
                 return $"[Transform Id:{EntityId} Pos:{Position.x} {Position.y} CollisionEntityId:({CollisionEntityId})]";
             return $"[Transform Id:{EntityId} Pos:{Position.x} {Position.y}]";
         }
@@ -83,11 +75,10 @@ namespace Components.Common
                     .WriteInt64(Position.x._serializedValue)
                     .WriteInt64(Position.y._serializedValue)
                     .WriteInt64(Radius._serializedValue)
-                    .WriteBool(ActiveDetection)
+                    .WriteByte(DetectionPriority)
                     .WriteInt64(Toward.x._serializedValue)
-                    .WriteInt64(Toward.y._serializedValue);
-                if (ActiveDetection)
-                    buffer.WriteUInt32(CollisionEntityId);
+                    .WriteInt64(Toward.y._serializedValue)
+                    .WriteUInt32(CollisionEntityId);
                 return buffer.Getbuffer();
             }
         }
@@ -103,13 +94,12 @@ namespace Components.Common
                 py._serializedValue = buffer.ReadInt64();
                 Position = new TSVector2(px,py);
                 Radius._serializedValue = buffer.ReadInt64();
-                ActiveDetection = buffer.ReadBool();
+                DetectionPriority = buffer.ReadByte();
                 FP tx, ty;
                 tx._serializedValue = buffer.ReadInt64();
                 ty._serializedValue = buffer.ReadInt64();
                 Toward = new TSVector2(tx,ty);
-                if (ActiveDetection)
-                    CollisionEntityId = buffer.ReadUInt32();
+                CollisionEntityId = buffer.ReadUInt32();
                 return this;
             }
 

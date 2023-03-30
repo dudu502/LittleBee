@@ -16,10 +16,10 @@ namespace Renderers
         {
             if (EntityId > 0)
             {
-                Components.Common.Transform2D pos = m_Simulation.GetEntityWorld().GetComponentByEntityId<Components.Common.Transform2D>(EntityId);
-                if (pos != null)
+                Components.Common.Transform2D transform2d = m_Simulation.GetEntityWorld().GetComponentByEntityId<Components.Common.Transform2D>(EntityId);
+                if (transform2d != null)
                 {
-                    transform.position = Vector3.Lerp(transform.position, new Vector3(pos.Position.x.AsFloat(),0,pos.Position.y.AsFloat()),0.5f);
+                    transform.position = Vector3.Lerp(transform.position, new Vector3(transform2d.Position.x.AsFloat(),0,transform2d.Position.y.AsFloat()),0.5f);
                     StarObjectRotation rot = m_Simulation.GetEntityWorld().GetComponentByEntityId<StarObjectRotation>(EntityId);
                     if (rot != null)
                     {
@@ -30,7 +30,6 @@ namespace Renderers
                 {
                     Destroy(gameObject);
                 }
-                
             }
         }
     }

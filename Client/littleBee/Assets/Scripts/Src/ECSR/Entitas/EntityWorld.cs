@@ -103,6 +103,17 @@ namespace Entitas
             return default(T);
         }
 
+        public void ForeachComponent(uint entityid, Action<AbstractComponent> action)
+        {
+            if (m_EntityComponents.TryGetValue(entityid, out var components))
+            {
+                foreach (var comp in components)
+                {
+                    action(comp);
+                }
+            }
+        }
+
         public void ForEachComponent<T>(Action<T> action)
         {
             try
@@ -145,10 +156,9 @@ namespace Entitas
 
         public bool RemoveEntity(uint entityId)
         {
-            m_EntityComponents.TryGetValue(entityId, out List<AbstractComponent> removeList);
-            if (removeList!=null)
+            if(m_EntityComponents.TryGetValue(entityId, out List<AbstractComponent> removeList))              
             {
-                for(int i=removeList.Count-1;i>-1;--i)
+                for (int i = removeList.Count - 1; i > -1; --i)
                 {
                     AbstractComponent component = removeList[i];
                     if (component != null)
@@ -158,8 +168,8 @@ namespace Entitas
                             abstractComponents.Remove(component);
                     }
                 }
-            }
-            m_EntityComponents.Remove(entityId);
+                m_EntityComponents.Remove(entityId);
+            }        
             m_Components.RemoveAll((c) => c.EntityId == entityId);           
             return true;
         }
@@ -171,17 +181,11 @@ namespace Entitas
             int size = m_Components.Count;
             for(int i=0;i< size; ++i)
                 components.Add(m_Components[i].Clone());
-            //UnityEngine.Debug.LogError("AllClone Components count "+components.Count);
             return components;
         }
 
         public void RestoreWorld(EntityWorldFrameData entityWorldFrameData)
         {
-            //m_Components.Clear();
-            //m_EntityComponents.Clear();
-            //m_TypeComponents.Clear();
-            //foreach (AbstractComponent abstractComponent in entityWorldFrameData.Components)
-            //    AddComponent(abstractComponent);
             m_Components = entityWorldFrameData.Components;
             m_EntityComponents = entityWorldFrameData.EntityComponents;
             m_TypeComponents = entityWorldFrameData.TypeComponents;
@@ -195,12 +199,7 @@ namespace Entitas
             for (int i = 0; i < collection.KeyFrames.Count; ++i)
             {
                 FrameIdxInfo info = collection.KeyFrames[i];
-                //if (m_EntityComponents.TryGetValue(info.EntityId, out List<AbstractComponent> abstractComponents))
-                //{
-                //    AbstractComponent component = abstractComponents.Find(c => c.GetCommand() == info.Cmd);
-                //    if (component != null)
-                //        component.UpdateParams(info.ParamsContent);
-                //}
+
                 switch (info.Cmd)
                 {
                     case FrameCommand.SYNC_MOVE:
@@ -222,7 +221,7 @@ namespace Entitas
             m_Components = data.Components;
             m_EntityComponents = data.EntityComponents;
             m_TypeComponents = data.TypeComponents;
-            //UnityEngine.Debug.LogError(" RollBack "+data.Components.Count);
+
             for (int i = 0; i < collection.KeyFrames.Count; ++i)
             {
                 FrameIdxInfo info = collection.KeyFrames[i];
@@ -238,40 +237,7 @@ namespace Entitas
                 }
 
             }
-            //return;
-            //for (int i = data.Components.Count - 1; i > -1; --i)
-            //{
-            //    AbstractComponent com = data.Components[i];
-            //    if (!m_EntityComponents.ContainsKey(com.EntityId))
-            //    {
-            //        AddComponent(com);
-            //    }
-            //    AbstractComponent component = m_EntityComponents[com.EntityId].Find((c) => com.GetType() == c.GetType());
-            //    if (component == null)
-            //    {
-            //        AddComponent(com);
-            //        component = com;
-            //    }
-            //    else
-            //    {
-            //        component.CopyFrom(com);
-            //    }
-
-            //    for (int j = 0; j < collection.KeyFrames.Count; ++j)
-            //    {
-            //        FrameIdxInfo info = collection.KeyFrames[j];
-            //        if (info.EntityId == component.EntityId && info.Cmd == component.GetCommand())
-            //        {
-            //            component.UpdateParams(info.ParamsContent);
-            //            break;
-            //        }
-            //    }
-            //}
-            //for (int i = 0; i < collection.KeyFrames.Count; ++i)
-            //{
-            //    SyncEntityCommand(collection.KeyFrames[i]);
-            //}
-
+         
             //Need sort
         }
     }
