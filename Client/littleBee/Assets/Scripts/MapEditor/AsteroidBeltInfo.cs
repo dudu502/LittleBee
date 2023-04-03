@@ -19,10 +19,10 @@ namespace Map
         public int m_Relaxation = 1;
         public int m_ShellRelaxation = 1;
         public int m_Gradient = 1;
-        public Random Ran { private set; get; }
+
         public AsteroidBeltInfo()
         {
-            Ran = new Random(m_Seed);
+
         }
     }
 }
