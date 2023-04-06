@@ -13,20 +13,13 @@ namespace Entitas
     {
         public static object SyncRoot = new object();
         public bool IsActive = true;
-        List<AbstractComponent> m_Components;
-        Dictionary<uint, List<AbstractComponent>> m_EntityComponents;
-        Dictionary<Type, List<AbstractComponent>> m_TypeComponents;
+        EntityWorldFrameData m_FrameData;
         ICollisionProvider m_CollisionProvider;       
         Dictionary<string, object> m_Metadata;
 
         public void Dispose()
         {
-            m_Components.Clear();
-            m_Components = null;
-            m_EntityComponents.Clear();
-            m_EntityComponents = null;
-            m_TypeComponents.Clear();
-            m_TypeComponents = null;
+            m_FrameData.Clear();
             m_CollisionProvider = null;
             m_Metadata.Clear();
             m_Metadata = null;
@@ -44,14 +37,14 @@ namespace Entitas
         private EntityWorld()
         {
             m_Metadata = new Dictionary<string, object>();
-            m_Components = new List<AbstractComponent>();
-            m_EntityComponents = new Dictionary<uint, List<AbstractComponent>>();
-            m_TypeComponents = new Dictionary<Type, List<AbstractComponent>>();
+            m_FrameData = new EntityWorldFrameData(new List<AbstractComponent>(),
+                                                    new Dictionary<uint, List<AbstractComponent>>(),
+                                                    new Dictionary<Type, List<AbstractComponent>>());
         }
 
         public int GetEntityCount() 
         { 
-            return m_EntityComponents.Count; 
+            return m_FrameData.EntityComponents.Count;
         }
         public void SetCollisionProvider(ICollisionProvider provider)
         {
@@ -65,9 +58,9 @@ namespace Entitas
         {
             try
             {
-                if (m_EntityComponents.ContainsKey(entityId))
+                if (m_FrameData.EntityComponents.ContainsKey(entityId))
                 {
-                    var componets = m_EntityComponents[entityId];
+                    var componets = m_FrameData.EntityComponents[entityId];
                     for (int i = componets.Count - 1; i > -1; --i)
                     {
                         var component = componets[i];
@@ -87,9 +80,9 @@ namespace Entitas
             try
             {
                 Type componentType = typeof(T);
-                if (m_EntityComponents.ContainsKey(entityId))
+                if (m_FrameData.EntityComponents.ContainsKey(entityId))
                 {
-                    IList componets = m_EntityComponents[entityId];
+                    IList componets = m_FrameData.EntityComponents[entityId];
                     for (int i = componets.Count - 1; i > -1; --i)
                     {
                         var component = componets[i];
@@ -103,25 +96,14 @@ namespace Entitas
             return default(T);
         }
 
-        public void ForeachComponent(uint entityid, Action<AbstractComponent> action)
-        {
-            if (m_EntityComponents.TryGetValue(entityid, out var components))
-            {
-                foreach (var comp in components)
-                {
-                    action(comp);
-                }
-            }
-        }
-
         public void ForEachComponent<T>(Action<T> action)
         {
             try
             {
                 Type componentType = typeof(T);
-                if (m_TypeComponents.ContainsKey(componentType))
+                if (m_FrameData.TypeComponents.ContainsKey(componentType))
                 {
-                    IList components = m_TypeComponents[componentType];
+                    IList components = m_FrameData.TypeComponents[componentType];
                     for (int i = components.Count - 1; i > -1; --i)
                     {
                         var component = components[i];
@@ -140,13 +122,13 @@ namespace Entitas
         public void AddComponent(AbstractComponent component)
         {
             Type componentType = component.GetType();
-            m_Components.Add(component);
-            if (!m_EntityComponents.ContainsKey(component.EntityId))
-                m_EntityComponents[component.EntityId] = new List<AbstractComponent>();
-            m_EntityComponents[component.EntityId].Add(component);
-            if (!m_TypeComponents.ContainsKey(componentType))
-                m_TypeComponents[componentType] = new List<AbstractComponent>();
-            m_TypeComponents[componentType].Add(component);
+            m_FrameData.Components.Add(component);
+            if (!m_FrameData.EntityComponents.ContainsKey(component.EntityId))
+                m_FrameData.EntityComponents[component.EntityId] = new List<AbstractComponent>();
+            m_FrameData.EntityComponents[component.EntityId].Add(component);
+            if (!m_FrameData.TypeComponents.ContainsKey(componentType))
+                m_FrameData.TypeComponents[componentType] = new List<AbstractComponent>();
+            m_FrameData.TypeComponents[componentType].Add(component);
         }
 
         public static EntityWorld Create()
@@ -156,21 +138,21 @@ namespace Entitas
 
         public bool RemoveEntity(uint entityId)
         {
-            if(m_EntityComponents.TryGetValue(entityId, out List<AbstractComponent> removeList))              
+            if(m_FrameData.EntityComponents.TryGetValue(entityId, out List<AbstractComponent> removeList))              
             {
                 for (int i = removeList.Count - 1; i > -1; --i)
                 {
                     AbstractComponent component = removeList[i];
                     if (component != null)
                     {
-                        m_TypeComponents.TryGetValue(component.GetType(), out List<AbstractComponent> abstractComponents);
+                        m_FrameData.TypeComponents.TryGetValue(component.GetType(), out List<AbstractComponent> abstractComponents);
                         if (abstractComponents != null)
                             abstractComponents.Remove(component);
                     }
                 }
-                m_EntityComponents.Remove(entityId);
+                m_FrameData.EntityComponents.Remove(entityId);
             }        
-            m_Components.RemoveAll((c) => c.EntityId == entityId);           
+            m_FrameData.Components.RemoveAll((c) => c.EntityId == entityId);           
             return true;
         }
 
@@ -178,17 +160,17 @@ namespace Entitas
         public List<AbstractComponent> GetAllCloneComponents()
         {
             List<AbstractComponent> components = new List<AbstractComponent>();
-            int size = m_Components.Count;
+            int size = m_FrameData.Components.Count;
             for(int i=0;i< size; ++i)
-                components.Add(m_Components[i].Clone());
+                components.Add(m_FrameData.Components[i].Clone());
             return components;
         }
 
         public void RestoreWorld(EntityWorldFrameData entityWorldFrameData)
         {
-            m_Components = entityWorldFrameData.Components;
-            m_EntityComponents = entityWorldFrameData.EntityComponents;
-            m_TypeComponents = entityWorldFrameData.TypeComponents;
+            m_FrameData.Components = entityWorldFrameData.Components;
+            m_FrameData.EntityComponents = entityWorldFrameData.EntityComponents;
+            m_FrameData.TypeComponents = entityWorldFrameData.TypeComponents;
         }
         /// <summary>
         /// 获取关键帧数据并且复原整个世界
@@ -218,9 +200,9 @@ namespace Entitas
 
         public void RollBack(EntityWorldFrameData data, PtKeyFrameCollection collection)
         {
-            m_Components = data.Components;
-            m_EntityComponents = data.EntityComponents;
-            m_TypeComponents = data.TypeComponents;
+            m_FrameData.Components = data.Components;
+            m_FrameData.EntityComponents = data.EntityComponents;
+            m_FrameData.TypeComponents = data.TypeComponents;
 
             for (int i = 0; i < collection.KeyFrames.Count; ++i)
             {

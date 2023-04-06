@@ -10,11 +10,11 @@ namespace EntitySystems
     public class FsmSystem : IEntitySystem
     {
         public EntityWorld World { set; get; }
-       
+        
         public void Execute()
         {
-            World.ForEachComponent<FsmInfo>(ForEachFsmInfo);
-            CleanUp();
+            //World.ForEachComponent<FsmInfo>(ForEachFsmInfo);
+            //CleanUp();
         }
 
         private void CleanUp()
@@ -26,10 +26,5 @@ namespace EntitySystems
         {
 
         }
-    }
-
-    public class FsmTypeDefine
-    {
-       
     }
 }

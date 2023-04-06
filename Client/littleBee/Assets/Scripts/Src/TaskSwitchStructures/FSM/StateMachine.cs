@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Task.Switch.Structure.FSM
 {
     public class StateMachine<TState, TParam> where TState : Enum where TParam : class
     {
+        private enum StateMachineStatus
+        {
+            NotInitialized,
+            Initialized,
+            Running,
+            Paused
+        }
         public static Action<string> Log;
         private readonly List<State<TState, TParam>> m_States = new List<State<TState, TParam>>();
         private State<TState, TParam> m_CurrentActiveState = null;
-        private bool m_Running = false;
-        private bool m_Inited = false;
+        private StateMachineStatus m_Status = StateMachineStatus.Initialized;
         private readonly TParam m_Parameter;
         public StateMachine(TParam param)
         {
@@ -23,28 +30,27 @@ namespace Task.Switch.Structure.FSM
 
         public void Start(TState startStateName)
         {
-            if (m_Inited && !m_Running)
+            if (m_Status == StateMachineStatus.Initialized)
             {
-                m_Running = true;
+                m_Status = StateMachineStatus.Running;
                 m_CurrentActiveState = GetState(startStateName);
                 m_CurrentActiveState.OnEnter();
             }
         }
         public void Stop()
         {
-            m_Running = false;
-            m_Inited = false;
+            m_Status = StateMachineStatus.NotInitialized;
             Log = null;
             m_States.Clear();
             m_CurrentActiveState = null;
         }
         public void Pause()
         {
-            m_Running = false;
+            m_Status = StateMachineStatus.Paused;
         }
         public void Resume()
         {
-            m_Running = true;
+            m_Status = StateMachineStatus.Running;
         }
         public State<TState, TParam> NewState(TState stateName)
         {
@@ -69,21 +75,19 @@ namespace Task.Switch.Structure.FSM
         {
             foreach (State<TState, TParam> state in m_States)
                 state.OnInitialize();
-            m_Inited = true;
+            m_Status = StateMachineStatus.Initialized;
             return this;
         }
         private State<TState, TParam> GetState(TState stateName)
         {
             foreach (State<TState, TParam> state in m_States)
-            {
-                if (Enum.Equals(state.Name, stateName))
+                if (Enum.Equals(stateName, state.Name))
                     return state;
-            }
             throw new Exception($"{stateName} is not exist! Please call {nameof(NewState)} to create this state");
         }
         public void Update()
         {
-            if (m_Running && m_CurrentActiveState != null)
+            if (m_Status == StateMachineStatus.Running && m_CurrentActiveState != null)
             {
                 foreach (Translation<TState, TParam> translation in m_CurrentActiveState.Translations)
                 {
