@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using Synchronize.Game.Lockstep.Misc;
 
 public class BattleSceneControl : MonoBehaviour
 {

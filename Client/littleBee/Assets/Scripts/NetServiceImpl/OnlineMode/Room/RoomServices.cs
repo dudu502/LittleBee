@@ -12,6 +12,7 @@ using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep.Managers.UI;
 using Synchronize.Game.Lockstep.Misc;
+using Synchronize.Game.Lockstep.Net;
 using Synchronize.Game.Lockstep.UI;
 using System;
 using System.Collections;

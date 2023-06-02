@@ -1,5 +1,6 @@
 ﻿
-using Renderers;
+
+using Synchronize.Game.Lockstep.Ecsr.Renderer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

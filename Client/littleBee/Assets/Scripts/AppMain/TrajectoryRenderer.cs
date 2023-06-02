@@ -1,16 +1,10 @@
-﻿
-using Renderers;
-using Synchronize.Game.Lockstep.Ecsr.Components.Common;
-using Synchronize.Game.Lockstep.Ecsr.Renderer;
+﻿using Synchronize.Game.Lockstep.Ecsr.Components.Common;
 using Synchronize.Game.Lockstep.Misc;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using TrueSync;
 using UnityEngine;
-namespace Renderers
+namespace Synchronize.Game.Lockstep.Ecsr.Renderer
 {
     /// <summary>
     /// 弹道轨迹

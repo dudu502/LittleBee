@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using Renderers;
 using TrueSync;
 using Synchronize.Game.Lockstep.Ecsr.Entitas;
 using Synchronize.Game.Lockstep.Ecsr.Components.Common;

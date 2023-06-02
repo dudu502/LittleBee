@@ -26,6 +26,7 @@ using Synchronize.Game.Lockstep.Misc;
 using Synchronize.Game.Lockstep.Managers.UI;
 using Synchronize.Game.Lockstep.Replays;
 using Synchronize.Game.Lockstep.Evt;
+using Synchronize.Game.Lockstep.Net;
 
 namespace Synchronize.Game.Lockstep
 {
