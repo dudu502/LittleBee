@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Localization
+namespace Synchronize.Game.Lockstep.Localization
 {
     public interface ILanguageApplicable
     {

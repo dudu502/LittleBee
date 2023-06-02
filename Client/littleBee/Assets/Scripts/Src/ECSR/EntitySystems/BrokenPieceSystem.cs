@@ -1,8 +1,9 @@
-﻿using Components.Common;
-using Entitas;
+﻿
 
+using Synchronize.Game.Lockstep.Ecsr.Components.Common;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
 
-namespace EntitySystems
+namespace Synchronize.Game.Lockstep.Ecsr.Systems
 {
     public class BrokenPieceSystem : IEntitySystem
     {

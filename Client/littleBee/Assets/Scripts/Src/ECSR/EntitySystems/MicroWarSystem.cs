@@ -1,11 +1,11 @@
-﻿using Entitas;
+﻿
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace EntitySystems
+namespace Synchronize.Game.Lockstep.Ecsr.Systems
 {
     /// <summary>
     /// 微观层面的战争系统

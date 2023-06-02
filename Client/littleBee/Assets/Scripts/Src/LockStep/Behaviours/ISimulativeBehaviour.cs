@@ -1,5 +1,6 @@
 ﻿
-namespace LogicFrameSync.Src.LockStep.Behaviours
+
+namespace Synchronize.Game.Lockstep.Behaviours
 {
     /// <summary>
     /// 模拟器行为接口

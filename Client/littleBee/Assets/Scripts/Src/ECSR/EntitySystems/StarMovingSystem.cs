@@ -1,17 +1,9 @@
-﻿using Entitas;
-using EntitySystems;
-using Map.Ecsr;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using Components.Star;
+﻿
+using Synchronize.Game.Lockstep.Ecsr.Components.Star;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
 using TrueSync;
-using Components;
 
-namespace EntitySystems
+namespace Synchronize.Game.Lockstep.Ecsr.Systems
 {
     class StarMovingSystem : IEntitySystem
     {

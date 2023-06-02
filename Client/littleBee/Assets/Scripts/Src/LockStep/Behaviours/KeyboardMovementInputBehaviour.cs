@@ -1,14 +1,13 @@
-﻿using Components;
-using Components.Common;
-using Frame;
-using LogicFrameSync.Src.LockStep.Behaviours.Data;
-using LogicFrameSync.Src.LockStep.Frame;
+﻿
 using NetServiceImpl;
 using NetServiceImpl.OnlineMode.Room;
+using Synchronize.Game.Lockstep.Behaviours.Data;
+using Synchronize.Game.Lockstep.Behaviours.Frame;
+using Synchronize.Game.Lockstep.Frame;
 using TrueSync;
 using UnityEngine;
 
-namespace LogicFrameSync.Src.LockStep.Behaviours
+namespace Synchronize.Game.Lockstep.Behaviours
 {
     public class KeyboardMovementInputBehaviour : ISimulativeBehaviour
     {

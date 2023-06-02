@@ -10,8 +10,7 @@
         "dependencies": {
           "ConsoleLogger": "1.0.0.0",
           "General": "1.0.0.0",
-          "LitJson": "0.7.0.0",
-          "ServerDll": "1.0.0.0"
+          "LitJson": "0.7.0.0"
         },
         "runtime": {
           "GateServer.dll": {}

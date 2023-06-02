@@ -1,6 +1,7 @@
-﻿using Entitas;
+﻿
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
 
-namespace EntitySystems
+namespace Synchronize.Game.Lockstep.Ecsr.Systems
 {
     /// <summary>
     /// 实体方法接口 ECSR 中的（S）

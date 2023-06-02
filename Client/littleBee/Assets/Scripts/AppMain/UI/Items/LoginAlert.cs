@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Localization;
-using Misc;
-using Service.HttpMisc;
-using MappingData;
+
 using Proxy;
-using Managers;
-using Managers.UI;
+using Synchronize.Game.Lockstep.Localization;
+using Synchronize.Game.Lockstep.Data;
+using Synchronize.Game.Lockstep.Managers;
+using Synchronize.Game.Lockstep.Managers.UI;
+using Synchronize.Game.Lockstep.Misc;
 
 public class LoginAlert : MonoBehaviour, ILanguageApplicable
 {

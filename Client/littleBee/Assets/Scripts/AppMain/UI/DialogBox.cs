@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using Misc;
 using DG.Tweening;
-using Localization;
+using Synchronize.Game.Lockstep.Misc;
+using Synchronize.Game.Lockstep.Localization;
 
 public class DialogBox : MonoBehaviour
 {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using LiteNetLib;
-using Service.Core;
+using Synchronize.Game.Lockstep.Service.Core;
 
-namespace ServerDll.Service.Modules
+namespace Synchronize.Game.Lockstep.Service.Modules
 {
     public class BaseModule
     {
@@ -19,6 +19,25 @@ namespace ServerDll.Service.Modules
         }
         public NetManager GetNetManager() {
             return ApplicationInstance.GetNetManager();     
+        }
+
+        public static Dictionary<Type,BaseModule> _modules = new Dictionary<Type, BaseModule>();
+        public static T GetModule<T>() where T:BaseModule
+        {
+            return (T)_modules[typeof(T)];
+        }
+        public static void AddModule(BaseModule module)
+        {
+            _modules[module.GetType()] = module;
+        }
+        public static void RemoveModule<T>()
+        {
+            if( _modules.ContainsKey(typeof(T)))
+                _modules.Remove(typeof(T));
+        }
+        public static void RemoveAllModules()
+        {
+            _modules.Clear();
         }
 
         public void Log(string message)

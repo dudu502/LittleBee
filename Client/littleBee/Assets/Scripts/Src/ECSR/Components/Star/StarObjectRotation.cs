@@ -1,13 +1,8 @@
-﻿using Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using TrueSync;
 using UnityEngine;
 
-namespace Components.Star
+namespace Synchronize.Game.Lockstep.Ecsr.Components.Star
 {
     public class StarObjectRotation : AbstractComponent
     {

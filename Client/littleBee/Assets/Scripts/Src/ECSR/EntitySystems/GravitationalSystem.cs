@@ -1,10 +1,9 @@
-﻿using Entitas;
-using System;
-using System.Collections.Generic;
-using Components.Common;
+﻿using System;
 using TrueSync;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
+using Synchronize.Game.Lockstep.Ecsr.Components.Common;
 
-namespace EntitySystems
+namespace Synchronize.Game.Lockstep.Ecsr.Systems
 {
     /// <summary>
     /// 引力效应系统
@@ -18,7 +17,7 @@ namespace EntitySystems
         private readonly FP MIN_GRAVITY = 0.0001f;
         private readonly FP MAX_WORLD_SPEED = 1f;
         public EntityWorld World { get; set; }
-        
+      
         public void Execute()
         {
             //return;

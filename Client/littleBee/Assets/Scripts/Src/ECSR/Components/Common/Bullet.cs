@@ -1,4 +1,4 @@
-﻿namespace Components.Common
+﻿namespace Synchronize.Game.Lockstep.Ecsr.Components.Common
 {
     public class Bullet:AbstractComponent
     {

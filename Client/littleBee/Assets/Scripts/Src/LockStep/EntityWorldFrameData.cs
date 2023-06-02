@@ -1,12 +1,12 @@
 ﻿
-using Components;
-using Components.Common;
-using Components.Physics.Colliders;
-using Components.Star;
+
+using Synchronize.Game.Lockstep.Ecsr.Components;
+using Synchronize.Game.Lockstep.Ecsr.Components.Common;
+using Synchronize.Game.Lockstep.Ecsr.Components.Star;
 using System;
 using System.Collections.Generic;
 
-namespace LogicFrameSync.Src.LockStep
+namespace Synchronize.Game.Lockstep.Ecsr.Entitas
 {
     /// <summary>
     /// 帧数据快照
@@ -30,7 +30,6 @@ namespace LogicFrameSync.Src.LockStep
             typeof(HudInfo),
             typeof(Mp),
             typeof(Particle),
-            typeof(CircleCollider),
             typeof(RotationParameter),
             typeof(RotationValue),
             typeof(BreakableInfo),

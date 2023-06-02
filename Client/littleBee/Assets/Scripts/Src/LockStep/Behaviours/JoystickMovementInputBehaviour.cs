@@ -1,9 +1,9 @@
-﻿using Components;
-using Frame;
-using LogicFrameSync.Src.LockStep.Behaviours.Data;
-using LogicFrameSync.Src.LockStep.Frame;
+﻿
 using NetServiceImpl;
 using NetServiceImpl.OnlineMode.Room;
+using Synchronize.Game.Lockstep.Behaviours.Data;
+using Synchronize.Game.Lockstep.Behaviours.Frame;
+using Synchronize.Game.Lockstep.Frame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using TrueSync;
 using UnityEngine;
 
-namespace LogicFrameSync.Src.LockStep.Behaviours
+namespace Synchronize.Game.Lockstep.Behaviours
 {
     public class JoystickMovementInputBehaviour : ISimulativeBehaviour
     {

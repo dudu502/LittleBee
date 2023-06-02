@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Components
+namespace Synchronize.Game.Lockstep.Ecsr.Components
 {
     /// <summary>
     /// 所有Component的基类

@@ -1,7 +1,8 @@
-﻿using Components;
-using Components.Common;
-using Entitas;
+﻿
 using Renderers;
+using Synchronize.Game.Lockstep.Ecsr.Components.Common;
+using Synchronize.Game.Lockstep.Ecsr.Renderer;
+using Synchronize.Game.Lockstep.Misc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace Renderers
         bool IsDrawing = false;
 
         Particle Particle;
-        Components.Common.Transform2D ParticleTransform;
+        Transform2D ParticleTransform;
         Movement2D ParticleMovement;
         Vector3[] LinePositionArray;
 
@@ -33,7 +34,7 @@ namespace Renderers
         {
             LinePositionArray = new Vector3[MaxPointCount];
             TrackLineRenderer = GetComponent<LineRenderer>();
-            ParticleTransform = new Components.Common.Transform2D();
+            ParticleTransform = new Transform2D();
             ParticleMovement = new Movement2D();
             Particle = new Particle(1);
 
@@ -47,7 +48,7 @@ namespace Renderers
         /// </summary>
         /// <param name="particle"></param>
         /// <param name="particleMovement"></param>
-        public void StartDraw(Components.Common.Transform2D componentTransform)
+        public void StartDraw(Transform2D componentTransform)
         {
             IsDrawing = true;
             Particle.EntityId = uint.MaxValue;
@@ -84,7 +85,7 @@ namespace Renderers
             if (m_Simulation == null) TryFindSimulation();
             if (IsDrawing)
             {
-                Components.Common.Transform2D componentTransform = m_Simulation.GetEntityWorld().GetComponentByEntityId<Components.Common.Transform2D>(EntityId);
+                Transform2D componentTransform = m_Simulation.GetEntityWorld().GetComponentByEntityId<Transform2D>(EntityId);
                 if (componentTransform != null)
                 {
                     StartDraw(componentTransform);
@@ -108,7 +109,7 @@ namespace Renderers
                         {
                             m_Simulation.GetEntityWorld().ForEachComponent<GravitationalField>(gravitationField =>
                             {
-                                Components.Common.Transform2D gravityTransform = m_Simulation.GetEntityWorld().GetComponentByEntityId<Components.Common.Transform2D>(gravitationField.EntityId);
+                                Transform2D gravityTransform = m_Simulation.GetEntityWorld().GetComponentByEntityId<Transform2D>(gravitationField.EntityId);
                                 if (gravityTransform != null)
                                 {
                                     TSVector2 interactiveDir = gravityTransform.Position - ParticleTransform.Position;
@@ -125,7 +126,7 @@ namespace Renderers
                             LinePositionArray[i] = new Vector3(ParticleTransform.Position.x.AsFloat(), 0, ParticleTransform.Position.y.AsFloat());
                         }
                     }
-                    Misc.Handler.Run(_ => { lock (this) { TrackLineRenderer.SetPositions(LinePositionArray); } }, null);
+                    Handler.Run(_ => { lock (this) { TrackLineRenderer.SetPositions(LinePositionArray); } }, null);
                 }
             });
         }

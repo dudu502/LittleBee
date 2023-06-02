@@ -1,12 +1,8 @@
-﻿using Components;
-using DG.Tweening;
-using Entitas;
-using LogicFrameSync.Src.LockStep;
-using Managers;
+﻿using Synchronize.Game.Lockstep.Managers;
 using TrueSync;
 using UnityEngine;
 
-namespace Renderers
+namespace Synchronize.Game.Lockstep.Ecsr.Renderer
 {
     /// <summary>
     /// 移动行为

@@ -1,10 +1,7 @@
 ﻿using Net;
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 
-namespace Service.Event
+namespace Synchronize.Game.Lockstep.Service.Event
 {
     public class UnconnectedNetMessageEvt
     {

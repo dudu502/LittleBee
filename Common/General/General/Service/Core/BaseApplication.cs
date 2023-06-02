@@ -1,9 +1,10 @@
 ﻿using LiteNetLib;
-using ServerDll.Service.Modules;
+using Synchronize.Game.Lockstep.Evt;
+using Synchronize.Game.Lockstep.Service.Modules;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Service.Core
+namespace Synchronize.Game.Lockstep.Service.Core
 {
     public enum NetActionEvent
     {
@@ -61,42 +62,42 @@ namespace Service.Core
         #region Event Call
         protected virtual void OnPeerDisconnectedEvent(NetPeer peer, DisconnectInfo disconnectInfo)
         {
-            Evt.EventMgr<NetActionEvent, NetPeer>.TriggerEvent(NetActionEvent.PeerDisconnectedEvent, peer);
+            EventMgr<NetActionEvent, NetPeer>.TriggerEvent(NetActionEvent.PeerDisconnectedEvent, peer);
         }
 
         protected virtual void OnPeerConnectedEvent(NetPeer peer)
         {
-            Evt.EventMgr<NetActionEvent, NetPeer>.TriggerEvent(NetActionEvent.PeerConnectedEvent, peer);
+            EventMgr<NetActionEvent, NetPeer>.TriggerEvent(NetActionEvent.PeerConnectedEvent, peer);
         }
 
         protected virtual void OnNetworkReceiveUnconnectedEvent(System.Net.IPEndPoint remoteEndPoint, NetPacketReader reader, UnconnectedMessageType messageType)
         {
-            Evt.EventMgr<NetActionEvent, System.Net.IPEndPoint>.TriggerEvent(NetActionEvent.NetworkReceiveUnconnectedEvent, remoteEndPoint);
+            EventMgr<NetActionEvent, System.Net.IPEndPoint>.TriggerEvent(NetActionEvent.NetworkReceiveUnconnectedEvent, remoteEndPoint);
         }
 
         protected virtual void OnNetworkReceiveEvent(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
         {
-            Evt.EventMgr<NetActionEvent, NetPeer>.TriggerEvent(NetActionEvent.NetworkReceiveEvent, peer);
+            EventMgr<NetActionEvent, NetPeer>.TriggerEvent(NetActionEvent.NetworkReceiveEvent, peer);
         }
 
         protected virtual void OnNetworkLatencyUpdateEvent(NetPeer peer, int latency)
         {
-            Evt.EventMgr<NetActionEvent, NetPeer>.TriggerEvent(NetActionEvent.NetworkLatencyUpdateEvent, peer);
+            EventMgr<NetActionEvent, NetPeer>.TriggerEvent(NetActionEvent.NetworkLatencyUpdateEvent, peer);
         }
 
         protected virtual void OnNetworkErrorEvent(System.Net.IPEndPoint endPoint, System.Net.Sockets.SocketError socketError)
         {
-            Evt.EventMgr<NetActionEvent, System.Net.IPEndPoint>.TriggerEvent(NetActionEvent.NetworkErrorEvent, endPoint);
+            EventMgr<NetActionEvent, System.Net.IPEndPoint>.TriggerEvent(NetActionEvent.NetworkErrorEvent, endPoint);
         }
 
         protected virtual void OnDeliveryEvent(NetPeer peer, object userData)
         {
-            Evt.EventMgr<NetActionEvent, NetPeer>.TriggerEvent(NetActionEvent.DeliveryEvent, peer);
+            EventMgr<NetActionEvent, NetPeer>.TriggerEvent(NetActionEvent.DeliveryEvent, peer);
         }
 
         protected virtual void OnConnectionRequestEvent(ConnectionRequest request)
         {
-            Evt.EventMgr<NetActionEvent, ConnectionRequest>.TriggerEvent(NetActionEvent.ConnectionRequestEvent, request);
+            EventMgr<NetActionEvent, ConnectionRequest>.TriggerEvent(NetActionEvent.ConnectionRequestEvent, request);
         }
         #endregion
 
@@ -122,7 +123,7 @@ namespace Service.Core
         }
         protected virtual void CallCustomEvent()
         {
-            Evt.EventMgr<NetActionEvent, object>.TriggerEvent(NetActionEvent.CallCustomEvent, null);
+            EventMgr<NetActionEvent, object>.TriggerEvent(NetActionEvent.CallCustomEvent, null);
         }
         public virtual void ShutDown()
         {
@@ -150,16 +151,8 @@ namespace Service.Core
 
         protected virtual void AddModule(BaseModule module)
         {
-            ServerDll.Service.Modules.Service.AddModule(module);
+            BaseModule.AddModule(module);
             Logger.Log(string.Format("AddModule [{0}] Success.",module.GetType().ToString()));
-        }
-        protected void RemoveModule<T>()where T:BaseModule
-        {
-            T module= ServerDll.Service.Modules.Service.GetModule<T>();
-            if(module!=null)
-            {
-                ServerDll.Service.Modules.Service.RemoveModule(module);
-            }
         }
     }
 }

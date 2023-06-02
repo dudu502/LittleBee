@@ -4,23 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using Components.Star;
-using Components.Common;
 using Renderers;
 using TrueSync;
-using Components;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
+using Synchronize.Game.Lockstep.Ecsr.Components.Common;
+using Synchronize.Game.Lockstep.Ecsr.Components.Star;
 
-namespace Map.Ecsr.R
+namespace Synchronize.Game.Lockstep.MapEditor
 {
     class StarObjectRender:MonoBehaviour
     {
         public uint EntityId;
-        public Entitas.EntityWorld World;
+        public EntityWorld World;
         private void Update()
         {
             if(EntityId>0)
             {
-                Components.Common.Transform2D pos = World.GetComponentByEntityId<Components.Common.Transform2D>(EntityId);
+                Transform2D pos = World.GetComponentByEntityId<Transform2D>(EntityId);
                 if(pos!=null)
                 {
                     transform.position = new Vector3(pos.Position.x.AsFloat(),0,pos.Position.y.AsFloat());

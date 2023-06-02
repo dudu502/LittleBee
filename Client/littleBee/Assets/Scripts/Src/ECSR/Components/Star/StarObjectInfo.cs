@@ -1,11 +1,11 @@
-﻿using Components;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Components.Star
+namespace Synchronize.Game.Lockstep.Ecsr.Components.Star
 {
     public class StarObjectInfo:AbstractComponent
     {

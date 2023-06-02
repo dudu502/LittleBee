@@ -1,9 +1,11 @@
-﻿using EntitySystems;
+﻿
 using NetServiceImpl;
 using NetServiceImpl.OnlineMode.Room;
+using Synchronize.Game.Lockstep.Ecsr.Systems;
 using System.Collections.Generic;
 
-namespace LogicFrameSync.Src.LockStep.Behaviours
+
+namespace Synchronize.Game.Lockstep.Behaviours
 {
     /// <summary>
     /// 实体行为系统控制

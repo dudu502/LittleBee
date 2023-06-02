@@ -1,9 +1,10 @@
-﻿using Managers.UI;
+﻿
+using Synchronize.Game.Lockstep.Managers.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Managers
+namespace Synchronize.Game.Lockstep.Managers
 {
     class UILayerNode
     {

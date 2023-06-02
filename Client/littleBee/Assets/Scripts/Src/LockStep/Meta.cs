@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace LogicFrameSync.Src.LockStep
+namespace Synchronize.Game.Lockstep
 {
     public class Meta
     {

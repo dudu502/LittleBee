@@ -1,14 +1,7 @@
-﻿using Config.Static;
-using Managers;
-using Managers.Config;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using Synchronize.Game.Lockstep.Config.Static;
+using Synchronize.Game.Lockstep.Managers;
 
-namespace Localization
+namespace Synchronize.Game.Lockstep.Localization
 {
     
     public class Language

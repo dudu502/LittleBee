@@ -1,14 +1,15 @@
 ﻿using LiteNetLib;
 using Net;
 using Net.ServiceImpl;
-using RoomServer.Modules;
-using RoomServer.Services.Sim;
-using Service.Core;
-using Service.Event;
+using Synchronize.Game.Lockstep.Evt;
+using Synchronize.Game.Lockstep.RoomServer.Modules;
+using Synchronize.Game.Lockstep.RoomServer.Services.Sim;
+using Synchronize.Game.Lockstep.Service.Core;
+using Synchronize.Game.Lockstep.Service.Event;
 using System.Net;
 using System.Net.Sockets;
 
-namespace RoomServer.Services
+namespace Synchronize.Game.Lockstep.RoomServer.Services
 {
     public class RoomApplication:BaseApplication
     {
@@ -21,14 +22,12 @@ namespace RoomServer.Services
         {
             base.SetUp();
             SetUpSimulation();
-            AddModule(new RoomDebugModule(this));
-            AddModule(new BattleModule(this));
-            AddModule(new ServerDll.Service.Modules.HeartbeatModule(this,15));            
+            AddModule(new BattleModule(this));         
         }
         void SetUpSimulation()
         {
-            Simulation simulation = new Simulation(1);
-            SimulationManager.Instance.SetSimulation(simulation);
+            Synchronize.Game.Lockstep.RoomServer.Services.Sim.Simulation simulation = new Synchronize.Game.Lockstep.RoomServer.Services.Sim.Simulation(1);
+            Synchronize.Game.Lockstep.RoomServer.Services.Sim.SimulationManager.Instance.SetSimulation(simulation);
             ServerLogicFrameBehaviour frame = new ServerLogicFrameBehaviour();
             simulation.AddBehaviour(frame);
             Logger.Log("Simulation has been Created.");
@@ -75,7 +74,7 @@ namespace RoomServer.Services
                 byte[] bytes = new byte[reader.AvailableBytes];
                 reader.GetBytes(bytes, reader.AvailableBytes);
                 PtMessagePackage package = PtMessagePackage.Read(bytes);
-                Evt.EventMgr<RequestMessageId, NetMessageEvt>.TriggerEvent((RequestMessageId)package.MessageId, new NetMessageEvt(peer, package.Content));
+                EventMgr<RequestMessageId, NetMessageEvt>.TriggerEvent((RequestMessageId)package.MessageId, new NetMessageEvt(peer, package.Content));
                 reader.Recycle();
                 Logger.Log("PeerId " + peer.Id + " ReceiveEvent MessageID " + (RequestMessageId)package.MessageId + " ContentSize " + (package.Content != null ? package.Content.Length : 0));
             }
@@ -86,7 +85,7 @@ namespace RoomServer.Services
             byte[] bytes = new byte[reader.AvailableBytes];
             reader.GetBytes(bytes, reader.AvailableBytes);
             PtMessagePackage package = PtMessagePackage.Read(bytes);
-            Evt.EventMgr<RequestMessageId, UnconnectedNetMessageEvt>.TriggerEvent((RequestMessageId)package.MessageId, new UnconnectedNetMessageEvt(remoteEndPoint, package.Content));
+            EventMgr<RequestMessageId, UnconnectedNetMessageEvt>.TriggerEvent((RequestMessageId)package.MessageId, new UnconnectedNetMessageEvt(remoteEndPoint, package.Content));
             reader.Recycle();
         }
         protected override void OnPeerConnectedEvent(NetPeer peer)

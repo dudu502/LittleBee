@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Map
+namespace Synchronize.Game.Lockstep.MapEditor
 {
     [Serializable]
     public class AsteroidBeltInfo

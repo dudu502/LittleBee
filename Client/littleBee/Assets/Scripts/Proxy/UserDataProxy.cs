@@ -1,5 +1,6 @@
-﻿using MappingData;
+﻿
 using NetServiceImpl.OnlineMode.Gate;
+using Synchronize.Game.Lockstep.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,14 +1,14 @@
 ﻿using LiteNetLib;
 using Net.ServiceImpl;
-using Service.Core;
-using Service.Event;
+using Synchronize.Game.Lockstep.Service.Core;
+using Synchronize.Game.Lockstep.Service.Event;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace ServerDll.Service.Modules
+namespace Synchronize.Game.Lockstep.Service.Modules
 {
     public class HeartbeatModule: BaseModule
     {

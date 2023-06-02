@@ -5,17 +5,18 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Evt;
-using Localization;
-using Managers;
-using Managers.UI;
-using Misc;
 using Net;
 using Net.Pt;
 using Net.ServiceImpl;
 using Notify;
 using Proxy;
-using Service.Event;
+using Synchronize.Game.Lockstep;
+using Synchronize.Game.Lockstep.Evt;
+using Synchronize.Game.Lockstep.Localization;
+using Synchronize.Game.Lockstep.Managers;
+using Synchronize.Game.Lockstep.Managers.UI;
+using Synchronize.Game.Lockstep.Misc;
+using Synchronize.Game.Lockstep.UI;
 
 namespace NetServiceImpl.OnlineMode.Gate
 {
@@ -148,7 +149,7 @@ namespace NetServiceImpl.OnlineMode.Gate
                 ModuleManager.GetModule<GameContentRootModule>().SetWorldEnable(false);
                 ModuleManager.GetModule<UIModule>().Push(UITypes.LoadingPanel, Layer.Top, new LoadingPanel.LoadingInfo(Language.GetText(27), 0));
              
-                Evt.EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(27), 0.1f));
+                EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(27), 0.1f));
             }, package);         
         }
         void OnResponseLaunchRoomInstance(PtMessagePackage package)
@@ -158,7 +159,7 @@ namespace NetServiceImpl.OnlineMode.Gate
 
             TriggerMainThreadEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(31), 0.4f));
 
-            Handler.Run(_ => LogicFrameSync.Src.LockStep.BattleEntryPoint.Start(ptLaunchGameData,GateServerIP),null);        
+            Handler.Run(_ => BattleEntryPoint.Start(ptLaunchGameData,GateServerIP),null);        
         }
         #endregion
         #region 采集IP

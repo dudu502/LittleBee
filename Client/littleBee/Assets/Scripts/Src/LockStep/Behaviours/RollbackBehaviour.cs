@@ -1,8 +1,9 @@
 ﻿using Net.Pt;
 using NetServiceImpl;
 using NetServiceImpl.OnlineMode.Room;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
 
-namespace LogicFrameSync.Src.LockStep.Behaviours
+namespace Synchronize.Game.Lockstep.Behaviours
 {
     /// <summary>
     /// 回滚关键帧信息

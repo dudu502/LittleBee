@@ -1,6 +1,6 @@
 ﻿using TrueSync;
 
-namespace Components.Common
+namespace Synchronize.Game.Lockstep.Ecsr.Components.Common
 {
     /// <summary>
     /// 在引力场中受到万有引力作用的物体必须包含质点属性

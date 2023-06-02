@@ -1,10 +1,9 @@
-﻿using LogicFrameSync.Src.LockStep.Frame;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TrueSync;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Components.Common
+namespace Synchronize.Game.Lockstep.Ecsr.Components.Common
 {
     /// <summary>
     /// transform组件

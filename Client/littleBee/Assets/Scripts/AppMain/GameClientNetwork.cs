@@ -10,8 +10,8 @@ using System.Collections.Concurrent;
 using Net.ServiceImpl;
 using LiteNetLib;
 using System.Threading;
-using Service.Event;
 using System;
+using Synchronize.Game.Lockstep.Evt;
 
 public class GameClientNetwork
 {
@@ -197,7 +197,7 @@ public class GameClientNetwork
             {
                 try
                 {
-                    Evt.EventMgr<ResponseMessageId, PtMessagePackage>.TriggerEvent((ResponseMessageId)package.MessageId, package);
+                    EventMgr<ResponseMessageId, PtMessagePackage>.TriggerEvent((ResponseMessageId)package.MessageId, package);
                 }catch(Exception exc)
                 {
                     Debug.LogError("TickDispatchMessages Error "+exc.ToString());

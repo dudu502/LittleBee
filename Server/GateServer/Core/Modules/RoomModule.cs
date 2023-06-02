@@ -1,20 +1,21 @@
-﻿using Evt;
-using GateServer.Core.Data;
-using GateServer.Services;
+﻿
 using LiteNetLib;
 using Net;
 using Net.Pt;
 using Net.ServiceImpl;
-using ServerDll.Service.Modules;
-using Service.Core;
-using Service.Event;
+using Synchronize.Game.Lockstep.Evt;
+using Synchronize.Game.Lockstep.GateServer.Core.Data;
+using Synchronize.Game.Lockstep.GateServer.Services;
+using Synchronize.Game.Lockstep.Service.Core;
+using Synchronize.Game.Lockstep.Service.Event;
+using Synchronize.Game.Lockstep.Service.Modules;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GateServer.Modules
+namespace Synchronize.Game.Lockstep.GateServer.Modules
 {
     public class RoomProcess
     {
@@ -233,7 +234,7 @@ namespace GateServer.Modules
                     .SetPlayers(new List<PtRoomPlayer>());
                 PtRoomPlayer player = new PtRoomPlayer();
                 player.SetEntityId(1)
-                    .SetType((byte)Misc.RoomPlayerType.Player)
+                    .SetType((byte)Synchronize.Game.Lockstep.Misc.RoomPlayerType.Player)
                     .SetNickName(userName)
                     .SetPassword(userPwd)
                     .SetStatus(1)
@@ -272,7 +273,7 @@ namespace GateServer.Modules
                         {
                             ptRoom.Players.Add(new PtRoomPlayer()
                                 .SetEntityId(2)
-                                .SetType((byte)Misc.RoomPlayerType.Player)
+                                .SetType((byte)Synchronize.Game.Lockstep.Misc.RoomPlayerType.Player)
                                 .SetNickName(userName)
                                 .SetPassword(userPwd)
                                 .SetStatus(1)
@@ -383,7 +384,7 @@ namespace GateServer.Modules
                             PtLaunchGameData gameData = new PtLaunchGameData();
                             gameData.SetPlayerNumber((byte)ptRoom.Players.Count);
                             gameData.SetIsStandaloneMode(ptRoom.Players.Count == 1
-                                || !ptRoom.Players.Exists(player => player.UserId != ptRoom.RoomOwnerUserId && (player.Type==(byte)Misc.RoomPlayerType.Player)));
+                                || !ptRoom.Players.Exists(player => player.UserId != ptRoom.RoomOwnerUserId && (player.Type==(byte)Synchronize.Game.Lockstep.Misc.RoomPlayerType.Player)));
 #if WAN_MODE
                             gameData.SetRSAddress(GetApplication<GateApplication>().StartupConfigs["RoomAddress"]);
                             gameData.SetRSPort(GetEmptyRoomPort());

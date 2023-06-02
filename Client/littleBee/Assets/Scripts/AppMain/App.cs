@@ -3,15 +3,12 @@ using NetServiceImpl;
 using NetServiceImpl.OnlineMode.Gate;
 using NetServiceImpl.OnlineMode.Room;
 using UI.Data;
-using Managers;
-using Managers.UI;
-using Managers.Config;
-using System.IO;
-using LogicFrameSync.Src.LockStep;
-using System;
-using Src.Replays;
-using Localization;
-using Misc;
+
+using Synchronize.Game.Lockstep.Misc;
+using Synchronize.Game.Lockstep.Managers;
+using Synchronize.Game.Lockstep;
+using Synchronize.Game.Lockstep.Localization;
+using Synchronize.Game.Lockstep.Managers.UI;
 
 public class App : MonoBehaviour
 {
@@ -26,7 +23,7 @@ public class App : MonoBehaviour
     [SerializeField] private GameContentRootModule m_GameContentRootModule;
     void InitApplicationSettings()
     {
-        LogicFrameSync.Src.LockStep.BattleEntryPoint.PersistentDataPath = Application.persistentDataPath;
+        BattleEntryPoint.PersistentDataPath = Application.persistentDataPath;
         UserSettingMgr.Init();
         Application.targetFrameRate = 40;
         Application.runInBackground = true;
@@ -65,7 +62,7 @@ public class App : MonoBehaviour
         InitManagerSettings();
 
         DialogBox.Init();
-        Misc.Handler.Init();
+        Handler.Init();
         Language.SetLanguge(LanguageSetting);
     }
 
@@ -77,7 +74,7 @@ public class App : MonoBehaviour
 
     void Update()
     {
-        Misc.Handler.Update();
+        Handler.Update();
         ObjectPool.Common.PoolMgr.Update();
     }
 }

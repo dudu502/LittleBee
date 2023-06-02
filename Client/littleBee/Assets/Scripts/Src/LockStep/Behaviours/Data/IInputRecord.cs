@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicFrameSync.Src.LockStep.Behaviours.Data
+namespace Synchronize.Game.Lockstep.Behaviours.Data
 {
     public interface IInputRecord
     {

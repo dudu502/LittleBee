@@ -1,9 +1,8 @@
-﻿using Frame;
-using LogicFrameSync.Src.LockStep.Frame;
+﻿
+using Synchronize.Game.Lockstep.Frame;
 using TrueSync;
-using Unity.Mathematics;
-using UnityEngine;
-namespace Components.Common
+
+namespace Synchronize.Game.Lockstep.Ecsr.Components.Common
 {
     public class Movement2D : AbstractComponent
     {

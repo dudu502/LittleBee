@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrueSync;
 
-namespace Components.Common
+namespace Synchronize.Game.Lockstep.Ecsr.Components.Common
 {
     public class GravitationalField : AbstractComponent
     {

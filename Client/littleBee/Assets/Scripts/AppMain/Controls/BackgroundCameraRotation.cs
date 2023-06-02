@@ -1,9 +1,11 @@
-﻿using Components.Common;
-using Renderers;
+﻿
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TrueSync;
+using Synchronize.Game.Lockstep.Ecsr.Renderer;
+using Synchronize.Game.Lockstep.Ecsr.Components.Common;
+
 public class BackgroundCameraRotation : ActionRenderer
 {
     protected override void OnRender()

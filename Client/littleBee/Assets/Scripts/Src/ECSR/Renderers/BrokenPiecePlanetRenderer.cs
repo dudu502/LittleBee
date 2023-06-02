@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TrueSync;
-using Managers;
-using Components.Common;
+using Synchronize.Game.Lockstep.Managers;
 
-namespace Renderers
+namespace Synchronize.Game.Lockstep.Ecsr.Renderer
 {
     public class BrokenPiecePlanetRenderer : ActionRenderer
     {

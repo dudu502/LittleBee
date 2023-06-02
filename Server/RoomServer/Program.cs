@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Xml;
-using System.Linq;
-using Service.Core;
-using RoomServer.Services;
+
 using System.Threading;
 using System.Net;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Service.HttpMisc;
+using Synchronize.Game.Lockstep.Service.Modules;
+using Synchronize.Game.Lockstep.RoomServer.Services;
+using Synchronize.Game.Lockstep.RoomServer.Modules;
 
 namespace RoomServer
 {
@@ -39,11 +35,12 @@ namespace RoomServer
             }
             var logger = new ConsoleLogger.LoggerImpl.Logger("ROOMSERVER:"+port, logServerUrl);
             logger.EnableConsoleOutput = false;
-            Services.RoomApplication.Logger = logger;
+            RoomApplication.Logger = logger;
             logger.Log("LogServer Address: " + logServerUrl);
-            Services.RoomApplication room = new Services.RoomApplication(key);
+            RoomApplication room = new RoomApplication(key);
             room.StartServer(port);
-            ServerDll.Service.Modules.Service.GetModule<RoomServer.Modules.BattleModule>().InitStartup(mapId,playerNumber, gsPort,hash);
+            var s = BaseModule._modules;
+            BaseModule.GetModule<BattleModule>().InitStartup(mapId,playerNumber, gsPort,hash);
 
             //ConsoleLogger.CommandParser commandParser = new ConsoleLogger.CommandParser(logger);
             //commandParser.AddCommand(new ConsoleLogger.CommandAction("-exit", cmdParams => { AppQuit(); return ConsoleLogger.CommandExecuteRet.Break; }, "Exit app."))

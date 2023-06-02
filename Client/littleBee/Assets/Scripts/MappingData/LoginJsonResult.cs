@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MappingData
-{
+namespace Synchronize.Game.Lockstep.Data{
     public class LoginJsonResultItem
     {
         public string name;

@@ -1,21 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System;
-using Map.Ecsr;
-using Map.Ecsr.R;
-using EntitySystems;
-using Config.Static;
-using Components.Star;
-using Renderers;
-using Components;
-using TrueSync;
-using Components.Common;
-using Entitas;
-using Managers;
-using Managers.Config;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
+using Synchronize.Game.Lockstep.Ecsr.Systems;
+using Synchronize.Game.Lockstep.Ecsr.Renderer;
+using Synchronize.Game.Lockstep.Managers;
+using Synchronize.Game.Lockstep.Config.Static;
+using Synchronize.Game.Lockstep.Ecsr.Components.Common;
 
-namespace Map
+namespace Synchronize.Game.Lockstep.MapEditor
 {
     public class StarGalaxy : MonoBehaviour
     {
@@ -32,7 +25,7 @@ namespace Map
         public int m_MapWidth = 300;
         public int m_MapHeight = 300;
         public TextAsset m_ImportMapStream;
-        Entitas.EntityWorld world;
+        EntityWorld world;
         List<IEntitySystem> m_Systems = new List<IEntitySystem> ();
         StarMovingSystem movingSystem;
 
@@ -40,7 +33,7 @@ namespace Map
         {
             if(Mode.Edit == m_Mode)
             {
-                world = Entitas.EntityWorld.Create();
+                world = EntityWorld.Create();
                 movingSystem = new StarMovingSystem();
                 movingSystem.World = world;
 
@@ -48,7 +41,7 @@ namespace Map
             }
 
         }
-        public void SetEntityWorld(Entitas.EntityWorld w)
+        public void SetEntityWorld(EntityWorld w)
         {
             world = w;
 
@@ -140,10 +133,10 @@ namespace Map
                 DrawRect(Vector2.zero, size);
                 
 
-                world.ForEachComponent<Components.Star.StarObjectInfo>((starObj) => 
+                world.ForEachComponent<Synchronize.Game.Lockstep.Ecsr.Components.Star.StarObjectInfo>((starObj) => 
                 {
                     var config = ModuleManager.GetModule<ConfigModule>().GetConfig<MapElementCFG>(starObj.ConfigId);
-                    var pos = world.GetComponentByEntityId<Components.Common.Transform2D>(starObj.EntityId);
+                    var pos = world.GetComponentByEntityId<Transform2D>(starObj.EntityId);
                     if (config != null)
                         Gizmos.DrawWireSphere(new Vector3(pos.Position.x.AsFloat(), 0, pos.Position.y.AsFloat()), config.Diameter * 0.51f);
                     else

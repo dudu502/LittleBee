@@ -4,7 +4,8 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LogicFrameSync.Src.LockStep
+
+namespace Synchronize.Game.Lockstep
 {
     public class SimulationManager
     {

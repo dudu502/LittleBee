@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace Evt
+namespace Synchronize.Game.Lockstep.Evt
 {
     public sealed class EventMgr<T,P>
     {

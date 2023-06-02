@@ -1,18 +1,17 @@
-﻿using Evt;
-using GateServer.Services;
+﻿
 using Net;
 using Net.Pt;
 using Net.ServiceImpl;
-using Notify;
-using ServerDll.Service.Modules;
-using Service.Core;
-using Service.Event;
+using Synchronize.Game.Lockstep.Evt;
+using Synchronize.Game.Lockstep.Service.Core;
+using Synchronize.Game.Lockstep.Service.Event;
+using Synchronize.Game.Lockstep.Service.Modules;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
-namespace GateServer.Modules
+namespace Synchronize.Game.Lockstep.GateServer.Modules
 {
     public class UserModule:BaseModule
     {

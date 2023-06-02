@@ -1,4 +1,5 @@
-﻿using Map;
+﻿
+using Synchronize.Game.Lockstep.MapEditor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ using UnityEngine;
 
 namespace MapEditor.Editor
 {
-    [UnityEditor.CustomEditor(typeof(Map.StarGalaxy))]
+    [UnityEditor.CustomEditor(typeof(StarGalaxy))]
     class StarGalaxyEditor:UnityEditor.Editor
     {
    
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            Map.StarGalaxy galaxy = target as Map.StarGalaxy;
+            StarGalaxy galaxy = target as StarGalaxy;
             if(GUILayout.Button("AddGamePrefab"))
             {
                 galaxy.AddGamePrefab();

@@ -1,7 +1,8 @@
 ﻿using Net.Pt;
 using System;
 using System.Collections.Generic;
-namespace LogicFrameSync.Src.LockStep.Frame
+
+namespace Synchronize.Game.Lockstep.Behaviours.Frame
 {
     /// <summary>
     ///  关键帧同步记录

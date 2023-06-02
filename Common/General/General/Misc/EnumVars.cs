@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Misc
+namespace Synchronize.Game.Lockstep.Misc
 {
     public enum EntityType : byte
     {

@@ -1,12 +1,11 @@
-﻿using LogicFrameSync.Src.LockStep.Frame;
-using Net.Pt;
+﻿using Net.Pt;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Src.Replays
+namespace Synchronize.Game.Lockstep.Replays
 {
     /// <summary>
     /// 回放

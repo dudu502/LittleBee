@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service.Event
+namespace Synchronize.Game.Lockstep.Service.Event
 {
     public class ExtraObjectMessageEvt
     {

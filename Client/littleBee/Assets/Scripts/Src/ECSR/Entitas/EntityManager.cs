@@ -1,20 +1,19 @@
-﻿using Components.Common;
-using Components.Star;
-using Config.Static;
-using Evt;
-using Managers;
-using Managers.Config;
-using Map;
-using Misc;
+﻿
 using Net.Pt;
-using Src.Replays;
+using Synchronize.Game.Lockstep.Config.Static;
+using Synchronize.Game.Lockstep.Ecsr.Components.Common;
+using Synchronize.Game.Lockstep.Ecsr.Components.Star;
+using Synchronize.Game.Lockstep.Managers;
+using Synchronize.Game.Lockstep.MapEditor;
+using Synchronize.Game.Lockstep.Misc;
+using Synchronize.Game.Lockstep.Replays;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using TrueSync;
 using TrueSync.Collision;
 
-namespace  Entitas
+namespace Synchronize.Game.Lockstep.Ecsr.Entitas
 {
     public class EntityManager
     {
@@ -46,13 +45,13 @@ namespace  Entitas
             ModuleManager.GetModule<EntitySpawnModule>().CreateGameObject(new EntitySpawnModule.CreateResourceRequest() { Type = Misc.EntityType.Player, EntityId = entityId, IsSelfPlayerEntity = isSelf, ResourceId = 999 });
             world.SortComponents();
         }
-        public static System.Threading.Tasks.Task CreateMapEntity(EntityWorld world,string mapName)
+        public static System.Threading.Tasks.Task  CreateMapEntity(EntityWorld world,string mapName)
         {
             return Handler.WaitRunCompleteTask((value) => 
             {
                 string mapStringAsset = UnityEngine.Resources.Load<UnityEngine.TextAsset>("Configs/Maps/" + mapName).text;
                 StarGalaxyInfo galaxyInfo = LitJson.JsonMapper.ToObject<StarGalaxyInfo>(mapStringAsset);
-                world.SetMeta(LogicFrameSync.Src.LockStep.Meta.META_KEY_MAPASSET_HASH,ReplayInfo.ComputeHash(mapStringAsset));
+                world.SetMeta(Meta.META_KEY_MAPASSET_HASH,ReplayInfo.ComputeHash(mapStringAsset));
                 if (null != galaxyInfo)
                 {
                     NineBlockBoxCollision nbbCollision = new NineBlockBoxCollision(15, galaxyInfo.MapWidth, galaxyInfo.MapHeight);
@@ -126,9 +125,9 @@ namespace  Entitas
                 Data = 25,
             });
         }
-        public static void CreateMapEntity(EntityWorld world, List<Map.StarObjectInfo> starInfos, List<AsteroidBeltInfo> beltInfos,bool isEditorMode)
+        public static void CreateMapEntity(EntityWorld world, List<Synchronize.Game.Lockstep.MapEditor.StarObjectInfo> starInfos, List<AsteroidBeltInfo> beltInfos,bool isEditorMode)
         {
-            foreach(Map.StarObjectInfo starInfo in starInfos)
+            foreach(Synchronize.Game.Lockstep.MapEditor.StarObjectInfo starInfo in starInfos)
             {
                 var starCfg = ModuleManager.GetModule<ConfigModule>().GetConfig<MapElementCFG>(starInfo.m_ConfigId);
                 world.AddComponent(new GravitationalField((byte)starCfg.Mass, (byte)(5 * starCfg.Diameter)) { EntityId=starInfo.m_EntityId});

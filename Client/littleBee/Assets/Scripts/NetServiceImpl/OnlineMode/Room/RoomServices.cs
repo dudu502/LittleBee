@@ -1,19 +1,18 @@
-﻿using Config;
-using Config.Static;
-using Entitas;
-using Evt;
-using General.Utils;
-using Localization;
-using LogicFrameSync.Src.LockStep;
-using Managers;
-using Managers.Config;
-using Managers.UI;
-using Misc;
+﻿
 using Net;
 using Net.Pt;
 using Net.ServiceImpl;
 using Notify;
 using Proxy;
+using Synchronize.Game.Lockstep;
+using Synchronize.Game.Lockstep.Config.Static;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
+using Synchronize.Game.Lockstep.Evt;
+using Synchronize.Game.Lockstep.Localization;
+using Synchronize.Game.Lockstep.Managers;
+using Synchronize.Game.Lockstep.Managers.UI;
+using Synchronize.Game.Lockstep.Misc;
+using Synchronize.Game.Lockstep.UI;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -179,8 +178,8 @@ namespace NetServiceImpl.OnlineMode.Room
                         SimulationManager.Instance.Start(now);
                         Handler.Run(_ => 
                                 {
-                                    Evt.EventMgr<LoadingPanel.EventType, object>.TriggerEvent(LoadingPanel.EventType.ClosePanel, null);
-                                    Evt.EventMgr<RoomPanel.EventType, object>.TriggerEvent(RoomPanel.EventType.ClosePanel, null);
+                                    EventMgr<LoadingPanel.EventType, object>.TriggerEvent(LoadingPanel.EventType.ClosePanel, null);
+                                    EventMgr<RoomPanel.EventType, object>.TriggerEvent(RoomPanel.EventType.ClosePanel, null);
                                     ModuleManager.GetModule<UIModule>().Push(UITypes.BattlePanel, Layer.Bottom, PlayBattleMode.PlayRealBattle); 
                                 }
                         , null);
@@ -224,8 +223,8 @@ namespace NetServiceImpl.OnlineMode.Room
                     process => TriggerMainThreadEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(32), process)),
                     () => Handler.Run(_ =>
                     {
-                        Evt.EventMgr<LoadingPanel.EventType, object>.TriggerEvent(LoadingPanel.EventType.ClosePanel, null);
-                        Evt.EventMgr<RoomPanel.EventType, object>.TriggerEvent(RoomPanel.EventType.ClosePanel, null);
+                        EventMgr<LoadingPanel.EventType, object>.TriggerEvent(LoadingPanel.EventType.ClosePanel, null);
+                        EventMgr<RoomPanel.EventType, object>.TriggerEvent(RoomPanel.EventType.ClosePanel, null);
                         ModuleManager.GetModule<UIModule>().Push(UITypes.BattlePanel, Layer.Bottom, PlayBattleMode.PlayRealBattle);
                     }
                     , null));

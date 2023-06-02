@@ -2,7 +2,8 @@
 using System;
 using System.Collections.Generic;
 
-namespace LogicFrameSync.Src.LockStep.Behaviours
+
+namespace Synchronize.Game.Lockstep.Behaviours
 {
     public class ReplayLogicFrameBehaviour : ISimulativeBehaviour
     {

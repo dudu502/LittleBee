@@ -1,18 +1,11 @@
 ﻿using System.Reflection.Emit;
-using Config.Static;
-using Entitas;
-using EntitySystems;
-using Evt;
-using LogicFrameSync.Src.LockStep.Behaviours;
-using Managers;
-using Misc;
+
 using Net.Pt;
 using NetServiceImpl;
 using NetServiceImpl.OnlineMode.Gate;
 using NetServiceImpl.OnlineMode.Room;
 using Proxy;
-using Src.Log;
-using Src.Replays;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,9 +15,19 @@ using System.Text;
 using System.Threading.Tasks;
 using UI.Data;
 using UnityEngine;
-using Localization;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
+using Synchronize.Game.Lockstep.Behaviours;
+using Synchronize.Game.Lockstep.Ecsr.Systems;
+using Synchronize.Game.Lockstep.UI;
+using Synchronize.Game.Lockstep.Localization;
+using Synchronize.Game.Lockstep.Managers;
+using Synchronize.Game.Lockstep.Config.Static;
+using Synchronize.Game.Lockstep.Misc;
+using Synchronize.Game.Lockstep.Managers.UI;
+using Synchronize.Game.Lockstep.Replays;
+using Synchronize.Game.Lockstep.Evt;
 
-namespace LogicFrameSync.Src.LockStep
+namespace Synchronize.Game.Lockstep
 {
     public class BattleEntryPoint
     {
@@ -205,10 +208,10 @@ namespace LogicFrameSync.Src.LockStep
         public async static void StartReplay(Simulation replaySim, ReplayInfo replayInfo)
         {
             GameEnvironment.Instance.SetState(GameEnvironment.State.InBattle);
-            ModuleManager.GetModule<UIModule>().Push(Managers.UI.UITypes.LoadingPanel, Layer.Top, new LoadingPanel.LoadingInfo(Language.GetText(27), 0));
+            ModuleManager.GetModule<UIModule>().Push(UITypes.LoadingPanel, Layer.Top, new LoadingPanel.LoadingInfo(Language.GetText(27), 0));
                                  
             replaySim.GetBehaviour<ReplayLogicFrameBehaviour>().SetFrameIdxInfos(replayInfo.Frames);
-            MapIdCFG mapCfg = ModuleManager.GetModule<Managers.Config.ConfigModule>()
+            MapIdCFG mapCfg = ModuleManager.GetModule<ConfigModule>()
                 .GetConfig<MapIdCFG>((int)replayInfo.MapId);
             await EntityManager.CreateMapEntity(replaySim.GetEntityWorld(),mapCfg.ResKey);
             replayInfo.InitEntityIds.ForEach(entityId => 
@@ -216,7 +219,7 @@ namespace LogicFrameSync.Src.LockStep
             EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(28), 1f));   
             await System.Threading.Tasks.Task.Delay(1000);
             ModuleManager.GetModule<UIModule>().Pop( Layer.Top);
-            ModuleManager.GetModule<UIModule>().Push(Managers.UI.UITypes.BattlePanel, Layer.Bottom,PlayBattleMode.PlayReplayBattle); 
+            ModuleManager.GetModule<UIModule>().Push(UITypes.BattlePanel, Layer.Bottom,PlayBattleMode.PlayReplayBattle); 
             
             SimulationManager.Instance.Start(DateTime.Now);
     

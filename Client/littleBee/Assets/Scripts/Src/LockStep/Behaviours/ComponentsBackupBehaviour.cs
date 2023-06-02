@@ -1,9 +1,10 @@
 ﻿
-using LogicFrameSync.Src.LockStep.Frame;
+
 using Net.Pt;
 using NetServiceImpl;
 using NetServiceImpl.OnlineMode.Room;
-using Src.Replays;
+using Synchronize.Game.Lockstep.Behaviours.Frame;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +13,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace LogicFrameSync.Src.LockStep.Behaviours
+
+namespace Synchronize.Game.Lockstep.Behaviours
 {
     /// <summary>
     /// 组件内容备份

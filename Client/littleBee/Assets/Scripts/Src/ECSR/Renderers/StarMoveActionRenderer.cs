@@ -1,5 +1,5 @@
-﻿using Components;
-using Components.Star;
+﻿
+using Synchronize.Game.Lockstep.Ecsr.Components.Star;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using TrueSync;
 using UnityEngine;
 
-namespace Renderers
+namespace Synchronize.Game.Lockstep.Ecsr.Renderer
 {
     public class StarMoveActionRenderer: ActionRenderer
     {

@@ -1,17 +1,20 @@
-﻿using ServerDll.Service.Modules;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Net.ServiceImpl;
 using Net;
 using Net.Pt;
-using Service.Core;
-using Service.Event;
-using RoomServer.Services.Sim;
-using RoomServer.Core.Data;
 using LiteNetLib;
 using System;
 using System.Net;
+using Synchronize.Game.Lockstep.Service.Modules;
+using Synchronize.Game.Lockstep.Service.Core;
+using Synchronize.Game.Lockstep.Evt;
+using Synchronize.Game.Lockstep.Service.Event;
+using Synchronize.Game.Lockstep.Misc;
+using Synchronize.Game.Lockstep.Frame;
+using Synchronize.Game.Lockstep.RoomServer.Core.Data;
+using Synchronize.Game.Lockstep.RoomServer.Services.Sim;
 
-namespace RoomServer.Modules
+namespace Synchronize.Game.Lockstep.RoomServer.Modules
 {
     /// <summary>
     /// Battle module
@@ -22,19 +25,19 @@ namespace RoomServer.Modules
         public BattleModule(BaseApplication app):base(app)
         {
             Session = new BattleSession();
-            Evt.EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.RS_EnterRoom, OnEnterRoom);
-            Evt.EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.RS_InitPlayer, OnInitPlayer);
-            Evt.EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.RS_PlayerReady, OnPlayerReady);
-            Evt.EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.RS_SyncClientKeyframes, OnSyncClientKeyframes);
-            Evt.EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.RS_HistoryKeyframes, OnHistoryKeyframes);
-            Evt.EventMgr<NetActionEvent, NetPeer>.AddListener(NetActionEvent.PeerDisconnectedEvent, OnPeerDisconnectedEvent);
+            EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.RS_EnterRoom, OnEnterRoom);
+            EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.RS_InitPlayer, OnInitPlayer);
+            EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.RS_PlayerReady, OnPlayerReady);
+            EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.RS_SyncClientKeyframes, OnSyncClientKeyframes);
+            EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.RS_HistoryKeyframes, OnHistoryKeyframes);
+            EventMgr<NetActionEvent, NetPeer>.AddListener(NetActionEvent.PeerDisconnectedEvent, OnPeerDisconnectedEvent);
         }
 
         void OnPeerDisconnectedEvent(NetPeer netPeer)
         {
             using (ByteBuffer buffer = new ByteBuffer())
             {
-                UserState userState = Session.FindUserStateByNetPeer(netPeer);
+                UserStateObject userState = Session.FindUserStateByNetPeer(netPeer);
                 if (userState != null && Session.StartupCFG.GsPort!=0)
                 {
                     userState.IsOnline = false;
@@ -63,27 +66,27 @@ namespace RoomServer.Modules
             using(ByteBuffer buffer = new ByteBuffer(evt.Content))
             {                   
                 string name = buffer.ReadString();
-                UserState userState = Session.FindUserStateByUserName(name);
+                UserStateObject userState = Session.FindUserStateByUserName(name);
                 if (userState == null)
                 {
                     Session.InitEntityId++;
-                    Session.DictUsers[Session.InitEntityId] = new UserState(evt.Peer, Misc.UserState.EnteredRoom, name, Session.InitEntityId);
+                    Session.DictUsers[Session.InitEntityId] = new UserStateObject(evt.Peer, UserState.EnteredRoom, name, Session.InitEntityId);
                     bool isFull = Session.DictUsers.Count == Session.StartupCFG.PlayerNumber;
                     BaseApplication.Logger.Log($"OnEnterRoom PlayerNumberNow:{Session.DictUsers.Count} PlayerNumberCFG:{Session.StartupCFG.PlayerNumber} isFull:{isFull} InitEntityId:{Session.InitEntityId}");
                     NetStreamUtil.Send(evt.Peer,
                         PtMessagePackage.Build((ushort)ResponseMessageId.RS_EnterRoom,
                         new ByteBuffer().WriteUInt32(Session.InitEntityId).WriteString(name).WriteString(Session.StartupCFG.Hash).Getbuffer()));
                     if (isFull)
-                        NetStreamUtil.SendToAll(GetNetManager(), PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState, (byte)Misc.UserState.EnteredRoom, Session.StartupCFG.MapId));
+                        NetStreamUtil.SendToAll(GetNetManager(), PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState, (byte)UserState.EnteredRoom, Session.StartupCFG.MapId));
                 }
                 else
                 {
-                    userState.Update(evt.Peer, Misc.UserState.Re_EnteredRoom);
+                    userState.Update(evt.Peer, UserState.Re_EnteredRoom);
                     userState.IsOnline = true;
                     NetStreamUtil.Send(evt.Peer,
                         PtMessagePackage.Build((ushort)ResponseMessageId.RS_EnterRoom,
                         new ByteBuffer().WriteUInt32(userState.EntityId).WriteString(name).WriteString(Session.StartupCFG.Hash).Getbuffer()));                    
-                    NetStreamUtil.SendToAll(GetNetManager(),PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState,(byte)Misc.UserState.Re_EnteredRoom, Session.StartupCFG.MapId,name));
+                    NetStreamUtil.SendToAll(GetNetManager(),PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState,(byte)UserState.Re_EnteredRoom, Session.StartupCFG.MapId,name));
                 }
             }
         }
@@ -110,16 +113,16 @@ namespace RoomServer.Modules
         {
             using (ByteBuffer buffer = new ByteBuffer(evt.Content))
             {
-                UserState user = Session.DictUsers[buffer.ReadUInt32()];
+                UserStateObject user = Session.DictUsers[buffer.ReadUInt32()];
                 switch (user.StateFlag)
                 {
-                    case Misc.UserState.EnteredRoom:
-                        user.Update(evt.Peer, Misc.UserState.BeReadyToEnterScene);
+                    case UserState.EnteredRoom:
+                        user.Update(evt.Peer, UserState.BeReadyToEnterScene);
                         bool allReady = true;
                         BaseApplication.Logger.Log("OnRequestPlayerReady PeerId:" + evt.Peer.Id);
-                        foreach (UserState userState in Session.DictUsers.Values)
+                        foreach (UserStateObject userState in Session.DictUsers.Values)
                         {
-                            allReady &= (userState.StateFlag == Misc.UserState.BeReadyToEnterScene);
+                            allReady &= (userState.StateFlag == UserState.BeReadyToEnterScene);
                             BaseApplication.Logger.Log("UserState.StateFlag == UserState.State.ReadyForInit:userStateId" + userState.NetPeer.Id + " state:" + (userState.StateFlag));
                         }
                         BaseApplication.Logger.Log("OnPlayerReady allReady :" + allReady + " PlayerNumber:" + Session.DictUsers.Count);
@@ -127,16 +130,16 @@ namespace RoomServer.Modules
                         {
                             List<uint> userEntityIds = new List<uint>(Session.DictUsers.Keys);
                             userEntityIds.Sort((a, b) => a.CompareTo(b));
-                            NetStreamUtil.SendToAll(GetNetManager(), PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState, (byte)Misc.UserState.BeReadyToEnterScene, PtUInt32List.Write(new PtUInt32List().SetElements(userEntityIds))));
-                            SimulationManager.Instance.Start();
+                            NetStreamUtil.SendToAll(GetNetManager(), PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState, (byte)UserState.BeReadyToEnterScene, PtUInt32List.Write(new PtUInt32List().SetElements(userEntityIds))));
+                            Synchronize.Game.Lockstep.RoomServer.Services.Sim.SimulationManager.Instance.Start();
                             BaseApplication.Logger.Log("Start Simulation.");
                         }
                         break;
-                    case Misc.UserState.Re_EnteredRoom:
-                        user.Update(evt.Peer, Misc.UserState.Re_BeReadyToEnterScene);
+                    case UserState.Re_EnteredRoom:
+                        user.Update(evt.Peer, UserState.Re_BeReadyToEnterScene);
                         List<uint> newuserEntityIds = new List<uint>(Session.DictUsers.Keys);
                         newuserEntityIds.Sort((a, b) => a.CompareTo(b));
-                        NetStreamUtil.SendToAll(GetNetManager(), PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState,(byte)Misc.UserState.Re_BeReadyToEnterScene,user.UserName, PtUInt32List.Write(new PtUInt32List().SetElements(newuserEntityIds))));
+                        NetStreamUtil.SendToAll(GetNetManager(), PtMessagePackage.BuildParams((ushort)ResponseMessageId.RS_AllUserState,(byte)UserState.Re_BeReadyToEnterScene,user.UserName, PtUInt32List.Write(new PtUInt32List().SetElements(newuserEntityIds))));
                         break;
                     default:
                         break;
@@ -179,10 +182,10 @@ namespace RoomServer.Modules
             {
                 switch(keyFrame.Cmd)
                 {
-                    case Frame.FrameCommand.SYNC_CREATE_ENTITY:
+                    case FrameCommand.SYNC_CREATE_ENTITY:
                         keyFrame.ParamsContent = AppendEntityIdParamsContent(keyFrame.ParamsContent);
                         break;
-                    case Frame.FrameCommand.SYNC_MOVE:
+                    case FrameCommand.SYNC_MOVE:
                         break;
                     default:
                         BaseApplication.Logger.Log("OnSyncClientKeyframes.KeyFrameCMD TODO"+keyFrame.Cmd);
@@ -193,7 +196,7 @@ namespace RoomServer.Modules
         }
         byte[] AppendEntityIdParamsContent(byte[] content)
         {
-            Misc.EntityType type = (Misc.EntityType)content[0];
+            EntityType type = (EntityType)content[0];
             using(ByteBuffer buffer = new ByteBuffer())
             {
                 return buffer.WriteByte(content[0]).WriteUInt32(Session.EntityTypeUids[type]++).Getbuffer();

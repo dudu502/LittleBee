@@ -9,8 +9,7 @@
       "RoomServer/1.0.0": {
         "dependencies": {
           "ConsoleLogger": "1.0.0.0",
-          "General": "1.0.0.0",
-          "ServerDll": "1.0.0.0"
+          "General": "1.0.0.0"
         },
         "runtime": {
           "RoomServer.dll": {}
@@ -39,14 +38,6 @@
             "fileVersion": "1.0.0.0"
           }
         }
-      },
-      "LitJson/0.7.0.0": {
-        "runtime": {
-          "LitJson.dll": {
-            "assemblyVersion": "0.7.0.0",
-            "fileVersion": "0.7.0.0"
-          }
-        }
       }
     }
   },
@@ -67,11 +58,6 @@
       "sha512": ""
     },
     "ServerDll/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "LitJson/0.7.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

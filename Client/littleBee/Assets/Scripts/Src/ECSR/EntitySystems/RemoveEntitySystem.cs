@@ -1,14 +1,13 @@
-﻿using Components;
-using Components.Common;
-using Entitas;
+﻿
+using Synchronize.Game.Lockstep.Ecsr.Components.Common;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.Collections;
-
-namespace EntitySystems
+namespace Synchronize.Game.Lockstep.Ecsr.Systems
 {
     public class RemoveEntitySystem : IEntitySystem
     {        

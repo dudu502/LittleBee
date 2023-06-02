@@ -1,10 +1,11 @@
-﻿using Entitas;
-using LogicFrameSync.Src.LockStep.Behaviours;
+﻿
+using Synchronize.Game.Lockstep.Behaviours;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
-namespace LogicFrameSync.Src.LockStep
+namespace Synchronize.Game.Lockstep
 {
     /// <summary>
     /// 模拟器

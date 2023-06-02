@@ -1,9 +1,10 @@
-﻿using Components.Common;
-using Entitas;
-using LogicFrameSync.Src.LockStep;
+﻿
 using NetServiceImpl;
 using NetServiceImpl.OnlineMode.Room;
 using ObjectPool.Common;
+using Synchronize.Game.Lockstep;
+using Synchronize.Game.Lockstep.Ecsr.Components.Common;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
 using System.Collections;
 using System.Collections.Generic;
 using TrueSync;
@@ -67,8 +68,8 @@ public class Hud : MonoBehaviour
             }
 
 
-            Components.Common.Transform2D com_Pos = World.GetComponentByEntityId<Components.Common.Transform2D>(hudInfo.EntityId);
-            Components.Common.Movement2D com_Move = World.GetComponentByEntityId<Components.Common.Movement2D>(hudInfo.EntityId);
+            Transform2D com_Pos = World.GetComponentByEntityId<Transform2D>(hudInfo.EntityId);
+            Movement2D com_Move = World.GetComponentByEntityId<Movement2D>(hudInfo.EntityId);
             if (com_Pos != null)
             {
                 var dir = com_Pos.Toward;

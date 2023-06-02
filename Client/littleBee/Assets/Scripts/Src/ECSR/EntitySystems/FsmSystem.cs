@@ -1,8 +1,8 @@
-﻿using Components.Common;
-using Entitas;
-using System.Collections.Generic;
+﻿
+using Synchronize.Game.Lockstep.Ecsr.Components.Common;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
 
-namespace EntitySystems
+namespace Synchronize.Game.Lockstep.Ecsr.Systems
 {
     /// <summary>
     /// 有限状态机系统

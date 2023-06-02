@@ -1,6 +1,7 @@
-﻿using Frame;
+﻿
+using Synchronize.Game.Lockstep.Frame;
 
-namespace LogicFrameSync.Src.LockStep.Behaviours.Data
+namespace Synchronize.Game.Lockstep.Behaviours.Data
 {
     public class FunctionButtonInputRecord : IInputRecord
     {

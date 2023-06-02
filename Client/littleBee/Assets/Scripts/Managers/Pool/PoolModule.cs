@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Managers
+namespace Synchronize.Game.Lockstep.Managers
 {	
     public class PoolModule :MonoBehaviour, IModule
     {

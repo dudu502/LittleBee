@@ -1,4 +1,5 @@
-﻿using Misc;
+﻿
+using Synchronize.Game.Lockstep.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrueSync;
 
-namespace  Components.Common
+namespace Synchronize.Game.Lockstep.Ecsr.Components.Common
 {
     public class Defence:AbstractComponent
     {

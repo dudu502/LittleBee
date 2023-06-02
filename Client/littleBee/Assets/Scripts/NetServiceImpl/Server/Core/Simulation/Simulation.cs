@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RoomServer.Services.Sim
+namespace Synchronize.Game.Lockstep.RoomServer.Services.Sim
 {
     /// <summary>
     /// 模拟器

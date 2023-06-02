@@ -1,13 +1,9 @@
-﻿using Frame;
-using LogicFrameSync.Src.LockStep.Frame;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Synchronize.Game.Lockstep.Frame;
 using TrueSync;
 
-namespace LogicFrameSync.Src.LockStep.Behaviours.Data
+
+namespace Synchronize.Game.Lockstep.Behaviours.Data
 {
     public class JoystickMovementInputRecord : IInputRecord
     {

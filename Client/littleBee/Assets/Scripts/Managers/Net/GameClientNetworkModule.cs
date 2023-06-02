@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Managers.Net
+namespace Synchronize.Game.Lockstep.Managers
 {
     public class GameClientNetworkModule : IModule
     {

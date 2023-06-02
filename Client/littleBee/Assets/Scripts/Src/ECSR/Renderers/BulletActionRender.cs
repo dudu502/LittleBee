@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Components;
-using LogicFrameSync.Src.LockStep;
 using TrueSync;
-using Managers;
-using Misc;
+using Synchronize.Game.Lockstep.Managers;
 
-namespace Renderers
+namespace Synchronize.Game.Lockstep.Ecsr.Renderer
 {
     public class BulletActionRender : ActionRenderer
     {

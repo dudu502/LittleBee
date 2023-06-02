@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using LogicFrameSync.Src.LockStep;
-using Components.Star;
-using Components;
-using Map;
+
 using TrueSync.Collision;
 using TrueSync;
-using Components.Physics.Colliders;
+using Synchronize.Game.Lockstep.Config.Static;
+using Synchronize.Game.Lockstep.MapEditor;
+using Synchronize.Game.Lockstep;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
+using Synchronize.Game.Lockstep.Ecsr.Components.Common;
 
 /// <summary>
 /// 四叉树可视化调试
@@ -18,13 +19,13 @@ public class CollisionViewDebug : MonoBehaviour
     public float m_VisualLinethickness = 0.51f;
     public TextAsset m_TxtMapConfig;
     public TextAsset m_TxtMapSource;
-    List<Config.Static.MapElementCFG> mapElementsConfigs;
+    List<MapElementCFG> mapElementsConfigs;
     StarGalaxyInfo galaxyInfo;
    
     // Use this for initialization
     void Start()
     {
-        mapElementsConfigs = LitJson.JsonMapper.ToObject<List<Config.Static.MapElementCFG>>(m_TxtMapConfig.text);
+        mapElementsConfigs = LitJson.JsonMapper.ToObject<List<MapElementCFG>>(m_TxtMapConfig.text);
         galaxyInfo = LitJson.JsonMapper.ToObject<StarGalaxyInfo>(m_TxtMapSource.text);   
     }
 
@@ -43,9 +44,9 @@ public class CollisionViewDebug : MonoBehaviour
             var world = simulation.GetEntityWorld();
             if (world != null)
             {
-                lock (Entitas.EntityWorld.SyncRoot)
+                lock (EntityWorld.SyncRoot)
                 {
-                    world.ForEachComponent<Components.Common.Transform2D>(transform =>
+                    world.ForEachComponent<Transform2D>(transform =>
                     {
                         Gizmos.DrawWireSphere(new Vector3(transform.Position.x.AsFloat(), 0, transform.Position.y.AsFloat()), transform.Radius.AsFloat());
                     });

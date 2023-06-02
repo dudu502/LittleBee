@@ -1,5 +1,5 @@
 ﻿
-namespace RoomServer.Services.Sim
+namespace Synchronize.Game.Lockstep.RoomServer.Services.Sim
 {
     /// <summary>
     /// 模拟器行为接口

@@ -1,11 +1,13 @@
-﻿using LogicFrameSync.Src.LockStep;
+﻿
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Src.Log
+
+namespace Synchronize.Game.Lockstep.Logger
 {
     /// <summary>
     /// Logger

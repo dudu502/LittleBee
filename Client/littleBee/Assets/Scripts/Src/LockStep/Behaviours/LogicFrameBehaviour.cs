@@ -2,12 +2,11 @@
 using Net.Pt;
 using NetServiceImpl;
 using NetServiceImpl.OnlineMode.Room;
-using Src.Replays;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LogicFrameSync.Src.LockStep.Behaviours
+namespace Synchronize.Game.Lockstep.Behaviours
 {
     public class LogicFrameBehaviour : ISimulativeBehaviour
     {

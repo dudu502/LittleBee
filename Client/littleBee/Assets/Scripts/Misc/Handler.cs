@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-
-namespace Misc
+namespace Synchronize.Game.Lockstep.Misc
 {
     public class Handler
     {

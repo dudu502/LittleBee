@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
-namespace Managers
+namespace Synchronize.Game.Lockstep.Managers
 {
 	public class ObjectInstance
 	{

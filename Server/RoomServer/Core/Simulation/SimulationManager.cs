@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
-namespace RoomServer.Services.Sim
+namespace Synchronize.Game.Lockstep.RoomServer.Services.Sim
 {
     public class SimulationManager
     {

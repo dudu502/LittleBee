@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RoomServer.Core.Data
+namespace Synchronize.Game.Lockstep.RoomServer.Core.Data
 {
     public class StartupConfig
     {

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Synchronize.Game.Lockstep.Evt;
+using Synchronize.Game.Lockstep.Logger;
+using Synchronize.Game.Lockstep.Misc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +14,7 @@ namespace NetServiceImpl
         protected ILogger logger;
         public ClientService():base()
         {
-            logger = new Logger.UnityEnvLogger("Client");
+            logger = new UnityEnvLogger("Client");
             Init();
         }
         public virtual void Reset()
@@ -24,7 +27,7 @@ namespace NetServiceImpl
         }
         protected void TriggerMainThreadEvent<T,P>(T type,P paramObj)
         {
-            Misc.Handler.Run((item) => { Evt.EventMgr<T, P>.TriggerEvent(type, paramObj); }, null);
+            Handler.Run((item) => { EventMgr<T, P>.TriggerEvent(type, paramObj); }, null);
         }
         private static Dictionary<Type, ClientService> s_DictServices = new Dictionary<Type, ClientService>();
       

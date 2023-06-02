@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace Misc
+namespace Synchronize.Game.Lockstep.Misc
 {
     public static class Extends
     {

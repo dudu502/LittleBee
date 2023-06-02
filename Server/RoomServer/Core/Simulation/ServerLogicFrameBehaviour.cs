@@ -1,9 +1,9 @@
-﻿using Net.Pt;
-using RoomServer.Modules;
-
+﻿
+using Synchronize.Game.Lockstep.RoomServer.Modules;
+using Synchronize.Game.Lockstep.Service.Modules;
 using System.Collections.Generic;
 
-namespace RoomServer.Services.Sim
+namespace Synchronize.Game.Lockstep.RoomServer.Services.Sim
 {
     public class ServerLogicFrameBehaviour : ISimulativeBehaviour
     {
@@ -20,7 +20,7 @@ namespace RoomServer.Services.Sim
         }
         public void Start()
         {
-            battleModule = ServerDll.Service.Modules.Service.GetModule<BattleModule>();
+            battleModule = BaseModule.GetModule<BattleModule>();
             m_CurrentFrameIdx = -1;
         }
 

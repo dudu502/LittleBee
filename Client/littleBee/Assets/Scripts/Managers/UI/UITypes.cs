@@ -1,4 +1,4 @@
-﻿namespace Managers.UI
+﻿namespace Synchronize.Game.Lockstep.Managers.UI
 {
     public class UITypes
     {

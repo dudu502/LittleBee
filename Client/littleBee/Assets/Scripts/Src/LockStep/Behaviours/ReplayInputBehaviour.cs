@@ -1,12 +1,12 @@
 ﻿
-using Components;
-using Components.Common;
-using Frame;
-using LogicFrameSync.Src.LockStep.Frame;
 using Net.Pt;
+using Synchronize.Game.Lockstep.Ecsr.Components.Common;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
+using Synchronize.Game.Lockstep.Frame;
 using System.Collections.Generic;
 using UnityEngine;
-namespace LogicFrameSync.Src.LockStep.Behaviours
+
+namespace Synchronize.Game.Lockstep.Behaviours
 {
     /// <summary>
     /// Replay的输入
@@ -49,7 +49,7 @@ namespace LogicFrameSync.Src.LockStep.Behaviours
                             break;
                         case FrameCommand.SYNC_CREATE_ENTITY:
                             //Sim.GetEntityWorld().NotifyCreateEntity(info);
-                            Entitas.EntityManager.CreateEntityBySyncFrame(Sim.GetEntityWorld(), info);
+                            EntityManager.CreateEntityBySyncFrame(Sim.GetEntityWorld(), info);
                             break;
                     }
                 }

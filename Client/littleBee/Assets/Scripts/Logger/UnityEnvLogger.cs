@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logger
+namespace Synchronize.Game.Lockstep.Logger
 {
     public class UnityEnvLogger : ILogger
     {

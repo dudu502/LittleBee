@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
-using Entitas;
-using LogicFrameSync.Src.LockStep;
 using System;
 using System.Threading;
 
-namespace Renderers
+namespace Synchronize.Game.Lockstep.Ecsr.Renderer
 {
     /// <summary>
     /// 动作变化渲染

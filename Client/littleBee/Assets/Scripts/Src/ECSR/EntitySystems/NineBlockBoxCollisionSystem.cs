@@ -1,11 +1,9 @@
-﻿using Components;
-using Components.Common;
-using Components.Star;
-using Entitas;
+﻿using Synchronize.Game.Lockstep.Ecsr.Components.Common;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
 using TrueSync;
 using TrueSync.Collision;
 
-namespace EntitySystems
+namespace Synchronize.Game.Lockstep.Ecsr.Systems
 {
     public class NineBlockBoxCollisionSystem : IEntitySystem
     {

@@ -1,13 +1,14 @@
-﻿using Components;
-using Frame;
-using LogicFrameSync.Src.LockStep;
+﻿
 using Net.Pt;
+using Synchronize.Game.Lockstep.Ecsr.Components;
+using Synchronize.Game.Lockstep.Frame;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TrueSync.Collision;
 
-namespace Entitas
+
+namespace Synchronize.Game.Lockstep.Ecsr.Entitas
 {
     public class EntityWorld
     {

@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using Localization;
+
 using NetServiceImpl.OnlineMode.Gate;
 using NetServiceImpl;
-using Misc;
+using Synchronize.Game.Lockstep.Localization;
+using Synchronize.Game.Lockstep.Misc;
+
 public class RoomPlayerItem : DynamicInfinityItem, ILanguageApplicable
 {
     static Color[] Colors = new Color[] {

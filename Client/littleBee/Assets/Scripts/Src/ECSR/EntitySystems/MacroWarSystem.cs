@@ -1,8 +1,9 @@
-﻿using Components.Common;
-using Entitas;
+﻿
+using Synchronize.Game.Lockstep.Ecsr.Components.Common;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
 using TrueSync;
 
-namespace EntitySystems
+namespace Synchronize.Game.Lockstep.Ecsr.Systems
 {
     /// <summary>
     /// 宏观层面战争系统
@@ -12,6 +13,7 @@ namespace EntitySystems
     public class MacroWarSystem : IEntitySystem
     {
         public EntityWorld World { set; get; }
+     
         public void Execute()
         {
             World.ForEachComponent<Bullet>(bullet =>

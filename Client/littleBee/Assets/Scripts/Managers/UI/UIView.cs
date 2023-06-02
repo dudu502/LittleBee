@@ -7,7 +7,7 @@ using UnityEngine;
 using DG.Tweening;
 using System.Collections;
 
-namespace Managers.UI
+namespace Synchronize.Game.Lockstep.Managers.UI
 {
     public class UIView:MonoBehaviour
     {

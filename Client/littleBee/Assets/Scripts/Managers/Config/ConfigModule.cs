@@ -1,5 +1,6 @@
-﻿using Config.Static;
-using Config.Static.Interface;
+﻿
+using Synchronize.Game.Lockstep.Config.Static;
+using Synchronize.Game.Lockstep.Config.Static.Interface;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace  Managers.Config
+namespace Synchronize.Game.Lockstep.Managers
 {
     public class ConfigModule : IModule
     {

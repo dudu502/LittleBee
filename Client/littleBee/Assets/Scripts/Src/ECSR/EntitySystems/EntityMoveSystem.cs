@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Components;
-using Components.Common;
-using Entitas;
+﻿using Synchronize.Game.Lockstep.Ecsr.Components.Common;
+using Synchronize.Game.Lockstep.Ecsr.Entitas;
+using System.Collections.Generic;
 using TrueSync;
 using Unity.Mathematics;
 
-namespace EntitySystems
+namespace Synchronize.Game.Lockstep.Ecsr.Systems
 {
     /// <summary>
     /// 移动系统 执行所有MoveComponent
@@ -13,6 +12,7 @@ namespace EntitySystems
     public class EntityMoveSystem : IEntitySystem
     {
         public EntityWorld World { set; get; }
+        
         public void Execute() 
         {
             World.ForEachComponent<Movement2D>(Move);

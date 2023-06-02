@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.Events;
 
-namespace Managers
+namespace Synchronize.Game.Lockstep.Managers
 {
     public class PoolObject : MonoBehaviour
     {

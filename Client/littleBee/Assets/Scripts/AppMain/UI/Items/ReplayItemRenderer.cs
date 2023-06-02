@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using UnityEngine.EventSystems;
-using Misc;
 using System.Threading.Tasks;
+using Synchronize.Game.Lockstep.Replays;
 
 public class ReplayItemRenderer : DynamicInfinityItem
 {
@@ -18,15 +18,15 @@ public class ReplayItemRenderer : DynamicInfinityItem
 
         private byte[] replayBinaryBytes;
 
-        private Src.Replays.ReplayInfo replayInfo;
+        private ReplayInfo replayInfo;
 
-        public async Task<Src.Replays.ReplayInfo> GetReplayInfoAsync()
+        public async Task<ReplayInfo> GetReplayInfoAsync()
         {
             if(replayInfo == null)
             {
                 if (replayBinaryBytes == null)
                     replayBinaryBytes = await System.Threading.Tasks.Task.Run(()=>File.ReadAllBytes(ReplayFileFullPath));
-                replayInfo = await Src.Replays.ReplayInfo.Read(replayBinaryBytes);
+                replayInfo = await ReplayInfo.Read(replayBinaryBytes);
             }
             return replayInfo;
         }

@@ -1,5 +1,8 @@
-﻿using Logger;
-using RoomServer.Services;
+﻿
+using Synchronize.Game.Lockstep.Logger;
+using Synchronize.Game.Lockstep.RoomServer.Modules;
+using Synchronize.Game.Lockstep.RoomServer.Services;
+using Synchronize.Game.Lockstep.Service.Modules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +25,11 @@ namespace NetServiceImpl.Server
             RoomApplication.Logger = logger;
             roomApplication = new RoomApplication(key);
             roomApplication.StartServer(port);
-            ServerDll.Service.Modules.Service.GetModule<RoomServer.Modules.BattleModule>().InitStartup(mapId, playerNumber, 0, roomApplication.GetHashCode().ToString());
+            BaseModule.GetModule<BattleModule>().InitStartup(mapId, playerNumber, 0, roomApplication.GetHashCode().ToString());
         }
         public static void Stop()
         {
-            ServerDll.Service.Modules.Service.RemoveAllModule();
+            BaseModule.RemoveAllModules();
             if (roomApplication!=null)
             {
                 roomApplication.ShutDown();

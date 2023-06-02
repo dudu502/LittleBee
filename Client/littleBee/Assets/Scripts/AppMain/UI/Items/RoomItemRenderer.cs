@@ -4,8 +4,8 @@ using UnityEngine.UI;
 using NetServiceImpl;
 using NetServiceImpl.OnlineMode.Gate;
 using Proxy;
-using Localization;
-using Misc;
+using Synchronize.Game.Lockstep.Localization;
+using Synchronize.Game.Lockstep.Misc;
 
 public class RoomItemRenderer : DynamicInfinityItem, ILanguageApplicable
 {
