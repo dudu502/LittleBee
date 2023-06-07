@@ -10,12 +10,11 @@ using Synchronize.Game.Lockstep.Misc;
 public class RoomItemRenderer : DynamicInfinityItem
 {
     public Image m_ImageMap;
-    public Text m_TxtRoomName;
+    public TMPro.TMP_Text m_TxtRoomName;
     public Button m_Btn;
     // Use this for initialization
     void Start()
     {
-        ApplyLocalizedLanguage();
         m_Btn.onClick.AddListener(() =>
         {
             if (OnSelectHandler != null)
@@ -36,10 +35,5 @@ public class RoomItemRenderer : DynamicInfinityItem
                 m_TxtRoomName.text = ptPlayer.NickName + $" (...)";
         }
 
-    }
-
-    public void ApplyLocalizedLanguage()
-    {
-        //m_Btn.SetButtonText(Language.GetText(10));
     }
 }

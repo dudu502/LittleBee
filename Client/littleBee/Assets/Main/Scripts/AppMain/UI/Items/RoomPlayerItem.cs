@@ -6,6 +6,7 @@ using NetServiceImpl.OnlineMode.Gate;
 using NetServiceImpl;
 using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Misc;
+using TMPro;
 
 public class RoomPlayerItem : DynamicInfinityItem
 {
@@ -27,7 +28,7 @@ public class RoomPlayerItem : DynamicInfinityItem
         Color.Lerp(Color.yellow,Color.blue,0.7f),
         Color.Lerp(Color.blue,Color.yellow,0.7f),
     };
-    public Text m_TxtName;
+    public TMP_Text m_TxtName;
     public Button m_BtnColor;
     public Button m_BtnTeam;
     int teamId=1;
@@ -36,7 +37,6 @@ public class RoomPlayerItem : DynamicInfinityItem
     {
         m_BtnColor.onClick.AddListener(OnChangeColor);
         m_BtnTeam.onClick.AddListener(OnChangeTeam);
-        ApplyLocalizedLanguage();
     }
     void OnChangeColor()
     {
@@ -65,15 +65,5 @@ public class RoomPlayerItem : DynamicInfinityItem
             m_BtnColor.GetComponent<Image>().color = Colors[player.Color];
         else
             m_BtnColor.GetComponent<Image>().color = Color.black;
-    }
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void ApplyLocalizedLanguage()
-    {
-       // m_BtnTeam.SetButtonText(Language.GetText(12));
     }
 }

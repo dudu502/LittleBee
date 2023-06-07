@@ -13,22 +13,16 @@ namespace Synchronize.Game.Lockstep.UI
 {
     public class SettingPanel : UIView
     {
-        public Text m_TxtTitle;
+        public TMPro.TMP_Text m_TxtTitle;
         public Button m_BtnBack;
         public Button m_BtnSave;
         public UserSettingItem[] m_SettingLists;
         public Transform m_SettngContentTransform;
-        public void ApplyLocalizedLanguage()
-        {
-            //m_TxtTitle.text = Language.GetText(4);
-            //m_BtnBack.SetButtonText(Language.GetText(5));
-            //m_BtnSave.SetButtonText(Language.GetText(37));
-        }
+
 
         public override void OnInit()
         {
             base.OnInit();
-            ApplyLocalizedLanguage();
             m_BtnBack.onClick.AddListener(() =>
             {
                 ModuleManager.GetModule<UIModule>().Pop(Layer.Bottom);
@@ -85,10 +79,6 @@ namespace Synchronize.Game.Lockstep.UI
             UserSettingMgr.SettingList = settingDatas;
             ToastRoot.Instance.ShowToast(Localization.Localization.GetTranslation("Saved successfully"));
         }
-        // Update is called once per frame
-        void Update()
-        {
 
-        }
     }
 }

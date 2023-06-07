@@ -41,8 +41,8 @@ public class ReplayItemRenderer : DynamicInfinityItem
         }
     }
     public Image m_ImgBg;
-    public Text m_TxtReplayName;
-    public Text m_TxtReplayCreationDate;
+    public TMPro.TMP_Text m_TxtReplayName;
+    public TMPro.TMP_Text m_TxtReplayCreationDate;
 
     // Start is called before the first frame update
     void Start()

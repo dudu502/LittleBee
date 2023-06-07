@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using UI.Data;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,13 +11,13 @@ namespace UI.Items
 {
     public class UserSettingItem:MonoBehaviour
     {
-        private InputField m_InputValue;
-        private Text m_TxtTitle;
+        private TMP_InputField m_InputValue;
+        private TMP_Text m_TxtTitle;
         private UserSettingData m_UserSettingData;
         private void Awake()
         {
-            m_TxtTitle = transform.Find("Title").GetComponent<Text>();
-            m_InputValue = transform.Find("InputField").GetComponent<InputField>();
+            m_TxtTitle = transform.Find("Title").GetComponent<TMP_Text>();
+            m_InputValue = transform.Find("InputField").GetComponent<TMP_InputField>();
             m_InputValue.onValueChanged.AddListener((value) => m_UserSettingData.m_SettingValue = value);
         }
         public void SetSettingData(UserSettingData userSettingData)

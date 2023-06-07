@@ -18,19 +18,16 @@ namespace Synchronize.Game.Lockstep.UI
 {
     public class ReplaysPanel : UIView
     {
-        public Text m_TxtTitle;
+        public TMPro.TMP_Text m_TxtTitle;
         public Button m_BtnBack;
         public Button m_BtnPlayReplay;
         public DynamicInfinityListRenderer m_DlReplaysListRender;
-        public InputField m_InputRename;
-        public Text m_TxtRenameLabel;
+        public TMPro.TMP_InputField m_InputRename;
         public Button m_BtnRename;
 
-        public Text m_TxtSizeLabel;
-        public Text m_TxtSize;
+        public TMPro.TMP_Text m_TxtSize;
 
-        public Text m_TxtLengthLabel;
-        public Text m_TxtLength;
+        public TMPro.TMP_Text m_TxtLength;
         public override void OnInit()
         {
             base.OnInit();
