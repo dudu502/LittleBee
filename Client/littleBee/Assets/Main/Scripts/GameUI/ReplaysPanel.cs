@@ -16,7 +16,7 @@ using Synchronize.Game.Lockstep.Misc;
 
 namespace Synchronize.Game.Lockstep.UI
 {
-    public class ReplaysPanel : UIView, ILanguageApplicable
+    public class ReplaysPanel : UIView
     {
         public Text m_TxtTitle;
         public Button m_BtnBack;
@@ -39,7 +39,6 @@ namespace Synchronize.Game.Lockstep.UI
             m_DlReplaysListRender.InitRendererList(null, null, OnReplayItemEvent);
             m_BtnRename.onClick.AddListener(OnClickRename);
             LoadReplays();
-            ApplyLocalizedLanguage();
         }
         override public void OnResume()
         {
@@ -91,7 +90,7 @@ namespace Synchronize.Game.Lockstep.UI
             string fileName = m_InputRename.text;
             if (string.IsNullOrEmpty(fileName))
             {
-                ToastRoot.Instance.ShowToast(Language.GetText(46));
+                ToastRoot.Instance.ShowToast(Localization.Localization.GetTranslation("Name cannot be empty"));
             }
             else
             {
@@ -99,7 +98,7 @@ namespace Synchronize.Game.Lockstep.UI
                 {
                     if (item.GetFileNameWithoutExtension() == fileName)
                     {
-                        ToastRoot.Instance.ShowToast(Language.GetText(42));
+                        ToastRoot.Instance.ShowToast(Localization.Localization.GetTranslation("Please try again"));
                         return;
                     }
                 }
@@ -110,7 +109,7 @@ namespace Synchronize.Game.Lockstep.UI
                         string newPathName = Path.Combine(Path.GetDirectoryName(data.ReplayFileFullPath), fileName + Const.EXTENSION_TYPE_REPLAY);
                         File.Move(data.ReplayFileFullPath, newPathName);
                         data.ReplayFileFullPath = newPathName;
-                        ToastRoot.Instance.ShowToast(Language.GetText(43));
+                        ToastRoot.Instance.ShowToast(Localization.Localization.GetTranslation("Rename succeeded"));
                         break;
                     }
                 }
@@ -142,15 +141,6 @@ namespace Synchronize.Game.Lockstep.UI
             m_InputRename.onValueChanged.RemoveAllListeners();
             m_BtnRename.onClick.RemoveAllListeners();
 
-        }
-        public void ApplyLocalizedLanguage()
-        {
-            m_TxtTitle.text = Language.GetText(25);
-            m_BtnBack.SetButtonText(Language.GetText(5));
-            m_BtnPlayReplay.SetButtonText(Language.GetText(24));
-            m_TxtRenameLabel.text = Language.GetText(33);
-            m_TxtSizeLabel.text = Language.GetText(34);
-            m_TxtLengthLabel.text = Language.GetText(35);
         }
     }
 }

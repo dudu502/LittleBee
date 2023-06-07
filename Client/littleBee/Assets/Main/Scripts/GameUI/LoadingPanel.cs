@@ -8,7 +8,7 @@ using Synchronize.Game.Lockstep.Evt;
 
 namespace Synchronize.Game.Lockstep.UI
 {
-    public class LoadingPanel : UIView, ILanguageApplicable
+    public class LoadingPanel : UIView
     {
         public class LoadingInfo
         {
@@ -26,7 +26,7 @@ namespace Synchronize.Game.Lockstep.UI
             ClosePanel,
         }
 
-        public Text m_TextLoadingHint;
+        public TMPro.TMP_Text m_TextLoadingHint;
         public Image m_ImgLoadingAsset;
         private LoadingInfo _loading;
         void Awake()

@@ -27,6 +27,7 @@ using Synchronize.Game.Lockstep.Managers.UI;
 using Synchronize.Game.Lockstep.Replays;
 using Synchronize.Game.Lockstep.Evt;
 using Synchronize.Game.Lockstep.Net;
+using Synchronize.Game.Lockstep.Notification;
 
 namespace Synchronize.Game.Lockstep
 {
@@ -102,8 +103,8 @@ namespace Synchronize.Game.Lockstep
         {
             GameEnvironment.Instance.SetState(GameEnvironment.State.InBattle);
             ConnectRoom(ip, ptLaunchGameData);
-            EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(29), 0.75f));          
-            EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(30), 0.9f));
+            EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Localization.Localization.GetTranslation("Connecting to Room Server"), 0.75f));          
+            EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Localization.Localization.GetTranslation("Initializing"), 0.9f));
         }
         
 
@@ -209,7 +210,7 @@ namespace Synchronize.Game.Lockstep
         public async static void StartReplay(Simulation replaySim, ReplayInfo replayInfo)
         {
             GameEnvironment.Instance.SetState(GameEnvironment.State.InBattle);
-            ModuleManager.GetModule<UIModule>().Push(UITypes.LoadingPanel, Layer.Top, new LoadingPanel.LoadingInfo(Language.GetText(27), 0));
+            ModuleManager.GetModule<UIModule>().Push(UITypes.LoadingPanel, Layer.Top, new LoadingPanel.LoadingInfo(Localization.Localization.GetTranslation("Loading"), 0));
                                  
             replaySim.GetBehaviour<ReplayLogicFrameBehaviour>().SetFrameIdxInfos(replayInfo.Frames);
             MapIdCFG mapCfg = ModuleManager.GetModule<ConfigModule>()
@@ -217,7 +218,7 @@ namespace Synchronize.Game.Lockstep
             await EntityManager.CreateMapEntity(replaySim.GetEntityWorld(),mapCfg.ResKey);
             replayInfo.InitEntityIds.ForEach(entityId => 
                 EntityManager.CreatePlayerEntity(replaySim.GetEntityWorld(),entityId,false));
-            EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(28), 1f));   
+            EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Localization.Localization.GetTranslation("Load complete"), 1f));   
             await System.Threading.Tasks.Task.Delay(1000);
             ModuleManager.GetModule<UIModule>().Pop( Layer.Top);
             ModuleManager.GetModule<UIModule>().Push(UITypes.BattlePanel, Layer.Bottom,PlayBattleMode.PlayReplayBattle); 
@@ -232,12 +233,19 @@ namespace Synchronize.Game.Lockstep
             while (!SimulationManager.Instance.HasStopped)
                 await System.Threading.Tasks.Task.Yield();
             
-            Handler.Run(_=>DialogBox.Show(Language.GetText(22),Language.GetText(26),DialogBox.SelectType.Confirm, option=>{
-                ModuleManager.GetModule<GameContentRootModule>().DestroyChildren();
-                ModuleManager.GetModule<PoolModule>().Clear();
-                SimulationManager.Instance.RemoveSimulation();
-                ModuleManager.GetModule<UIModule>().Pop(Layer.Bottom);
-            }),null);
+            Handler.Run(_=>
+                NotificationManager.Instance.Show(NotificationType.Info, option =>
+                {
+                    ModuleManager.GetModule<GameContentRootModule>().DestroyChildren();
+                    ModuleManager.GetModule<PoolModule>().Clear();
+                    SimulationManager.Instance.RemoveSimulation();
+                    ModuleManager.GetModule<UIModule>().Pop(Layer.Bottom);
+                }, i =>
+                {
+                    i.TitleKey = string.Format(i.TitleKey, Localization.Localization.GetTranslation("tips"));
+                    i.DescriptionKey = string.Format(i.DescriptionKey, Localization.Localization.GetTranslation("quit now"));
+                })
+            ,null);
         }
         #endregion
     }

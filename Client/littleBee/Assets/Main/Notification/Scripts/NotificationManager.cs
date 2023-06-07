@@ -13,18 +13,7 @@ namespace Synchronize.Game.Lockstep.Notification
     {
         Cancel,
         OK,
-        Reset,
-        PowerOff,
-        Uninstall,
-        Restart,
-        Allow,
-        Forget,
-        Proceed,
-        Settings,
-        Resume,
-        Quit,
-        Confirm,
-        Retry,
+        
     }
     public class NotificationManager : MonoBehaviour
     {

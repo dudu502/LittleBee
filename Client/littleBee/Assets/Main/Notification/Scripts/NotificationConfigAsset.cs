@@ -8,42 +8,9 @@ namespace Synchronize.Game.Lockstep.Notification
     public enum NotificationType
     {
         None,
-        LowBattery,
-        CriticalBattery,
-        HighPowerConsumption,
-        ErrorOpeningPage,
-        PowerOff,
-        FactoryReset,
-        DownloadComplete,
-        SystemError,
-        Uninstall,
-        USBDebugging,
-        OTAUpdate,
-        BatteryNotEnoughForOTA,
-        OTAResult,
-        FirstTimeConnectUSB,
-        NotEnoughSpace,
-        ExitDeveloperMode,
-        ErrorAddingNetwork,
-        IncorrectPassword,
-        ForgetWifiNetwork,
-        ControllerUpdate,
-        ControllerUpdated,
-        OTAInstallationFailed,
-        ControllerUpdateFailed,
-        QuitCurrentApp,
-        Uninstall_Delete,
-        ControllerNotDetected,
-        ResetBoundary,
-        ControllerNotPaired,
-        BluetoothUnPairingFailure,
-        BluetoothPairingFailure,
-        BluetoothConnectionFailure,
-        BluetoothIncorrectPincode,
-        BluetoothConnectionTimedOut,
-        SeeThroughMode,
-        ControllerOTALowBattery,
-        ControllerNotDetectedBeforeUpgrade,
+        Info,
+        Warning,
+        Error,
     }
 
     public enum NotificationPriority
@@ -67,9 +34,13 @@ namespace Synchronize.Game.Lockstep.Notification
             public NotificationType Type;
             public NotificationPriority Priority = NotificationPriority.P4;
             public bool NeedReEnqueue = true;
+            [HideInInspector]
             public Sprite MainSprite;
+            [HideInInspector]
             public Vector2 MainSpriteSize = new Vector2(80, 80);
+            [HideInInspector]
             public Sprite AdditionSprite;
+            [HideInInspector]
             public AdditionalSpriteAnchor AnchorType;
             public string TitleKey;
             [TextArea(5,10)]

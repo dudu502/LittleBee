@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using TrueSync;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace Synchronize.Game.Lockstep.Ecsr.Components.Common

@@ -12,7 +12,7 @@ using Synchronize.Game.Lockstep.Misc;
 
 namespace Synchronize.Game.Lockstep.UI
 {
-    public class MainPanel : UIView, ILanguageApplicable
+    public class MainPanel : UIView
     {
         public Button m_BtnWan;
         public Button m_BtnReplays;
@@ -22,17 +22,11 @@ namespace Synchronize.Game.Lockstep.UI
         public override void OnInit()
         {
             base.OnInit();
-            ApplyLocalizedLanguage();
             m_BtnWan.onClick.AddListener(RequestIndex);
             m_BtnSetting.onClick.AddListener(OpenSettingPanel);
             m_BtnReplays.onClick.AddListener(OnClickReplays);
         }
-        public void ApplyLocalizedLanguage()
-        {
-            m_BtnWan.SetButtonText(Language.GetText(1));
-            m_BtnSetting.SetButtonText(Language.GetText(4));
-            m_BtnReplays.SetButtonText(Language.GetText(25));
-        }
+
         /// <summary>
         /// request webserver in wan mode
         /// to get gateserver ip and port.
@@ -72,7 +66,7 @@ namespace Synchronize.Game.Lockstep.UI
             var replayFiles = Directory.GetFiles(BattleEntryPoint.PersistentDataPath, Const.EXTENSION_TYPE_PATTERN_REPLAY);
             if (replayFiles == null || replayFiles.Length == 0)
             {
-                ToastRoot.Instance.ShowToast(Language.GetText(45));
+                ToastRoot.Instance.ShowToast(Localization.Localization.GetTranslation("No Replays"));
                 return;
             }
             ModuleManager.GetModule<UIModule>().Push(UITypes.ReplaysPanel, Layer.Bottom, null);

@@ -9,13 +9,13 @@ using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep.Managers.UI;
 using Synchronize.Game.Lockstep.Misc;
 
-public class LoginAlert : MonoBehaviour, ILanguageApplicable
+public class LoginAlert : MonoBehaviour
 {
-    public Text m_TxtTitle;
-    public Text m_TxtName;
-    public InputField m_InputName;
-    public Text m_TxtPwd;
-    public InputField m_InputPwd;
+    public TMPro.TMP_Text m_TxtTitle;
+    public TMPro.TMP_Text m_TxtName;
+    public TMPro.TMP_InputField m_InputName;
+    public TMPro.TMP_Text m_TxtPwd;
+    public TMPro.TMP_InputField m_InputPwd;
     public Button m_BtnConfirm;
     public Button m_BtnCancel;
     // Use this for initialization
@@ -32,19 +32,20 @@ public class LoginAlert : MonoBehaviour, ILanguageApplicable
     {
         if (string.IsNullOrEmpty(m_InputName.text))
         {
-            ToastRoot.Instance.ShowToast(Language.GetText(44));
+            ToastRoot.Instance.ShowToast(Localization.GetTranslation("Enter the user name"));
         }
         else
         {
 #if NONE_DB_SERVER
-            DataProxy.Get<UserDataProxy>().UserLoginInfo = new LoginJsonResult(){
+            DataProxy.Get<UserDataProxy>().UserLoginInfo = new LoginJsonResult()
+            {
                 results = new System.Collections.Generic.List<LoginJsonResultItem>(){
                     new LoginJsonResultItem(){
                         name=m_InputName.text,
                         pwd="1",
                         money = 100,
                         date="0000",
-                        state = 1,                     
+                        state = 1,
                     }
                 }
             };
@@ -100,24 +101,4 @@ public class LoginAlert : MonoBehaviour, ILanguageApplicable
         }
 
     }
-    private void OnEnable()
-    {
-        ApplyLocalizedLanguage();
-    }
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void ApplyLocalizedLanguage()
-    {
-        m_TxtTitle.text = Language.GetText(13);
-        m_TxtName.text = Language.GetText(17);
-        m_TxtPwd.text = Language.GetText(18);
-        m_BtnConfirm.SetButtonText(Language.GetText(14));
-        m_BtnCancel.SetButtonText(Language.GetText(16));
-
-    }
-
 }

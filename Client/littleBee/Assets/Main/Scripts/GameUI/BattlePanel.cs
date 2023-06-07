@@ -8,10 +8,11 @@ using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep.Misc;
 using Synchronize.Game.Lockstep.Behaviours;
+using Synchronize.Game.Lockstep.Notification;
 
 namespace Synchronize.Game.Lockstep.UI
 {
-    public class BattlePanel : UIView, ILanguageApplicable
+    public class BattlePanel : UIView
     {
         public Button m_FireButton;
         public Button m_BackButton;
@@ -34,14 +35,17 @@ namespace Synchronize.Game.Lockstep.UI
             {
                 if (m_PlayMode == PlayBattleMode.PlayRealBattle)
                 {
-                    DialogBox.Show(Language.GetText(22), Language.GetText(38), DialogBox.SelectType.All, option =>
+                    NotificationManager.Instance.Show(NotificationType.Info, option =>
                     {
-                        if (option == DialogBox.SelectType.Confirm)
+                        if (option == NotificationOption.OK)
                         {
-                            Debug.LogWarning("Quit");
                             BattleEntryPoint.Stop();
                             ModuleManager.GetModule<UIModule>().Pop(Layer.Bottom);
                         }
+                    }, item =>
+                    {
+                        item.TitleKey = string.Format(item.TitleKey, Localization.Localization.GetTranslation("Tips"));
+                        item.DescriptionKey = string.Format(item.DescriptionKey, Localization.Localization.GetTranslation("Do you really want to quit?"));
                     });
                 }
                 else if (m_PlayMode == PlayBattleMode.PlayReplayBattle)
@@ -119,7 +123,7 @@ namespace Synchronize.Game.Lockstep.UI
 
         public void ApplyLocalizedLanguage()
         {
-            m_BackButton.SetButtonText(Language.GetText(5));
+            //m_BackButton.SetButtonText(Language.GetText(5));
         }
     }
 }

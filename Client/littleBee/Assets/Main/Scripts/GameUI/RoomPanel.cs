@@ -11,7 +11,7 @@ using Synchronize.Game.Lockstep.Misc;
 
 namespace Synchronize.Game.Lockstep.UI
 {
-    public class RoomPanel : UIView, ILanguageApplicable
+    public class RoomPanel : UIView
     {
         public enum EventType
         {
@@ -101,7 +101,6 @@ namespace Synchronize.Game.Lockstep.UI
         void OnUpdateRoom(PtRoom room)
         {
             RefreshData();
-            //Debug.LogError("OnUpdateRoom");
         }
         void OnCreateRoomSuccess(PtRoom room)
         {
@@ -143,7 +142,6 @@ namespace Synchronize.Game.Lockstep.UI
         {
             base.OnShow(paramObject);
             m_IterMapIds.SetSource(ModuleManager.GetModule<ConfigModule>().GetConfigs<Config.Static.MapIdCFG>());
-            ApplyLocalizedLanguage();
             RefreshData();
             RequestUpdateRoomMap();
         }
@@ -169,17 +167,6 @@ namespace Synchronize.Game.Lockstep.UI
             {
                 ClientService.Get<GateService>().RequestLeaveRoom();
             }
-        }
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-        public void ApplyLocalizedLanguage()
-        {
-            m_BtnBack.SetButtonText(Language.GetText(5));
-            m_BtnLaunchGame.SetButtonText(Language.GetText(20));
-            m_TxtTitle.text = Language.GetText(36);
         }
     }
 }

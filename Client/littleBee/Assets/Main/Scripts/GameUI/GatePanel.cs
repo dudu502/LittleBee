@@ -11,10 +11,11 @@ using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep.Misc;
 using Synchronize.Game.Lockstep.Net;
+using Synchronize.Game.Lockstep.Notification;
 
 namespace Synchronize.Game.Lockstep.UI
 {
-    public class GatePanel : UIView, ILanguageApplicable
+    public class GatePanel : UIView
     {
         private List<GateAddressVO> m_Hosts;
         public Button m_BtnBack;
@@ -120,13 +121,15 @@ namespace Synchronize.Game.Lockstep.UI
             if (ptRoom.Players.Exists(p => p.NickName == selfName))
             {
                 //以断开 重新进入的方式加入房间，会以不同的方式进入游戏
-                DialogBox.Show(Language.GetText(22), Language.GetText(40), DialogBox.SelectType.All, selection =>
-                 {
-                     if (selection == DialogBox.SelectType.Confirm)
-                     {
-                         ClientService.Get<GateService>().RequestJoinRoom(ptRoom);
-                     }
-                 });
+                NotificationManager.Instance.Show(NotificationType.Info, option =>
+                {
+                    if(option == NotificationOption.OK)
+                        ClientService.Get<GateService>().RequestJoinRoom(ptRoom);
+                }, item =>
+                {
+                    item.TitleKey = string.Format(item.TitleKey, Localization.Localization.GetTranslation("Tips"));
+                    item.DescriptionKey = string.Format(item.DescriptionKey, Localization.Localization.GetTranslation("Do you need to synchronize?"));
+                });
             }
             else
             {
@@ -212,7 +215,6 @@ namespace Synchronize.Game.Lockstep.UI
         public override void OnShow(object paramObject)
         {
             base.OnShow(paramObject);
-            ApplyLocalizedLanguage();
             //wan mode
             GateAddressVO gateAddressVO = DataProxy.Get<UserDataProxy>().GetGateAddressVO();
             if (gateAddressVO != null)
@@ -222,23 +224,5 @@ namespace Synchronize.Game.Lockstep.UI
             }
 
         }
-
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-        public void ApplyLocalizedLanguage()
-        {
-            m_BtnBack.SetButtonText(Language.GetText(5));
-            m_BtnCreate.SetButtonText(Language.GetText(8));
-            m_BtnRefreshGate.SetButtonText(Language.GetText(6));
-            m_BtnRefreshRoom.SetButtonText(Language.GetText(6));
-            m_BtnJoin.SetButtonText(Language.GetText(10));
-            m_TxtTitle.text = Language.GetText(1);
-        }
-
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ToastItem : MonoBehaviour
 {
     public static readonly WaitForSeconds s_wait = new WaitForSeconds(2);
-    public Text m_Text;
+    public TMPro.TMP_Text m_Text;
     public bool IsIdle = true;
 
     public void SetText(string msg,Action<ToastItem> onDisplayFinish)

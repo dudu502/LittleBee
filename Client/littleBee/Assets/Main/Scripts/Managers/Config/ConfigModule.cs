@@ -19,7 +19,7 @@ namespace Synchronize.Game.Lockstep.Managers
             Configs[typeof(BattleshipCFG)] = LitJson.JsonMapper.ToObject<List<BattleshipCFG>>(Resources.Load<TextAsset>("Configs/Static/Battleships").text);
             Configs[typeof(MapElementCFG)] = LitJson.JsonMapper.ToObject<List<MapElementCFG>>(Resources.Load<TextAsset>("Configs/Static/MapElements").text);
             Configs[typeof(ResourceIdCFG)] = LitJson.JsonMapper.ToObject<List<ResourceIdCFG>>(Resources.Load<TextAsset>("Configs/Static/ResourceId").text);
-            Configs[typeof(LanguageCFG)] = LitJson.JsonMapper.ToObject<List<LanguageCFG>>(Resources.Load<TextAsset>("Configs/Static/Language").text);
+           // Configs[typeof(LanguageCFG)] = LitJson.JsonMapper.ToObject<List<LanguageCFG>>(Resources.Load<TextAsset>("Configs/Static/Language").text);
             Configs[typeof(MapIdCFG)] = LitJson.JsonMapper.ToObject<List<MapIdCFG>>(Resources.Load<TextAsset>("Configs/Static/MapId").text);
         }
         public T GetConfig<T>(int configId) where T : ICFG

@@ -11,7 +11,7 @@ using Synchronize.Game.Lockstep.Misc;
 
 namespace Synchronize.Game.Lockstep.UI
 {
-    public class SettingPanel : UIView, ILanguageApplicable
+    public class SettingPanel : UIView
     {
         public Text m_TxtTitle;
         public Button m_BtnBack;
@@ -20,9 +20,9 @@ namespace Synchronize.Game.Lockstep.UI
         public Transform m_SettngContentTransform;
         public void ApplyLocalizedLanguage()
         {
-            m_TxtTitle.text = Language.GetText(4);
-            m_BtnBack.SetButtonText(Language.GetText(5));
-            m_BtnSave.SetButtonText(Language.GetText(37));
+            //m_TxtTitle.text = Language.GetText(4);
+            //m_BtnBack.SetButtonText(Language.GetText(5));
+            //m_BtnSave.SetButtonText(Language.GetText(37));
         }
 
         public override void OnInit()
@@ -83,7 +83,7 @@ namespace Synchronize.Game.Lockstep.UI
             print(json);
             System.IO.File.WriteAllText(Application.persistentDataPath + "\\setting.json", json);
             UserSettingMgr.SettingList = settingDatas;
-            ToastRoot.Instance.ShowToast(Language.GetText(41));
+            ToastRoot.Instance.ShowToast(Localization.Localization.GetTranslation("Saved successfully"));
         }
         // Update is called once per frame
         void Update()

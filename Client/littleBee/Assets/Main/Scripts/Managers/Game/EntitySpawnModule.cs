@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
-using Unity.Mathematics;
 using TrueSync;
 using TrueSync.Collision;
 using NetServiceImpl.OnlineMode.Room;

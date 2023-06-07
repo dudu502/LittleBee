@@ -2,8 +2,6 @@
 using Synchronize.Game.Lockstep.Ecsr.Entitas;
 using System.Collections.Generic;
 using TrueSync;
-using Unity.Mathematics;
-
 namespace Synchronize.Game.Lockstep.Ecsr.Systems
 {
     /// <summary>

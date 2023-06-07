@@ -9,11 +9,13 @@ using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep;
 using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Managers.UI;
+using Synchronize.Game.Lockstep.Notification;
+
 namespace Synchronize.Game.Lockstep
 {
     public class App : MonoBehaviour
     {
-        public LanguageType LanguageSetting = LanguageType.English;
+
         public static App Instance
         {
             get;
@@ -55,17 +57,20 @@ namespace Synchronize.Game.Lockstep
             ObjectPool.Common.PoolMgr.Init();
 
         }
+        void InitLocalization()
+        {
+            Localization.Localization.Initialize();
+            Localization.Localization.SetLanguage(Localization.Localization.Language.ChineseSimplified);
+        }
         void Awake()
         {
             Instance = this;
+            InitLocalization();
             InitApplicationSettings();
             InitProxySettings();
             InitServiceSettings();
             InitManagerSettings();
-
-            DialogBox.Init();
             Handler.Init();
-            Language.SetLanguge(LanguageSetting);
         }
 
         void Start()
@@ -78,6 +83,7 @@ namespace Synchronize.Game.Lockstep
         {
             Handler.Update();
             ObjectPool.Common.PoolMgr.Update();
+            
         }
     }
 }

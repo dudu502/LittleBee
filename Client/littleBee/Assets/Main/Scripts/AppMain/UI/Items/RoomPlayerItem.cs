@@ -7,7 +7,7 @@ using NetServiceImpl;
 using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Misc;
 
-public class RoomPlayerItem : DynamicInfinityItem, ILanguageApplicable
+public class RoomPlayerItem : DynamicInfinityItem
 {
     static Color[] Colors = new Color[] {
         Color.Lerp(Color.red,Color.green,0.4f),
@@ -74,6 +74,6 @@ public class RoomPlayerItem : DynamicInfinityItem, ILanguageApplicable
 
     public void ApplyLocalizedLanguage()
     {
-        m_BtnTeam.SetButtonText(Language.GetText(12));
+       // m_BtnTeam.SetButtonText(Language.GetText(12));
     }
 }

@@ -10,10 +10,6 @@ namespace Synchronize.Game.Lockstep.Misc
         Prefab = 1,
         Texture = 2,
     }
-    public enum LanguageType : byte { 
-        Chinese,
-        English
-    }
 
     public enum FsmType
     {

@@ -112,7 +112,7 @@ namespace NetServiceImpl.OnlineMode.Gate
                 if (0 == errorCode)
                     TriggerMainThreadEvent<EvtGate, object>(EvtGate.OpenRoomPanel, null);
                 else
-                    ToastRoot.Instance.ShowToast(Language.GetText(200000)+ errorCode);
+                    ToastRoot.Instance.ShowToast(Localization.GetTranslation("Error") + errorCode);
             }
         }
 
@@ -121,7 +121,7 @@ namespace NetServiceImpl.OnlineMode.Gate
         void OnResponseErrorCode(PtMessagePackage package)
         {
             PtErrorCode error = PtErrorCode.Read(package.Content);
-            ToastRoot.Instance.ShowToast(Language.GetText(200000)+error.Id) ;
+            ToastRoot.Instance.ShowToast(Localization.GetTranslation("Error") + error.Id) ;
             //TriggerMainThreadEvent<Tips.Alert, int>(Tips.Alert.Error, error.Id);
         }
         #endregion
@@ -148,9 +148,9 @@ namespace NetServiceImpl.OnlineMode.Gate
             Handler.Run((pack) => 
             {
                 ModuleManager.GetModule<GameContentRootModule>().SetWorldEnable(false);
-                ModuleManager.GetModule<UIModule>().Push(UITypes.LoadingPanel, Layer.Top, new LoadingPanel.LoadingInfo(Language.GetText(27), 0));
+                ModuleManager.GetModule<UIModule>().Push(UITypes.LoadingPanel, Layer.Top, new LoadingPanel.LoadingInfo(Localization.GetTranslation("Loading"), 0));
              
-                EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(27), 0.1f));
+                EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Localization.GetTranslation("Loading"), 0.1f));
             }, package);         
         }
         void OnResponseLaunchRoomInstance(PtMessagePackage package)
@@ -158,7 +158,7 @@ namespace NetServiceImpl.OnlineMode.Gate
             UnityEngine.Debug.Log("OnResponseLaunchRoomInstance");
             PtLaunchGameData ptLaunchGameData = PtLaunchGameData.Read(package.Content);
 
-            TriggerMainThreadEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(31), 0.4f));
+            TriggerMainThreadEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Localization.GetTranslation("Create room service complete"), 0.4f));
 
             Handler.Run(_ => BattleEntryPoint.Start(ptLaunchGameData,GateServerIP),null);        
         }

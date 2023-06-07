@@ -128,7 +128,7 @@ namespace NetServiceImpl.OnlineMode.Room
         void OnResponseInitSelfPlayer(PtMessagePackage package)
         {
             RequestPlayerReady();
-            TriggerMainThreadEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(21), 1f));
+            //TriggerMainThreadEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(21), 1f));
         }
 
         void OnResponsePlayerReady(PtMessagePackage package)
@@ -221,7 +221,7 @@ namespace NetServiceImpl.OnlineMode.Room
                 int offset = Session.InitIndex == -1 ? 0 : Session.InitIndex;
                 startDate -= DateTime.Now - startDate + new TimeSpan(encodingTicks);
                 SimulationManager.Instance.Start(startDate, Session.WriteKeyframeCollectionIndex - offset,
-                    process => TriggerMainThreadEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Language.GetText(32), process)),
+                    process => TriggerMainThreadEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Localization.GetTranslation("Synchronizing key frames"), process)),
                     () => Handler.Run(_ =>
                     {
                         EventMgr<LoadingPanel.EventType, object>.TriggerEvent(LoadingPanel.EventType.ClosePanel, null);

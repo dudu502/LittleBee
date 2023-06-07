@@ -7,7 +7,7 @@ using Proxy;
 using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Misc;
 
-public class RoomItemRenderer : DynamicInfinityItem, ILanguageApplicable
+public class RoomItemRenderer : DynamicInfinityItem
 {
     public Image m_ImageMap;
     public Text m_TxtRoomName;
@@ -40,6 +40,6 @@ public class RoomItemRenderer : DynamicInfinityItem, ILanguageApplicable
 
     public void ApplyLocalizedLanguage()
     {
-        m_Btn.SetButtonText(Language.GetText(10));
+        //m_Btn.SetButtonText(Language.GetText(10));
     }
 }
