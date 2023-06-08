@@ -9,6 +9,7 @@ using Synchronize.Game.Lockstep.Managers.UI;
 using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep.Misc;
+using Synchronize.Game.Lockstep.Notification;
 
 namespace Synchronize.Game.Lockstep.UI
 {
@@ -66,7 +67,7 @@ namespace Synchronize.Game.Lockstep.UI
             var replayFiles = Directory.GetFiles(BattleEntryPoint.PersistentDataPath, Const.EXTENSION_TYPE_PATTERN_REPLAY);
             if (replayFiles == null || replayFiles.Length == 0)
             {
-                ToastRoot.Instance.ShowToast(Localization.Localization.GetTranslation("No Replays"));
+                ToastManager.Instance.ShowToast(Localization.Localization.GetTranslation("No Replays"));
                 return;
             }
             ModuleManager.GetModule<UIModule>().Push(UITypes.ReplaysPanel, Layer.Bottom, null);

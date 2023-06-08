@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using UI.Data;
-using UI.Items;
 using System.Collections.Generic;
 using Synchronize.Game.Lockstep.Managers.UI;
 using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep.Misc;
+using Synchronize.Game.Lockstep.Notification;
 
 namespace Synchronize.Game.Lockstep.UI
 {
@@ -77,7 +76,7 @@ namespace Synchronize.Game.Lockstep.UI
             print(json);
             System.IO.File.WriteAllText(Application.persistentDataPath + "\\setting.json", json);
             UserSettingMgr.SettingList = settingDatas;
-            ToastRoot.Instance.ShowToast(Localization.Localization.GetTranslation("Saved successfully"));
+            ToastManager.Instance.ShowToast(Localization.Localization.GetTranslation("Saved successfully"));
         }
 
     }

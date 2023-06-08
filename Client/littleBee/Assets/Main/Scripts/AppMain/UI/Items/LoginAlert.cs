@@ -8,38 +8,41 @@ using Synchronize.Game.Lockstep.Data;
 using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep.Managers.UI;
 using Synchronize.Game.Lockstep.Misc;
+using Synchronize.Game.Lockstep.Notification;
 
-public class LoginAlert : MonoBehaviour
+namespace Synchronize.Game.Lockstep.UI
 {
-    public TMPro.TMP_Text m_TxtTitle;
-    public TMPro.TMP_Text m_TxtName;
-    public TMPro.TMP_InputField m_InputName;
-    public TMPro.TMP_Text m_TxtPwd;
-    public TMPro.TMP_InputField m_InputPwd;
-    public Button m_BtnConfirm;
-    public Button m_BtnCancel;
-    // Use this for initialization
-    void Start()
+    public class LoginAlert : MonoBehaviour
     {
-        m_BtnCancel.onClick.AddListener(() => gameObject.SetActive(false));
-        m_BtnConfirm.onClick.AddListener(RequestLoginGate);
+        public TMPro.TMP_Text m_TxtTitle;
+        public TMPro.TMP_Text m_TxtName;
+        public TMPro.TMP_InputField m_InputName;
+        public TMPro.TMP_Text m_TxtPwd;
+        public TMPro.TMP_InputField m_InputPwd;
+        public Button m_BtnConfirm;
+        public Button m_BtnCancel;
+        // Use this for initialization
+        void Start()
+        {
+            m_BtnCancel.onClick.AddListener(() => gameObject.SetActive(false));
+            m_BtnConfirm.onClick.AddListener(RequestLoginGate);
 
-        string player_name = DataProxy.Get<PlayerPrefabsProxy>().GetString("player_name");
-        m_InputName.text = string.IsNullOrEmpty(player_name) ? "Jerry" : player_name;
-        m_InputPwd.text = "1";
-    }
-    void RequestLoginGate()
-    {
-        if (string.IsNullOrEmpty(m_InputName.text))
-        {
-            ToastRoot.Instance.ShowToast(Localization.GetTranslation("Enter the user name"));
+            string player_name = DataProxy.Get<PlayerPrefabsProxy>().GetString("player_name");
+            m_InputName.text = string.IsNullOrEmpty(player_name) ? "Jerry" : player_name;
+            m_InputPwd.text = "1";
         }
-        else
+        void RequestLoginGate()
         {
-#if NONE_DB_SERVER
-            DataProxy.Get<UserDataProxy>().UserLoginInfo = new LoginJsonResult()
+            if (string.IsNullOrEmpty(m_InputName.text))
             {
-                results = new System.Collections.Generic.List<LoginJsonResultItem>(){
+                ToastManager.Instance.ShowToast(Localization.Localization.GetTranslation("Enter the user name"));
+            }
+            else
+            {
+#if NONE_DB_SERVER
+                DataProxy.Get<UserDataProxy>().UserLoginInfo = new LoginJsonResult()
+                {
+                    results = new System.Collections.Generic.List<LoginJsonResultItem>(){
                     new LoginJsonResultItem(){
                         name=m_InputName.text,
                         pwd="1",
@@ -48,12 +51,12 @@ public class LoginAlert : MonoBehaviour
                         state = 1,
                     }
                 }
-            };
-            print(DataProxy.Get<UserDataProxy>().UserLoginInfo.state);
-            gameObject.SetActive(false);
+                };
+                print(DataProxy.Get<UserDataProxy>().UserLoginInfo.state);
+                gameObject.SetActive(false);
 
-            ModuleManager.GetModule<UIModule>().Push(UITypes.GatePanel, Layer.Bottom, null);
-            DataProxy.Get<PlayerPrefabsProxy>().SetString("player_name", m_InputName.text);
+                ModuleManager.GetModule<UIModule>().Push(UITypes.GatePanel, Layer.Bottom, null);
+                DataProxy.Get<PlayerPrefabsProxy>().SetString("player_name", m_InputName.text);
 #else
             if (!string.IsNullOrEmpty(m_InputPwd.text))
             {
@@ -98,7 +101,8 @@ public class LoginAlert : MonoBehaviour
                 });
             }
 #endif
-        }
+            }
 
+        }
     }
 }

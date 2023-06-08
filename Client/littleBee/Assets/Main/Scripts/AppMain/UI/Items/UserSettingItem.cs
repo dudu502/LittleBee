@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Synchronize.Game.Lockstep.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
-using UI.Data;
 using UnityEngine;
 using UnityEngine.UI;
-namespace UI.Items
+namespace Synchronize.Game.Lockstep.UI
 {
     public class UserSettingItem:MonoBehaviour
     {

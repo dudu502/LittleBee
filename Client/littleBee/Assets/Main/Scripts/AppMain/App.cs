@@ -2,8 +2,6 @@
 using NetServiceImpl;
 using NetServiceImpl.OnlineMode.Gate;
 using NetServiceImpl.OnlineMode.Room;
-using UI.Data;
-
 using Synchronize.Game.Lockstep.Misc;
 using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep;

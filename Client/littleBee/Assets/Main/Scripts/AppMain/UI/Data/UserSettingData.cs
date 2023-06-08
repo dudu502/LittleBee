@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using LitJson;
-namespace UI.Data
+namespace Synchronize.Game.Lockstep.Managers 
 {
     public class UserSettingMgr
     {

@@ -17,6 +17,7 @@ using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep.Managers.UI;
 using Synchronize.Game.Lockstep.Misc;
 using Synchronize.Game.Lockstep.Net;
+using Synchronize.Game.Lockstep.Notification;
 using Synchronize.Game.Lockstep.UI;
 
 namespace NetServiceImpl.OnlineMode.Gate
@@ -112,7 +113,7 @@ namespace NetServiceImpl.OnlineMode.Gate
                 if (0 == errorCode)
                     TriggerMainThreadEvent<EvtGate, object>(EvtGate.OpenRoomPanel, null);
                 else
-                    ToastRoot.Instance.ShowToast(Localization.GetTranslation("Error") + errorCode);
+                    ToastManager.Instance.ShowToast(Localization.GetTranslation("Error") + errorCode);
             }
         }
 
@@ -121,7 +122,7 @@ namespace NetServiceImpl.OnlineMode.Gate
         void OnResponseErrorCode(PtMessagePackage package)
         {
             PtErrorCode error = PtErrorCode.Read(package.Content);
-            ToastRoot.Instance.ShowToast(Localization.GetTranslation("Error") + error.Id) ;
+            ToastManager.Instance.ShowToast(Localization.GetTranslation("Error") + error.Id) ;
             //TriggerMainThreadEvent<Tips.Alert, int>(Tips.Alert.Error, error.Id);
         }
         #endregion

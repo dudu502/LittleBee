@@ -13,6 +13,7 @@ using Synchronize.Game.Lockstep.Managers.UI;
 using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep.Misc;
+using Synchronize.Game.Lockstep.Notification;
 
 namespace Synchronize.Game.Lockstep.UI
 {
@@ -87,7 +88,7 @@ namespace Synchronize.Game.Lockstep.UI
             string fileName = m_InputRename.text;
             if (string.IsNullOrEmpty(fileName))
             {
-                ToastRoot.Instance.ShowToast(Localization.Localization.GetTranslation("Name cannot be empty"));
+                ToastManager.Instance.ShowToast(Localization.Localization.GetTranslation("Name cannot be empty"));
             }
             else
             {
@@ -95,7 +96,7 @@ namespace Synchronize.Game.Lockstep.UI
                 {
                     if (item.GetFileNameWithoutExtension() == fileName)
                     {
-                        ToastRoot.Instance.ShowToast(Localization.Localization.GetTranslation("Please try again"));
+                        ToastManager.Instance.ShowToast(Localization.Localization.GetTranslation("Please try again"));
                         return;
                     }
                 }
@@ -106,7 +107,7 @@ namespace Synchronize.Game.Lockstep.UI
                         string newPathName = Path.Combine(Path.GetDirectoryName(data.ReplayFileFullPath), fileName + Const.EXTENSION_TYPE_REPLAY);
                         File.Move(data.ReplayFileFullPath, newPathName);
                         data.ReplayFileFullPath = newPathName;
-                        ToastRoot.Instance.ShowToast(Localization.Localization.GetTranslation("Rename succeeded"));
+                        ToastManager.Instance.ShowToast(Localization.Localization.GetTranslation("Rename succeeded"));
                         break;
                     }
                 }

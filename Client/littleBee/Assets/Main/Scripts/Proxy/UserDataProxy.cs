@@ -1,13 +1,14 @@
 ﻿
 using NetServiceImpl.OnlineMode.Gate;
 using Synchronize.Game.Lockstep.Data;
+using Synchronize.Game.Lockstep.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using UI.Data;
+
 
 namespace Proxy
 {
