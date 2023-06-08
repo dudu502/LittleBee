@@ -12,6 +12,7 @@ using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep.Misc;
 using Synchronize.Game.Lockstep.Net;
 using Synchronize.Game.Lockstep.Notification;
+using TMPro;
 
 namespace Synchronize.Game.Lockstep.UI
 {
@@ -19,7 +20,7 @@ namespace Synchronize.Game.Lockstep.UI
     {
         private List<GateAddressVO> m_Hosts;
         public Button m_BtnBack;
-        public Text m_TxtTitle;
+        public TMP_Text m_TxtTitle;
         public ToggleGroup m_ToggleGroup;
         public List<Toggle> m_Toggles;
         public DynamicInfinityListRenderer m_DynRoomList;
