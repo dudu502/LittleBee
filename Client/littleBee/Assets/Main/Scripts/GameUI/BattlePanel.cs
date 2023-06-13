@@ -35,7 +35,7 @@ namespace Synchronize.Game.Lockstep.UI
             {
                 if (m_PlayMode == PlayBattleMode.PlayRealBattle)
                 {
-                    NotificationManager.Instance.Show(NotificationType.Info, option =>
+                    NotificationManager.Instance.Show(NotificationType.Warning, option =>
                     {
                         if (option == NotificationOption.OK)
                         {

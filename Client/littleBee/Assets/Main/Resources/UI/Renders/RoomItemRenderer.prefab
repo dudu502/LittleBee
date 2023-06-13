@@ -556,6 +556,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8069119169870583839}
   - component: {fileID: 5154597132566029999}
+  - component: {fileID: 2734661800887103336}
   m_Layer: 5
   m_Name: RoomItemRenderer
   m_TagString: Untagged
@@ -602,3 +603,15 @@ MonoBehaviour:
   m_ImageMap: {fileID: 693775428}
   m_TxtRoomName: {fileID: 6475394062770329414}
   m_Btn: {fileID: 288243475}
+--- !u!114 &2734661800887103336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5891700559923821150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60b63980ad2298549877df603d1808d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

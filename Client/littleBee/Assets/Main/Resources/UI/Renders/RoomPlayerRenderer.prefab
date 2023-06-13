@@ -146,6 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8187035260774797545}
   - component: {fileID: 273309922230551992}
+  - component: {fileID: -5682247778460306421}
   m_Layer: 5
   m_Name: RoomPlayerRenderer
   m_TagString: Untagged
@@ -189,6 +190,18 @@ MonoBehaviour:
   m_TxtName: {fileID: 6785204387232250507}
   m_BtnColor: {fileID: 6352563526646453356}
   m_BtnTeam: {fileID: 7380730312878872976}
+--- !u!114 &-5682247778460306421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4207592696199297977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60b63980ad2298549877df603d1808d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5457671288589159886
 GameObject:
   m_ObjectHideFlags: 0

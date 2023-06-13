@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4867939521152789975}
   - component: {fileID: 4199572509844769916}
+  - component: {fileID: 1827417938123224514}
   m_Layer: 5
   m_Name: ReplayItemRenderer
   m_TagString: Untagged
@@ -53,6 +54,18 @@ MonoBehaviour:
   m_ImgBg: {fileID: 3586239030833910287}
   m_TxtReplayName: {fileID: 7371423557841135520}
   m_TxtReplayCreationDate: {fileID: 5611722202469874057}
+--- !u!114 &1827417938123224514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609124224074598023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60b63980ad2298549877df603d1808d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2061978940387202670
 GameObject:
   m_ObjectHideFlags: 0
