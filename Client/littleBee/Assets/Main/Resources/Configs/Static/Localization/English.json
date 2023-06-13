@@ -47,5 +47,7 @@
   "incorrect data format": "Incorrect data format",
   "connection failed": "Connection failed",
   "waiting": "Waiting",
-  "error": "Error"
+  "error": "Error",
+  "ok": "OK",
+  "create": "Create"
 }

@@ -122,7 +122,7 @@ namespace Synchronize.Game.Lockstep.UI
             if (ptRoom.Players.Exists(p => p.NickName == selfName))
             {
                 //以断开 重新进入的方式加入房间，会以不同的方式进入游戏
-                NotificationManager.Instance.Show(NotificationType.Info, option =>
+                NotificationManager.Instance.Show(NotificationType.Warning, option =>
                 {
                     if(option == NotificationOption.OK)
                         ClientService.Get<GateService>().RequestJoinRoom(ptRoom);

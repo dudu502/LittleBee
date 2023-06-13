@@ -47,5 +47,7 @@
   "incorrect data format": "数据格式有误",
   "connection failed": "连接失败",
   "waiting": "正忙",
-  "error": "错误"
+  "error": "错误",
+  "ok": "好的",
+  "create": "创建"
 }

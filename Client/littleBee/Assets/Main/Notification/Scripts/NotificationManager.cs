@@ -196,8 +196,8 @@ namespace Synchronize.Game.Lockstep.Notification
                 _fadeAnimator.Play(FADE_IN_ANI_NAME);
                 notificationItem = notificationItem.Clone();
                 // Language
-                //notificationItem.TitleKey = Localization.GetTranslation(notificationItem.TitleKey);
-                //notificationItem.DescriptionKey = Localization.GetTranslation(notificationItem.DescriptionKey);
+                notificationItem.TitleKey = Localization.Localization.GetTranslation(notificationItem.TitleKey);
+                notificationItem.DescriptionKey = Localization.Localization.GetTranslation(notificationItem.DescriptionKey);
                 callback.OverrideCallback?.Invoke(notificationItem);
                 _mainImage.sprite = notificationItem.MainSprite;
                 _mainImage.GetComponent<RectTransform>().sizeDelta = notificationItem.MainSpriteSize;
@@ -245,26 +245,26 @@ namespace Synchronize.Game.Lockstep.Notification
                 else if(notificationItem.Options.Length == 1)
                 {
                     _optionButtonLeft.gameObject.SetActive(true);
-                    _optionButtonLeft.GetComponentInChildren<TMPro.TMP_Text>().text = Enum.GetName(typeof(NotificationOption), notificationItem.Options[0]);
+                    _optionButtonLeft.GetComponentInChildren<TMPro.TMP_Text>().text = Localization.Localization.GetTranslation( Enum.GetName(typeof(NotificationOption), notificationItem.Options[0]));
                     _optionButtonRight.gameObject.SetActive(false);
                     _optionButtonBottom.gameObject.SetActive(false);
                 }
                 else if(notificationItem.Options.Length == 2)
                 {
                     _optionButtonLeft.gameObject.SetActive(true);
-                    _optionButtonLeft.GetComponentInChildren<TMPro.TMP_Text>().text = Enum.GetName(typeof(NotificationOption), notificationItem.Options[0]);
+                    _optionButtonLeft.GetComponentInChildren<TMPro.TMP_Text>().text = Localization.Localization.GetTranslation(Enum.GetName(typeof(NotificationOption), notificationItem.Options[0]));
                     _optionButtonRight.gameObject.SetActive(true);
-                    _optionButtonRight.GetComponentInChildren<TMPro.TMP_Text>().text = Enum.GetName(typeof(NotificationOption), notificationItem.Options[1]);
+                    _optionButtonRight.GetComponentInChildren<TMPro.TMP_Text>().text = Localization.Localization.GetTranslation(Enum.GetName(typeof(NotificationOption), notificationItem.Options[1]));
                     _optionButtonBottom.gameObject.SetActive(false);
                 }
                 else if(notificationItem.Options.Length == 3)
                 {
                     _optionButtonLeft.gameObject.SetActive(true);
-                    _optionButtonLeft.GetComponentInChildren<TMPro.TMP_Text>().text = Enum.GetName(typeof(NotificationOption), notificationItem.Options[0]);
+                    _optionButtonLeft.GetComponentInChildren<TMPro.TMP_Text>().text = Localization.Localization.GetTranslation(Enum.GetName(typeof(NotificationOption), notificationItem.Options[0]));
                     _optionButtonRight.gameObject.SetActive(true);
-                    _optionButtonRight.GetComponentInChildren<TMPro.TMP_Text>().text = Enum.GetName(typeof(NotificationOption), notificationItem.Options[1]);
+                    _optionButtonRight.GetComponentInChildren<TMPro.TMP_Text>().text = Localization.Localization.GetTranslation(Enum.GetName(typeof(NotificationOption), notificationItem.Options[1]));
                     _optionButtonBottom.gameObject.SetActive(true);
-                    _optionButtonBottom.GetComponentInChildren<TMPro.TMP_Text>().text = Enum.GetName(typeof(NotificationOption), notificationItem.Options[2]);
+                    _optionButtonBottom.GetComponentInChildren<TMPro.TMP_Text>().text = Localization.Localization.GetTranslation(Enum.GetName(typeof(NotificationOption), notificationItem.Options[2]));
                 }
                 else
                 {

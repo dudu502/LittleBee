@@ -6,17 +6,20 @@ using TrueSync;
 using Synchronize.Game.Lockstep.Ecsr.Renderer;
 using Synchronize.Game.Lockstep.Ecsr.Components.Common;
 
-public class BackgroundCameraRotation : ActionRenderer
+namespace Synchronize.Game.Lockstep.Ecsr.Renderer
 {
-    protected override void OnRender()
+    public class BackgroundCameraRotation : ActionRenderer
     {
-        base.OnRender();
-        if (m_Simulation == null)
-            TryFindSimulation();
-        if (m_Simulation == null) return;
-        if (m_Simulation.GetEntityWorld() == null) return;
-        RotationValue rotationValue = m_Simulation.GetEntityWorld().GetComponentByEntityId<RotationValue>(EntityId);
-        if(rotationValue!=null)
-            transform.rotation = rotationValue.Rotation.ToQuaternion();
+        protected override void OnRender()
+        {
+            base.OnRender();
+            if (m_Simulation == null)
+                TryFindSimulation();
+            if (m_Simulation == null) return;
+            if (m_Simulation.GetEntityWorld() == null) return;
+            RotationValue rotationValue = m_Simulation.GetEntityWorld().GetComponentByEntityId<RotationValue>(EntityId);
+            if (rotationValue != null)
+                transform.rotation = rotationValue.Rotation.ToQuaternion();
+        }
     }
 }

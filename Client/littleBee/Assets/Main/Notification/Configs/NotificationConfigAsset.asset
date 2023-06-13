@@ -26,7 +26,7 @@ MonoBehaviour:
     DescriptionTextAlignment: 258
     CheckedOptionKey: 
     CheckedOptionDefaultOn: 0
-    Options: 0000000001000000
+    Options: 01000000
   - Type: 2
     Priority: 3
     NeedReEnqueue: 1

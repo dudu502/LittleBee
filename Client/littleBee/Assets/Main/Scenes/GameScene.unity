@@ -984,7 +984,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1342555329}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c87b307eb36d7c499489298b8bc0383, type: 3}
   m_Name: 
@@ -1193,6 +1193,16 @@ PrefabInstance:
     - target: {fileID: 1602829325, guid: 8fbb28b0c90773043885878364ba09bf, type: 3}
       propertyPath: m_Color.a
       value: 0.74509805
+      objectReference: {fileID: 0}
+    - target: {fileID: 1306272057071250493, guid: 8fbb28b0c90773043885878364ba09bf,
+        type: 3}
+      propertyPath: m_Padding.m_Top
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1306272057071250493, guid: 8fbb28b0c90773043885878364ba09bf,
+        type: 3}
+      propertyPath: m_Padding.m_Bottom
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1535338637152663508, guid: 8fbb28b0c90773043885878364ba09bf,
         type: 3}

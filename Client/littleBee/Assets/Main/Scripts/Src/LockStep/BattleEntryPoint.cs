@@ -234,12 +234,15 @@ namespace Synchronize.Game.Lockstep
                 await System.Threading.Tasks.Task.Yield();
             
             Handler.Run(_=>
-                NotificationManager.Instance.Show(NotificationType.Info, option =>
+                NotificationManager.Instance.Show(NotificationType.Warning, option =>
                 {
-                    ModuleManager.GetModule<GameContentRootModule>().DestroyChildren();
-                    ModuleManager.GetModule<PoolModule>().Clear();
-                    SimulationManager.Instance.RemoveSimulation();
-                    ModuleManager.GetModule<UIModule>().Pop(Layer.Bottom);
+                    if (option == NotificationOption.OK)
+                    {
+                        ModuleManager.GetModule<GameContentRootModule>().DestroyChildren();
+                        ModuleManager.GetModule<PoolModule>().Clear();
+                        SimulationManager.Instance.RemoveSimulation();
+                        ModuleManager.GetModule<UIModule>().Pop(Layer.Bottom);
+                    }
                 }, i =>
                 {
                     i.TitleKey = string.Format(i.TitleKey, Localization.Localization.GetTranslation("tips"));
