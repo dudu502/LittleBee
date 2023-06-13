@@ -13,16 +13,10 @@ namespace Synchronize.Game.Lockstep
 {
     public class App : MonoBehaviour
     {
-
-        public static App Instance
-        {
-            get;
-            private set;
-        }
-        [SerializeField] private UIModule m_UIModule;
-        [SerializeField] private PoolModule m_PoolModule;
-        [SerializeField] private EntitySpawnModule m_EntitySpawnModule;
-        [SerializeField] private GameContentRootModule m_GameContentRootModule;
+        [SerializeField] UIModule m_UIModule;
+        [SerializeField] PoolModule m_PoolModule;
+        [SerializeField] EntitySpawnModule m_EntitySpawnModule;
+        [SerializeField] GameContentRootModule m_GameContentRootModule;
         void InitApplicationSettings()
         {
             BattleEntryPoint.PersistentDataPath = Application.persistentDataPath;
@@ -52,8 +46,6 @@ namespace Synchronize.Game.Lockstep
                 ModuleManager.Add(m_EntitySpawnModule);
             if (m_GameContentRootModule != null)
                 ModuleManager.Add(m_GameContentRootModule);
-            ObjectPool.Common.PoolMgr.Init();
-
         }
         void InitLocalization()
         {
@@ -62,7 +54,6 @@ namespace Synchronize.Game.Lockstep
         }
         void Awake()
         {
-            Instance = this;
             InitLocalization();
             InitApplicationSettings();
             InitProxySettings();
@@ -79,9 +70,7 @@ namespace Synchronize.Game.Lockstep
 
         void Update()
         {
-            Handler.Update();
-            ObjectPool.Common.PoolMgr.Update();
-            
+            Handler.Update();  
         }
     }
 }

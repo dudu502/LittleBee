@@ -8,7 +8,7 @@ namespace Synchronize.Game.Lockstep.Notification
 {
     public class ToastItem : MonoBehaviour
     {
-        public static readonly WaitForSeconds s_wait = new WaitForSeconds(2);
+        static readonly WaitForSeconds s_wait = new WaitForSeconds(2);
         public TMPro.TMP_Text m_Text;
         public bool IsIdle = true;
 

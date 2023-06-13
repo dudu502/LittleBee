@@ -11,7 +11,7 @@ namespace Synchronize.Game.Lockstep.UI
 {
     public class ReplayItemRenderer : DynamicInfinityItem
     {
-        private readonly string _timeFormatPatten = "yyyy/MM/dd HH:mm:ss";
+        const string _timeFormatPatten = "yyyy/MM/dd HH:mm:ss";
         public class ReplayItemData
         {
 

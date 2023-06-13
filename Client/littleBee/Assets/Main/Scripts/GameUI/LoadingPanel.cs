@@ -35,10 +35,6 @@ namespace Synchronize.Game.Lockstep.UI
             EventMgr<EventType, LoadingInfo>.AddListener(EventType.UpdateLoading, OnUpdateLoadingInfo);
             EventMgr<EventType, object>.AddListener(EventType.ClosePanel, OnCloseLoadingInfo);
         }
-        void Start()
-        {
-            ApplyLocalizedLanguage();
-        }
 
         public override void OnClose()
         {
@@ -66,10 +62,6 @@ namespace Synchronize.Game.Lockstep.UI
         {
             base.OnShow(paramObject);
             OnUpdateLoadingInfo(paramObject as LoadingInfo);
-        }
-        public void ApplyLocalizedLanguage()
-        {
-
         }
     }
 }

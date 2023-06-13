@@ -56,7 +56,6 @@ namespace Synchronize.Game.Lockstep.UI
 
             m_ReplaySpeedSlider.onValueChanged.AddListener(value => SimulationManager.Instance.UpdateFrameMsLength(value));
             Evt.EventMgr<EvtReplay, float>.AddListener(EvtReplay.UpdateFrameCount, OnUpdateReplayProgress);
-            ApplyLocalizedLanguage();
         }
 
         void OnUpdateReplayProgress(float value)
@@ -119,11 +118,6 @@ namespace Synchronize.Game.Lockstep.UI
                 }
             }
 
-        }
-
-        public void ApplyLocalizedLanguage()
-        {
-            //m_BackButton.SetButtonText(Language.GetText(5));
         }
     }
 }

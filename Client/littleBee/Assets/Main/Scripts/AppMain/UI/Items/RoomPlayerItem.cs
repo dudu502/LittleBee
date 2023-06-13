@@ -30,7 +30,7 @@ namespace Synchronize.Game.Lockstep.UI
         Color.Lerp(Color.blue,Color.green,0.7f),
         Color.Lerp(Color.yellow,Color.blue,0.7f),
         Color.Lerp(Color.blue,Color.yellow,0.7f),
-    };
+        };
         public TMP_Text m_TxtName;
         public Button m_BtnColor;
         public Button m_BtnTeam;
