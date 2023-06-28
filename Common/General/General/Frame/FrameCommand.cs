@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Frame
+namespace Synchronize.Game.Lockstep.Frame
 {
     public class FrameCommand
     {

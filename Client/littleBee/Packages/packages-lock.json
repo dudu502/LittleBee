@@ -9,6 +9,15 @@
       },
       "url": "https://packages.unity.cn"
     },
+    "com.unity.collab-proxy": {
+      "version": "1.17.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.services.core": "1.0.1"
+      },
+      "url": "https://packages.unity.cn"
+    },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
       "depth": 1,
@@ -48,20 +57,11 @@
       "dependencies": {},
       "url": "https://packages.unity.cn"
     },
-    "com.unity.performance.profile-analyzer": {
-      "version": "1.1.1",
-      "depth": 0,
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.0.2",
+      "depth": 2,
       "source": "registry",
       "dependencies": {},
-      "url": "https://packages.unity.cn"
-    },
-    "com.unity.polybrush": {
-      "version": "1.1.2",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.settings-manager": "1.0.3"
-      },
       "url": "https://packages.unity.cn"
     },
     "com.unity.render-pipelines.core": {
@@ -87,21 +87,25 @@
     },
     "com.unity.searcher": {
       "version": "4.9.1",
-      "depth": 1,
+      "depth": 2,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.cn"
     },
-    "com.unity.settings-manager": {
-      "version": "1.0.3",
+    "com.unity.services.core": {
+      "version": "1.4.2",
       "depth": 1,
       "source": "registry",
-      "dependencies": {},
+      "dependencies": {
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.nuget.newtonsoft-json": "3.0.2",
+        "com.unity.modules.androidjni": "1.0.0"
+      },
       "url": "https://packages.unity.cn"
     },
     "com.unity.shadergraph": {
       "version": "12.1.7",
-      "depth": 0,
+      "depth": 1,
       "source": "builtin",
       "dependencies": {
         "com.unity.render-pipelines.core": "12.1.7",
@@ -157,6 +161,16 @@
         "com.unity.shadergraph": "12.1.7",
         "com.unity.render-pipelines.core": "12.1.7"
       }
+    },
+    "com.unity.visualscripting": {
+      "version": "1.7.8",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0"
+      },
+      "url": "https://packages.unity.cn"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

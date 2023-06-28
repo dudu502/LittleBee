@@ -20,9 +20,6 @@
     <Reference Include="LitJson">
       <HintPath>..\..\Common\3rd\libs\LitJson.dll</HintPath>
     </Reference>
-    <Reference Include="ServerDll">
-      <HintPath>..\..\Common\ServerDll\bin\Release\netstandard2.0\ServerDll.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

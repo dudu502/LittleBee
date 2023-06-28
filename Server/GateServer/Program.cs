@@ -1,15 +1,7 @@
-﻿using GateServer.Modules;
-using Service.Core;
-using Service.HttpMisc;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿
+using Synchronize.Game.Lockstep.Service.Core;
 
-namespace GateServer
+namespace Synchronize.Game.Lockstep.GateServer
 {
     class Program
     {

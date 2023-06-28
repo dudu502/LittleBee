@@ -3,6 +3,7 @@
 **/Properties/
 
 Server/WebServer/node_modules
+Client/littleBee/Logs
 Client/littleBee/Library
 Client/littleBee/Release
 Client/littleBee/Temp

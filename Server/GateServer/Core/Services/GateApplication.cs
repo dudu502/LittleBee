@@ -1,20 +1,18 @@
-﻿using GateServer.Modules;
+﻿
 using LiteNetLib;
-using Service.Core;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Net;
 using System.Net.Sockets;
-using LiteNetLib.Utils;
 using Net;
 using Net.ServiceImpl;
-using Service.Event;
-using GateServer.Core.Data;
 using LitJson;
-using GateServer.Core.Modules;
+using Synchronize.Game.Lockstep.Service.Core;
+using Synchronize.Game.Lockstep.Service.Event;
+using Synchronize.Game.Lockstep.Service.Modules;
+using Synchronize.Game.Lockstep.GateServer.Modules;
 
-namespace GateServer.Services
+namespace Synchronize.Game.Lockstep.GateServer.Services
 {
     public class GateApplication : BaseApplication
     {
@@ -106,8 +104,8 @@ namespace GateServer.Services
 #endif
             AddModule(new UserModule(this)); 
             AddModule(new RoomModule(this));
-            AddModule(new ServerDll.Service.Modules.HeartbeatModule(this,15));
-            AddModule(new GateDebugModule(this));
+            AddModule(new HeartbeatModule(this,15));
+
           
         }
     }

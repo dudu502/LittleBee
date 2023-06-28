@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GateServer.Core.Data
+namespace Synchronize.Game.Lockstep.GateServer.Core.Data
 {
     public class User
     {
