@@ -17,7 +17,7 @@ namespace Synchronize.Game.Lockstep.FSM
         public static Action<string> Log;
         private readonly List<State<TState, TParam>> m_States;
         private State<TState, TParam> m_CurrentActiveState = null;
-        private StateMachineStatus m_Status = StateMachineStatus.Initialized;
+        private StateMachineStatus m_Status = StateMachineStatus.NotInitialized;
         private readonly TParam m_Parameter;
         public StateMachine(TParam param)
         {

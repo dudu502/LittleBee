@@ -102,7 +102,6 @@ namespace Synchronize.Game.Lockstep.UI
         }
         void OnClickCreate()
         {
-            //AllUI.Instance.Show("PanelRoomPage", new RoomPageVO(pageVO.PageType));
             ModuleManager.GetModule<UIModule>().Push(UITypes.RoomPanel, Layer.Bottom, null);
             ClientService.Get<GateService>().RequestCreateRoom(1);
         }

@@ -11,6 +11,8 @@ namespace Synchronize.Game.Lockstep.Managers.UI
 {
     public class UIView:MonoBehaviour
     {
+        [HideInInspector]
+        public Layer CurrentLayer;
         protected bool EnableUIFadeEffect = true;
         public virtual void OnInit() 
         {
