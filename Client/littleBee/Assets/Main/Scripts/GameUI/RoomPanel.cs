@@ -8,6 +8,7 @@ using Synchronize.Game.Lockstep.Managers.UI;
 using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep.Misc;
+using System.Collections.Generic;
 
 namespace Synchronize.Game.Lockstep.UI
 {
@@ -29,22 +30,13 @@ namespace Synchronize.Game.Lockstep.UI
 
         private ListIterator<Config.Static.MapIdCFG> m_IterMapIds = new ListIterator<Config.Static.MapIdCFG>(null);
         // Use this for initialization
-
-        void Awake()
-        {
-
-        }
-        void Start()
-        {
-
-        }
         public override void OnInit()
         {
             base.OnInit();
             m_BtnBack.onClick.AddListener(OnClickBack);
             m_BtnLaunchGame.onClick.AddListener(OnClickLaunchGame);
             m_DlPlayerListRender.InitRendererList(OnSelectPlayerItem, null);
-
+            m_DlPlayerListRender.SetDataProvider(new List<PtRoomPlayer>());
             m_BtnPrevMap.onClick.AddListener(OnClickChangeMapPrev);
             m_BtnNextMap.onClick.AddListener(OnClickChangeMapNext);
             m_BtnDone.onClick.AddListener(OnClickDone);

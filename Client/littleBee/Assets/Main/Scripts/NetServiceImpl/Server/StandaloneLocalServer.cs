@@ -33,6 +33,7 @@ namespace NetServiceImpl.Server
             if (roomApplication!=null)
             {
                 roomApplication.ShutDown();
+                roomApplication.Dispose();
             }
             roomApplication = null;
             RoomApplication.Logger = null;

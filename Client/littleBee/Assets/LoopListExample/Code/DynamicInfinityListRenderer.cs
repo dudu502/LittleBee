@@ -251,13 +251,13 @@ public class DynamicInfinityListRenderer : MonoBehaviour
                 m_InOverlaps.Add(dR.Index, dR);
             }
         }
-        int len = mList_items.Count;
-        for (int i = 0; i < len; ++i)
+        
+        foreach(var item in mList_items)
         {
-            DynamicInfinityItem item = mList_items[i];
             if (item.DRect != null && !m_InOverlaps.ContainsKey(item.DRect.Index))
                 item.DRect = null;
         }
+
         foreach (DynamicRect dR in m_InOverlaps.Values)
         {
             if (GetDynmicItem(dR) == null)
@@ -271,6 +271,10 @@ public class DynamicInfinityListRenderer : MonoBehaviour
                     item.SetData(mDataProviders[dR.Index]);
                 }
             }
+        }
+        foreach (var item in mList_items)
+        {
+            item.gameObject.SetActive(item.DRect != null);
         }
     }
 

@@ -31,7 +31,6 @@ namespace Synchronize.Game.Lockstep.UI
         private LoadingInfo _loading;
         void Awake()
         {
-            EnableUIFadeEffect = false;
             EventMgr<EventType, LoadingInfo>.AddListener(EventType.UpdateLoading, OnUpdateLoadingInfo);
             EventMgr<EventType, object>.AddListener(EventType.ClosePanel, OnCloseLoadingInfo);
         }

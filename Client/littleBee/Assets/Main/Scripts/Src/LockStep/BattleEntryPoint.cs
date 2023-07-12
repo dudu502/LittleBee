@@ -211,7 +211,7 @@ namespace Synchronize.Game.Lockstep
         {
             GameEnvironment.Instance.SetState(GameEnvironment.State.InBattle);
             ModuleManager.GetModule<UIModule>().Push(UITypes.LoadingPanel, Layer.Top, new LoadingPanel.LoadingInfo(Localization.Localization.GetTranslation("Loading"), 0));
-                                 
+            await System.Threading.Tasks.Task.Delay(1000);
             replaySim.GetBehaviour<ReplayLogicFrameBehaviour>().SetFrameIdxInfos(replayInfo.Frames);
             MapIdCFG mapCfg = ModuleManager.GetModule<ConfigModule>()
                 .GetConfig<MapIdCFG>((int)replayInfo.MapId);

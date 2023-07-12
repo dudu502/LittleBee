@@ -13,35 +13,47 @@ namespace Synchronize.Game.Lockstep.Managers.UI
     {
         [HideInInspector]
         public Layer CurrentLayer;
-        protected bool EnableUIFadeEffect = true;
+        private Animator _uiAnimator; 
+        private byte _disableState = 0;
+        private const string ANI_OPEN_NAME = "open";
+        private const string ANI_CLOSE_NAME = "close";
         public virtual void OnInit() 
         {
-            if (EnableUIFadeEffect)
-            {
-                transform.localScale = 0.9f * Vector3.one;
-                transform.DOScale(Vector3.one, 0.2f);
-            }
-     
+            _uiAnimator = GetComponent<Animator>();
+            if (_uiAnimator != null)
+                _uiAnimator.Play(ANI_OPEN_NAME);
         }
         
-
         public virtual void OnShow(object obj)
         {
 
         }
         public virtual void OnClose()
         {
-            Destroy(gameObject);
+            _disableState = 0;
+            if (_uiAnimator != null)
+                _uiAnimator.Play(ANI_CLOSE_NAME);
+            else
+                Destroy(gameObject);
+        }
+        public void OnCloseAnimationStop()
+        {
+            if(_disableState == 0)
+                Destroy(gameObject);
         }
         public virtual void OnPause()
         {
-            gameObject.SetActive(false);
+            _disableState = 1;
+            if (_uiAnimator != null)
+                _uiAnimator.Play(ANI_CLOSE_NAME);
+            else
+                gameObject.SetActive(false);
         }
         public virtual void OnResume()
         {
             gameObject.SetActive(true);
-            
+            if (_uiAnimator != null)
+                _uiAnimator.Play(ANI_OPEN_NAME);
         }
-
     }
 }

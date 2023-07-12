@@ -275,6 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a11ea5195e0f8094982d65451fdf7ed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentLayer: 0
   m_TxtTitle: {fileID: 0}
   m_BtnBack: {fileID: 7791135432976786040}
   m_BtnLaunchGame: {fileID: 7791135434119479352}

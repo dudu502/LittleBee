@@ -4601,6 +4601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc9bd592f056e8448ff8068d5d80842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentLayer: 0
   m_BtnBack: {fileID: 266847734747870240}
   m_TxtTitle: {fileID: 5119961465918821213}
   m_ToggleGroup: {fileID: 266847733860893516}

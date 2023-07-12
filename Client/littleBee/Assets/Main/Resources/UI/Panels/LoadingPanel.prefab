@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1955cdcce38a6448eb4becdd095827, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentLayer: 0
   m_TextLoadingHint: {fileID: 98509103868174770}
   m_ImgLoadingAsset: {fileID: 3572153560766794073}
 --- !u!114 &3192423218622340698

@@ -23,6 +23,13 @@ namespace Synchronize.Game.Lockstep.Service.Modules
             Evt.EventMgr<NetActionEvent, object>.AddListener(NetActionEvent.CallCustomEvent, OnCallCustomEventAfterPollNetMessage);
             ThreadPool.QueueUserWorkItem(__HeartBeatRunningCheck,null);
         }
+
+        public override void Dispose()
+        {
+            _queueDisconnectPeers = null;
+            _dtPeerHeartBeat = null;
+            base.Dispose();
+        }
         void OnPeerDisconnectedEvent(NetPeer netPeer)
         {
             lock (_dtPeerHeartBeat)

@@ -29,12 +29,14 @@ namespace Synchronize.Game.Lockstep.UI
         public TMPro.TMP_Text m_TxtSize;
 
         public TMPro.TMP_Text m_TxtLength;
+
         public override void OnInit()
         {
             base.OnInit();
             m_BtnBack.onClick.AddListener(OnClickBack);
             m_BtnPlayReplay.onClick.AddListener(OnClickPlayReplay);
             m_DlReplaysListRender.InitRendererList(null, null, OnReplayItemEvent);
+            m_DlReplaysListRender.SetDataProvider(new List<ReplayItemRenderer.ReplayItemData>());
             m_BtnRename.onClick.AddListener(OnClickRename);
             LoadReplays();
         }
@@ -45,19 +47,20 @@ namespace Synchronize.Game.Lockstep.UI
         void LoadReplays()
         {
             var replayFiles = Directory.GetFiles(BattleEntryPoint.PersistentDataPath, Const.EXTENSION_TYPE_PATTERN_REPLAY);
-            List<ReplayItemRenderer.ReplayItemData> replayItemDatas = new List<ReplayItemRenderer.ReplayItemData>();
+
             foreach (string replayFile in replayFiles)
             {
                 ReplayItemRenderer.ReplayItemData replayItemData = new ReplayItemRenderer.ReplayItemData(replayFile);
-                replayItemDatas.Add(replayItemData);
+                m_DlReplaysListRender.GetDataProvider().Add(replayItemData);
             }
 
-            m_DlReplaysListRender.SetDataProvider(replayItemDatas);
-            if (replayItemDatas.Count > 0)
+           
+            if (m_DlReplaysListRender.GetDataProvider().Count > 0)
             {
-                replayItemDatas[0].IsSelect = true;
-                OnReplayItemEvent(new DynamicInfinityItem.Event("Select", replayItemDatas[0]));
+                ((ReplayItemRenderer.ReplayItemData)m_DlReplaysListRender.GetDataProvider()[0]).IsSelect = true;
+                OnReplayItemEvent(new DynamicInfinityItem.Event("Select", ((ReplayItemRenderer.ReplayItemData)m_DlReplaysListRender.GetDataProvider()[0])));
             }
+            m_DlReplaysListRender.RefreshDataProvider();
         }
 
         void OnReplayItemEvent(DynamicInfinityItem.Event evt)

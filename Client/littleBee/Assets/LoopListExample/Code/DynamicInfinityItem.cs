@@ -83,7 +83,7 @@ public class DynamicInfinityItem : MonoBehaviour
         set
         {
             mDRect = value;
-            gameObject.SetActive(value != null);
+            //gameObject.SetActive(value != null);
         }
         get { return mDRect; }
     }

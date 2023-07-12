@@ -1709,6 +1709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464c151559d1280469e90f5e55d92ab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentLayer: 0
   m_BtnWan: {fileID: 2996431079235499975}
   m_BtnReplays: {fileID: 2995370716750873237}
   m_BtnSetting: {fileID: 2996431079519370333}

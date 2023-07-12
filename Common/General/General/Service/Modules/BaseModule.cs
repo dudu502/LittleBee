@@ -32,11 +32,16 @@ namespace Synchronize.Game.Lockstep.Service.Modules
         }
         public static void RemoveModule<T>()
         {
-            if( _modules.ContainsKey(typeof(T)))
+            if (_modules.TryGetValue(typeof(T),out var module))
+            {
+                module.Dispose();
                 _modules.Remove(typeof(T));
+            }
         }
         public static void RemoveAllModules()
         {
+            foreach(BaseModule module in _modules.Values)
+                module.Dispose();
             _modules.Clear();
         }
 

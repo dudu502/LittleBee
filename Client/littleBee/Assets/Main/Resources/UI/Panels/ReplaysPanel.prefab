@@ -2095,6 +2095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93dcd50b3fa882044b3ae925962cdb64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentLayer: 0
   m_TxtTitle: {fileID: 9058173504146064063}
   m_BtnBack: {fileID: 5450562411207204108}
   m_BtnPlayReplay: {fileID: 5450562410068246348}

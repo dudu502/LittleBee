@@ -6786,6 +6786,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04811f0380dff1a498e5959d2dafbc45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentLayer: 0
   m_TxtTitle: {fileID: 6175142059586317010}
   m_BtnBack: {fileID: 6307914626374540415}
   m_BtnSave: {fileID: 6307914627770948180}

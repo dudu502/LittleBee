@@ -149,6 +149,13 @@ namespace Synchronize.Game.Lockstep.Service.Core
 
         }
 
+        public virtual void Dispose()
+        {
+            m_ApplicationKey = null;
+            m_ConfigMaps = null;
+            BaseModule.RemoveAllModules();
+        }
+
         protected virtual void AddModule(BaseModule module)
         {
             BaseModule.AddModule(module);

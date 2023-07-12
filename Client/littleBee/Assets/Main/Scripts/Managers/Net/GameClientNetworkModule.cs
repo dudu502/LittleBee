@@ -28,10 +28,6 @@ namespace Synchronize.Game.Lockstep.Managers
             m_QueueMsg = new ConcurrentQueue<PtMessagePackage>();
         }
 
-        public void Tick()
-        {
-
-        }
         public void CloseClient()
         {
             m_BlPollThreadState = false;

@@ -32,7 +32,16 @@ namespace Synchronize.Game.Lockstep.RoomServer.Modules
             EventMgr<RequestMessageId, NetMessageEvt>.AddListener(RequestMessageId.RS_HistoryKeyframes, OnHistoryKeyframes);
             EventMgr<NetActionEvent, NetPeer>.AddListener(NetActionEvent.PeerDisconnectedEvent, OnPeerDisconnectedEvent);
         }
-
+        public override void Dispose()
+        {
+            EventMgr<RequestMessageId, NetMessageEvt>.RemoveListener(RequestMessageId.RS_EnterRoom, OnEnterRoom);
+            EventMgr<RequestMessageId, NetMessageEvt>.RemoveListener(RequestMessageId.RS_InitPlayer, OnInitPlayer);
+            EventMgr<RequestMessageId, NetMessageEvt>.RemoveListener(RequestMessageId.RS_PlayerReady, OnPlayerReady);
+            EventMgr<RequestMessageId, NetMessageEvt>.RemoveListener(RequestMessageId.RS_SyncClientKeyframes, OnSyncClientKeyframes);
+            EventMgr<RequestMessageId, NetMessageEvt>.RemoveListener(RequestMessageId.RS_HistoryKeyframes, OnHistoryKeyframes);
+            EventMgr<NetActionEvent, NetPeer>.RemoveListener(NetActionEvent.PeerDisconnectedEvent, OnPeerDisconnectedEvent);
+            base.Dispose();
+        }
         void OnPeerDisconnectedEvent(NetPeer netPeer)
         {
             using (ByteBuffer buffer = new ByteBuffer())

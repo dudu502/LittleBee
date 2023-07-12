@@ -61,6 +61,7 @@ namespace Synchronize.Game.Lockstep.UI
             m_BtnRefreshRoom.onClick.AddListener(OnClickRefreshRoom);
             m_BtnCreate.onClick.AddListener(OnClickCreate);
             m_DynRoomList.InitRendererList(OnSelectDynRoomListItem, null);
+            m_DynRoomList.SetDataProvider(new List<PtRoom>());
         }
         IEnumerator _RefreshGateInfo()
         {
@@ -136,7 +137,6 @@ namespace Synchronize.Game.Lockstep.UI
                 //在组队时刻加入房间
                 ClientService.Get<GateService>().RequestJoinRoom(ptRoom);
             }
-
         }
         #region NetMessageHandler
         void OnGateServerConnected(object obj)

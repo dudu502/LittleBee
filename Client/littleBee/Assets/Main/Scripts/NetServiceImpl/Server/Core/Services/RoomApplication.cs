@@ -22,8 +22,15 @@ namespace Synchronize.Game.Lockstep.RoomServer.Services
         {
             base.SetUp();
             SetUpSimulation();
-            AddModule(new BattleModule(this));         
+            AddModule(new BattleModule(this));       
         }
+
+        public override void Dispose()
+        {
+            Synchronize.Game.Lockstep.RoomServer.Services.Sim.SimulationManager.Instance.Stop();
+            base.Dispose();
+        }
+
         void SetUpSimulation()
         {
             Synchronize.Game.Lockstep.RoomServer.Services.Sim.Simulation simulation = new Synchronize.Game.Lockstep.RoomServer.Services.Sim.Simulation(1);
