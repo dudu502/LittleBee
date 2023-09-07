@@ -72,7 +72,7 @@ namespace Synchronize.Game.Lockstep.Notification
             Interrupting,
         }
 
-        StateMachine<State, NotificationManager> _notificationFSM;
+        IStateMachine< NotificationManager> _notificationFSM;
 
         private void Awake()
         {
@@ -93,39 +93,39 @@ namespace Synchronize.Game.Lockstep.Notification
             var bottomNav = _optionButtonBottom.navigation;
             bottomNav.mode = Navigation.Mode.None;
             _optionButtonBottom.navigation = bottomNav;
-            _notificationFSM = new StateMachine<State, NotificationManager>(this);
+            _notificationFSM = new StateMachine< NotificationManager>(this);
         }
         private void Start()
         {
             _notificationFSM
-                .NewState(State.Idle)
-                    .When(so => so._notificationTypesInQueue.Count > 0).To(State.Normal)
+                .State(State.Idle)
+                    .Transition(so => so._notificationTypesInQueue.Count > 0).To(State.Normal).End()
                 .End()
-                .NewState(State.Normal)
+                .State(State.Normal)
                     .Enter(so =>
                     {
                         ShowImpl(so._notificationTypesInQueue.LastOrDefault());
                         so._notificationTypesInQueue.RemoveAt(so._notificationTypesInQueue.Count - 1);
                     })
-                    .When(so => so._currentNotification == null).To(State.Idle)
-                    .When(so =>
+                    .Transition(so => so._currentNotification == null).To(State.Idle).End()
+                    .Transition(so =>
                     {
                         var last = so._notificationTypesInQueue.LastOrDefault();
                         if (last != null)
                             return so._currentNotification.CompareTo(last) < 0;
                         return false;
-                    }).To(State.Interrupting)
+                    }).To(State.Interrupting).End()
                 .End()
-                .NewState(State.Interrupting)
+                .State(State.Interrupting)
                     .Enter(so =>
                     {
                         so.Continue(so._currentNotification.Type);
                         if (so._currentNotification.NotificationAssetItem.NeedReEnqueue)
                             so.EnqueueNotificationCallback(so._currentNotification);
                     })
-                    .When(so => so._currentNotification == null).To(State.Idle)
+                    .Transition(so => so._currentNotification == null).To(State.Idle).End()
                 .End()
-                .Initialize().Start(State.Idle);
+                .SetDefault(State.Idle).Build();
         }
         private NotificationConfigAsset.NotificationItem GetNotificationItem(NotificationType nType)
         {
