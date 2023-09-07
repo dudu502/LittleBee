@@ -2,8 +2,6 @@
 using Net;
 using Net.Pt;
 using Net.ServiceImpl;
-using Notify;
-using Proxy;
 using Synchronize.Game.Lockstep;
 using Synchronize.Game.Lockstep.Config.Static;
 using Synchronize.Game.Lockstep.Ecsr.Entitas;
@@ -13,6 +11,7 @@ using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep.Managers.UI;
 using Synchronize.Game.Lockstep.Misc;
 using Synchronize.Game.Lockstep.Net;
+using Synchronize.Game.Lockstep.Proxy;
 using Synchronize.Game.Lockstep.UI;
 using System;
 using System.Collections;
@@ -24,7 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace NetServiceImpl.OnlineMode.Room
+namespace Synchronize.Game.Lockstep.Room
 {
     public class RoomSession
     {
@@ -50,7 +49,7 @@ namespace NetServiceImpl.OnlineMode.Room
             QueueKeyFrameCollection = new ConcurrentQueue<PtKeyFrameCollection>();
         }
     }
-    public class RoomServices:ClientService
+    public class RoomServiceProxy:NetServiceProxy
     {
         public enum EvtType
         {
@@ -58,7 +57,7 @@ namespace NetServiceImpl.OnlineMode.Room
             CreatePlayer,
         }
         public RoomSession Session = new RoomSession();
-        public RoomServices()
+        public RoomServiceProxy()
         {
             EventMgr<ResponseMessageId, PtMessagePackage>.AddListener(ResponseMessageId.RS_ClientConnected, OnResponseRoomServerClientConnected);
             EventMgr<ResponseMessageId, PtMessagePackage>.AddListener(ResponseMessageId.RS_EnterRoom, OnResponseEnterRoom);
@@ -69,11 +68,7 @@ namespace NetServiceImpl.OnlineMode.Room
             EventMgr<ResponseMessageId, PtMessagePackage>.AddListener(ResponseMessageId.RS_AllUserState, OnResponseAllUserState);
             EventMgr<ResponseMessageId, PtMessagePackage>.AddListener(ResponseMessageId.RS_HistoryKeyframes, OnResponseHistoryKeyframes);
         }
-        public override void Reset()
-        {
-            if (Session != null)
-                Session.Clear();
-        }
+        
         void OnResponseRoomServerClientConnected(PtMessagePackage package) 
         {
             Debug.Log("OnResponseRoomServerClientConnected");
@@ -221,7 +216,7 @@ namespace NetServiceImpl.OnlineMode.Room
                 int offset = Session.InitIndex == -1 ? 0 : Session.InitIndex;
                 startDate -= DateTime.Now - startDate + new TimeSpan(encodingTicks);
                 SimulationManager.Instance.Start(startDate, Session.WriteKeyframeCollectionIndex - offset,
-                    process => TriggerMainThreadEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Localization.GetTranslation("Synchronizing key frames"), process)),
+                    process => TriggerMainThreadEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Localization.Localization.GetTranslation("Synchronizing key frames"), process)),
                     () => Handler.Run(_ =>
                     {
                         EventMgr<LoadingPanel.EventType, object>.TriggerEvent(LoadingPanel.EventType.ClosePanel, null);

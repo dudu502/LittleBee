@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Threading;
 using System.IO;
-using Proxy;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
@@ -10,6 +9,7 @@ using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep.Misc;
 using Synchronize.Game.Lockstep.Notification;
+using Synchronize.Game.Lockstep.Proxy;
 
 namespace Synchronize.Game.Lockstep.UI
 {

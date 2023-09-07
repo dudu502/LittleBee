@@ -1,7 +1,8 @@
 ﻿
 using Net.Pt;
 using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Room;
+using Synchronize.Game.Lockstep.Proxy;
+using Synchronize.Game.Lockstep.Room;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
         public int CurrentFrameIdx { private set; get; }
 
         List<List<FrameIdxInfo>> m_FrameIdxInfos;
-        private RoomServices roomServices;
+        private RoomServiceProxy roomServices;
         private readonly List<FrameIdxInfo> m_DefaultEmptyFrameIdxInfos = new List<FrameIdxInfo>();
         public LogicFrameBehaviour()
         {
@@ -31,7 +32,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
         public void Start()
         {
             m_FrameIdxInfos = new List<List<FrameIdxInfo>>();
-            roomServices = ClientService.Get<RoomServices>();
+            roomServices = DataProxy.Get<RoomServiceProxy>();
             CurrentFrameIdx = roomServices.Session.InitIndex;
             Debug.Log("CurrentFrameIndex "+CurrentFrameIdx);
             if(CurrentFrameIdx > -1)

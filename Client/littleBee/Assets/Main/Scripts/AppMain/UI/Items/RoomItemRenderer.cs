@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Gate;
-using Proxy;
 using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Misc;
 using Net.Pt;

@@ -2,10 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using NetServiceImpl.OnlineMode.Gate;
 using Net.Pt;
-using NetServiceImpl;
-using Proxy;
 using Synchronize.Game.Lockstep.Managers.UI;
 using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Managers;
@@ -13,6 +10,8 @@ using Synchronize.Game.Lockstep.Misc;
 using Synchronize.Game.Lockstep.Net;
 using Synchronize.Game.Lockstep.Notification;
 using TMPro;
+using Synchronize.Game.Lockstep.Proxy;
+using Synchronize.Game.Lockstep.Gate;
 
 namespace Synchronize.Game.Lockstep.UI
 {
@@ -104,7 +103,7 @@ namespace Synchronize.Game.Lockstep.UI
         void OnClickCreate()
         {
             ModuleManager.GetModule<UIModule>().Push(UITypes.RoomPanel, Layer.Bottom, null);
-            ClientService.Get<GateService>().RequestCreateRoom(1);
+            DataProxy.Get<GateServiceProxy>().RequestCreateRoom(1);
         }
         void OnOpenRoomPanel(object obj)
         {
@@ -125,7 +124,7 @@ namespace Synchronize.Game.Lockstep.UI
                 NotificationManager.Instance.Show(NotificationType.Warning, option =>
                 {
                     if(option == NotificationOption.OK)
-                        ClientService.Get<GateService>().RequestJoinRoom(ptRoom);
+                        DataProxy.Get<GateServiceProxy>().RequestJoinRoom(ptRoom);
                 }, item =>
                 {
                     item.TitleKey = string.Format(item.TitleKey, Localization.Localization.GetTranslation("Tips"));
@@ -135,7 +134,7 @@ namespace Synchronize.Game.Lockstep.UI
             else
             {
                 //在组队时刻加入房间
-                ClientService.Get<GateService>().RequestJoinRoom(ptRoom);
+                DataProxy.Get<GateServiceProxy>().RequestJoinRoom(ptRoom);
             }
         }
         #region NetMessageHandler
@@ -183,15 +182,15 @@ namespace Synchronize.Game.Lockstep.UI
         void ConnectToGateServer()
         {
             Debug.LogWarning("ConnectTo GateServer");
-            ClientService.Get<GateService>().Connect2GateServer();
+            DataProxy.Get<GateServiceProxy>().Connect2GateServer();
         }
         void OnClickRefreshGate()
         {
-            ClientService.Get<GateService>().RefreshLanGates(9030);
+            DataProxy.Get<GateServiceProxy>().RefreshLanGates(9030);
         }
         void OnClickRefreshRoom()
         {
-            ClientService.Get<GateService>().RequestRoomList();
+            DataProxy.Get<GateServiceProxy>().RequestRoomList();
         }
         void OnToggleSelect(Toggle toggle, bool select)
         {
@@ -208,7 +207,7 @@ namespace Synchronize.Game.Lockstep.UI
                     }
                 }
                 int selectIndex = m_Toggles.IndexOf(toggle);
-                ClientService.Get<GateService>().UpdateCurrentGateAddress(m_Hosts[selectIndex]);
+                DataProxy.Get<GateServiceProxy>().UpdateCurrentGateAddress(m_Hosts[selectIndex]);
                 ConnectToGateServer();
             }
         }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Proxy
+namespace Synchronize.Game.Lockstep.Proxy
 {
     public class PlayerPrefabsProxy:DataProxy
     {

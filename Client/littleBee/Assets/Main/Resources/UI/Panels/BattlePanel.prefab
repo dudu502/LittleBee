@@ -1043,6 +1043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7869a04ec31a7644ea21f0b6ad250fda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentLayer: 0
   m_FireButton: {fileID: 9171564225188720003}
   m_BackButton: {fileID: 456195789072126961}
   m_TxtLog: {fileID: 9171564225527457672}

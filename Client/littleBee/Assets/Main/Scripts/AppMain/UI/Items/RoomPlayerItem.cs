@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-
-using NetServiceImpl.OnlineMode.Gate;
 using NetServiceImpl;
 using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Misc;
 using TMPro;
 using Net.Pt;
+using Synchronize.Game.Lockstep.Proxy;
+using Synchronize.Game.Lockstep.Gate;
 
 namespace Synchronize.Game.Lockstep.UI
 {
@@ -46,14 +46,14 @@ namespace Synchronize.Game.Lockstep.UI
             print("change color");
             var player = GetData<PtRoomPlayer>();
 
-            ClientService.Get<GateService>().RequestUpdatePlayerColor(ClientService.Get<GateService>().SelfRoom.RoomId, player.UserId);
+            DataProxy.Get<GateServiceProxy>().RequestUpdatePlayerColor(DataProxy.Get<GateServiceProxy>().SelfRoom.RoomId, player.UserId);
         }
 
         void OnChangeTeam()
         {
             print("change team");
             var player = GetData<PtRoomPlayer>();
-            ClientService.Get<GateService>().RequestUpdatePlayerTeam(ClientService.Get<GateService>().SelfRoom.RoomId, player.UserId, (byte)++teamId);
+            DataProxy.Get<GateServiceProxy>().RequestUpdatePlayerTeam(DataProxy.Get<GateServiceProxy>().SelfRoom.RoomId, player.UserId, (byte)++teamId);
         }
 
         protected override void OnRenderer()

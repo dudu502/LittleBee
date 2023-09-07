@@ -1,14 +1,13 @@
 ﻿
 using UnityEngine.UI;
-using Proxy;
-using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Gate;
 using Net.Pt;
 using Synchronize.Game.Lockstep.Managers.UI;
 using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep.Misc;
 using System.Collections.Generic;
+using Synchronize.Game.Lockstep.Proxy;
+using Synchronize.Game.Lockstep.Gate;
 
 namespace Synchronize.Game.Lockstep.UI
 {
@@ -67,9 +66,9 @@ namespace Synchronize.Game.Lockstep.UI
         }
         void RequestUpdateRoomMap()
         {
-            if (ClientService.Get<GateService>().SelfRoom != null)
+            if (DataProxy.Get<GateServiceProxy>().SelfRoom != null)
             {
-                ClientService.Get<GateService>().RequestUpdateMap(ClientService.Get<GateService>().SelfRoom.RoomId, (uint)m_IterMapIds.GetCurrent().ConfigId, m_IterMapIds.GetCurrent().PlayerCount);
+                DataProxy.Get<GateServiceProxy>().RequestUpdateMap(DataProxy.Get<GateServiceProxy>().SelfRoom.RoomId, (uint)m_IterMapIds.GetCurrent().ConfigId, m_IterMapIds.GetCurrent().PlayerCount);
             }
         }
         void OnClickChangeMapPrev()
@@ -101,7 +100,7 @@ namespace Synchronize.Game.Lockstep.UI
 
         private void RefreshData()
         {
-            var selfRoom = ClientService.Get<GateService>().SelfRoom;
+            var selfRoom = DataProxy.Get<GateServiceProxy>().SelfRoom;
             if (selfRoom != null)
             {
                 var mapCfg = ModuleManager.GetModule<ConfigModule>().GetConfig<Config.Static.MapIdCFG>((int)selfRoom.MapId);
@@ -113,22 +112,19 @@ namespace Synchronize.Game.Lockstep.UI
 
         void OnClickBack()
         {
-
             RequestLeaveRoom();
             ModuleManager.GetModule<UIModule>().Pop(Layer.Bottom);
-
         }
         void OnClickLaunchGame()
         {
-            if (ClientService.Get<GateService>().SelfRoom != null)
+            if (DataProxy.Get<GateServiceProxy>().SelfRoom != null)
             {
-                //ModuleManager.GetModule<UIModule>().Pop(Layer.Bottom);
-                ClientService.Get<GateService>().RequestLaunchGame();
+                DataProxy.Get<GateServiceProxy>().RequestLaunchGame();
             }
         }
         void OnSelectPlayerItem(DynamicInfinityItem selected)
         {
-            ClientService.Get<GateService>().RequestLaunchGame();
+            DataProxy.Get<GateServiceProxy>().RequestLaunchGame();
         }
         public override void OnShow(object paramObject)
         {
@@ -157,7 +153,7 @@ namespace Synchronize.Game.Lockstep.UI
         {
             if (!DataProxy.Get<UserDataProxy>().UserLoginInfo.IsEmpty())
             {
-                ClientService.Get<GateService>().RequestLeaveRoom();
+                DataProxy.Get<GateServiceProxy>().RequestLeaveRoom();
             }
         }
     }

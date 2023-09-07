@@ -2,15 +2,13 @@
 
 using Net.Pt;
 using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Room;
 using Synchronize.Game.Lockstep.Behaviours.Frame;
 using Synchronize.Game.Lockstep.Ecsr.Entitas;
+using Synchronize.Game.Lockstep.Proxy;
+using Synchronize.Game.Lockstep.Room;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.Cryptography;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
 
@@ -27,7 +25,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
         const int BackUpEntityWorldFrameLength = 128;
         const int SaveEntityWorldSnapshotFrameLength = BackUpEntityWorldFrameLength * 2;
         LogicFrameBehaviour logic;
-        RoomServices roomServices;
+        RoomServiceProxy roomServices;
         Dictionary<int, EntityWorldFrameData> m_DictEntityWorldFrameData;
         string _snapshotFolderPath = string.Empty;
         public Simulation Sim { set; get; }
@@ -66,7 +64,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
 
         public void Start()
         {
-            roomServices = ClientService.Get<RoomServices>();
+            roomServices = DataProxy.Get<RoomServiceProxy>();
             logic = Sim.GetBehaviour<LogicFrameBehaviour>();
         }
 

@@ -1,16 +1,12 @@
 ﻿
-using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Room;
 using Synchronize.Game.Lockstep.Behaviours.Data;
 using Synchronize.Game.Lockstep.Behaviours.Frame;
 using Synchronize.Game.Lockstep.Frame;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Synchronize.Game.Lockstep.Proxy;
+using Synchronize.Game.Lockstep.Room;
+
 using TrueSync;
-using UnityEngine;
+
 
 namespace Synchronize.Game.Lockstep.Behaviours
 {
@@ -28,7 +24,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
 
         public void Start()
         {
-            Id = ClientService.Get<RoomServices>().Session.Id;
+            Id = DataProxy.Get<RoomServiceProxy>().Session.Id;
             logic = Sim.GetBehaviour<LogicFrameBehaviour>();
             currentRecord = new JoystickMovementInputRecord();
             currentRecord.EntityId = Id;

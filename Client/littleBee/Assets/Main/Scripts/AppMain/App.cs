@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
-using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Gate;
-using NetServiceImpl.OnlineMode.Room;
 using Synchronize.Game.Lockstep.Misc;
 using Synchronize.Game.Lockstep.Managers;
 using Synchronize.Game.Lockstep;
 using Synchronize.Game.Lockstep.Localization;
 using Synchronize.Game.Lockstep.Managers.UI;
 using Synchronize.Game.Lockstep.Notification;
+using Synchronize.Game.Lockstep.Gate;
+using Synchronize.Game.Lockstep.Room;
 
 namespace Synchronize.Game.Lockstep
 {
@@ -30,10 +29,10 @@ namespace Synchronize.Game.Lockstep
             Proxy.DataProxy.Init<Proxy.PlayerPrefabsProxy>(new Proxy.PlayerPrefabsProxy());
             Proxy.DataProxy.Init<Proxy.UserDataProxy>(new Proxy.UserDataProxy());
         }
-        void InitServiceSettings()
+        void InitServiceProxySettings()
         {
-            ClientService.Init(new GateService());
-            ClientService.Init(new RoomServices());
+            Proxy.DataProxy.Init<GateServiceProxy>(new GateServiceProxy());
+            Proxy.DataProxy.Init<RoomServiceProxy>(new RoomServiceProxy());
         }
         void InitManagerSettings()
         {
@@ -57,7 +56,7 @@ namespace Synchronize.Game.Lockstep
             InitLocalization();
             InitApplicationSettings();
             InitProxySettings();
-            InitServiceSettings();
+            InitServiceProxySettings();
             InitManagerSettings();
             Handler.Init();
         }

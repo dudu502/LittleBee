@@ -1,7 +1,7 @@
 ﻿
-using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Room;
 using Synchronize.Game.Lockstep.Ecsr.Systems;
+using Synchronize.Game.Lockstep.Proxy;
+using Synchronize.Game.Lockstep.Room;
 using System.Collections.Generic;
 
 
@@ -17,7 +17,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
             set;get;
         }
         public List<IEntitySystem> Systems = new List<IEntitySystem>();
-        protected RoomServices roomServices;
+        protected RoomServiceProxy roomServices;
         protected LogicFrameBehaviour logicBehaviour;
 
         public EntityBehaviour()
@@ -49,7 +49,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
         }
         public virtual void Start()
         {
-            roomServices = ClientService.Get<RoomServices>();
+            roomServices = DataProxy.Get<RoomServiceProxy>();
             if (roomServices == null) throw new System.NullReferenceException();
             logicBehaviour = Sim.GetBehaviour<LogicFrameBehaviour>();
         }

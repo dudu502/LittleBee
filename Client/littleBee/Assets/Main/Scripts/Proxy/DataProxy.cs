@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Synchronize.Game.Lockstep.Evt;
+using Synchronize.Game.Lockstep.Misc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Proxy
+namespace Synchronize.Game.Lockstep.Proxy
 {
     public class DataProxy
     {
@@ -15,6 +17,10 @@ namespace Proxy
         protected virtual void OnInit()
         {
 
+        }
+        protected void TriggerMainThreadEvent<T, P>(T type, P paramObj)
+        {
+            Handler.Run((item) => { EventMgr<T, P>.TriggerEvent(type, paramObj); }, null);
         }
         private static Dictionary<Type, DataProxy> s_Proxys = new Dictionary<Type, DataProxy>();
         public static void Init<T>(DataProxy proxy)

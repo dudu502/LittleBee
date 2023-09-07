@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetServiceImpl.OnlineMode.Gate
+namespace Synchronize.Game.Lockstep.Gate
 {
     public class GateAddressVO
     {

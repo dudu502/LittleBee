@@ -1,11 +1,6 @@
 ﻿using System.Reflection.Emit;
 
 using Net.Pt;
-using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Gate;
-using NetServiceImpl.OnlineMode.Room;
-using Proxy;
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,6 +23,9 @@ using Synchronize.Game.Lockstep.Replays;
 using Synchronize.Game.Lockstep.Evt;
 using Synchronize.Game.Lockstep.Net;
 using Synchronize.Game.Lockstep.Notification;
+using Synchronize.Game.Lockstep.Proxy;
+using Synchronize.Game.Lockstep.Room;
+using Synchronize.Game.Lockstep.Gate;
 
 namespace Synchronize.Game.Lockstep
 {
@@ -113,10 +111,10 @@ namespace Synchronize.Game.Lockstep
         {
             SimulationManager.Instance.Stop();
             while (!SimulationManager.Instance.HasStopped)
-                await System.Threading.Tasks.Task.Yield();
+                await Task.Yield();
             var sim = SimulationManager.Instance.GetSimulation();            
             ReplayInfo replayInfo = new ReplayInfo();
-            string name = ClientService.Get<RoomServices>().Session.Name;
+            string name = DataProxy.Get<RoomServiceProxy>().Session.Name;
             string path = PersistentDataPath + Const.LAST_REPLAY_FILENAME;
 
             replayInfo.MapId = uint.Parse(sim.GetEntityWorld().GetMeta (Meta.META_KEY_MAPID).ToString());
@@ -125,7 +123,7 @@ namespace Synchronize.Game.Lockstep
             replayInfo.InitEntityIds = (List<uint>)sim.GetEntityWorld().GetMeta(Meta.META_KEY_PLAYER_ENTITYIDS);
             replayInfo.Frames = sim.GetBehaviour<LogicFrameBehaviour>().GetFrameIdxInfos();
 
-            await System.Threading.Tasks.Task.Run(()=> 
+            await Task.Run(()=> 
             {
                 var bytesTask = ReplayInfo.Write(replayInfo);
                 bytesTask.Wait();
@@ -138,8 +136,8 @@ namespace Synchronize.Game.Lockstep
             SimulationManager.Instance.RemoveSimulation();
             NetServiceImpl.Server.StandaloneLocalServer.Stop();
             GameClientNetwork.Instance.CloseClient();
-            await System.Threading.Tasks.Task.Delay(50);
-            ClientService.Get<GateService>().Connect2GateServer();
+            await Task.Delay(50);
+            DataProxy.Get<GateServiceProxy>().Connect2GateServer();
         }
         static async void ConnectRoom(string address, PtLaunchGameData ptLaunchGameData)
         {
@@ -153,13 +151,13 @@ namespace Synchronize.Game.Lockstep
                         return;
                     }
                     NetServiceImpl.Server.StandaloneLocalServer.Start("Standalone", standaloneModePort, ptLaunchGameData.MapId, ptLaunchGameData.PlayerNumber);//fortest
-                    ClientService.Get<NetServiceImpl.OnlineMode.Gate.GateService>().RequestLeaveRoom();
-                    await System.Threading.Tasks.Task.Delay(50);
+                    DataProxy.Get<GateServiceProxy>().RequestLeaveRoom();
+                    await Task.Delay(50);
                 }    
             }
 
             GameClientNetwork.Instance.CloseClient();
-            await System.Threading.Tasks.Task.Delay(50);
+            await Task.Delay(50);
             GameClientNetwork.Instance.Launch();
             if(!ptLaunchGameData.IsStandaloneMode)
                 GameClientNetwork.Instance.Start(address, ptLaunchGameData.RSPort, ptLaunchGameData.ConnectionKey);
@@ -211,16 +209,18 @@ namespace Synchronize.Game.Lockstep
         {
             GameEnvironment.Instance.SetState(GameEnvironment.State.InBattle);
             ModuleManager.GetModule<UIModule>().Push(UITypes.LoadingPanel, Layer.Top, new LoadingPanel.LoadingInfo(Localization.Localization.GetTranslation("Loading"), 0));
-            await System.Threading.Tasks.Task.Delay(1000);
+            //await System.Threading.Tasks.Task.Delay(1000);
+            await Task.Yield();
             replaySim.GetBehaviour<ReplayLogicFrameBehaviour>().SetFrameIdxInfos(replayInfo.Frames);
             MapIdCFG mapCfg = ModuleManager.GetModule<ConfigModule>()
                 .GetConfig<MapIdCFG>((int)replayInfo.MapId);
             await EntityManager.CreateMapEntity(replaySim.GetEntityWorld(),mapCfg.ResKey);
             replayInfo.InitEntityIds.ForEach(entityId => 
                 EntityManager.CreatePlayerEntity(replaySim.GetEntityWorld(),entityId,false));
-            EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Localization.Localization.GetTranslation("Load complete"), 1f));   
-            await System.Threading.Tasks.Task.Delay(1000);
-            ModuleManager.GetModule<UIModule>().Pop( Layer.Top);
+            EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Localization.Localization.GetTranslation("Load complete"), 1f));
+            //await System.Threading.Tasks.Task.Delay(1000);
+            await Task.Yield();
+            ModuleManager.GetModule<UIModule>().Pop(Layer.Top);
             ModuleManager.GetModule<UIModule>().Push(UITypes.BattlePanel, Layer.Bottom,PlayBattleMode.PlayReplayBattle); 
             
             SimulationManager.Instance.Start(DateTime.Now);

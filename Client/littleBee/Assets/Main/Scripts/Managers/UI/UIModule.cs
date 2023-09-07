@@ -7,11 +7,12 @@ using UnityEngine;
 
 namespace Synchronize.Game.Lockstep.Managers
 {
-    class UILayerNode
+    [Serializable]
+    public class UILayerNode
     {
         public Layer name;
         public Transform transform;
-        public LinkedList<UIView> viewerLinkedList;
+        [HideInInspector] public LinkedList<UIView> viewerLinkedList;
         public UILayerNode(Layer name,Transform transformRoot)
         {
             this.name = name;
@@ -28,55 +29,64 @@ namespace Synchronize.Game.Lockstep.Managers
     }
     public class UIModule : MonoBehaviour, IModule
     {
-        Dictionary<Layer, UILayerNode> LayerViewDict;
+        public Dictionary<Layer, UILayerNode> LayerViewDict;
+        public UILayerNode[] CustomLayers;
         public void Init()
         {
             LayerViewDict = new Dictionary<Layer, UILayerNode>();
-            LayerViewDict[Layer.Bottom] = new UILayerNode(Layer.Bottom, transform.Find("Bottom").transform);
-            LayerViewDict[Layer.Middle] = new UILayerNode(Layer.Middle, transform.Find("Middle").transform);
-            LayerViewDict[Layer.Top] = new UILayerNode(Layer.Top, transform.Find("Top").transform);
+            foreach (var item in CustomLayers)
+                InsertLayerNode(item.name, item.transform);
         }
         public void InsertLayerNode(Layer layer, Transform layerTransform)
         {
-            LayerViewDict[layer] = new UILayerNode(layer,layerTransform);
+            LayerViewDict[layer] = new UILayerNode(layer, layerTransform);
         }
-        public void Push(string uiPrefabFullName, Layer layer, object data)
+        public void Push(string uiPrefabFullName, Layer layer, Action<UIView> pushComplete = null)
         {
-            StartCoroutine(PushCor(uiPrefabFullName, layer, data));
+            Push(uiPrefabFullName, layer, null, pushComplete);
         }
         public void PopAll(Layer layer)
         {
-            if(LayerViewDict.TryGetValue(layer, out UILayerNode value))
+            if (LayerViewDict.TryGetValue(layer, out UILayerNode value))
             {
-                foreach(var item in value.viewerLinkedList)
+                foreach (var item in value.viewerLinkedList)
                     item.OnClose();
                 value.viewerLinkedList.Clear();
             }
         }
-        private IEnumerator PushCor(string uiPrefabFullName, Layer layer, object data)
+        public void Push(string uiPrefabFullName, Layer layer, object data, Action<UIView> pushComplete = null)
+        {
+            StartCoroutine(PushCor(uiPrefabFullName, layer, data, pushComplete));
+        }
+        private IEnumerator PushCor(string uiPrefabFullName, Layer layer, object data, Action<UIView> pushComplete)
         {
             if (LayerViewDict.TryGetValue(layer, out UILayerNode layerNode))
             {
-                foreach(var viewer in layerNode.viewerLinkedList)
+                foreach (var viewer in layerNode.viewerLinkedList)
                 {
-                    if(viewer.name == uiPrefabFullName)
+                    if (viewer.name == uiPrefabFullName)
                     {
-                        if(layerNode.viewerLinkedList.Remove(viewer))
+                        if (layerNode.viewerLinkedList.Remove(viewer))
+                        {
                             _ReusePush(viewer, layer, data);
+                            pushComplete?.Invoke(viewer);
+                        }
                         yield break;
                     }
                 }
 
                 ResourceRequest resourceRequest = Resources.LoadAsync<GameObject>(uiPrefabFullName);
                 yield return resourceRequest;
-                GameObject uiGo = UnityEngine.Object.Instantiate(resourceRequest.asset, layerNode.transform) as GameObject;
+                GameObject uiGo = Instantiate(resourceRequest.asset, layerNode.transform) as GameObject;
                 uiGo.name = uiPrefabFullName;
                 UIView uiView = uiGo.GetComponent<UIView>();
                 yield return null;
-                _Push(uiView, layer, data);
+                yield return _Push(uiView, layer, data);
+                pushComplete?.Invoke(uiView);
             }
         }
-        private void _ReusePush(UIView viewer,Layer layer,object data)
+
+        private void _ReusePush(UIView viewer, Layer layer, object data)
         {
             if (viewer == null) throw new NullReferenceException();
             if (LayerViewDict.TryGetValue(layer, out UILayerNode layerNode))
@@ -93,15 +103,17 @@ namespace Synchronize.Game.Lockstep.Managers
                 viewer.OnShow(data);
             }
         }
-        private void _Push(UIView viewer, Layer layer, object data)
+
+        private IEnumerator _Push(UIView viewer, Layer layer, object data)
         {
-            if (viewer == null) throw new System.NullReferenceException();
+            if (viewer == null) throw new NullReferenceException();
             if (LayerViewDict.TryGetValue(layer, out UILayerNode layerNode))
             {
                 if (layerNode.viewerLinkedList.Count > 0)
                 {
                     UIView currentView = layerNode.viewerLinkedList.Last.Value;
                     currentView.OnPause();
+                    yield return null;
                 }
                 layerNode.viewerLinkedList.AddLast(viewer);
                 viewer.CurrentLayer = layer;
@@ -119,17 +131,32 @@ namespace Synchronize.Game.Lockstep.Managers
                 {
                     if (layerNode.viewerLinkedList.Last.Value == view)
                     {
-                        layerNode.viewerLinkedList.Remove(view);
-                        view.OnClose();
-                        if (layerNode.viewerLinkedList.Count > 0)
-                            layerNode.viewerLinkedList.Last.Value.OnResume();
+                        if (!view.NeedTerminatePop)
+                        {
+                            layerNode.viewerLinkedList.Remove(view);
+                            view.OnClose();
+                            if (layerNode.viewerLinkedList.Count > 0)
+                                layerNode.viewerLinkedList.Last.Value.OnResume();
+                            return true;
+                        }
+                        else
+                        {
+                            view.OnTerminatePop();
+                        }
                     }
                     else
                     {
-                        layerNode.viewerLinkedList.Remove(view);
-                        view.OnClose();
+                        if (!view.NeedTerminatePop)
+                        {
+                            layerNode.viewerLinkedList.Remove(view);
+                            view.OnClose();
+                            return true;
+                        }
+                        else
+                        {
+                            view.OnTerminatePop();
+                        }
                     }
-                    return true;
                 }
             }
             return false;
@@ -142,7 +169,7 @@ namespace Synchronize.Game.Lockstep.Managers
         }
         public UIView Peek(Layer layer)
         {
-            if(LayerViewDict.TryGetValue(layer,out UILayerNode layerNode))
+            if (LayerViewDict.TryGetValue(layer, out UILayerNode layerNode))
             {
                 if (layerNode.viewerLinkedList.Count > 0)
                     return layerNode.viewerLinkedList.Last.Value;
@@ -153,7 +180,9 @@ namespace Synchronize.Game.Lockstep.Managers
         public int PeekViewAmount(Layer layer)
         {
             if (LayerViewDict.TryGetValue(layer, out UILayerNode layerNode))
+            {
                 return layerNode.viewerLinkedList.Count;
+            }
             return 0;
         }
         public bool Pop(Layer layer)
@@ -163,13 +192,21 @@ namespace Synchronize.Game.Lockstep.Managers
                 if (layerNode.viewerLinkedList.Count > 0)
                 {
                     UIView currentView = layerNode.viewerLinkedList.Last.Value;
-                    layerNode.viewerLinkedList.RemoveLast();
-                    currentView.OnClose();
-                    if (layerNode.viewerLinkedList.Count > 0)
+                    if (!currentView.NeedTerminatePop)
                     {
-                        layerNode.viewerLinkedList.Last.Value.OnResume();
+                        layerNode.viewerLinkedList.RemoveLast();
+                        currentView.OnClose();
+                        if (layerNode.viewerLinkedList.Count > 0)
+                        {
+                            layerNode.viewerLinkedList.Last.Value.OnResume();
+                        }
+                        return true;
                     }
-                    return true;
+                    else
+                    {
+                        currentView.OnTerminatePop();
+                        return false;
+                    }
                 }
             }
             return false;

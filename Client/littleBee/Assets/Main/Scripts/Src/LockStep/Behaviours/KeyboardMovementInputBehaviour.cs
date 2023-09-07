@@ -1,9 +1,9 @@
 ﻿
-using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Room;
 using Synchronize.Game.Lockstep.Behaviours.Data;
 using Synchronize.Game.Lockstep.Behaviours.Frame;
 using Synchronize.Game.Lockstep.Frame;
+using Synchronize.Game.Lockstep.Proxy;
+using Synchronize.Game.Lockstep.Room;
 using TrueSync;
 using UnityEngine;
 
@@ -22,7 +22,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
         LogicFrameBehaviour logic;
         public void Start()
         {
-            Id = ClientService.Get<RoomServices>().Session.Id;
+            Id = DataProxy.Get<RoomServiceProxy>().Session.Id;
             logic = Sim.GetBehaviour<LogicFrameBehaviour>();
             currentRecord = new KeyboardMovementInputRecord();
             record = new KeyboardMovementInputRecord();

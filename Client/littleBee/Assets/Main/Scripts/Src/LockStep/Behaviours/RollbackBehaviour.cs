@@ -1,6 +1,4 @@
 ﻿using Net.Pt;
-using NetServiceImpl;
-using NetServiceImpl.OnlineMode.Room;
 using Synchronize.Game.Lockstep.Ecsr.Entitas;
 
 namespace Synchronize.Game.Lockstep.Behaviours

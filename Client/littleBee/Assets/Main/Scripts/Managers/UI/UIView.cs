@@ -13,7 +13,9 @@ namespace Synchronize.Game.Lockstep.Managers.UI
     {
         [HideInInspector]
         public Layer CurrentLayer;
-        private Animator _uiAnimator; 
+        private Animator _uiAnimator;
+        [HideInInspector]
+        public bool NeedTerminatePop { get; protected set; } = false;
         private byte _disableState = 0;
         private const string ANI_OPEN_NAME = "open";
         private const string ANI_CLOSE_NAME = "close";
@@ -36,10 +38,18 @@ namespace Synchronize.Game.Lockstep.Managers.UI
             else
                 Destroy(gameObject);
         }
+
+        public void Close()
+        {
+            ModuleManager.GetModule<UIModule>().Pop(CurrentLayer, this);
+        }
+
         public void OnCloseAnimationStop()
         {
-            if(_disableState == 0)
+            if (_disableState == 0)
                 Destroy(gameObject);
+            else
+                gameObject.SetActive(false);
         }
         public virtual void OnPause()
         {
@@ -48,6 +58,10 @@ namespace Synchronize.Game.Lockstep.Managers.UI
                 _uiAnimator.Play(ANI_CLOSE_NAME);
             else
                 gameObject.SetActive(false);
+        }
+        public virtual void OnTerminatePop()
+        {
+            // Need override
         }
         public virtual void OnResume()
         {
