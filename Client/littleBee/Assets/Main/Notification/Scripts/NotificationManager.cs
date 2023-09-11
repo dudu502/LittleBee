@@ -64,7 +64,13 @@ namespace Synchronize.Game.Lockstep.Notification
         [SerializeField] Button _optionButtonLeft;
         [SerializeField] Button _optionButtonRight;
         [SerializeField] Button _optionButtonBottom;
-
+        enum NotificationLifeCycle
+        {
+            Displaying,
+            Closing,
+            Closed,
+        }
+        private NotificationLifeCycle _notificationLifeCycle = NotificationLifeCycle.Closed;
         enum State
         {
             Idle,
@@ -104,7 +110,7 @@ namespace Synchronize.Game.Lockstep.Notification
                 .State(State.Normal)
                     .Enter(so =>
                     {
-                        ShowImpl(so._notificationTypesInQueue.LastOrDefault());
+                        so.ShowImpl(so._notificationTypesInQueue.LastOrDefault());
                         so._notificationTypesInQueue.RemoveAt(so._notificationTypesInQueue.Count - 1);
                     })
                     .Transition(so => so._currentNotification == null).To(State.Idle).End()
@@ -174,24 +180,26 @@ namespace Synchronize.Game.Lockstep.Notification
         }
         void OnOptionClick(int idx)
         {
-            if (_currentNotification != null)
+            if (_notificationLifeCycle == NotificationLifeCycle.Displaying)
             {
-                var notificationItem = GetNotificationItem(_currentNotification.Type);
-                if (notificationItem != null)
+                if (_currentNotification != null)
                 {
-                    _currentNotification.Callback?.Invoke(notificationItem.Options[idx]);
-                    _currentNotification.CallbackWithBoolean?.Invoke(notificationItem.Options[idx],_toggleOption.isOn);
+                    var notificationItem = GetNotificationItem(_currentNotification.Type);
+                    if (notificationItem != null)
+                    {
+                        _currentNotification.Callback?.Invoke(notificationItem.Options[idx]);
+                        _currentNotification.CallbackWithBoolean?.Invoke(notificationItem.Options[idx], _toggleOption.isOn);
+                    }
                 }
             }
         }
-
-      
 
         void ShowImpl(NotificationCallback callback)
         {
             var notificationItem = callback.NotificationAssetItem;
             if (notificationItem != null)
             {
+                _notificationLifeCycle = NotificationLifeCycle.Displaying;
                 _currentNotification = callback;
                 _fadeAnimator.Play(FADE_IN_ANI_NAME);
                 notificationItem = notificationItem.Clone();
@@ -275,10 +283,12 @@ namespace Synchronize.Game.Lockstep.Notification
         public void FadeOutAnimationComplete()
         {
             _currentNotification = null;
+            _notificationLifeCycle = NotificationLifeCycle.Closed;
         }
         void CloseImpl()
         {
             _fadeAnimator.Play(FADE_OUT_ANI_NAME);
+            _notificationLifeCycle = NotificationLifeCycle.Closing;
         }
         public NotificationType Peek()
         {
