@@ -1,6 +1,5 @@
 ﻿
 using Synchronize.Game.Lockstep.Behaviours.Data;
-using Synchronize.Game.Lockstep.Behaviours.Frame;
 using Synchronize.Game.Lockstep.Frame;
 using Synchronize.Game.Lockstep.Proxy;
 using Synchronize.Game.Lockstep.Room;
@@ -15,6 +14,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
         KeyboardMovementInputRecord record;
         uint Id;
         public Simulation Sim { set; get; }
+        RoomServiceProxy roomService;
         public void Quit()
         {
 
@@ -22,7 +22,8 @@ namespace Synchronize.Game.Lockstep.Behaviours
         LogicFrameBehaviour logic;
         public void Start()
         {
-            Id = DataProxy.Get<RoomServiceProxy>().Session.Id;
+            roomService = DataProxy.Get<RoomServiceProxy>();
+            Id = roomService.Session.Id;
             logic = Sim.GetBehaviour<LogicFrameBehaviour>();
             currentRecord = new KeyboardMovementInputRecord();
             record = new KeyboardMovementInputRecord();
@@ -65,7 +66,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
                     if (record.IsDirty(currentRecord))
                     {
                         record.CopyFrom(currentRecord);
-                        KeyFrameSender.AddCurrentFrameCommand(logic.CurrentFrameIdx,FrameCommand.SYNC_MOVE, Id, 
+                        roomService.Session.AddCurrentFrameCommand(logic.CurrentFrameIdx,FrameCommand.SYNC_MOVE, Id, 
                             new ByteBuffer().WriteByte(Const.INPUT_TYPE_KEYBOARD).WriteInt16((short)currentRecord.x).WriteInt16((short)currentRecord.y).Getbuffer());
                     }
                 }

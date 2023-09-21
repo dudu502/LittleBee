@@ -7,15 +7,13 @@ public class WalkablePlayer : MonoBehaviour
     public Transform planetTrans;
     public float moveSpeed = 0.01f;
     public float rotateSpeed = 6;
+    public float radius = 1f;
     // Start is called before the first frame update
     void Start()
     {
         
     }
-    public float GetRadius()
-    {
-        return planetTrans.localScale.x / 2f;
-    }
+    
     // Update is called once per frame
     void Update()
     {
@@ -48,7 +46,7 @@ public class WalkablePlayer : MonoBehaviour
         Vector3 gravityDir = transform.position - planetTrans.position;
         Vector3 nextPos = transform.position + transform.TransformDirection(new Vector3(0, 0, dirNormal.y));
 
-        transform.position = (nextPos - planetTrans.position).normalized * GetRadius() + planetTrans.position;
+        transform.position = (nextPos - planetTrans.position).normalized * radius + planetTrans.position;
         transform.rotation = Quaternion.FromToRotation(transform.up, gravityDir.normalized) * transform.rotation;
 
     }
@@ -57,6 +55,6 @@ public class WalkablePlayer : MonoBehaviour
     void RefreshPosition()
     {
         Vector3 randomDirection = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1)).normalized;
-        transform.position = planetTrans.position + randomDirection * GetRadius();
+        transform.position = planetTrans.position + randomDirection * radius;
     }
 }

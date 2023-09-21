@@ -1,6 +1,4 @@
-﻿
-using Synchronize.Game.Lockstep.Behaviours.Data;
-using Synchronize.Game.Lockstep.Behaviours.Frame;
+﻿using Synchronize.Game.Lockstep.Behaviours.Data;
 using Synchronize.Game.Lockstep.Frame;
 using Synchronize.Game.Lockstep.Proxy;
 using Synchronize.Game.Lockstep.Room;
@@ -17,6 +15,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
         JoystickMovementInputRecord record;
         public Simulation Sim { set; get; }
         LogicFrameBehaviour logic;
+        RoomServiceProxy roomService;
         public void Quit()
         {
             
@@ -24,7 +23,8 @@ namespace Synchronize.Game.Lockstep.Behaviours
 
         public void Start()
         {
-            Id = DataProxy.Get<RoomServiceProxy>().Session.Id;
+            roomService = DataProxy.Get<RoomServiceProxy>();
+            Id = roomService.Session.Id;
             logic = Sim.GetBehaviour<LogicFrameBehaviour>();
             currentRecord = new JoystickMovementInputRecord();
             currentRecord.EntityId = Id;
@@ -45,7 +45,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
                     if (record.IsDirty(currentRecord))
                     {
                         record.CopyFrom(currentRecord);
-                        KeyFrameSender.AddCurrentFrameCommand(logic.CurrentFrameIdx, FrameCommand.SYNC_MOVE, Id, 
+                        roomService.Session.AddCurrentFrameCommand(logic.CurrentFrameIdx, FrameCommand.SYNC_MOVE, Id, 
                             new ByteBuffer().WriteByte(Const.INPUT_TYPE_JOYSTICK).WriteInt64(currentRecord.x._serializedValue).WriteInt64(currentRecord.y._serializedValue).Getbuffer());
                     }
                 }

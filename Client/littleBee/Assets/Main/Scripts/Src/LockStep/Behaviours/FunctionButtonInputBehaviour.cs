@@ -1,6 +1,5 @@
 ﻿
 using Synchronize.Game.Lockstep.Behaviours.Data;
-using Synchronize.Game.Lockstep.Behaviours.Frame;
 using Synchronize.Game.Lockstep.Frame;
 using Synchronize.Game.Lockstep.Proxy;
 using Synchronize.Game.Lockstep.Room;
@@ -12,6 +11,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
         public Simulation Sim { set; get; }
         uint Id;
         LogicFrameBehaviour logic;
+        RoomServiceProxy roomService;
         FunctionButtonInputRecord currentRecord;
         FunctionButtonInputRecord record;
         public void Quit()
@@ -21,7 +21,8 @@ namespace Synchronize.Game.Lockstep.Behaviours
 
         public void Start()
         {
-            Id = DataProxy.Get<RoomServiceProxy>().Session.Id;
+            roomService = DataProxy.Get<RoomServiceProxy>();
+            Id = roomService.Session.Id;
             logic = Sim.GetBehaviour<LogicFrameBehaviour>();
             currentRecord = new FunctionButtonInputRecord();
             currentRecord.EntityId = Id;
@@ -37,7 +38,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
                 if (func == FunctionButtonInputManager.Function.FIRE)
                 {
                     FunctionButtonInputManager.Instance.Reset();
-                    KeyFrameSender.AddCurrentFrameCommand(logic.CurrentFrameIdx, FrameCommand.SYNC_CREATE_ENTITY, Id, new ByteBuffer().WriteByte((byte)Misc.EntityType.Bullet).Getbuffer());
+                    roomService.Session.AddCurrentFrameCommand(logic.CurrentFrameIdx, FrameCommand.SYNC_CREATE_ENTITY, Id, new ByteBuffer().WriteByte((byte)Misc.EntityType.Bullet).Getbuffer());
                 }
             }
         }

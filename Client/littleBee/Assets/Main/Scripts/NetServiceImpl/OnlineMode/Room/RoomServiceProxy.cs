@@ -34,6 +34,24 @@ namespace Synchronize.Game.Lockstep.Room
         public int InitIndex = -1;
         public int WriteKeyframeCollectionIndex = -1;
         public ConcurrentQueue<PtKeyFrameCollection> QueueKeyFrameCollection = new ConcurrentQueue<PtKeyFrameCollection>();
+
+        private PtKeyFrameCollection keyFrameCachedCollection = new PtKeyFrameCollection() { KeyFrames = new List<FrameIdxInfo>() };
+
+        public void AddCurrentFrameCommand(int curFrameIdx,ushort cmd,uint entityId, byte[] paramsContent)
+        {
+            FrameIdxInfo frameInfo = new FrameIdxInfo(cmd,entityId,paramsContent);
+            keyFrameCachedCollection.FrameIdx = curFrameIdx;
+            keyFrameCachedCollection.KeyFrames.Add(frameInfo);
+        }
+        public PtKeyFrameCollection GetKeyFrameCachedCollection()
+        {
+            return keyFrameCachedCollection;
+        }
+        public void ClearKeyFrameCachedCollection()
+        {
+            keyFrameCachedCollection.FrameIdx = 0;
+            keyFrameCachedCollection.KeyFrames.Clear();
+        }
         public override string ToString()
         {
             return $"RoomSession->Id:{Id} Name:{Name} RoomHash:{RoomHash}";

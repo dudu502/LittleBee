@@ -1,8 +1,4 @@
-﻿
-
-using Net.Pt;
-using NetServiceImpl;
-using Synchronize.Game.Lockstep.Behaviours.Frame;
+﻿using Net.Pt;
 using Synchronize.Game.Lockstep.Ecsr.Entitas;
 using Synchronize.Game.Lockstep.Proxy;
 using Synchronize.Game.Lockstep.Room;
@@ -70,11 +66,11 @@ namespace Synchronize.Game.Lockstep.Behaviours
 
         void SendKeyFrame(int idx)
         {
-            PtKeyFrameCollection collection = KeyFrameSender.GetFrameCommand();
+            PtKeyFrameCollection collection = roomServices.Session.GetKeyFrameCachedCollection();
             if (collection.KeyFrames.Count > 0)
             {
                 roomServices.RequestSyncClientKeyframes(idx, collection);
-                KeyFrameSender.ClearFrameCommand();
+                roomServices.Session.ClearKeyFrameCachedCollection();
             }
         }
 

@@ -55,7 +55,7 @@ namespace Synchronize.Game.Lockstep.Misc
             {
                 while (!isComplete)
                 {
-                    await System.Threading.Tasks.Task.Delay(10);
+                    await System.Threading.Tasks.Task.Yield();
                 }
             });
         }
