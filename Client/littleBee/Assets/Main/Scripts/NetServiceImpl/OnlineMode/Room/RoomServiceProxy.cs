@@ -65,6 +65,7 @@ namespace Synchronize.Game.Lockstep.Room
             InitIndex = -1;
             WriteKeyframeCollectionIndex = -1;
             QueueKeyFrameCollection = new ConcurrentQueue<PtKeyFrameCollection>();
+            ClearKeyFrameCachedCollection();
         }
     }
     public class RoomServiceProxy:NetServiceProxy
