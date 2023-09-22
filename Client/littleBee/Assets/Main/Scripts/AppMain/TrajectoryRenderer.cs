@@ -11,10 +11,6 @@ namespace Synchronize.Game.Lockstep.Ecsr.Renderer
     /// </summary>
     public class TrajectoryRenderer : ActionRenderer
     {
-        private readonly FP G = 0.3f;
-        private readonly FP MIN_LENGTHSQUARED = 0.1f;
-        private readonly FP MIN_GRAVITY = 0.0001f;
-        private readonly FP MAX_WORLD_SPEED = 1f;
         LineRenderer TrackLineRenderer;
         public int MaxPointCount;
         bool IsDrawing = false;
@@ -31,7 +27,6 @@ namespace Synchronize.Game.Lockstep.Ecsr.Renderer
             ParticleTransform = new Transform2D();
             ParticleMovement = new Movement2D();
             Particle = new Particle(1);
-
         }
         protected override void OnInit()
         {
@@ -108,10 +103,10 @@ namespace Synchronize.Game.Lockstep.Ecsr.Renderer
                                 {
                                     TSVector2 interactiveDir = gravityTransform.Position - ParticleTransform.Position;
                                     FP lengthSquard = interactiveDir.LengthSquared();
-                                    FP gravity = CalGravity(gravitationField.Mass, Particle.Mass, TSMath.Max(MIN_LENGTHSQUARED, lengthSquard));
+                                    FP gravity = CalGravity(gravitationField.Mass, Particle.Mass, TSMath.Max(Const.MIN_LENGTHSQUARED, lengthSquard));
                                     TSVector2 newMoveDir = ParticleMovement.GetMoveVector() + interactiveDir.normalized * gravity;
                                     ParticleMovement.Dir = newMoveDir.normalized;
-                                    ParticleMovement.Speed = TSMath.Min(newMoveDir.magnitude, MAX_WORLD_SPEED);
+                                    ParticleMovement.Speed = TSMath.Min(newMoveDir.magnitude, Const.MAX_WORLD_SPEED);
                                 }
                             });
                             ParticleTransform.Position += ParticleMovement.GetMoveVector();
@@ -126,8 +121,8 @@ namespace Synchronize.Game.Lockstep.Ecsr.Renderer
         }
         private FP CalGravity(FP mass0, FP mass1, FP squareRaduis)
         {
-            FP gravity = G * mass0 * mass1 / squareRaduis;
-            if (gravity < MIN_GRAVITY)
+            FP gravity = Const.GRAVITY * mass0 * mass1 / squareRaduis;
+            if (gravity < Const.MIN_GRAVITY)
                 return 0;
             return gravity;
         }

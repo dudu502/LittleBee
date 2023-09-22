@@ -12,10 +12,6 @@ namespace Synchronize.Game.Lockstep.Ecsr.Systems
     /// </summary>
     public class GravitationalSystem : IEntitySystem
     {
-        private readonly FP G = 0.3f;
-        private readonly FP MIN_LENGTHSQUARED = 0.1f;
-        private readonly FP MIN_GRAVITY = 0.0001f;
-        private readonly FP MAX_WORLD_SPEED = 1f;
         public EntityWorld World { get; set; }
       
         public void Execute()
@@ -25,8 +21,8 @@ namespace Synchronize.Game.Lockstep.Ecsr.Systems
         }
         private FP CalGravity(FP mass0, FP mass1,FP squareRaduis)
         {
-            FP gravity = G * mass0 * mass1 / squareRaduis;
-            if (gravity < MIN_GRAVITY)
+            FP gravity = Const.GRAVITY * mass0 * mass1 / squareRaduis;
+            if (gravity < Const.MIN_GRAVITY)
                 return 0;
             return gravity;
         }
@@ -47,10 +43,10 @@ namespace Synchronize.Game.Lockstep.Ecsr.Systems
                             FP lengthSquard = interactiveDir.LengthSquared();
                             //if (lengthSquard < gravitationalField.EffectRadius * gravitationalField.EffectRadius)
                             {
-                                FP gravity = CalGravity(gravitationalField.Mass, particleComponent.Mass, TSMath.Max(MIN_LENGTHSQUARED, lengthSquard));
+                                FP gravity = CalGravity(gravitationalField.Mass, particleComponent.Mass, TSMath.Max(Const.MIN_LENGTHSQUARED, lengthSquard));
                                 TSVector2 newMoveDir = move.GetMoveVector() + interactiveDir.normalized * gravity;
                                 move.Dir = newMoveDir.normalized;
-                                move.Speed = TSMath.Min(newMoveDir.magnitude, MAX_WORLD_SPEED);
+                                move.Speed = TSMath.Min(newMoveDir.magnitude, Const.MAX_WORLD_SPEED);
                             }
                         }
                     }
