@@ -5,12 +5,15 @@ namespace Synchronize.Game.Lockstep.FSM
 {
     public interface IStateMachine<TObject>
     {
+        void SetParameter<TObjecct>(TObject param);
+        TObject GetParameter();
+        void Reset();
         IState<TObject> State<TState>(TState id);
         IStateMachine<TObject> SetDefault<TState>(TState id);
         void Update();
         IStateMachine<TObject> Build();
         IStateMachine<TObject> Any<TState>(Func<TObject, bool> valid, TState toId, Action<TObject> transfer);
-        IStateMachine<TObject> Select<TState>(Func<TObject,bool> valid, TState id,TState toId, Action<TObject> transfer);
+        IStateMachine<TObject> Select<TState>(Func<TObject, bool> valid, TState id, TState toId, Action<TObject> transfer);
     }
 
     public interface IState<TObject>
@@ -24,10 +27,12 @@ namespace Synchronize.Game.Lockstep.FSM
         ITransition<TObject> Transition(Func<TObject, bool> valid);
     }
 
-    public interface ITransition<TObject> 
+    public interface ITransition<TObject>
     {
         ITransition<TObject> Transfer(Action<TObject> onTransfer);
         ITransition<TObject> To<TState>(TState id);
+        ITransition<TObject> ToEnd();
+        ITransition<TObject> ToEntry();
         IState<TObject> End();
     }
 
@@ -46,12 +51,12 @@ namespace Synchronize.Game.Lockstep.FSM
             m_Transfer = transfer;
         }
 
-        public Transition(int id,Func<TObject,bool> valid)
+        public Transition(int id, Func<TObject, bool> valid)
         {
             Id = id;
             m_Validate = valid;
         }
-        
+
         public void SetTransfer(Action<TObject> transfer)
         {
             m_Transfer = transfer;
@@ -90,14 +95,7 @@ namespace Synchronize.Game.Lockstep.FSM
         {
             Id = id;
         }
-        public bool IsEntry()
-        {
-            return Id == int.MaxValue;
-        }
-        public bool IsEnd()
-        {
-            return Id == int.MinValue;
-        }
+
         public void OnInitialize(TObject stateObject)
         {
             if (m_OnInitialize != null)
@@ -145,7 +143,7 @@ namespace Synchronize.Game.Lockstep.FSM
         }
     }
 
-    public class StateMachine<TObject>: IStateMachine<TObject>,IState<TObject> , ITransition<TObject> where TObject : class
+    public class StateMachine<TObject> : IStateMachine<TObject>, IState<TObject>, ITransition<TObject> where TObject : class
     {
         private class StackState
         {
@@ -165,7 +163,8 @@ namespace Synchronize.Game.Lockstep.FSM
                 return (T)Raw;
             }
         }
-
+        private const int ENTRY = int.MaxValue;
+        private const int END = int.MinValue;
         private State<TObject> m_Current;
         private TObject m_Parameter;
         private Dictionary<int, State<TObject>> m_States;
@@ -177,27 +176,30 @@ namespace Synchronize.Game.Lockstep.FSM
             m_Transitions = new Dictionary<int, List<Transition<TObject>>>();
             m_Parameter = param;
             m_StackBuilder = new Stack<StackState>();
-            m_Current = AddState(int.MaxValue);
-            AddState(int.MinValue);
+            m_Current = AddState(ENTRY);
+            AddState(END);
         }
 
-        private StateMachine(Dictionary<int,State<TObject>>states,Dictionary<int,List<Transition<TObject>>> transitions, TObject param)
+        private StateMachine(Dictionary<int, State<TObject>> states, Dictionary<int, List<Transition<TObject>>> transitions, TObject param)
         {
             m_States = states;
             m_Transitions = transitions;
             m_Parameter = param;
 
-            m_Current = m_States[int.MaxValue];
+            m_Current = m_States[ENTRY];
         }
 
         public static StateMachine<TObject> Clone(IStateMachine<TObject> original, TObject param)
         {
-            return new StateMachine<TObject>(((StateMachine<TObject>)original).m_States, ((StateMachine<TObject>)original).m_Transitions ,param);
+            return new StateMachine<TObject>(((StateMachine<TObject>)original).m_States, ((StateMachine<TObject>)original).m_Transitions, param);
         }
 
-        public IStateMachine<TObject> SetDefault<TState>(TState id) 
+        public void SetParameter<TObjecct>(TObject param) { m_Parameter = param; }
+        public TObject GetParameter() { return m_Parameter; }
+        public void Reset() { m_Current = m_States[ENTRY]; }
+        public IStateMachine<TObject> SetDefault<TState>(TState id)
         {
-            AddTransition(int.MaxValue, Convert.ToInt32(id), so => true, null);
+            AddTransition(ENTRY, Convert.ToInt32(id), so => true, null);
             return this;
         }
 
@@ -233,9 +235,9 @@ namespace Synchronize.Game.Lockstep.FSM
             m_Transitions[transition.Id].Add(transition);
         }
 
-        public IState<TObject> State<TState>(TState id) 
+        public IState<TObject> State<TState>(TState id)
         {
-            m_StackBuilder.Push(new StackState(StackState.STATE_TYPE,AddState(Convert.ToInt32(id))));
+            m_StackBuilder.Push(new StackState(StackState.STATE_TYPE, AddState(Convert.ToInt32(id))));
             return this;
         }
 
@@ -266,7 +268,7 @@ namespace Synchronize.Game.Lockstep.FSM
         IState<TObject> IState<TObject>.EarlyUpdate(Action<TObject> onEarlyUpdate)
         {
             StackState state = m_StackBuilder.Peek();
-            if(state.Type == StackState.STATE_TYPE)
+            if (state.Type == StackState.STATE_TYPE)
                 state.RawAs<State<TObject>>().EarlyUpdate(onEarlyUpdate);
             return this;
         }
@@ -303,6 +305,22 @@ namespace Synchronize.Game.Lockstep.FSM
             return this;
         }
 
+        ITransition<TObject> ITransition<TObject>.ToEnd()
+        {
+            StackState state = m_StackBuilder.Peek();
+            if (state.Type == StackState.TRANSITION_TYPE)
+                state.RawAs<Transition<TObject>>().ToId = END;
+            return this;
+        }
+
+        ITransition<TObject> ITransition<TObject>.ToEntry()
+        {
+            StackState state = m_StackBuilder.Peek();
+            if (state.Type == StackState.TRANSITION_TYPE)
+                state.RawAs<Transition<TObject>>().ToId = ENTRY;
+            return this;
+        }
+
         IState<TObject> ITransition<TObject>.End()
         {
             StackState state = m_StackBuilder.Peek();
@@ -323,24 +341,24 @@ namespace Synchronize.Game.Lockstep.FSM
         {
             int fromStateId = Convert.ToInt32(id);
             int toStateId = Convert.ToInt32(toId);
-            foreach(int stateId in m_States.Keys)
-                if(stateId == (fromStateId & stateId))
+            foreach (int stateId in m_States.Keys)
+                if (stateId == (fromStateId & stateId))
                     AddTransition(stateId, toStateId, valid, transfer);
             return this;
         }
 
-        IStateMachine<TObject> IStateMachine<TObject>.Any<TState>(Func<TObject,bool> valid, TState toId, Action<TObject> transfer)
+        IStateMachine<TObject> IStateMachine<TObject>.Any<TState>(Func<TObject, bool> valid, TState toId, Action<TObject> transfer)
         {
             int toStateId = Convert.ToInt32(toId);
-            foreach(int stateId in m_States.Keys)
-                if(stateId != toStateId)
+            foreach (int stateId in m_States.Keys)
+                if (stateId != toStateId)
                     AddTransition(stateId, toStateId, valid, transfer);
             return this;
         }
 
         void IStateMachine<TObject>.Update()
         {
-            if (m_Current != null && !m_Current.IsEnd() && m_Transitions.TryGetValue(m_Current.Id,out List<Transition<TObject>> transitions))
+            if (m_Current != null && m_Current.Id != END && m_Transitions.TryGetValue(m_Current.Id, out List<Transition<TObject>> transitions))
             {
                 m_Current.OnEarlyUpdate(m_Parameter);
                 foreach (Transition<TObject> transition in transitions)
@@ -357,7 +375,7 @@ namespace Synchronize.Game.Lockstep.FSM
                         else
                         {
                             throw new Exception("Use State() to define a State.");
-                        }                 
+                        }
                         return;
                     }
                 }

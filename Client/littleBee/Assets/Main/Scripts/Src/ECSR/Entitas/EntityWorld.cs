@@ -6,7 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TrueSync.Collision;
-
+using UnityEngine;
 
 namespace Synchronize.Game.Lockstep.Ecsr.Entitas
 {
@@ -71,7 +71,7 @@ namespace Synchronize.Game.Lockstep.Ecsr.Entitas
                 }
             }
             catch {
-                
+                Debug.LogError("GetComponentByEntityId Error");
             }
             return null;
         }
@@ -96,7 +96,19 @@ namespace Synchronize.Game.Lockstep.Ecsr.Entitas
             catch { }
             return default(T);
         }
-
+        public void ForEachComponent(Type componentType,Action<AbstractComponent> action)
+        {
+            if (m_FrameData.TypeComponents.ContainsKey(componentType))
+            {
+                IList components = m_FrameData.TypeComponents[componentType];
+                for (int i = components.Count - 1; i > -1; --i)
+                {
+                    var component = components[i];
+                    if (component != null)
+                        action((AbstractComponent)component);
+                }
+            }
+        }
         public void ForEachComponent<T>(Action<T> action)
         {
             try
