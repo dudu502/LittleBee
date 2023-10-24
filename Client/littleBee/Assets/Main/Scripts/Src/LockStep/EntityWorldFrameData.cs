@@ -118,12 +118,55 @@ namespace Synchronize.Game.Lockstep.Ecsr.Entitas
                 for (int i = 0; i < count; ++i)
                 {
                     int index = buffer.ReadUInt16();
-                    AbstractComponent component = Activator.CreateInstance(ComponentTypes[index]) as AbstractComponent;
+                    AbstractComponent component = CreateComponent(ComponentTypes[index]);
                     component.Deserialize(buffer.ReadBytes());
                     components.Add(component);
                 }
                 return new EntityWorldFrameData(components);
             }
+        }
+
+        private static AbstractComponent CreateComponent(Type type)
+        {
+            if(type == typeof(StarObjectInfo))
+                return new StarObjectInfo();
+            if(type == typeof(StarObjectRevolution))
+                return new StarObjectRevolution();
+            if(type == typeof(StarObjectRotation))
+                return new StarObjectRotation();
+            if(type == typeof(Transform2D))
+                return new Transform2D();
+            if(type == typeof(Movement2D))
+                return new Movement2D();
+            if(type == typeof(Attack))
+                return new Attack();
+            if(type == typeof(Bullet))
+                return new Bullet();
+            if(type == typeof(Countdown))
+                return new Countdown();
+            if(type == typeof(Defence))
+                return new Defence();
+            if(type == typeof(FsmInfo))
+                return new FsmInfo();
+            if(type == typeof(GravitationalField))
+                return new GravitationalField();
+            if(type == typeof(Hp))
+                return new Hp();
+            if(type == typeof(HudInfo))
+                return new HudInfo();   
+            if(type == typeof(Mp))
+                return new Mp();
+            if(type == typeof(Particle))
+                return new Particle();
+            if(type == typeof(RotationParameter))
+                return new RotationParameter();
+            if(type == typeof(RotationValue))
+                return new RotationValue();
+            if(type == typeof(BreakableInfo))
+                return new BreakableInfo();
+            if(type == typeof(BrokenPiece))
+                return new BrokenPiece();
+            throw new Exception("Please TODO Add Component "+type.ToString());
         }
     }
 }
