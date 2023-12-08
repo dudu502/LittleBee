@@ -12,7 +12,7 @@ namespace Synchronize.Game.Lockstep
         static SimulationManager ins;
         Simulation m_SimulationInstance;
         long m_AccumulatorTicks = 0;
-        const int c_DefaultFrameMsLength = 40;
+        const int c_DefaultFrameMsLength = 20;
         int m_FrameMsLength = c_DefaultFrameMsLength;
         int FrameMsTickCount { get{return m_FrameMsLength * 10000;}} 
         double m_FrameLerp = 0;

@@ -10,7 +10,7 @@ namespace Synchronize.Game.Lockstep.RoomServer.Services.Sim
         static SimulationManager ins;
         Simulation m_SimulationInstance;
         long m_AccumulatorTicks = 0;
-        const int m_FrameMsLength = 40;
+        const int m_FrameMsLength = 20;
         int m_FrameMsTickCount = m_FrameMsLength * 10000;
         double m_FrameLerp = 0;
         public int GetFrameMsLength() { return m_FrameMsLength; }
