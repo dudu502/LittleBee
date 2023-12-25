@@ -34,7 +34,7 @@ namespace RoomServer
                 if (Array.IndexOf(args, "-logserverurl") > -1) logServerUrl = args[Array.IndexOf(args, "-logserverurl") + 1];
             }
             var logger = new ConsoleLogger.LoggerImpl.Logger("ROOMSERVER:"+port, logServerUrl);
-            logger.EnableConsoleOutput = false;
+            logger.EnableConsoleOutput = true;
             RoomApplication.Logger = logger;
             logger.Log("LogServer Address: " + logServerUrl);
             RoomApplication room = new RoomApplication(key);
@@ -42,12 +42,12 @@ namespace RoomServer
             var s = BaseModule._modules;
             BaseModule.GetModule<BattleModule>().InitStartup(mapId,playerNumber, gsPort,hash);
 
-            //ConsoleLogger.CommandParser commandParser = new ConsoleLogger.CommandParser(logger);
-            //commandParser.AddCommand(new ConsoleLogger.CommandAction("-exit", cmdParams => { AppQuit(); return ConsoleLogger.CommandExecuteRet.Break; }, "Exit app."))
-            //    .ReadCommandLine();
+            ConsoleLogger.CommandParser commandParser = new ConsoleLogger.CommandParser(logger);
+            commandParser.AddCommand(new ConsoleLogger.CommandAction("-exit", cmdParams => { AppQuit(); return ConsoleLogger.CommandExecuteRet.Break; }, "Exit app."))
+                .ReadCommandLine();
 
-            while (true)
-                System.Threading.Thread.Sleep(1000);
+            //while (true)
+            //    System.Threading.Thread.Sleep(1000);
         }
 
 

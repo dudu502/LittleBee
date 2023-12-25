@@ -53,8 +53,8 @@ namespace Synchronize.Game.Lockstep.RoomServer.Services.Sim
             {
                 DateTime Now = DateTime.Now;
                 TimeSpan sp = (Now - m_CurrentDateTime);
-                m_AccumulatorTicks += sp.Ticks;
                 m_CurrentDateTime = Now;
+                m_AccumulatorTicks += sp.Ticks;
                 while (m_AccumulatorTicks >= m_FrameMsTickCount)
                 {
                     m_SimulationInstance.Run();

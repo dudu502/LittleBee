@@ -4,13 +4,9 @@ using Synchronize.Game.Lockstep.Service.Core;
 namespace Synchronize.Game.Lockstep.GateServer
 {
     class Program
-    {
-        
+    {      
         static void Main(string[] args)
         {
-            //Console.WriteLine("Please Input LogServer Host (input -d as default [localhost:8001]):");
-            //string logServerHost = Console.ReadLine();
-            //if (logServerHost == "-d")
             string logServerHost = "localhost:8001";
             string logUrl = $"http://{logServerHost}/log?content=";
           
@@ -18,7 +14,7 @@ namespace Synchronize.Game.Lockstep.GateServer
             int port = 9030;//set in webserver.
 
             var logger = new ConsoleLogger.LoggerImpl.Logger("GATESERVER:"+port, logUrl);
-            logger.EnableConsoleOutput = false;
+            logger.EnableConsoleOutput = true;
             logger.Log("LogServer Address: "+ logUrl);
             BaseApplication.Logger = logger;
             Services.GateApplication gate = new Services.GateApplication(key);
@@ -26,16 +22,16 @@ namespace Synchronize.Game.Lockstep.GateServer
             gate.StartServer(port);
 
 
-            //ConsoleLogger.CommandParser commandParser = new ConsoleLogger.CommandParser(logger);
-            //commandParser.AddCommand(new ConsoleLogger.CommandAction("-exit", (cmdParams) =>
-            //{
-            //    AppQuit();
-            //    return ConsoleLogger.CommandExecuteRet.Break;
-            //}, "Exit app."));
-            //commandParser.ReadCommandLine();
+            ConsoleLogger.CommandParser commandParser = new ConsoleLogger.CommandParser(logger);
+            commandParser.AddCommand(new ConsoleLogger.CommandAction("-exit", (cmdParams) =>
+            {
+                AppQuit();
+                return ConsoleLogger.CommandExecuteRet.Break;
+            }, "Exit app."));
+            commandParser.ReadCommandLine();
 
-            while (true)
-                System.Threading.Thread.Sleep(1000);
+            //while (true)
+            //    System.Threading.Thread.Sleep(1000);
         }
 
 
