@@ -8,7 +8,7 @@ namespace Synchronize.Game.Lockstep.FSM
         void SetParameter<TObjecct>(TObject param);
         TObject GetParameter();
         void Reset();
-        IState<TObject> State<TState>(TState id);
+        IStateDeclarable<TObject> State<TState>(TState id);
         IStateMachine<TObject> SetDefault<TState>(TState id);
         void Update();
         IStateMachine<TObject> Build();
@@ -16,24 +16,24 @@ namespace Synchronize.Game.Lockstep.FSM
         IStateMachine<TObject> Select<TState>(Func<TObject, bool> valid, TState id, TState toId, Action<TObject> transfer);
     }
 
-    public interface IState<TObject>
+    public interface IStateDeclarable<TObject>
     {
-        IState<TObject> Initialize(Action<TObject> onInit);
-        IState<TObject> Enter(Action<TObject> onEnter);
-        IState<TObject> EarlyUpdate(Action<TObject> onEarlyUpdate);
-        IState<TObject> Update(Action<TObject> onUpdate);
-        IState<TObject> Exit(Action<TObject> onExit);
+        IStateDeclarable<TObject> Initialize(Action<TObject> onInit);
+        IStateDeclarable<TObject> Enter(Action<TObject> onEnter);
+        IStateDeclarable<TObject> EarlyUpdate(Action<TObject> onEarlyUpdate);
+        IStateDeclarable<TObject> Update(Action<TObject> onUpdate);
+        IStateDeclarable<TObject> Exit(Action<TObject> onExit);
         IStateMachine<TObject> End();
-        ITransition<TObject> Transition(Func<TObject, bool> valid);
+        ITransitionDeclarable<TObject> Transition(Func<TObject, bool> valid);
     }
 
-    public interface ITransition<TObject>
+    public interface ITransitionDeclarable<TObject>
     {
-        ITransition<TObject> Transfer(Action<TObject> onTransfer);
-        ITransition<TObject> To<TState>(TState id);
-        ITransition<TObject> ToEnd();
-        ITransition<TObject> ToEntry();
-        IState<TObject> End();
+        ITransitionDeclarable<TObject> Transfer(Action<TObject> onTransfer);
+        ITransitionDeclarable<TObject> To<TState>(TState id);
+        ITransitionDeclarable<TObject> ToEnd();
+        ITransitionDeclarable<TObject> ToEntry();
+        IStateDeclarable<TObject> End();
     }
 
     internal class Transition<TObject>
@@ -143,7 +143,7 @@ namespace Synchronize.Game.Lockstep.FSM
         }
     }
 
-    public class StateMachine<TObject> : IStateMachine<TObject>, IState<TObject>, ITransition<TObject> where TObject : class
+    public class StateMachine<TObject> : IStateMachine<TObject>, IStateDeclarable<TObject>, ITransitionDeclarable<TObject> where TObject : class
     {
         private class StackState
         {
@@ -235,13 +235,13 @@ namespace Synchronize.Game.Lockstep.FSM
             m_Transitions[transition.Id].Add(transition);
         }
 
-        public IState<TObject> State<TState>(TState id)
+        public IStateDeclarable<TObject> State<TState>(TState id)
         {
             m_StackBuilder.Push(new StackState(StackState.STATE_TYPE, AddState(Convert.ToInt32(id))));
             return this;
         }
 
-        IState<TObject> IState<TObject>.Initialize(Action<TObject> onInit)
+        IStateDeclarable<TObject> IStateDeclarable<TObject>.Initialize(Action<TObject> onInit)
         {
             StackState state = m_StackBuilder.Peek();
             if (state.Type == StackState.STATE_TYPE)
@@ -249,7 +249,7 @@ namespace Synchronize.Game.Lockstep.FSM
             return this;
         }
 
-        IState<TObject> IState<TObject>.Enter(Action<TObject> onEnter)
+        IStateDeclarable<TObject> IStateDeclarable<TObject>.Enter(Action<TObject> onEnter)
         {
             StackState state = m_StackBuilder.Peek();
             if (state.Type == StackState.STATE_TYPE)
@@ -257,7 +257,7 @@ namespace Synchronize.Game.Lockstep.FSM
             return this;
         }
 
-        IState<TObject> IState<TObject>.Update(Action<TObject> onUpdate)
+        IStateDeclarable<TObject> IStateDeclarable<TObject>.Update(Action<TObject> onUpdate)
         {
             StackState state = m_StackBuilder.Peek();
             if (state.Type == StackState.STATE_TYPE)
@@ -265,7 +265,7 @@ namespace Synchronize.Game.Lockstep.FSM
             return this;
         }
 
-        IState<TObject> IState<TObject>.EarlyUpdate(Action<TObject> onEarlyUpdate)
+        IStateDeclarable<TObject> IStateDeclarable<TObject>.EarlyUpdate(Action<TObject> onEarlyUpdate)
         {
             StackState state = m_StackBuilder.Peek();
             if (state.Type == StackState.STATE_TYPE)
@@ -273,7 +273,7 @@ namespace Synchronize.Game.Lockstep.FSM
             return this;
         }
 
-        IState<TObject> IState<TObject>.Exit(Action<TObject> onExit)
+        IStateDeclarable<TObject> IStateDeclarable<TObject>.Exit(Action<TObject> onExit)
         {
             StackState state = m_StackBuilder.Peek();
             if (state.Type == StackState.STATE_TYPE)
@@ -281,7 +281,7 @@ namespace Synchronize.Game.Lockstep.FSM
             return this;
         }
 
-        ITransition<TObject> IState<TObject>.Transition(Func<TObject, bool> valid)
+        ITransitionDeclarable<TObject> IStateDeclarable<TObject>.Transition(Func<TObject, bool> valid)
         {
             StackState state = m_StackBuilder.Peek();
             if (state.Type == StackState.STATE_TYPE)
@@ -289,7 +289,7 @@ namespace Synchronize.Game.Lockstep.FSM
             return this;
         }
 
-        ITransition<TObject> ITransition<TObject>.Transfer(Action<TObject> onTransfer)
+        ITransitionDeclarable<TObject> ITransitionDeclarable<TObject>.Transfer(Action<TObject> onTransfer)
         {
             StackState state = m_StackBuilder.Peek();
             if (state.Type == StackState.TRANSITION_TYPE)
@@ -297,7 +297,7 @@ namespace Synchronize.Game.Lockstep.FSM
             return this;
         }
 
-        ITransition<TObject> ITransition<TObject>.To<TState>(TState id)
+        ITransitionDeclarable<TObject> ITransitionDeclarable<TObject>.To<TState>(TState id)
         {
             StackState state = m_StackBuilder.Peek();
             if (state.Type == StackState.TRANSITION_TYPE)
@@ -305,7 +305,7 @@ namespace Synchronize.Game.Lockstep.FSM
             return this;
         }
 
-        ITransition<TObject> ITransition<TObject>.ToEnd()
+        ITransitionDeclarable<TObject> ITransitionDeclarable<TObject>.ToEnd()
         {
             StackState state = m_StackBuilder.Peek();
             if (state.Type == StackState.TRANSITION_TYPE)
@@ -313,7 +313,7 @@ namespace Synchronize.Game.Lockstep.FSM
             return this;
         }
 
-        ITransition<TObject> ITransition<TObject>.ToEntry()
+        ITransitionDeclarable<TObject> ITransitionDeclarable<TObject>.ToEntry()
         {
             StackState state = m_StackBuilder.Peek();
             if (state.Type == StackState.TRANSITION_TYPE)
@@ -321,7 +321,7 @@ namespace Synchronize.Game.Lockstep.FSM
             return this;
         }
 
-        IState<TObject> ITransition<TObject>.End()
+        IStateDeclarable<TObject> ITransitionDeclarable<TObject>.End()
         {
             StackState state = m_StackBuilder.Peek();
             if (state.Type == StackState.TRANSITION_TYPE)
@@ -329,7 +329,7 @@ namespace Synchronize.Game.Lockstep.FSM
             return this;
         }
 
-        IStateMachine<TObject> IState<TObject>.End()
+        IStateMachine<TObject> IStateDeclarable<TObject>.End()
         {
             StackState state = m_StackBuilder.Peek();
             if (state.Type == StackState.STATE_TYPE)
