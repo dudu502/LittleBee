@@ -5,12 +5,12 @@ namespace Synchronize.Game.Lockstep.FSM
 {
     public interface IStateMachine<TObject>
     {
-        void SetParameter<TObjecct>(TObject param);
+        void SetParameter(TObject param);
         TObject GetParameter();
         void Reset();
         IStateDeclarable<TObject> State<TState>(TState id);
         IStateMachine<TObject> SetDefault<TState>(TState id);
-        void Update();
+        void Tick();
         IStateMachine<TObject> Build();
         IStateMachine<TObject> Any<TState>(Func<TObject, bool> valid, TState toId, Action<TObject> transfer);
         IStateMachine<TObject> Select<TState>(Func<TObject, bool> valid, TState id, TState toId, Action<TObject> transfer);
@@ -194,7 +194,7 @@ namespace Synchronize.Game.Lockstep.FSM
             return new StateMachine<TObject>(((StateMachine<TObject>)original).m_States, ((StateMachine<TObject>)original).m_Transitions, param);
         }
 
-        public void SetParameter<TObjecct>(TObject param) { m_Parameter = param; }
+        public void SetParameter(TObject param) { m_Parameter = param; }
         public TObject GetParameter() { return m_Parameter; }
         public void Reset() { m_Current = m_States[ENTRY]; }
         public IStateMachine<TObject> SetDefault<TState>(TState id)
@@ -356,7 +356,7 @@ namespace Synchronize.Game.Lockstep.FSM
             return this;
         }
 
-        void IStateMachine<TObject>.Update()
+        void IStateMachine<TObject>.Tick()
         {
             if (m_Current != null && m_Current.Id != END && m_Transitions.TryGetValue(m_Current.Id, out List<Transition<TObject>> transitions))
             {
