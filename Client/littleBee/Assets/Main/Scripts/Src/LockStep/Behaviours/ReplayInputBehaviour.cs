@@ -44,17 +44,15 @@ namespace Synchronize.Game.Lockstep.Behaviours
                                 Movement2D moveComponent = Sim.GetEntityWorld().GetComponentByEntityId<Movement2D>(info.EntityId);
                                 if(moveComponent!=null)
                                     moveComponent.UpdateParams(info.ParamsContent);
-                                //Debug.Log(string.Format("EntityId: {0} Dir:{1} {2} ", info.EntityId, float.Parse(info.Params[0]), float.Parse(info.Params[1])));
                             }
                             break;
                         case FrameCommand.SYNC_CREATE_ENTITY:
-                            //Sim.GetEntityWorld().NotifyCreateEntity(info);
                             EntityManager.CreateEntityBySyncFrame(Sim.GetEntityWorld(), info);
                             break;
                     }
                 }
             }
-            else
+            else if(!SimulationManager.Instance.NeedStop) //Make sure call stop once.
             {
                 Debug.LogWarning("Replay play complete....");
                 BattleEntryPoint.StopReplay();

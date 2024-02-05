@@ -182,7 +182,7 @@ namespace Synchronize.Game.Lockstep.Gate
         {
             HostResults.Clear();
             logger.Log("Search start");
-            await System.Threading.Tasks.Task.Delay(10);
+            await System.Threading.Tasks.Task.Yield();
             await System.Threading.Tasks.Task.Run(() =>
             {
                 foreach (IPAddress ip in LocalIPAddresses)

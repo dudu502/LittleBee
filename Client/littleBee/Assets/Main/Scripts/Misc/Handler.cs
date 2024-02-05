@@ -47,15 +47,15 @@ namespace Synchronize.Game.Lockstep.Misc
             }
         }
 
-        public static System.Threading.Tasks.Task WaitRunCompleteTask(Action<object> action,object data)
+        public static Task WaitRunCompleteTask(Action<object> action,object data)
         {
             bool isComplete = false;
             Run(action, data,()=> { isComplete = true; });
-            return System.Threading.Tasks.Task.Run(async () =>
+            return Task.Run(async () =>
             {
                 while (!isComplete)
                 {
-                    await System.Threading.Tasks.Task.Yield();
+                    await Task.Yield();
                 }
             });
         }

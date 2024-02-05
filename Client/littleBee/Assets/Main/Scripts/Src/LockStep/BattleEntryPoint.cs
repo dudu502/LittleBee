@@ -1,6 +1,4 @@
-﻿using System.Reflection.Emit;
-
-using Net.Pt;
+﻿using Net.Pt;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -110,7 +108,7 @@ namespace Synchronize.Game.Lockstep
         async public static void Stop()
         {
             SimulationManager.Instance.Stop();
-            while (!SimulationManager.Instance.HasStopped)
+            while (!SimulationManager.Instance.NeedStop)
                 await Task.Yield();
             var sim = SimulationManager.Instance.GetSimulation();            
             ReplayInfo replayInfo = new ReplayInfo();
@@ -136,7 +134,7 @@ namespace Synchronize.Game.Lockstep
             SimulationManager.Instance.RemoveSimulation();
             NetServiceImpl.Server.StandaloneLocalServer.Stop();
             GameClientNetwork.Instance.CloseClient();
-            await Task.Delay(50);
+            await Task.Yield();
             DataProxy.Get<GateServiceProxy>().Connect2GateServer();
         }
         static async void ConnectRoom(string address, PtLaunchGameData ptLaunchGameData)
@@ -152,12 +150,12 @@ namespace Synchronize.Game.Lockstep
                     }
                     NetServiceImpl.Server.StandaloneLocalServer.Start("Standalone", standaloneModePort, ptLaunchGameData.MapId, ptLaunchGameData.PlayerNumber);//fortest
                     DataProxy.Get<GateServiceProxy>().RequestLeaveRoom();
-                    await Task.Delay(50);
+                    await Task.Yield();
                 }    
             }
 
             GameClientNetwork.Instance.CloseClient();
-            await Task.Delay(50);
+            await Task.Yield();
             GameClientNetwork.Instance.Launch();
             if(!ptLaunchGameData.IsStandaloneMode)
                 GameClientNetwork.Instance.Start(address, ptLaunchGameData.RSPort, ptLaunchGameData.ConnectionKey);
@@ -209,7 +207,6 @@ namespace Synchronize.Game.Lockstep
         {
             GameEnvironment.Instance.SetState(GameEnvironment.State.InBattle);
             ModuleManager.GetModule<UIModule>().Push(UITypes.LoadingPanel, Layer.Top, new LoadingPanel.LoadingInfo(Localization.Localization.GetTranslation("Loading"), 0));
-            //await System.Threading.Tasks.Task.Delay(1000);
             await Task.Yield();
             replaySim.GetBehaviour<ReplayLogicFrameBehaviour>().SetFrameIdxInfos(replayInfo.Frames);
             MapIdCFG mapCfg = ModuleManager.GetModule<ConfigModule>()
@@ -218,23 +215,22 @@ namespace Synchronize.Game.Lockstep
             replayInfo.InitEntityIds.ForEach(entityId => 
                 EntityManager.CreatePlayerEntity(replaySim.GetEntityWorld(),entityId,false));
             EventMgr<LoadingPanel.EventType, LoadingPanel.LoadingInfo>.TriggerEvent(LoadingPanel.EventType.UpdateLoading, new LoadingPanel.LoadingInfo(Localization.Localization.GetTranslation("Load complete"), 1f));
-            //await System.Threading.Tasks.Task.Delay(1000);
+
             await Task.Yield();
             ModuleManager.GetModule<UIModule>().Pop(Layer.Top);
             ModuleManager.GetModule<UIModule>().Push(UITypes.BattlePanel, Layer.Bottom,PlayBattleMode.PlayReplayBattle); 
             
             SimulationManager.Instance.Start(DateTime.Now);
-    
-            
         }
         public async static void StopReplay()
         {
             SimulationManager.Instance.Stop();
-            while (!SimulationManager.Instance.HasStopped)
-                await System.Threading.Tasks.Task.Yield();
-            
+            while (SimulationManager.Instance.IsRunning)
+            {
+                await Task.Yield();
+            }
             Handler.Run(_=>
-                NotificationManager.Instance.Show(NotificationType.Warning, option =>
+                NotificationManager.Instance.Show(NotificationType.Info, option =>
                 {
                     if (option == NotificationOption.OK)
                     {

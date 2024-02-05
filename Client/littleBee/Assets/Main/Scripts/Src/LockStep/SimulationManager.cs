@@ -18,10 +18,11 @@ namespace Synchronize.Game.Lockstep
         double m_FrameLerp = 0;
         public int GetFrameMsLength() { return m_FrameMsLength; }
         public double GetFrameLerp() { return m_FrameLerp; }
-        public bool m_StopState = true;
+
         Thread m_Thread;
         DateTime m_CurrentDateTime;
-        public bool HasStopped { private set; get; } = false;
+        public bool NeedStop { private set; get; } = false;
+        public bool IsRunning { private set; get; }
         public static SimulationManager Instance
         {
             get
@@ -52,7 +53,7 @@ namespace Synchronize.Game.Lockstep
                 m_SimulationInstance.Run();
                 processCaller?.Invoke(1f*i/history_keyframes_count);
             }
-            m_StopState =false;
+            IsRunning = true;
             m_Thread = new Thread(Run);
             m_Thread.IsBackground = true;
             m_Thread.Priority = ThreadPriority.Highest;
@@ -62,14 +63,14 @@ namespace Synchronize.Game.Lockstep
 
         public void Stop()
         {
-            m_StopState = true;
+            NeedStop = true;
         }
 
         public void Run(object obj)
         {
             Action startRunningCaller = obj as Action;
-            HasStopped = false;
-            while (!m_StopState)
+            NeedStop = false;
+            while (!NeedStop)
             {
                 DateTime Now = DateTime.Now;
                 m_AccumulatorTicks += (Now - m_CurrentDateTime).Ticks;
@@ -87,7 +88,7 @@ namespace Synchronize.Game.Lockstep
                     startRunningCaller = null;
                 }                    
             }
-            HasStopped = true;
+            IsRunning = false;
         }
         public void SetSimulation(Simulation sim)
         {
