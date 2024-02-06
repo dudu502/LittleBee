@@ -160,7 +160,7 @@ namespace Synchronize.Game.Lockstep.Notification
 
         private void Update()
         {
-            _notificationFSM.Tick();
+            _notificationFSM.Update();
         }
 
         void OnClickLeftOption()

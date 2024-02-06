@@ -10,7 +10,7 @@ namespace Synchronize.Game.Lockstep.FSM
         void Reset();
         IStateDeclarable<TObject> State<TState>(TState id);
         IStateMachine<TObject> SetDefault<TState>(TState id);
-        void Tick();
+        void Update();
         IStateMachine<TObject> Build();
         IStateMachine<TObject> Any<TState>(Func<TObject, bool> valid, TState toId, Action<TObject> transfer);
         IStateMachine<TObject> Select<TState>(Func<TObject, bool> valid, TState id, TState toId, Action<TObject> transfer);
@@ -356,7 +356,7 @@ namespace Synchronize.Game.Lockstep.FSM
             return this;
         }
 
-        void IStateMachine<TObject>.Tick()
+        void IStateMachine<TObject>.Update()
         {
             if (m_Current != null && m_Current.Id != END && m_Transitions.TryGetValue(m_Current.Id, out List<Transition<TObject>> transitions))
             {

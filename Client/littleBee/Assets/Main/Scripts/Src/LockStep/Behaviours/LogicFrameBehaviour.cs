@@ -37,10 +37,10 @@ namespace Synchronize.Game.Lockstep.Behaviours
             Debug.Log("CurrentFrameIndex "+CurrentFrameIdx);
             if(CurrentFrameIdx > -1)
             {
-                for(int i=0;i<=CurrentFrameIdx;++i)
+                for (int i = 0; i <= CurrentFrameIdx; ++i)
                 {
                     m_FrameIdxInfos.Add(m_DefaultEmptyFrameIdxInfos);
-                    if(roomServices.Session.DictKeyframeCollection!=null && roomServices.Session.DictKeyframeCollection.TryGetValue(i,out PtKeyFrameCollection ptKeyFrameCollection))
+                    if (roomServices.Session.DictKeyframeCollection != null && roomServices.Session.DictKeyframeCollection.TryGetValue(i, out PtKeyFrameCollection ptKeyFrameCollection))
                     {
                         UpdateKeyFrameIdxInfoCollectionAtFrameIdx(ptKeyFrameCollection);
                     }

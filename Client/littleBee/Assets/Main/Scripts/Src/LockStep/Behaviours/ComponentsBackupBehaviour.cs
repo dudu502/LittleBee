@@ -16,7 +16,7 @@ namespace Synchronize.Game.Lockstep.Behaviours
     public class ComponentsBackupBehaviour : ISimulativeBehaviour
     {
         bool EnableLog = false;
-        bool EnableSnap = true;
+        bool EnableSnap = false;
         const int MaxSnapFileCount = 16;
         const int BackUpEntityWorldFrameLength = 128;
         const int SaveEntityWorldSnapshotFrameLength = BackUpEntityWorldFrameLength * 2;
