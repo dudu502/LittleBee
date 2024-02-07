@@ -14,7 +14,7 @@ namespace Synchronize.Game.Lockstep
         long m_AccumulatorTicks = 0;
         const int c_DefaultFrameMsLength = 20;
         int m_FrameMsLength = c_DefaultFrameMsLength;
-        int FrameMsTickCount { get{return m_FrameMsLength * 10000;}} 
+        int FrameMsTickCount { get { return m_FrameMsLength * 10000; } }
         double m_FrameLerp = 0;
         public int GetFrameMsLength() { return m_FrameMsLength; }
         public double GetFrameLerp() { return m_FrameLerp; }
@@ -33,25 +33,25 @@ namespace Synchronize.Game.Lockstep
         }
         public void UpdateFrameMsLength(float factor)
         {
-            m_FrameMsLength =(int) (c_DefaultFrameMsLength / (factor+0.5f));
+            m_FrameMsLength = (int)(c_DefaultFrameMsLength / (factor + 0.5f));
         }
         private SimulationManager()
         {
-            
+
         }
 
-        public void Start(DateTime startDateTime, 
+        public void Start(DateTime startDateTime,
                             int history_keyframes_count = 0,
                             Action<float> processCaller = null,
-                            Action startRunningCaller=null)
+                            Action startRunningCaller = null)
         {
             m_CurrentDateTime = startDateTime;
-     
+
             m_SimulationInstance.Start();
             for (int i = 0; i < history_keyframes_count; ++i)
-            {   
+            {
                 m_SimulationInstance.Run();
-                processCaller?.Invoke(1f*i/history_keyframes_count);
+                processCaller?.Invoke(1f * i / history_keyframes_count);
             }
             IsRunning = true;
             m_Thread = new Thread(Run);
@@ -74,7 +74,7 @@ namespace Synchronize.Game.Lockstep
             {
                 DateTime Now = DateTime.Now;
                 m_AccumulatorTicks += (Now - m_CurrentDateTime).Ticks;
-                m_CurrentDateTime = Now;              
+                m_CurrentDateTime = Now;
                 while (m_AccumulatorTicks >= FrameMsTickCount)
                 {
                     m_SimulationInstance.Run();
@@ -86,10 +86,11 @@ namespace Synchronize.Game.Lockstep
                 {
                     startRunningCaller();
                     startRunningCaller = null;
-                }                    
+                }
             }
             IsRunning = false;
-        }
+        } 
+
         public void SetSimulation(Simulation sim)
         {
             m_SimulationInstance = sim;
@@ -101,7 +102,6 @@ namespace Synchronize.Game.Lockstep
             m_SimulationInstance =null;
         }
         
-
         public Simulation GetSimulation()
         {
             return m_SimulationInstance;
