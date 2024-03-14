@@ -3,10 +3,44 @@ using System.Collections.Generic;
 
 namespace Synchronize.Game.Lockstep.FSM
 {
+    public class EventArgs
+    {
+        public string EventType;
+        public object EventParameter;
+
+        public EventArgs(string eventType, object eventParameter)
+        {
+            EventType = eventType;
+            EventParameter = eventParameter;
+        }
+
+        public T ParameterAs<T>()
+        {
+            return (T)EventParameter;
+        }
+
+        public override string ToString()
+        {
+            return $"EventType:{EventType} Parameter:{EventParameter.ToString()}";
+        }
+
+        public static EventArgs Retrieve(List<EventArgs> evts, string evtType)
+        {
+            foreach (EventArgs e in evts)
+                if (e.EventType == evtType)
+                    return e;
+            return null;
+        }
+        public static bool Poll(List<EventArgs> evts, string evtType)
+        {
+            return Retrieve(evts, evtType) != null;
+        }
+    }
     public interface IStateMachine<TObject>
     {
         void SetParameter(TObject param);
         TObject GetParameter();
+        List<EventArgs> GetEventArgs();
         void Reset();
         IStateDeclarable<TObject> State<TState>(TState id);
         IStateMachine<TObject> SetDefault<TState>(TState id);
@@ -31,6 +65,7 @@ namespace Synchronize.Game.Lockstep.FSM
     {
         ITransitionDeclarable<TObject> Transfer(Action<TObject> onTransfer);
         ITransitionDeclarable<TObject> To<TState>(TState id);
+        ITransitionDeclarable<TObject> Return();
         ITransitionDeclarable<TObject> ToEnd();
         ITransitionDeclarable<TObject> ToEntry();
         IStateDeclarable<TObject> End();
@@ -82,8 +117,9 @@ namespace Synchronize.Game.Lockstep.FSM
         }
     }
 
-    internal class State<TObject>
+    public class State<TObject>
     {
+        public int PreviousId = -1;
         public int Id { get; private set; }
         private Action<TObject> m_OnInitialize;
         private Action<TObject> m_OnUpdate;
@@ -143,7 +179,7 @@ namespace Synchronize.Game.Lockstep.FSM
         }
     }
 
-    public class StateMachine<TObject> : IStateMachine<TObject>, IStateDeclarable<TObject>, ITransitionDeclarable<TObject> where TObject : class
+    public sealed class StateMachine<TObject> : IStateMachine<TObject>, IStateDeclarable<TObject>, ITransitionDeclarable<TObject> where TObject : class
     {
         private class StackState
         {
@@ -170,8 +206,10 @@ namespace Synchronize.Game.Lockstep.FSM
         private Dictionary<int, State<TObject>> m_States;
         private Dictionary<int, List<Transition<TObject>>> m_Transitions;
         private Stack<StackState> m_StackBuilder;
+        private List<EventArgs> m_EventArgs;
         public StateMachine(TObject param)
         {
+            m_EventArgs = new List<EventArgs>();
             m_States = new Dictionary<int, State<TObject>>();
             m_Transitions = new Dictionary<int, List<Transition<TObject>>>();
             m_Parameter = param;
@@ -193,7 +231,7 @@ namespace Synchronize.Game.Lockstep.FSM
         {
             return new StateMachine<TObject>(((StateMachine<TObject>)original).m_States, ((StateMachine<TObject>)original).m_Transitions, param);
         }
-
+        public List<EventArgs> GetEventArgs() { return m_EventArgs; }
         public void SetParameter(TObject param) { m_Parameter = param; }
         public TObject GetParameter() { return m_Parameter; }
         public void Reset() { m_Current = m_States[ENTRY]; }
@@ -209,6 +247,8 @@ namespace Synchronize.Game.Lockstep.FSM
                 state.OnInitialize(m_Parameter);
             return this;
         }
+
+
 
         private State<TObject> AddState(int id)
         {
@@ -304,7 +344,13 @@ namespace Synchronize.Game.Lockstep.FSM
                 state.RawAs<Transition<TObject>>().ToId = Convert.ToInt32(id);
             return this;
         }
-
+        ITransitionDeclarable<TObject> ITransitionDeclarable<TObject>.Return()
+        {
+            StackState state = m_StackBuilder.Peek();
+            if (state.Type == StackState.TRANSITION_TYPE)
+                state.RawAs<Transition<TObject>>().ToId = -1;
+            return this;
+        }
         ITransitionDeclarable<TObject> ITransitionDeclarable<TObject>.ToEnd()
         {
             StackState state = m_StackBuilder.Peek();
@@ -366,20 +412,27 @@ namespace Synchronize.Game.Lockstep.FSM
                     if (transition.OnValidate(m_Parameter))
                     {
                         m_Current.OnExit(m_Parameter);
-                        if (m_States.ContainsKey(transition.ToId))
+
+                        // Return type: If transition's toId == -1, it's toId will redirect to the previous state into the existing state. 
+                        int toId = transition.ToId == -1 ? m_Current.PreviousId : transition.ToId;
+
+                        if (m_States.TryGetValue(toId, out State<TObject> next))
                         {
-                            m_Current = m_States[transition.ToId];
+                            int previousId = m_Current.Id;
+                            m_Current = next;
+                            m_Current.PreviousId = previousId;
                             transition.OnTransfer(m_Parameter);
                             m_Current.OnEnter(m_Parameter);
                         }
                         else
                         {
-                            throw new Exception("Use State() to define a State.");
+                            throw new Exception("Use State() to define a State." + toId);
                         }
                         return;
                     }
                 }
                 m_Current.OnUpdate(m_Parameter);
+                m_EventArgs.Clear();
             }
         }
     }
