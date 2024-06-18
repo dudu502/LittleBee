@@ -51,6 +51,7 @@ namespace Synchronize.Game.Lockstep.UI
                 else if (m_PlayMode == PlayBattleMode.PlayReplayBattle)
                 {
                     BattleEntryPoint.StopReplay();
+                    ModuleManager.GetModule<UIModule>().Pop(Layer.Bottom);
                 }
             });
 

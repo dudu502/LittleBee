@@ -222,29 +222,12 @@ namespace Synchronize.Game.Lockstep
             
             SimulationManager.Instance.Start(DateTime.Now);
         }
-        public async static void StopReplay()
+        public static void StopReplay()
         {
             SimulationManager.Instance.Stop();
-            while (SimulationManager.Instance.IsRunning)
-            {
-                await Task.Yield();
-            }
-            Handler.Run(_=>
-                NotificationManager.Instance.Show(NotificationType.Info, option =>
-                {
-                    if (option == NotificationOption.OK)
-                    {
-                        ModuleManager.GetModule<GameContentRootModule>().DestroyChildren();
-                        ModuleManager.GetModule<PoolModule>().Clear();
-                        SimulationManager.Instance.RemoveSimulation();
-                        ModuleManager.GetModule<UIModule>().Pop(Layer.Bottom);
-                    }
-                }, i =>
-                {
-                    i.TitleKey = string.Format(i.TitleKey, Localization.Localization.GetTranslation("tips"));
-                    i.DescriptionKey = string.Format(i.DescriptionKey, Localization.Localization.GetTranslation("quit now"));
-                })
-            ,null);
+            ModuleManager.GetModule<GameContentRootModule>().DestroyChildren();
+            ModuleManager.GetModule<PoolModule>().Clear();
+            SimulationManager.Instance.RemoveSimulation();
         }
         #endregion
     }

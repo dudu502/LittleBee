@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Synchronize.Game.Lockstep.FSM
 {
-    public class EventArgs
+    public class FsmEventArgs
     {
         public string EventType;
         public object EventParameter;
 
-        public EventArgs(string eventType, object eventParameter)
+        public FsmEventArgs(string eventType, object eventParameter)
         {
             EventType = eventType;
             EventParameter = eventParameter;
@@ -24,23 +24,39 @@ namespace Synchronize.Game.Lockstep.FSM
             return $"EventType:{EventType} Parameter:{EventParameter.ToString()}";
         }
 
-        public static EventArgs Retrieve(List<EventArgs> evts, string evtType)
+        public static FsmEventArgs Take(List<FsmEventArgs> evts, string evtType, bool needRemoveEvent = true)
         {
-            foreach (EventArgs e in evts)
-                if (e.EventType == evtType)
-                    return e;
+            for (int i = evts.Count - 1; i > -1; i--)
+            {
+                if (evts[i].EventType == evtType)
+                {
+                    var evt = evts[i];
+                    if (needRemoveEvent)
+                        evts.RemoveAt(i);
+                    return evt;
+                }
+            }
             return null;
         }
-        public static bool Poll(List<EventArgs> evts, string evtType)
+
+        public static bool Poll(List<FsmEventArgs> evts, string evtType, bool needRemoveEvent = true)
         {
-            return Retrieve(evts, evtType) != null;
+            for (int i = evts.Count - 1; i > -1; i--)
+            {
+                if (evts[i].EventType == evtType)
+                {
+                    if (needRemoveEvent)
+                        evts.RemoveAt(i);
+                    return true;
+                }
+            }
+            return false;
         }
     }
     public interface IStateMachine<TObject>
     {
         void SetParameter(TObject param);
         TObject GetParameter();
-        List<EventArgs> GetEventArgs();
         void Reset();
         IStateDeclarable<TObject> State<TState>(TState id);
         IStateMachine<TObject> SetDefault<TState>(TState id);
@@ -178,44 +194,44 @@ namespace Synchronize.Game.Lockstep.FSM
             m_OnEarlyUpdate = earlyUpdate;
         }
     }
+    public class StateMachineConst
+    {
+        public const int ENTRY = int.MaxValue;
+        public const int END = int.MinValue;
+    }
+    public class StackState
+    {
+        public const byte STATE_TYPE = 1;
+        public const byte TRANSITION_TYPE = 2;
 
+        public byte Type { private set; get; }
+        public object Raw { private set; get; }
+
+        public StackState(byte type, object raw)
+        {
+            Type = type;
+            Raw = raw;
+        }
+        public T RawAs<T>()
+        {
+            return (T)Raw;
+        }
+    }
     public sealed class StateMachine<TObject> : IStateMachine<TObject>, IStateDeclarable<TObject>, ITransitionDeclarable<TObject> where TObject : class
     {
-        private class StackState
-        {
-            public const byte STATE_TYPE = 1;
-            public const byte TRANSITION_TYPE = 2;
-
-            public byte Type { private set; get; }
-            public object Raw { private set; get; }
-
-            public StackState(byte type, object raw)
-            {
-                Type = type;
-                Raw = raw;
-            }
-            public T RawAs<T>()
-            {
-                return (T)Raw;
-            }
-        }
-        private const int ENTRY = int.MaxValue;
-        private const int END = int.MinValue;
         private State<TObject> m_Current;
         private TObject m_Parameter;
         private Dictionary<int, State<TObject>> m_States;
         private Dictionary<int, List<Transition<TObject>>> m_Transitions;
         private Stack<StackState> m_StackBuilder;
-        private List<EventArgs> m_EventArgs;
         public StateMachine(TObject param)
         {
-            m_EventArgs = new List<EventArgs>();
             m_States = new Dictionary<int, State<TObject>>();
             m_Transitions = new Dictionary<int, List<Transition<TObject>>>();
             m_Parameter = param;
             m_StackBuilder = new Stack<StackState>();
-            m_Current = AddState(ENTRY);
-            AddState(END);
+            m_Current = AddState(StateMachineConst.ENTRY);
+            AddState(StateMachineConst.END);
         }
 
         private StateMachine(Dictionary<int, State<TObject>> states, Dictionary<int, List<Transition<TObject>>> transitions, TObject param)
@@ -224,20 +240,19 @@ namespace Synchronize.Game.Lockstep.FSM
             m_Transitions = transitions;
             m_Parameter = param;
 
-            m_Current = m_States[ENTRY];
+            m_Current = m_States[StateMachineConst.ENTRY];
         }
 
         public static StateMachine<TObject> Clone(IStateMachine<TObject> original, TObject param)
         {
             return new StateMachine<TObject>(((StateMachine<TObject>)original).m_States, ((StateMachine<TObject>)original).m_Transitions, param);
         }
-        public List<EventArgs> GetEventArgs() { return m_EventArgs; }
         public void SetParameter(TObject param) { m_Parameter = param; }
         public TObject GetParameter() { return m_Parameter; }
-        public void Reset() { m_Current = m_States[ENTRY]; }
+        public void Reset() { m_Current = m_States[StateMachineConst.ENTRY]; }
         public IStateMachine<TObject> SetDefault<TState>(TState id)
         {
-            AddTransition(ENTRY, Convert.ToInt32(id), so => true, null);
+            AddTransition(StateMachineConst.ENTRY, Convert.ToInt32(id), so => true, null);
             return this;
         }
 
@@ -355,7 +370,7 @@ namespace Synchronize.Game.Lockstep.FSM
         {
             StackState state = m_StackBuilder.Peek();
             if (state.Type == StackState.TRANSITION_TYPE)
-                state.RawAs<Transition<TObject>>().ToId = END;
+                state.RawAs<Transition<TObject>>().ToId = StateMachineConst.END;
             return this;
         }
 
@@ -363,7 +378,7 @@ namespace Synchronize.Game.Lockstep.FSM
         {
             StackState state = m_StackBuilder.Peek();
             if (state.Type == StackState.TRANSITION_TYPE)
-                state.RawAs<Transition<TObject>>().ToId = ENTRY;
+                state.RawAs<Transition<TObject>>().ToId = StateMachineConst.ENTRY;
             return this;
         }
 
@@ -404,7 +419,7 @@ namespace Synchronize.Game.Lockstep.FSM
 
         void IStateMachine<TObject>.Update()
         {
-            if (m_Current != null && m_Current.Id != END && m_Transitions.TryGetValue(m_Current.Id, out List<Transition<TObject>> transitions))
+            if (m_Current != null && m_Current.Id != StateMachineConst.END && m_Transitions.TryGetValue(m_Current.Id, out List<Transition<TObject>> transitions))
             {
                 m_Current.OnEarlyUpdate(m_Parameter);
                 foreach (Transition<TObject> transition in transitions)
@@ -432,7 +447,7 @@ namespace Synchronize.Game.Lockstep.FSM
                     }
                 }
                 m_Current.OnUpdate(m_Parameter);
-                m_EventArgs.Clear();
+
             }
         }
     }
