@@ -54,7 +54,7 @@ namespace Synchronize.Game.Lockstep.UI
             if (_loading != null)
             {
                 m_ImgLoadingAsset.fillAmount = _loading.Percent;
-                m_TextLoadingHint.text = _loading.Title + $" {UnityEngine.Mathf.CeilToInt(_loading.Percent * 100)}%";
+                m_TextLoadingHint.text = _loading.Title + string.Format("{0:F2}%", _loading.Percent * 100);
             }
         }
         public override void OnShow(object paramObject)
