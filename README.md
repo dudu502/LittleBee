@@ -1,6 +1,7 @@
 # LittleBee
 
 A little bee Advanced Version
+目前正在把帧同步逻辑提取SDK，请看项目 https://github.com/dudu502/littlebee_libs
 这是一个帧同步游戏实例，在游戏中同步上百个物体，上千个状态，游戏背景是一个行星系统下的射击游戏，以下是视频链接。
 ![preview](./social-preview.jpg)
 
