@@ -156,8 +156,20 @@ public class PtRoom
 
 ## Design
 
-设计文档：大纲设计文档，原型设计文档，配置表
+设计文档：大纲设计文档，原型设计文档，配置表。
 
+以下三张图分别描述了帧同步模拟器在三种不同场景下的使用情况。
+
+下图表示客户端，服务端在同一时刻的大致行为，还有回放逻辑也是对应一致的行为。
+![客户端服务端和回放时间轴概图](https://github.com/dudu502/LittleBee/blob/main/Design/Res/Timeline1.png)
+
+这张图是客户端和服务端在每一个逻辑TICK中执行逻辑。上半部分是客户端，客户端需要执行的逻辑包含ECSR部分，下半部分是服务端部分。
+![客户端服务端和回放时间轴概图细节](https://github.com/dudu502/LittleBee/blob/main/Design/Res/Timeline2.png)
+
+最后一张图是描述回放的每一个逻辑帧。
+![回放时间轴概图细节](https://github.com/dudu502/LittleBee/blob/main/Design/Res/Timeline3.png)
+
+通过这几张图结合具体做什么类型的游戏，我们可以设置自定义System和Component来处理相关逻辑。
 ## Server
 
 这是一个服务集合项目，包括WebServer，GateServer，RoomServer等
